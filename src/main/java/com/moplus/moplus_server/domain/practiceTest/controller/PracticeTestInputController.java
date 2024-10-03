@@ -1,7 +1,8 @@
 package com.moplus.moplus_server.domain.practiceTest.controller;
 
 import com.moplus.moplus_server.domain.practiceTest.dto.request.PracticeTestCreateRequest;
-import com.moplus.moplus_server.domain.practiceTest.dto.response.PracticeTestResponse;
+import com.moplus.moplus_server.domain.practiceTest.dto.response.PracticeTestAdminResponse;
+import com.moplus.moplus_server.domain.practiceTest.dto.response.PracticeTestGetResponse;
 import com.moplus.moplus_server.domain.practiceTest.dto.response.ProblemGetResponse;
 import com.moplus.moplus_server.domain.practiceTest.entity.PracticeTest;
 import com.moplus.moplus_server.domain.practiceTest.entity.Subject;
@@ -29,7 +30,7 @@ public class PracticeTestInputController {
     // 전체 목록 보기
     @GetMapping("/practiceTests")
     public String listPracticeTests(Model model) {
-        List<PracticeTestResponse> practiceTests = practiceTestService.getAllPracticeTest();
+        List<PracticeTestGetResponse> practiceTests = practiceTestService.getAllPracticeTest();
         model.addAttribute("practiceTests", practiceTests);
         return "practiceTestList";
     }

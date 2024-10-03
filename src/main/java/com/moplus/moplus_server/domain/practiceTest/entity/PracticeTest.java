@@ -26,6 +26,8 @@ public class PracticeTest extends BaseEntity {
     private String name;
     private String round;
     private String provider;
+    private Long viewCount = 0L;
+    private Integer totalSolvesCount = 0;
 
     @Enumerated(EnumType.STRING)
     private Subject subject;
@@ -35,6 +37,8 @@ public class PracticeTest extends BaseEntity {
         this.name = name;
         this.round = round;
         this.provider = provider;
+        this.viewCount = 0L;
+        this.totalSolvesCount = 0;
         this.subject = subject;
     }
 

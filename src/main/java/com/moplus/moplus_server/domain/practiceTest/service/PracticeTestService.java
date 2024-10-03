@@ -1,7 +1,8 @@
 package com.moplus.moplus_server.domain.practiceTest.service;
 
 import com.moplus.moplus_server.domain.practiceTest.dto.request.PracticeTestCreateRequest;
-import com.moplus.moplus_server.domain.practiceTest.dto.response.PracticeTestResponse;
+import com.moplus.moplus_server.domain.practiceTest.dto.response.PracticeTestAdminResponse;
+import com.moplus.moplus_server.domain.practiceTest.dto.response.PracticeTestGetResponse;
 import com.moplus.moplus_server.domain.practiceTest.entity.PracticeTest;
 import com.moplus.moplus_server.domain.practiceTest.entity.Subject;
 import com.moplus.moplus_server.domain.practiceTest.repository.PracticeTestRepository;
@@ -18,9 +19,9 @@ public class PracticeTestService {
 
     private final PracticeTestRepository practiceTestRepository;
 
-    public List<PracticeTestResponse> getAllPracticeTest(){
+    public List<PracticeTestGetResponse> getAllPracticeTest(){
         return practiceTestRepository.findAll().stream()
-            .map(PracticeTestResponse::from)
+            .map(PracticeTestGetResponse::from)
             .toList();
     }
 
@@ -36,11 +37,11 @@ public class PracticeTestService {
         practiceTestRepository.save(practiceTest);
     }
 
-    public PracticeTestResponse getPracticeTestResponseById(Long id) {
+    public PracticeTestAdminResponse getPracticeTestResponseById(Long id) {
         PracticeTest practiceTest = practiceTestRepository.findById(id)
             .orElseThrow(() -> new NotFoundException(ErrorCode.PRACTICE_TEST_NOT_FOUND));
 
-        return PracticeTestResponse.from(practiceTest);
+        return PracticeTestAdminResponse.from(practiceTest);
     }
 
     public PracticeTest getPracticeTestById(Long id) {
