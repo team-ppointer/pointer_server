@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>답안 입력</title>
+  <link rel="stylesheet" href="/css/answerInputForm.css">
+</head>
+<body>
+<div class="container">
+  <h2>답안 입력</h2>
+  <form th:action="${problems != null ? '/submitAnswers/' + practiceTestId : '/submitAnswers'}" method="post">
+    <input type="hidden" th:value="${practiceTestId}" name="practiceTestId">
+    <table>
+      <thead>
+      <tr>
+        <th>번호</th>
+        <th>배점 선택</th>
+        <th>선지 선택</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="i, iterStat : ${#numbers.sequence(1, totalQuestions)}">
+        <td th:text="${i}">
+        </td>
+        <td>
+          <!-- 배점 선택 -->
+          <input type="radio" th:id="'point_' + ${i} + '_2'" th:name="'point_' + ${i}" value="2"
+                 th:checked="${problems != null && problems[i-1] != null && problems[i-1].point == 2}">
+          <label th:for="'point_' + ${i} + '_2'">2점</label>
+          <input type="radio" th:id="'point_' + ${i} + '_3'" th:name="'point_' + ${i}" value="3"
+                 th:checked="${problems != null && problems[i-1] != null && problems[i-1].point == 3}">
+          <label th:for="'point_' + ${i} + '_3'">3점</label>
+          <input type="radio" th:id="'point_' + ${i} + '_4'" th:name="'point_' + ${i}" value="4"
+                 th:checked="${problems != null && problems[i-1] != null && problems[i-1].point == 4}">
+          <label th:for="'point_' + ${i} + '_4'">4점</label>
+        </td>
+        <input type="hidden" th:name="'answerFormat_' + ${i}"
+               th:value="${hasShortAnswer && i > 22 ? '단답식' : '객관식'}">
+
+        <!-- 문제 형식이 단답식인 경우 -->
+        <td th:if="${hasShortAnswer}">
+          <div th:if="${i <= 22}">
+            <!-- 첫 22개의 객관식 문항 -->
+            <input type="radio" th:id="'answer_' + ${i} + '_1'" th:name="'answer_' + ${i}" value="1"
+                   th:checked="${problems != null && problems[i-1] != null && problems[i-1].answer == '1'}">
+            <label th:for="'answer_' + ${i} + '_1'">1</label>
+            <input type="radio" th:id="'answer_' + ${i} + '_2'" th:name="'answer_' + ${i}" value="2"
+                   th:checked="${problems != null && problems[i-1] != null && problems[i-1].answer == '2'}">
+            <label th:for="'answer_' + ${i} + '_2'">2</label>
+            <input type="radio" th:id="'answer_' + ${i} + '_3'" th:name="'answer_' + ${i}" value="3"
+                   th:checked="${problems != null && problems[i-1] != null && problems[i-1].answer == '3'}">
+            <label th:for="'answer_' + ${i} + '_3'">3</label>
+            <input type="radio" th:id="'answer_' + ${i} + '_4'" th:name="'answer_' + ${i}" value="4"
+                   th:checked="${problems != null && problems[i-1] != null && problems[i-1].answer == '4'}">
+            <label th:for="'answer_' + ${i} + '_4'">4</label>
+            <input type="radio" th:id="'answer_' + ${i} + '_5'" th:name="'answer_' + ${i}" value="5"
+                   th:checked="${problems != null && problems[i-1] != null && problems[i-1].answer == '5'}">
+            <label th:for="'answer_' + ${i} + '_5'">5</label>
+          </div>
+          <div th:if="${i > 22}">
+            <!-- 단답식 문항 -->
+            <input type="text" th:name="'answer_' + ${i}" th:value="${problems != null && problems[i-1] != null ? problems[i-1].answer : ''}">
+          </div>
+        </td>
+
+        <!-- 객관식만 있을 때 -->
+        <td th:unless="${hasShortAnswer}">
+          <input type="radio" th:id="'answer_' + ${i} + '_1'" th:name="'answer_' + ${i}" value="1"
+                 th:checked="${problems != null && problems[i-1] != null && problems[i-1].answer == '1'}">
+          <label th:for="'answer_' + ${i} + '_1'">1</label>
+          <input type="radio" th:id="'answer_' + ${i} + '_2'" th:name="'answer_' + ${i}" value="2"
+                 th:checked="${problems != null && problems[i-1] != null && problems[i-1].answer == '2'}">
+          <label th:for="'answer_' + ${i} + '_2'">2</label>
+          <input type="radio" th:id="'answer_' + ${i} + '_3'" th:name="'answer_' + ${i}" value="3"
+                 th:checked="${problems != null && problems[i-1] != null && problems[i-1].answer == '3'}">
+          <label th:for="'answer_' + ${i} + '_3'">3</label>
+          <input type="radio" th:id="'answer_' + ${i} + '_4'" th:name="'answer_' + ${i}" value="4"
+                 th:checked="${problems != null && problems[i-1] != null && problems[i-1].answer == '4'}">
+          <label th:for="'answer_' + ${i} + '_4'">4</label>
+          <input type="radio" th:id="'answer_' + ${i} + '_5'" th:name="'answer_' + ${i}" value="5"
+                 th:checked="${problems != null && problems[i-1] != null && problems[i-1].answer == '5'}">
+          <label th:for="'answer_' + ${i} + '_5'">5</label>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <button type="submit">입력 완료</button>
+  </form>
+</div>
+</body>
+</html>

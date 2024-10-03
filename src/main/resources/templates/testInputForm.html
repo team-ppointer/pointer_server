@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Practice Test 등록</title>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 50px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #f79a3e;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #f47c20;
+    }
+
+    .subject-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .subject-item {
+      position: relative;
+    }
+
+    /* Radio 버튼 숨기기 */
+    .subject-item input[type="radio"] {
+      display: none;
+    }
+
+    /* 버튼처럼 보이게 하기 */
+    .subject-item label {
+      display: inline-block;
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      background-color: #f3f3f3;
+      color: black;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    /* 선택된 라디오 버튼 스타일 */
+    .subject-item input[type="radio"]:checked + label {
+      background-color: #f79a3e;
+      color: white;
+      border-color: #f47c20;
+    }
+
+    /* 마우스 호버 시 스타일 */
+    .subject-item label:hover {
+      background-color: #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Practice Test 등록</h1>
+
+<form th:action="${practiceTestCreateRequest.id != null ? '/submit/' + practiceTestCreateRequest.id : '/submit'}"
+      th:object="${practiceTestCreateRequest}" method="post">
+  <div class="form-group">
+    <label for="name">이름</label>
+    <input type="text" id="name" th:field="*{name}" placeholder="이름">
+  </div>
+
+  <div class="form-group">
+    <label for="round">회차</label>
+    <input type="text" id="round" th:field="*{round}" placeholder="회차">
+  </div>
+
+  <div class="form-group">
+    <label for="provider">출제기관</label>
+    <input type="text" id="provider" th:field="*{provider}" placeholder="출제기관">
+  </div>
+
+
+  <div class="form-group">
+    <label>과목</label>
+    <div class="subject-container">
+      <div class="subject-item" th:each="subject, iterStat : ${subjects}">
+        <!-- 고유한 id와 for 값을 설정 -->
+        <input type="radio" th:id="'subject' + ${iterStat.index}" th:field="*{subject}" th:value="${subject}" />
+        <label th:for="'subject' + ${iterStat.index}" th:text="${subject.getValue()}"></label>
+      </div>
+    </div>
+  </div>
+
+
+  <button type="submit">선택완료</button>
+</form>
+
+</body>
+</html>
