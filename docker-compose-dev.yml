@@ -19,7 +19,7 @@ services:
 
   mysql:
     image: mysql:8.0
-    container_name: bbo-gak-mysql-dev
+    container_name: moplus-mysql-dev
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
