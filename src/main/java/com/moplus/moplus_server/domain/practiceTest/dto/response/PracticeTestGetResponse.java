@@ -22,7 +22,7 @@ public record PracticeTestGetResponse(
             .round(practiceTest.getRound())
             .subject(practiceTest.getSubject().getValue())
             .viewCount(practiceTest.getViewCount())
-            .totalSolvesCount(practiceTest.getTotalSolvesCount())
+            .totalSolvesCount(practiceTest.getSolvesCount())
             .build();
     }
 }
