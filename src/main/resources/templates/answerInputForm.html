@@ -40,7 +40,7 @@
 
         <!-- 문제 형식이 단답식인 경우 -->
         <td th:if="${hasShortAnswer}">
-          <div th:if="${i <= 22}">
+          <div th:if="${i <= 15 || (i >=23 && i<=28)}">
             <!-- 첫 22개의 객관식 문항 -->
             <input type="radio" th:id="'answer_' + ${i} + '_1'" th:name="'answer_' + ${i}" value="1"
                    th:checked="${problems != null && problems[i-1] != null && problems[i-1].answer == '1'}">
@@ -58,7 +58,7 @@
                    th:checked="${problems != null && problems[i-1] != null && problems[i-1].answer == '5'}">
             <label th:for="'answer_' + ${i} + '_5'">5</label>
           </div>
-          <div th:if="${i > 22}">
+          <div th:if="${(i >= 16 && i<= 22) || i == 29 || i == 30}">
             <!-- 단답식 문항 -->
             <input type="text" th:name="'answer_' + ${i}" th:value="${problems != null && problems[i-1] != null ? problems[i-1].answer : ''}">
           </div>
