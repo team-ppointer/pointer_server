@@ -25,6 +25,19 @@ public class PracticeTestService {
             .toList();
     }
 
+    @Transactional
+    public void updateViewCount(Long id) {
+        PracticeTest practiceTest = getPracticeTestById(id);
+        practiceTest.plus1ViewCount();
+    }
+
+    @Transactional
+    public void updateSolveCount(Long id) {
+        PracticeTest practiceTest = getPracticeTestById(id);
+        practiceTest.plus1SolvesCount();
+    }
+
+    @Transactional
     public void updatePracticeTest(Long practiceTestId, PracticeTestCreateRequest request) {
         PracticeTest practiceTest = practiceTestRepository.findById(practiceTestId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.PRACTICE_TEST_NOT_FOUND));
@@ -45,7 +58,6 @@ public class PracticeTestService {
     }
 
     public PracticeTest getPracticeTestById(Long id) {
-
         return practiceTestRepository.findById(id)
             .orElseThrow(() -> new NotFoundException(ErrorCode.PRACTICE_TEST_NOT_FOUND));
     }
