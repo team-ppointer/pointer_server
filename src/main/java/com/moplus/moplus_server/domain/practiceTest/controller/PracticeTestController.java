@@ -20,7 +20,7 @@ public class PracticeTestController {
     private final PracticeTestService practiceTestService;
 
     @GetMapping("/all")
-    @Operation(summary = "진출분야로만 각 역량에 해당하는 강좌 필터링하기")
+    @Operation(summary = "모든 모의고사 목록 조회 (검색용)")
     public ResponseEntity<List<PracticeTestGetResponse>> getAllPracticeTests() {
         return ResponseEntity.ok(practiceTestService.getAllPracticeTest());
     }
