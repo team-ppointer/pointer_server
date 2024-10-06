@@ -1,6 +1,8 @@
 package com.moplus.moplus_server.domain.TestResult.controller;
 
 import com.moplus.moplus_server.domain.TestResult.dto.request.IncorrectProblemPostRequest;
+import com.moplus.moplus_server.domain.TestResult.dto.request.SolvingTimePostRequest;
+import com.moplus.moplus_server.domain.TestResult.dto.response.TestResultGetResponse;
 import com.moplus.moplus_server.domain.TestResult.service.TestResultService;
 import com.moplus.moplus_server.domain.practiceTest.dto.response.PracticeTestGetResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,5 +29,13 @@ public class TestResultController {
         return ResponseEntity.ok(testResultService.createTestResult(id, requests));
     }
 
-
+    @PostMapping("/{testResultId}/uploadingMinute")
+    @Operation(summary = "풀이 시간 제출 및 시험 결과지 받기",
+        description = "성적과 풀이시간에 기반한 내 위치 결과지를 반환합니다. 풀이시간은 'PT{시간}H{분}M' 형식으로 보내주세요")
+    public ResponseEntity<TestResultGetResponse> uploadSolvingMinute(
+        @PathVariable("testResultId") Long id,
+        @RequestBody SolvingTimePostRequest request
+        ) {
+        return ResponseEntity.ok(testResultService.getTestResultBySolvingTime(id, request));
+    }
 }

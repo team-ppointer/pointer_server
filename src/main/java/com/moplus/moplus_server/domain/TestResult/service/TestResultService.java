@@ -1,15 +1,17 @@
 package com.moplus.moplus_server.domain.TestResult.service;
 
 import com.moplus.moplus_server.domain.TestResult.dto.request.IncorrectProblemPostRequest;
+import com.moplus.moplus_server.domain.TestResult.dto.request.SolvingTimePostRequest;
+import com.moplus.moplus_server.domain.TestResult.dto.response.TestResultGetResponse;
 import com.moplus.moplus_server.domain.TestResult.entity.IncorrectProblem;
 import com.moplus.moplus_server.domain.TestResult.entity.TestResult;
 import com.moplus.moplus_server.domain.TestResult.entity.TestScoreCalculator;
 import com.moplus.moplus_server.domain.TestResult.repository.TestResultRepository;
 import com.moplus.moplus_server.domain.practiceTest.entity.PracticeTest;
 import com.moplus.moplus_server.domain.practiceTest.repository.PracticeTestRepository;
-import com.moplus.moplus_server.domain.practiceTest.service.ProblemService;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.NotFoundException;
+import java.time.Duration;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,16 +28,7 @@ public class TestResultService {
 
     @Transactional
     public Long createTestResult(Long practiceTestId, List<IncorrectProblemPostRequest> requests) {
-        /*
-        TODO : 테스트 결과를 생성하는 api
-            - 모의고사 정보를 가져옵니다.
-            - 테스트 결과 엔티티 생성 후 저장
-            - 틀린 문제 정보를 저장
-            - 점수 계산
-         */
-
-        PracticeTest practiceTest = practiceTestRepository.findById(practiceTestId)
-            .orElseThrow(() -> new NotFoundException(ErrorCode.PRACTICE_TEST_NOT_FOUND));
+        PracticeTest practiceTest = getPracticeTestById(practiceTestId);
 
         TestResult testResult = TestResult.fromPracticeTestId(practiceTestId);
         TestResult savedTestResult = testResultRepository.save(testResult);
@@ -47,5 +40,34 @@ public class TestResultService {
         testResult.addScore(score);
 
         return testResultRepository.save(testResult).getId();
+    }
+
+    private PracticeTest getPracticeTestById(Long practiceTestId) {
+        return practiceTestRepository.findById(practiceTestId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.PRACTICE_TEST_NOT_FOUND));
+    }
+
+    @Transactional
+    public TestResultGetResponse getTestResultBySolvingTime(Long testResultId, SolvingTimePostRequest request) {
+        TestResult testResult = testResultRepository.findById(testResultId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.TEST_RESULT_NOT_FOUND));
+
+        testResult.addSolvingTime(request.solvingTime());
+        testResultRepository.save(testResult);
+
+        Duration averageSolvingTime = getPracticeTestById(testResult.getPracticeTestId()).getAverageSolvingTime();
+
+        List<TestResult> testResultsOrderByScoreDesc = testResultRepository.findByPracticeTestIdOrderByScoreDesc(
+            testResult.getPracticeTestId());
+
+        int rank = 0;
+        for (int i = 0; i < testResultsOrderByScoreDesc.size(); i++) {
+            int tempScore = testResultsOrderByScoreDesc.get(i).getScore();
+            if(tempScore == testResult.getScore())
+                rank = i + 1;
+        }
+
+        return TestResultGetResponse.of(testResult, rank, averageSolvingTime,
+            incorrectProblemService.getResponsesByTestResultId(testResultId));
     }
 }

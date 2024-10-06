@@ -1,6 +1,7 @@
 package com.moplus.moplus_server.domain.TestResult.service;
 
 import com.moplus.moplus_server.domain.TestResult.dto.request.IncorrectProblemPostRequest;
+import com.moplus.moplus_server.domain.TestResult.dto.response.IncorrectProblemGetResponse;
 import com.moplus.moplus_server.domain.TestResult.entity.IncorrectProblem;
 import com.moplus.moplus_server.domain.TestResult.entity.TestResult;
 import com.moplus.moplus_server.domain.TestResult.repository.IncorrectProblemRepository;
@@ -37,5 +38,11 @@ public class IncorrectProblemService {
             incorrectProblems.add(save);
         }
         return incorrectProblems;
+    }
+
+    public List<IncorrectProblemGetResponse> getResponsesByTestResultId(Long testResultId) {
+        return incorrectProblemRepository.findAllByTestResultId(testResultId).stream()
+            .map(IncorrectProblemGetResponse::from)
+            .toList();
     }
 }

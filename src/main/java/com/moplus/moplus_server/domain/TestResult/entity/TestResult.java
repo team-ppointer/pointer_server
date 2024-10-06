@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.Duration;
+import java.time.LocalTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,19 +26,15 @@ public class TestResult extends BaseEntity {
     private int score;
 
     @Column(nullable = false)
-    private int solvingHour;
-
-    @Column(nullable = false)
-    private int solvingMinutes;
+    private Duration solvingTime;
 
     @Column(nullable = false)
     private Long practiceTestId;
 
     @Builder
-    public TestResult(int score, int solvingHour, int solvingMinutes, Long practiceTestId) {
+    public TestResult(int score, Duration solvingTime, Long practiceTestId) {
         this.score = score;
-        this.solvingHour = solvingHour;
-        this.solvingMinutes = solvingMinutes;
+        this.solvingTime = solvingTime;
         this.practiceTestId = practiceTestId;
     }
 
@@ -48,5 +46,9 @@ public class TestResult extends BaseEntity {
 
     public void addScore(int score) {
         this.score = score;
+    }
+
+    public void addSolvingTime(Duration solvingTime) {
+        this.solvingTime = solvingTime;
     }
 }

@@ -8,6 +8,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.Duration;
+import java.time.LocalTime;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,15 +36,24 @@ public class PracticeTest extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Subject subject;
 
+    @Column(nullable = false)
+    private Duration averageSolvingTime = Duration.ZERO;
+
     @Builder
-    public PracticeTest(String name, String round, String provider, Subject subject) {
+    public PracticeTest(String name, String round, String provider, Long viewCount, Integer solvesCount,
+        Subject subject,
+        Duration averageSolvingTime) {
         this.name = name;
         this.round = round;
         this.provider = provider;
-        this.viewCount = 0L;
-        this.solvesCount = 0;
+        this.viewCount = viewCount;
+        this.solvesCount = solvesCount;
         this.subject = subject;
+        this.averageSolvingTime = Duration.ZERO;
     }
+
+    @Builder
+
 
     public void updateName(String name) {
         this.name = name;

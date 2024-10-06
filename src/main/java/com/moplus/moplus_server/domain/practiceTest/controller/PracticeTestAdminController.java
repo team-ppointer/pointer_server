@@ -1,7 +1,6 @@
 package com.moplus.moplus_server.domain.practiceTest.controller;
 
 import com.moplus.moplus_server.domain.practiceTest.dto.request.PracticeTestCreateRequest;
-import com.moplus.moplus_server.domain.practiceTest.dto.response.PracticeTestAdminResponse;
 import com.moplus.moplus_server.domain.practiceTest.dto.response.PracticeTestGetResponse;
 import com.moplus.moplus_server.domain.practiceTest.dto.response.ProblemGetResponse;
 import com.moplus.moplus_server.domain.practiceTest.entity.PracticeTest;
@@ -22,7 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
-public class PracticeTestInputController {
+public class PracticeTestAdminController {
 
     private final PracticeTestService practiceTestService;
     private final ProblemService problemService;
