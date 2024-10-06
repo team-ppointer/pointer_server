@@ -38,4 +38,10 @@ public class PracticeTestController {
         practiceTestService.updateSolveCount(id);
         return ResponseEntity.ok().body(null);
     }
+
+    @GetMapping("/{practiceTestid}")
+    @Operation(summary = "모의고사 단건 조회하기")
+    public ResponseEntity<PracticeTestGetResponse> getPracticeTest(@PathVariable("practiceTestid") Long id) {
+        return ResponseEntity.ok(practiceTestService.getPracticeTestGetResponseForClient(id));
+    }
 }

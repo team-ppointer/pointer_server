@@ -50,7 +50,7 @@ public class PracticeTestService {
         practiceTestRepository.save(practiceTest);
     }
 
-    public PracticeTestAdminResponse getPracticeTestResponseById(Long id) {
+    public PracticeTestAdminResponse getPracticeTestResponseByIdForAdmin(Long id) {
         PracticeTest practiceTest = practiceTestRepository.findById(id)
             .orElseThrow(() -> new NotFoundException(ErrorCode.PRACTICE_TEST_NOT_FOUND));
 
@@ -60,6 +60,10 @@ public class PracticeTestService {
     public PracticeTest getPracticeTestById(Long id) {
         return practiceTestRepository.findById(id)
             .orElseThrow(() -> new NotFoundException(ErrorCode.PRACTICE_TEST_NOT_FOUND));
+    }
+
+    public PracticeTestGetResponse getPracticeTestGetResponseForClient(Long id) {
+        return PracticeTestGetResponse.from(getPracticeTestById(id));
     }
 
     @Transactional

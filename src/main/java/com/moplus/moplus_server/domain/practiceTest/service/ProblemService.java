@@ -5,6 +5,8 @@ import com.moplus.moplus_server.domain.practiceTest.dto.response.ProblemGetRespo
 import com.moplus.moplus_server.domain.practiceTest.entity.PracticeTest;
 import com.moplus.moplus_server.domain.practiceTest.entity.Problem;
 import com.moplus.moplus_server.domain.practiceTest.repository.ProblemRepository;
+import com.moplus.moplus_server.global.error.exception.ErrorCode;
+import com.moplus.moplus_server.global.error.exception.NotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +48,11 @@ public class ProblemService {
 
             problemRepository.save(problem);
         }
+    }
+
+    public Problem getProblemByPracticeTestIdAndNumber(Long practiceId, String problemNumber) {
+        return problemRepository.findByProblemNumberAndPracticeTestId(problemNumber, practiceId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.PROBLEM_NOT_FOUND));
     }
 
     public List<ProblemGetResponse> getProblemsByTestId(Long testId) {
