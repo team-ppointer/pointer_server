@@ -5,9 +5,4 @@ spring:
       local: "local, datasource"
       dev: "dev, datasource"
 
-sentry:
-  dsn: ${SENTRY_DSN}
-  enable-tracing: true
-  tracesSampleRate: 1.0
-  debug: true
-  environment: local
+
