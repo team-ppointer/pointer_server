@@ -22,13 +22,10 @@ public class TestResult extends BaseEntity {
     @Column(name = "test_result_id")
     Long id;
 
-    @Column(nullable = false)
     private int score;
 
-    @Column(nullable = false)
     private Duration solvingTime;
 
-    @Column(nullable = false)
     private Long practiceTestId;
 
     @Builder

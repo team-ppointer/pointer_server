@@ -11,9 +11,9 @@ import lombok.Builder;
 public record TestResultGetResponse(
     Long id,
     int score,
-    Duration solvingTime,
+    String solvingTime,
     int rank,
-    Duration averageSolvingTime,
+    String averageSolvingTime,
     List<IncorrectProblemGetResponse> incorrectProblems
 ) {
 
@@ -22,8 +22,8 @@ public record TestResultGetResponse(
         return TestResultGetResponse.builder()
             .id(testResult.getId())
             .score(testResult.getScore())
-            .solvingTime(testResult.getSolvingTime())
-            .averageSolvingTime(averageSolvingTime)
+            .solvingTime(testResult.getSolvingTime().toString())
+            .averageSolvingTime(averageSolvingTime.toString())
             .rank(rank)
             .incorrectProblems(incorrectProblems)
             .build();
