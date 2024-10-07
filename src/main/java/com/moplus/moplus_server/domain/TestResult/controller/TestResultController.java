@@ -22,7 +22,7 @@ public class TestResultController {
 
     private final TestResultService testResultService;
 
-    @PostMapping("/uploadingAnswer")
+    @PostMapping("/{practiceTestId}/uploadingAnswer")
     @Operation(summary = "답 입력 결과 제출", description = "테스트 결과지의 ID를 반환합니다.")
     public ResponseEntity<Long> uploadTestAnswers(@PathVariable("practiceTestId") Long id,
         List<IncorrectProblemPostRequest> requests) {

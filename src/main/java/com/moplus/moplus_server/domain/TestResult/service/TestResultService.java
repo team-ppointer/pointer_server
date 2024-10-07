@@ -52,7 +52,7 @@ public class TestResultService {
         TestResult testResult = testResultRepository.findById(testResultId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.TEST_RESULT_NOT_FOUND));
 
-        testResult.addSolvingTime(request.solvingTime());
+        testResult.addSolvingTime(Duration.parse(request.solvingTime()));
         testResultRepository.save(testResult);
 
         Duration averageSolvingTime = getPracticeTestById(testResult.getPracticeTestId()).getAverageSolvingTime();
@@ -70,4 +70,8 @@ public class TestResultService {
         return TestResultGetResponse.of(testResult, rank, averageSolvingTime,
             incorrectProblemService.getResponsesByTestResultId(testResultId));
     }
+
+//    public Duration calculateAverageSolvingTime() {
+//
+//    }
 }

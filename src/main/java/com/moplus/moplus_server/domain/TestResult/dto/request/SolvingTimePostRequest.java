@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 
 public record SolvingTimePostRequest(
-    Duration solvingTime
+    String solvingTime
 ) {
 
 }
