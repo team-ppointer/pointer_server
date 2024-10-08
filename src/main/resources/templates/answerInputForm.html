@@ -5,11 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>답안 입력</title>
   <link rel="stylesheet" href="/css/answerInputForm.css">
+  <script>
+    function validatePoints() {
+      let totalPoints = 0;
+      const radios = document.querySelectorAll('input[type="radio"]:checked');
+
+      radios.forEach(radio => {
+        if (radio.name.startsWith('point_')) {
+          totalPoints += parseInt(radio.value, 10);
+        }
+      });
+
+      if (totalPoints !== 100) {
+        alert('배점의 합이 100점이 되어야 합니다.');
+        return false; // 폼 제출 중지
+      }
+      return true; // 폼 제출 허용
+    }
+  </script>
 </head>
 <body>
 <div class="container">
   <h2>답안 입력</h2>
-  <form th:action="${problems != null ? '/submitAnswers/' + practiceTestId : '/submitAnswers'}" method="post">
+  <form th:action="${problems != null ? '/submitAnswers/' + practiceTestId : '/submitAnswers'}" method="post" onsubmit="return validatePoints()">
     <input type="hidden" th:value="${practiceTestId}" name="practiceTestId">
     <table>
       <thead>
