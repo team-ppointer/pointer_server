@@ -28,9 +28,7 @@ public class PracticeTest extends BaseEntity {
     private String name;
     private String round;
     private String provider;
-    @Column(columnDefinition = "integer default 0", nullable = false)
     private Long viewCount = 0L;
-    @Column(columnDefinition = "integer default 0", nullable = false)
     private Integer solvesCount = 0;
 
     @Enumerated(EnumType.STRING)
@@ -46,8 +44,8 @@ public class PracticeTest extends BaseEntity {
         this.name = name;
         this.round = round;
         this.provider = provider;
-        this.viewCount = viewCount;
-        this.solvesCount = solvesCount;
+        this.viewCount = 0L;
+        this.solvesCount = 0;
         this.subject = subject;
         this.averageSolvingTime = Duration.ZERO;
     }
