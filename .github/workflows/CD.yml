@@ -14,7 +14,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           script: |
-            cd ~/Moplus_server
+            cd ~/moplus_server
             kill -9 $(lsof -t -i :8081)
             git add .
             git commit -m "temp commit"
