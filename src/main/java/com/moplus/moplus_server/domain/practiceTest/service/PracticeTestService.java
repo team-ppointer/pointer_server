@@ -20,7 +20,7 @@ public class PracticeTestService {
     private final PracticeTestRepository practiceTestRepository;
 
     public List<PracticeTestGetResponse> getAllPracticeTest(){
-        return practiceTestRepository.findAll().stream()
+        return practiceTestRepository.findAllByOrderByViewCountDesc().stream()
             .map(PracticeTestGetResponse::from)
             .toList();
     }
