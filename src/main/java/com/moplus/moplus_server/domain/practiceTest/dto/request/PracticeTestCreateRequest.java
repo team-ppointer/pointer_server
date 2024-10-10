@@ -10,6 +10,7 @@ public record PracticeTestCreateRequest(
     String name,
     String round,
     String provider,
+    String publicationYear,
     String subject
 ) {
     public PracticeTest toEntity(){
@@ -17,6 +18,7 @@ public record PracticeTestCreateRequest(
             .name(this.name)
             .provider(this.provider)
             .round(this.round)
+            .publicationYear(this.publicationYear)
             .subject(Subject.fromValue(this.subject))
             .build();
     }

@@ -36,7 +36,7 @@ public class PracticeTestAdminController {
 
     @GetMapping("/testInputForm")
     public String showForm(Model model) {
-        model.addAttribute("practiceTestCreateRequest", new PracticeTestCreateRequest(null,"", "", "", null));
+        model.addAttribute("practiceTestCreateRequest", new PracticeTestCreateRequest(null,"", "", "", "",null));
         model.addAttribute("subjects", Subject.values());
         return "testInputForm";
     }
@@ -44,8 +44,9 @@ public class PracticeTestAdminController {
     @GetMapping("/testInputForm/{id}")
     public String showFormById(Model model, @PathVariable("id") Long id) {
         PracticeTest practiceTest = practiceTestService.getPracticeTestById(id);
-        model.addAttribute("practiceTestCreateRequest", new PracticeTestCreateRequest(practiceTest.getId(),practiceTest.getName(),
-            practiceTest.getRound(), practiceTest.getProvider(), practiceTest.getSubject().getValue()));
+        model.addAttribute("practiceTestCreateRequest", new PracticeTestCreateRequest(
+            practiceTest.getId(),practiceTest.getName(), practiceTest.getRound(), practiceTest.getProvider(),
+            practiceTest.getPublicationYear(), practiceTest.getSubject().getValue()));
         model.addAttribute("subjects", Subject.values());
         return "testInputForm";
     }
