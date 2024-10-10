@@ -67,6 +67,9 @@ public class PracticeTest extends BaseEntity {
         this.subject = subject;
     }
 
+    public void updatePublicationYear(String publicationYear) {
+        this.publicationYear = publicationYear;
+    }
     public void plus1ViewCount() {
         this.viewCount += 1;
     }

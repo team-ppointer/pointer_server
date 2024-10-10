@@ -45,6 +45,7 @@ public class PracticeTestService {
         practiceTest.updateName(request.name());
         practiceTest.updateProvider(request.provider());
         practiceTest.updateSubject(Subject.fromValue(request.subject()));
+        practiceTest.updatePublicationYear(request.publicationYear());
         practiceTest.updateRound(request.round());
 
         practiceTestRepository.save(practiceTest);

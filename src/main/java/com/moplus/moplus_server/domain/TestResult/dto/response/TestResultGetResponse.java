@@ -14,17 +14,19 @@ public record TestResultGetResponse(
     String solvingTime,
     int rank,
     String averageSolvingTime,
+    int solvingCount,
     List<IncorrectProblemGetResponse> incorrectProblems
 ) {
 
     public static TestResultGetResponse of(TestResult testResult, int rank, Duration averageSolvingTime,
-        List<IncorrectProblemGetResponse> incorrectProblems) {
+        int solvingCount, List<IncorrectProblemGetResponse> incorrectProblems) {
         return TestResultGetResponse.builder()
             .id(testResult.getId())
             .score(testResult.getScore())
             .solvingTime(testResult.getSolvingTime().toString())
             .averageSolvingTime(averageSolvingTime.toString())
             .rank(rank)
+            .solvingCount(solvingCount)
             .incorrectProblems(incorrectProblems)
             .build();
     }

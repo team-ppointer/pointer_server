@@ -4,5 +4,5 @@ spring:
     group:
       local: "local, datasource"
       dev: "dev, datasource"
-
-
+  mvc:
+    ignore-default-favicon: true

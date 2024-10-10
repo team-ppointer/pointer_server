@@ -54,8 +54,9 @@ public class TestResultService {
 
         testResult.addSolvingTime(Duration.parse(request.solvingTime()));
         testResultRepository.save(testResult);
-
-        Duration averageSolvingTime = getPracticeTestById(testResult.getPracticeTestId()).getAverageSolvingTime();
+        PracticeTest practiceTest = getPracticeTestById(testResult.getPracticeTestId());
+        Duration averageSolvingTime = practiceTest.getAverageSolvingTime();
+        int solvesCount = practiceTest.getSolvesCount();
 
         List<TestResult> testResultsOrderByScoreDesc = testResultRepository.findByPracticeTestIdOrderByScoreDesc(
             testResult.getPracticeTestId());
@@ -67,7 +68,7 @@ public class TestResultService {
                 rank = i + 1;
         }
 
-        return TestResultGetResponse.of(testResult, rank, averageSolvingTime,
+        return TestResultGetResponse.of(testResult, rank, averageSolvingTime, solvesCount,
             incorrectProblemService.getResponsesByTestResultId(testResultId));
     }
 
