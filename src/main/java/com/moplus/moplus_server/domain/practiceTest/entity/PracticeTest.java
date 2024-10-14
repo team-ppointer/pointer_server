@@ -48,7 +48,7 @@ public class PracticeTest extends BaseEntity {
         this.solvesCount = 0;
         this.publicationYear = publicationYear;
         this.subject = subject;
-        this.averageSolvingTime = averageSolvingTime;
+        this.averageSolvingTime =  Duration.ZERO;
     }
 
     public void updateName(String name) {
