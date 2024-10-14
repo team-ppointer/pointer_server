@@ -34,14 +34,21 @@ public class TestResultScheduler {
             List<TestResult> allByPracticeTestId =
                 testResultRepository.findAllByPracticeTestId(practiceTest.getId());
 
+            long validCount = 0;
+
             for (TestResult testResult : allByPracticeTestId) {
                 Duration solvingTime = testResult.getSolvingTime();
-                sum = sum.plus(solvingTime);  // Duration 객체는 불변이므로 새로운 객체로 할당
+
+                // solvingTime이 null이거나 0초일 경우는 제외
+                if (solvingTime != null && !solvingTime.isZero()) {
+                    sum = sum.plus(solvingTime);  // Duration 객체는 불변이므로 새로운 객체로 할당
+                    validCount++;  // 유효한 solvingTime이 있을 때만 카운트 증가
+                }
             }
 
-            if (!allByPracticeTestId.isEmpty()) {
-                // 모든 solvingTime의 합을 개수로 나눠 평균을 계산 (초 단위까지 유지)
-                Duration average = sum.dividedBy(allByPracticeTestId.size());
+            if (validCount > 0) {
+                // 유효한 solvingTime이 있는 경우만 평균 계산
+                Duration average = sum.dividedBy(validCount);
 
                 // 초 단위까지 포함한 average를 저장
                 practiceTest.updateAverageSolvingTime(average);
