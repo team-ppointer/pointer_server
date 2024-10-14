@@ -44,8 +44,8 @@ public class PracticeTest extends BaseEntity {
         this.name = name;
         this.round = round;
         this.provider = provider;
-        this.viewCount = viewCount;
-        this.solvesCount = solvesCount;
+        this.viewCount = 0;
+        this.solvesCount = 0;
         this.publicationYear = publicationYear;
         this.subject = subject;
         this.averageSolvingTime = averageSolvingTime;
