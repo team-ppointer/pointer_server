@@ -47,6 +47,7 @@ public class TestResultScheduler {
                 practiceTest.updateAverageSolvingTime(average);
                 practiceTestRepository.save(practiceTest);
             }
+            System.out.println("평균 풀이 시간 계산 완료 : " + practiceTest.getId() + "L, 평균 시간 " + practiceTest.getAverageSolvingTime());
         }
     }
 }
