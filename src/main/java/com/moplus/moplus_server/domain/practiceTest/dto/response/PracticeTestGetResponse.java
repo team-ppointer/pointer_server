@@ -11,8 +11,8 @@ public record PracticeTestGetResponse(
     String round,
     String provider,
     String subject,
-    Long viewCount,
-    Integer totalSolvesCount
+    long viewCount,
+    int totalSolvesCount
 ) {
     public static PracticeTestGetResponse from(PracticeTest practiceTest) {
         return PracticeTestGetResponse.builder()
