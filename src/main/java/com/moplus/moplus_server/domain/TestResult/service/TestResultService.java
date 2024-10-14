@@ -72,6 +72,8 @@ public class TestResultService {
             incorrectProblemService.getResponsesByTestResultId(testResultId));
     }
 
+
+
 //    public Duration calculateAverageSolvingTime() {
 //
 //    }

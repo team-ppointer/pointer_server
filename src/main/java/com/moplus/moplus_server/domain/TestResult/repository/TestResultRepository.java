@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TestResultRepository extends JpaRepository<TestResult, Long> {
 
     List<TestResult> findByPracticeTestIdOrderByScoreDesc(Long practiceTestId);
+
+    List<TestResult> findAllByPracticeTestId(Long practiceTestId);
 }

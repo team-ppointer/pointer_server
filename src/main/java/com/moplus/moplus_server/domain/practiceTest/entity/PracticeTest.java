@@ -39,8 +39,7 @@ public class PracticeTest extends BaseEntity {
     private Duration averageSolvingTime = Duration.ZERO;
 
     @Builder
-    public PracticeTest(String name, String round, String provider, Long viewCount, Integer solvesCount,
-        String publicationYear, Subject subject, Duration averageSolvingTime) {
+    public PracticeTest(String name, String round, String provider, String publicationYear, Subject subject) {
         this.name = name;
         this.round = round;
         this.provider = provider;
@@ -76,5 +75,9 @@ public class PracticeTest extends BaseEntity {
 
     public void plus1SolvesCount() {
         this.solvesCount += 1;
+    }
+
+    public void updateAverageSolvingTime(Duration averageSolvingTime) {
+        this.averageSolvingTime = averageSolvingTime;
     }
 }
