@@ -29,8 +29,8 @@ public class PracticeTest extends BaseEntity {
     private String name;
     private String round;
     private String provider;
-    private Long viewCount = 0L;
-    private Integer solvesCount = 0;
+    private long viewCount = 0L;
+    private int solvesCount = 0;
     private String publicationYear;
 
     @Enumerated(EnumType.STRING)
