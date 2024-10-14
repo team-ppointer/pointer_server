@@ -16,7 +16,7 @@ jobs:
           script: |
             cd ~/moplus_server
             kill -9 $(lsof -t -i :8081)
-            git add .
+            git add ../
             git commit -m "temp commit"
             git fetch origin master
             git merge origin/master

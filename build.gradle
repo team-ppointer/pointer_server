@@ -38,9 +38,8 @@ dependencies {
     testImplementation 'com.h2database:h2'
 
     //swagger-ui
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
-    implementation 'org.springdoc:springdoc-openapi-ui'
-    implementation 'io.swagger.core.v3:swagger-core'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+    implementation 'io.swagger.core.v3:swagger-core-jakarta:2.2.15'
 
     //sentry
     implementation 'io.sentry:sentry-spring-boot-starter-jakarta:7.14.0'
