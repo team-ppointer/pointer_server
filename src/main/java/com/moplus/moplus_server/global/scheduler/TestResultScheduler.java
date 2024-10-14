@@ -24,27 +24,26 @@ public class TestResultScheduler {
     @Scheduled(cron = "0 */5 * * * *")
     public void calculateAverageSolvingTime() {
         List<PracticeTest> practiceTests = practiceTestRepository.findAll();
-        List<Long> practiceIdList = practiceTests.stream()
-            .map(PracticeTest::getId)
-            .toList();
 
-
-        for (int i = 0; i < practiceIdList.size(); i++) {
-            // 모든 solvingTime을 더해서 평균을 내고 싶어
-            PracticeTest practiceTest = practiceTests.get(i);
+        for (PracticeTest practiceTest : practiceTests) {
             if (practiceTest.getSolvesCount() == 0) {
                 continue;
             }
+
             Duration sum = Duration.ZERO;
             List<TestResult> allByPracticeTestId =
-                testResultRepository.findAllByPracticeTestId(practiceIdList.get(i));
+                testResultRepository.findAllByPracticeTestId(practiceTest.getId());
+
             for (TestResult testResult : allByPracticeTestId) {
                 Duration solvingTime = testResult.getSolvingTime();
                 sum = sum.plus(solvingTime);  // Duration 객체는 불변이므로 새로운 객체로 할당
             }
-            // 평균 계산
+
             if (!allByPracticeTestId.isEmpty()) {
+                // 모든 solvingTime의 합을 개수로 나눠 평균을 계산 (초 단위까지 유지)
                 Duration average = sum.dividedBy(allByPracticeTestId.size());
+
+                // 초 단위까지 포함한 average를 저장
                 practiceTest.updateAverageSolvingTime(average);
                 practiceTestRepository.save(practiceTest);
             }

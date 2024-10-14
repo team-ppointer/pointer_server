@@ -67,7 +67,7 @@ class TestResultSchedulerTest {
     }
 
     @Test
-    void testCalculateAverageSolvingTime() {
+    void 평균시간계산() {
 
         when(practiceTestRepository.findAll()).thenReturn(List.of(practiceTest));
         List<TestResult> testResultsForPracticeTest1 = List.of(testResult1, testResult2);
@@ -87,6 +87,5 @@ class TestResultSchedulerTest {
 
         Assertions.assertEquals(practiceTest.getAverageSolvingTime(), expectedAverage);
 
-//        verify(practiceTestRepository).save(practiceTest); // practiceTest1이 저장되는지 확인
     }
 }
