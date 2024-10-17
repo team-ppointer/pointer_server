@@ -7,9 +7,12 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: ${MYSQL_PASSWORD}
     username: ${MYSQL_USERNAME}
+    hikari:
+      max-lifetime: 177000 # 177초, hikari는 RDS wait_timeout(180초) 보다 2 ~ 3초 정도 짧게 줄 것을 권장
   jpa:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
         default_batch_fetch_size: 1000
+
 
