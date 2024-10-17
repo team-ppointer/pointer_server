@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +28,12 @@ public class TestResultController {
     public ResponseEntity<Long> uploadTestAnswers(@PathVariable("practiceTestId") Long id,
         @RequestBody List<IncorrectProblemPostRequest> requests) {
         return ResponseEntity.ok(testResultService.createTestResult(id, requests));
+    }
+
+    @GetMapping("/{practiceTestId}")
+    @Operation(summary = "테스트 결과 가져오기")
+    public ResponseEntity<TestResultGetResponse> getTestAnswers(@PathVariable("practiceTestId") Long id) {
+        return ResponseEntity.ok(testResultService.getTestResult(id));
     }
 
     @PostMapping("/{testResultId}/uploadingMinute")

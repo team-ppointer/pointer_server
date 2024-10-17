@@ -47,6 +47,27 @@ public class TestResultService {
             .orElseThrow(() -> new NotFoundException(ErrorCode.PRACTICE_TEST_NOT_FOUND));
     }
 
+    public TestResultGetResponse getTestResult(Long testResultId) {
+        TestResult testResult = testResultRepository.findById(testResultId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.TEST_RESULT_NOT_FOUND));
+        PracticeTest practiceTest = getPracticeTestById(testResult.getPracticeTestId());
+        Duration averageSolvingTime = practiceTest.getAverageSolvingTime();
+        int solvesCount = practiceTest.getSolvesCount();
+
+        List<TestResult> testResultsOrderByScoreDesc = testResultRepository.findByPracticeTestIdOrderByScoreDesc(
+            testResult.getPracticeTestId());
+
+        int rank = 0;
+        for (int i = 0; i < testResultsOrderByScoreDesc.size(); i++) {
+            int tempScore = testResultsOrderByScoreDesc.get(i).getScore();
+            if(tempScore == testResult.getScore())
+                rank = i + 1;
+        }
+
+        return TestResultGetResponse.of(testResult, rank, averageSolvingTime, solvesCount,
+            incorrectProblemService.getResponsesByTestResultId(testResultId));
+    }
+
     @Transactional
     public TestResultGetResponse getTestResultBySolvingTime(Long testResultId, SolvingTimePostRequest request) {
         TestResult testResult = testResultRepository.findById(testResultId)
