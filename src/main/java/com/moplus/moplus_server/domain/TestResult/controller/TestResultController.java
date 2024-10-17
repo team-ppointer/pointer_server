@@ -30,9 +30,9 @@ public class TestResultController {
         return ResponseEntity.ok(testResultService.createTestResult(id, requests));
     }
 
-    @GetMapping("/{practiceTestId}")
+    @GetMapping("/{testResultId}")
     @Operation(summary = "테스트 결과 가져오기")
-    public ResponseEntity<TestResultGetResponse> getTestAnswers(@PathVariable("practiceTestId") Long id) {
+    public ResponseEntity<TestResultGetResponse> getTestAnswers(@PathVariable("testResultId") Long id) {
         return ResponseEntity.ok(testResultService.getTestResult(id));
     }
 
