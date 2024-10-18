@@ -1,9 +1,6 @@
 package com.moplus.moplus_server.domain.TestResult.entity;
 
-import com.moplus.moplus_server.domain.TestResult.dto.request.IncorrectProblemPostRequest;
-import com.moplus.moplus_server.domain.TestResult.service.IncorrectProblemService;
 import com.moplus.moplus_server.domain.practiceTest.entity.PracticeTest;
-import com.moplus.moplus_server.domain.practiceTest.entity.Subject;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.InvalidValueException;
 import java.util.List;

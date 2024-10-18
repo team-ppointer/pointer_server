@@ -60,7 +60,4 @@ public class ProblemService {
             .map(ProblemGetResponse::from)
             .toList();
     }
-
-
-
 }
