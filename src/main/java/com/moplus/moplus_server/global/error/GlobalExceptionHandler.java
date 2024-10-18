@@ -3,7 +3,6 @@ package com.moplus.moplus_server.global.error;
 import com.moplus.moplus_server.global.error.exception.BusinessException;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.NotFoundException;
-import io.sentry.Sentry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,6 @@ public class GlobalExceptionHandler {
         log.error("handleBusinessException", exception);
         final ErrorCode errorCode = exception.getErrorCode();
         final ErrorResponse response = ErrorResponse.from(errorCode);
-        Sentry.captureException(exception);
 
         return new ResponseEntity<>(response, errorCode.getStatus());
     }
@@ -36,7 +34,6 @@ public class GlobalExceptionHandler {
         log.error("handleEntityNotFoundException", exception);
         final ErrorCode errorCode = exception.getErrorCode();
         final ErrorResponse response = ErrorResponse.from(exception.getErrorCode());
-        Sentry.captureException(exception);
         return new ResponseEntity<>(response, errorCode.getStatus());
     }
 
@@ -45,7 +42,6 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleException(final Exception exception) {
         log.error(exception.getMessage(), exception);
         final ErrorResponse response = ErrorResponse.from(ErrorCode.INTERNAL_SERVER_ERROR);
-        Sentry.captureException(exception);
         return new ResponseEntity<>(response, response.getStatus());
     }
 }
