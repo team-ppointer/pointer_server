@@ -6,6 +6,7 @@ import com.moplus.moplus_server.global.error.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.CannotCreateTransactionException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -35,6 +36,15 @@ public class GlobalExceptionHandler {
         final ErrorCode errorCode = exception.getErrorCode();
         final ErrorResponse response = ErrorResponse.from(exception.getErrorCode());
         return new ResponseEntity<>(response, errorCode.getStatus());
+    }
+
+    // 트랜잭션 생성 불가 예외 처리
+    @ExceptionHandler(CannotCreateTransactionException.class)
+    public ResponseEntity<String> handleCannotCreateTransactionException(CannotCreateTransactionException ex) {
+        log.error("handleEntityNotFoundException", ex);
+
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body("요청이 많아 서비스가 지연되고 있습니다. 잠시 후 다시 시도해주세요.");
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
