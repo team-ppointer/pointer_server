@@ -9,7 +9,7 @@ spring:
     username: ${MYSQL_USERNAME}
     hikari:
       maximum-pool-size: 10 # default
-      connection-timeout: 250 #3000 30 seconds in milliseconds
+      connection-timeout: 3000 # 30 seconds in milliseconds
       keepalive-time: 600000 # 5 minutes in milliseconds
   jpa:
     properties:
