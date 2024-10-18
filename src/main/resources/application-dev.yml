@@ -6,10 +6,4 @@ spring:
     hibernate:
       ddl-auto: update
 
-sentry:
-  dsn: ${SENTRY_DSN}
-  enable-tracing: true
-  tracesSampleRate: 1.0
-  environment: dev
-
 
