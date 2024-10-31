@@ -38,17 +38,21 @@
 
   <ul class="test-list">
     <li class="test-item" th:each="test : ${practiceTests}">
-      <a th:href="@{'/testInputForm/' + ${test.id}}">
-        <div class="test-card">
-          <div class="test-card-image">
-            <img src="/images/test_icon.png" alt="모의고사 이미지">
-          </div>
-          <div class="test-card-content">
+      <div class="test-card">
+        <div class="test-card-image">
+          <img src="/images/test_icon.png" alt="모의고사 이미지">
+        </div>
+        <div class="test-card-content">
+          <a th:href="@{'/testInputForm/' + ${test.id}}">
             <p class="test-title" th:text="'(' + ${test.subject} + ') ' + ${test.name}"></p>
             <p class="test-subtitle" th:text="${test.provider} + ' | ' + ${test.round} + ' 회차'"></p>
-          </div>
+          </a>
         </div>
-      </a>
+        <form th:action="@{'/practiceTest/' + ${test.id} + '/delete'}" method="post" class="delete-form">
+          <input type="hidden" name="_method" value="delete">
+          <button type="submit" class="delete-test-button">삭제</button>
+        </form>
+      </div>
     </li>
   </ul>
 </div>

@@ -6,13 +6,12 @@ import lombok.Builder;
 @Builder
 public record IncorrectProblemGetResponse(
     String problemNumber,
-    int point
+    double correctRate
 ) {
 
     public static IncorrectProblemGetResponse from(IncorrectProblem incorrectProblem) {
         return IncorrectProblemGetResponse.builder()
             .problemNumber(incorrectProblem.getProblemNumber())
-            .point(incorrectProblem.getPoint())
             .build();
     }
 

@@ -74,6 +74,31 @@
     .subject-item label:hover {
       background-color: #e0e0e0;
     }
+
+    /* 숨겨진 표 스타일 */
+    .hidden {
+      display: none;
+    }
+
+    /* 표 스타일 */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f3f3f3;
+    }
   </style>
 </head>
 <body>
@@ -107,15 +132,54 @@
     <div class="subject-container">
       <div class="subject-item" th:each="subject, iterStat : ${subjects}">
         <!-- 고유한 id와 for 값을 설정 -->
-        <input type="radio" th:id="'subject' + ${iterStat.index}" th:field="*{subject}" th:value="${subject}" />
+        <input type="radio" th:id="'subject' + ${iterStat.index}" th:field="*{subject}" th:value="${subject}"
+               th:onchange="'showTable(' + ${iterStat.index} + ')'"/>
         <label th:for="'subject' + ${iterStat.index}" th:text="${subject.getValue()}"></label>
       </div>
     </div>
   </div>
 
+  <!-- 과목에 따라 동적으로 표시할 표 -->
+  <div id="subject-tables">
+    <div th:each="subject, iterStat : ${subjects}">
+      <div th:id="'subject-table-' + ${iterStat.index}" class="subject-table hidden">
+        <h3 th:text="${subject.getValue()}"></h3>
+        <table>
+          <thead>
+          <tr>
+            <th>등급</th>
+            <th>원점수</th>
+            <th>표준점수</th>
+            <th>백분위</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="i, iterStat : ${#numbers.sequence(1, 9)}">
+            <td th:text="${i} + '등급'"></td>
+            <td><input type="text" th:field="*{rawScores[__${iterStat.index}__]}" placeholder="원점수"></td>
+            <td><input type="text" th:field="*{standardScores[__${iterStat.index}__]}" placeholder="표준점수"></td>
+            <td><input type="text" th:field="*{percentiles[__${iterStat.index}__]}" placeholder="백분위"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
   <button type="submit">선택완료</button>
 </form>
+
+<script>
+  function showTable(subjectIndex) {
+    // 모든 테이블 숨기기
+    document.querySelectorAll('.subject-table').forEach(function(table) {
+      table.classList.add('hidden');
+    });
+
+    // 선택된 과목의 테이블 표시
+    document.getElementById('subject-table-' + subjectIndex).classList.remove('hidden');
+  }
+</script>
 
 </body>
 </html>

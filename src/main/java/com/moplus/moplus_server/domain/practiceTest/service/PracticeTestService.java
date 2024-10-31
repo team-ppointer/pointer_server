@@ -42,11 +42,11 @@ public class PracticeTestService {
         PracticeTest practiceTest = practiceTestRepository.findById(practiceTestId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.PRACTICE_TEST_NOT_FOUND));
 
-        practiceTest.updateName(request.name());
-        practiceTest.updateProvider(request.provider());
-        practiceTest.updateSubject(Subject.fromValue(request.subject()));
-        practiceTest.updatePublicationYear(request.publicationYear());
-        practiceTest.updateRound(request.round());
+        practiceTest.updateName(request.getName());
+        practiceTest.updateProvider(request.getProvider());
+        practiceTest.updateSubject(Subject.fromValue(request.getSubject()));
+        practiceTest.updatePublicationYear(request.getPublicationYear());
+        practiceTest.updateRound(request.getRound());
 
         practiceTestRepository.save(practiceTest);
     }

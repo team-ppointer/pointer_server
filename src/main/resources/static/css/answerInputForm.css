@@ -1,7 +1,7 @@
 /* 공통 스타일 */
 .container {
   width: 100%;
-  max-width: 800px;
+  max-width: 1000px; /* 컨테이너 너비 유지 */
   margin: 0 auto;
   padding: 20px;
   background-color: #f9f9f9;
@@ -12,12 +12,14 @@
 h2 {
   text-align: center;
   color: #FF9D55;
+  font-size: 24px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   margin: 20px 0;
+  table-layout: auto; /* 테이블 레이아웃을 auto로 설정하여 내부 내용에 맞게 조절 */
 }
 
 thead th {
@@ -25,12 +27,15 @@ thead th {
   color: white;
   padding: 10px;
   border: 1px solid #ddd;
+  font-size: 18px;
 }
 
 tbody td {
   padding: 15px;
   border: 1px solid #ddd;
   text-align: center;
+  font-size: 16px;
+  white-space: nowrap; /* 내용이 너무 길 경우 줄바꿈 없이 확장되도록 설정 */
 }
 
 button[type="submit"] {
@@ -47,7 +52,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background-color: #FF9D55;
+  background-color: #e08e4f;
 }
 
 /* 라디오 버튼 커스텀 스타일 */
@@ -76,4 +81,25 @@ input[type="radio"]:checked + label {
 label[for^="score_"] {
   padding: 10px 30px;
   margin-right: 15px;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+  h2 {
+    font-size: 20px;
+  }
+
+  label {
+    font-size: 14px;
+    padding: 8px 15px;
+  }
+
+  button[type="submit"] {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  tbody td {
+    padding: 10px;
+  }
 }

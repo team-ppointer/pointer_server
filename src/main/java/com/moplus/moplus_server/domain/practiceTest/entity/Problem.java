@@ -33,6 +33,7 @@ public class Problem extends BaseEntity {
     private String conceptType;
     private String unit;
     private String subunit;
+    double correctRate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "practice_test_id")
@@ -40,7 +41,7 @@ public class Problem extends BaseEntity {
 
     @Builder
     public Problem(String problemNumber, AnswerFormat answerFormat, String answer, int point, Long incorrectNum,
-        String conceptType, String unit, String subunit, PracticeTest practiceTest) {
+        String conceptType, String unit, String subunit, PracticeTest practiceTest, double correctRate) {
         this.problemNumber = problemNumber;
         this.answerFormat = answerFormat;
         this.answer = answer;
@@ -50,6 +51,7 @@ public class Problem extends BaseEntity {
         this.unit = unit;
         this.subunit = subunit;
         this.practiceTest = practiceTest;
+        this.correctRate = correctRate;
     }
 
     public void updateAnswer(String answer) {
@@ -58,5 +60,9 @@ public class Problem extends BaseEntity {
 
     public void updatePoint(int point) {
         this.point = point;
+    }
+
+    public void updateCorrectRate (double correctRate) {
+        this.correctRate = correctRate;
     }
 }

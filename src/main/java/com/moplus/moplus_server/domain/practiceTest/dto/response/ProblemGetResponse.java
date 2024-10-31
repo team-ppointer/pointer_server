@@ -5,20 +5,22 @@ import lombok.Builder;
 
 @Builder
 public record ProblemGetResponse(
-    Long id,
-    String problemNumber,
-    String answerFormat,
-    String answer,
-    int point
+        Long id,
+        String problemNumber,
+        String answerFormat,
+        String answer,
+        int point,
+        double correctRate
 ) {
 
     public static ProblemGetResponse from(Problem problem) {
         return ProblemGetResponse.builder()
-            .id(problem.getId())
-            .answer(problem.getAnswer())
-            .problemNumber(problem.getProblemNumber())
-            .answerFormat(problem.getAnswerFormat().getValue())
-            .point(problem.getPoint())
-            .build();
+                .id(problem.getId())
+                .answer(problem.getAnswer())
+                .problemNumber(problem.getProblemNumber())
+                .answerFormat(problem.getAnswerFormat().getValue())
+                .point(problem.getPoint())
+                .correctRate(problem.getCorrectRate())
+                .build();
     }
 }

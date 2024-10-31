@@ -30,8 +30,9 @@ public class ProblemService {
             String answerFormat = request.getParameter("answerFormat_" + i);
             String answer = request.getParameter("answer_" + i);
             int point = Integer.parseInt(request.getParameter("point_" + i));
+            double correctRate = Double.parseDouble(request.getParameter("correctRate_" + i));
 
-            ProblemCreateRequest problem = new ProblemCreateRequest(problemNumber, answerFormat, answer, point);
+            ProblemCreateRequest problem = new ProblemCreateRequest(problemNumber, answerFormat, answer, point, correctRate);
             problems.add(problem);
         }
         problems.forEach( problem -> problemRepository.save(problem.toEntity(practiceTest)));
@@ -45,6 +46,7 @@ public class ProblemService {
             Problem problem = problems.get(i - 1);
             problem.updateAnswer(request.getParameter("answer_" + i));
             problem.updatePoint(Integer.parseInt(request.getParameter("point_" + i)));
+            problem.updateCorrectRate(Double.parseDouble(request.getParameter("correctRate_" + i)));
 
             problemRepository.save(problem);
         }

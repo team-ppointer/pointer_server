@@ -2,13 +2,11 @@ package com.moplus.moplus_server.global.scheduler;
 
 import com.moplus.moplus_server.domain.TestResult.entity.TestResult;
 import com.moplus.moplus_server.domain.TestResult.repository.TestResultRepository;
-import com.moplus.moplus_server.domain.TestResult.service.TestResultService;
 import com.moplus.moplus_server.domain.practiceTest.entity.PracticeTest;
 import com.moplus.moplus_server.domain.practiceTest.repository.PracticeTestRepository;
 import java.time.Duration;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
