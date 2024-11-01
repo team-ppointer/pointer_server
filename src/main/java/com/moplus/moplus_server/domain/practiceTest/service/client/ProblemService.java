@@ -1,9 +1,9 @@
-package com.moplus.moplus_server.domain.practiceTest.service;
+package com.moplus.moplus_server.domain.practiceTest.service.client;
 
-import com.moplus.moplus_server.domain.practiceTest.dto.request.ProblemCreateRequest;
-import com.moplus.moplus_server.domain.practiceTest.dto.response.ProblemGetResponse;
-import com.moplus.moplus_server.domain.practiceTest.entity.PracticeTest;
-import com.moplus.moplus_server.domain.practiceTest.entity.Problem;
+import com.moplus.moplus_server.domain.practiceTest.dto.admin.request.ProblemCreateRequest;
+import com.moplus.moplus_server.domain.practiceTest.dto.client.response.ProblemGetResponse;
+import com.moplus.moplus_server.domain.practiceTest.domain.PracticeTest;
+import com.moplus.moplus_server.domain.practiceTest.domain.Problem;
 import com.moplus.moplus_server.domain.practiceTest.repository.ProblemRepository;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.NotFoundException;

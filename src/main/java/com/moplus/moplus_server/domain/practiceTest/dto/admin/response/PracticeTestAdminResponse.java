@@ -1,6 +1,6 @@
-package com.moplus.moplus_server.domain.practiceTest.dto.response;
+package com.moplus.moplus_server.domain.practiceTest.dto.admin.response;
 
-import com.moplus.moplus_server.domain.practiceTest.entity.PracticeTest;
+import com.moplus.moplus_server.domain.practiceTest.domain.PracticeTest;
 import lombok.Builder;
 
 @Builder

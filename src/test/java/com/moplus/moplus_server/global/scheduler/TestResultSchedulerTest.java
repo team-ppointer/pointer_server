@@ -2,8 +2,8 @@ package com.moplus.moplus_server.global.scheduler;
 
 import com.moplus.moplus_server.domain.TestResult.entity.TestResult;
 import com.moplus.moplus_server.domain.TestResult.repository.TestResultRepository;
-import com.moplus.moplus_server.domain.practiceTest.entity.PracticeTest;
-import com.moplus.moplus_server.domain.practiceTest.entity.Subject;
+import com.moplus.moplus_server.domain.practiceTest.domain.PracticeTest;
+import com.moplus.moplus_server.domain.practiceTest.domain.Subject;
 import com.moplus.moplus_server.domain.practiceTest.repository.PracticeTestRepository;
 import java.lang.reflect.Field;
 import org.junit.jupiter.api.Assertions;
@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import java.time.Duration;
 import java.util.List;

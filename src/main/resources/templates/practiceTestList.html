@@ -21,6 +21,14 @@
         }
       });
     }
+
+    function confirmDeletion(event) {
+      event.preventDefault();
+      const confirmDelete = confirm("정말 삭제하시겠습니까?");
+      if (confirmDelete) {
+        event.target.closest("form").submit();
+      }
+    }
   </script>
 </head>
 <body>
@@ -33,7 +41,7 @@
   </div>
 
   <div class="add-test">
-    <a href="/testInputForm" class="add-test-button">+ 모의고사 추가</a>
+    <a href="/admin/practiceTests/testInputForm" class="add-test-button">+ 모의고사 추가</a>
   </div>
 
   <ul class="test-list">
@@ -43,14 +51,14 @@
           <img src="/images/test_icon.png" alt="모의고사 이미지">
         </div>
         <div class="test-card-content">
-          <a th:href="@{'/testInputForm/' + ${test.id}}">
+          <a th:href="@{'/admin/practiceTests/testInputForm/' + ${test.id}}">
             <p class="test-title" th:text="'(' + ${test.subject} + ') ' + ${test.name}"></p>
             <p class="test-subtitle" th:text="${test.provider} + ' | ' + ${test.round} + ' 회차'"></p>
           </a>
         </div>
-        <form th:action="@{'/practiceTest/' + ${test.id} + '/delete'}" method="post" class="delete-form">
+        <form th:action="@{'/admin/practiceTests/' + ${test.id} + '/delete'}" method="post" class="delete-form">
           <input type="hidden" name="_method" value="delete">
-          <button type="submit" class="delete-test-button">삭제</button>
+          <button type="button" class="delete-test-button" onclick="confirmDeletion(event)">삭제</button>
         </form>
       </div>
     </li>

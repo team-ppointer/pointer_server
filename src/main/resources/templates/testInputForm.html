@@ -105,8 +105,8 @@
 
 <h1>Practice Test 등록</h1>
 
-<form th:action="${practiceTestCreateRequest.id != null ? '/submit/' + practiceTestCreateRequest.id : '/submit'}"
-      th:object="${practiceTestCreateRequest}" method="post">
+<form th:action="${practiceTestRequest.id != null ? '/admin/practiceTests/submit/' + practiceTestRequest.id : '/admin/practiceTests/submit'}"
+      th:object="${practiceTestRequest}" method="post">
   <div class="form-group">
     <label for="name">이름</label>
     <input type="text" id="name" th:field="*{name}" placeholder="이름">
@@ -154,11 +154,11 @@
           </tr>
           </thead>
           <tbody>
-          <tr th:each="i, iterStat : ${#numbers.sequence(1, 9)}">
-            <td th:text="${i} + '등급'"></td>
-            <td><input type="text" th:field="*{rawScores[__${iterStat.index}__]}" placeholder="원점수"></td>
-            <td><input type="text" th:field="*{standardScores[__${iterStat.index}__]}" placeholder="표준점수"></td>
-            <td><input type="text" th:field="*{percentiles[__${iterStat.index}__]}" placeholder="백분위"></td>
+          <tr th:each="i, rowStat : ${practiceTestRequest.ratingRows}">
+            <td th:text="${rowStat.index + 1} + '등급'"></td>
+            <td><input type="text" th:field="*{ratingRows[__${rowStat.index}__].rawScores}" placeholder="원점수"></td>
+            <td><input type="text" th:field="*{ratingRows[__${rowStat.index}__].standardScores}" placeholder="표준점수"></td>
+            <td><input type="text" th:field="*{ratingRows[__${rowStat.index}__].percentiles}" placeholder="백분위"></td>
           </tr>
           </tbody>
         </table>

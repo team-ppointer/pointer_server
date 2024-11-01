@@ -1,7 +1,7 @@
-package com.moplus.moplus_server.domain.practiceTest.controller;
+package com.moplus.moplus_server.domain.practiceTest.api.client;
 
-import com.moplus.moplus_server.domain.practiceTest.dto.response.PracticeTestGetResponse;
-import com.moplus.moplus_server.domain.practiceTest.service.PracticeTestService;
+import com.moplus.moplus_server.domain.practiceTest.dto.client.response.PracticeTestGetResponse;
+import com.moplus.moplus_server.domain.practiceTest.service.client.PracticeTestService;
 import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

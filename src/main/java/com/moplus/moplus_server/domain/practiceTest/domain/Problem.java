@@ -1,4 +1,4 @@
-package com.moplus.moplus_server.domain.practiceTest.entity;
+package com.moplus.moplus_server.domain.practiceTest.domain;
 
 import com.moplus.moplus_server.global.common.BaseEntity;
 import jakarta.persistence.Column;

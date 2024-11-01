@@ -1,7 +1,7 @@
 package com.moplus.moplus_server.domain.TestResult.dto.request;
 
 import com.moplus.moplus_server.domain.TestResult.entity.IncorrectProblem;
-import com.moplus.moplus_server.domain.practiceTest.entity.Problem;
+import com.moplus.moplus_server.domain.practiceTest.domain.Problem;
 
 public record IncorrectProblemPostRequest(
     String problemNumber,

@@ -1,8 +1,8 @@
-package com.moplus.moplus_server.domain.practiceTest.dto.request;
+package com.moplus.moplus_server.domain.practiceTest.dto.admin.request;
 
-import com.moplus.moplus_server.domain.practiceTest.entity.AnswerFormat;
-import com.moplus.moplus_server.domain.practiceTest.entity.PracticeTest;
-import com.moplus.moplus_server.domain.practiceTest.entity.Problem;
+import com.moplus.moplus_server.domain.practiceTest.domain.AnswerFormat;
+import com.moplus.moplus_server.domain.practiceTest.domain.PracticeTest;
+import com.moplus.moplus_server.domain.practiceTest.domain.Problem;
 
 public record ProblemCreateRequest(
         String problemNumber,

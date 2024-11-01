@@ -4,7 +4,6 @@ import com.moplus.moplus_server.domain.TestResult.dto.request.IncorrectProblemPo
 import com.moplus.moplus_server.domain.TestResult.dto.request.SolvingTimePostRequest;
 import com.moplus.moplus_server.domain.TestResult.dto.response.TestResultGetResponse;
 import com.moplus.moplus_server.domain.TestResult.service.TestResultService;
-import com.moplus.moplus_server.domain.practiceTest.dto.response.PracticeTestGetResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

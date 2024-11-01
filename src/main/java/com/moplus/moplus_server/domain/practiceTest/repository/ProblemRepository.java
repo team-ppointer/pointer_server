@@ -1,6 +1,6 @@
 package com.moplus.moplus_server.domain.practiceTest.repository;
 
-import com.moplus.moplus_server.domain.practiceTest.entity.Problem;
+import com.moplus.moplus_server.domain.practiceTest.domain.Problem;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

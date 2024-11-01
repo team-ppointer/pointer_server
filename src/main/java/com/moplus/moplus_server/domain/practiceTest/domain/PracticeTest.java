@@ -1,4 +1,4 @@
-package com.moplus.moplus_server.domain.practiceTest.entity;
+package com.moplus.moplus_server.domain.practiceTest.domain;
 
 import com.moplus.moplus_server.global.common.BaseEntity;
 import jakarta.persistence.Column;
@@ -9,9 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -5,8 +5,8 @@ import com.moplus.moplus_server.domain.TestResult.dto.response.IncorrectProblemG
 import com.moplus.moplus_server.domain.TestResult.entity.IncorrectProblem;
 import com.moplus.moplus_server.domain.TestResult.entity.TestResult;
 import com.moplus.moplus_server.domain.TestResult.repository.IncorrectProblemRepository;
-import com.moplus.moplus_server.domain.practiceTest.entity.Problem;
-import com.moplus.moplus_server.domain.practiceTest.service.ProblemService;
+import com.moplus.moplus_server.domain.practiceTest.domain.Problem;
+import com.moplus.moplus_server.domain.practiceTest.service.client.ProblemService;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

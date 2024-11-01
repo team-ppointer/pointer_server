@@ -7,7 +7,7 @@ import com.moplus.moplus_server.domain.TestResult.entity.IncorrectProblem;
 import com.moplus.moplus_server.domain.TestResult.entity.TestResult;
 import com.moplus.moplus_server.domain.TestResult.entity.TestScoreCalculator;
 import com.moplus.moplus_server.domain.TestResult.repository.TestResultRepository;
-import com.moplus.moplus_server.domain.practiceTest.entity.PracticeTest;
+import com.moplus.moplus_server.domain.practiceTest.domain.PracticeTest;
 import com.moplus.moplus_server.domain.practiceTest.repository.PracticeTestRepository;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.NotFoundException;

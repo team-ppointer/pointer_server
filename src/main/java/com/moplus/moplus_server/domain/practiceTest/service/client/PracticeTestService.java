@@ -1,10 +1,10 @@
-package com.moplus.moplus_server.domain.practiceTest.service;
+package com.moplus.moplus_server.domain.practiceTest.service.client;
 
-import com.moplus.moplus_server.domain.practiceTest.dto.request.PracticeTestCreateRequest;
-import com.moplus.moplus_server.domain.practiceTest.dto.response.PracticeTestAdminResponse;
-import com.moplus.moplus_server.domain.practiceTest.dto.response.PracticeTestGetResponse;
-import com.moplus.moplus_server.domain.practiceTest.entity.PracticeTest;
-import com.moplus.moplus_server.domain.practiceTest.entity.Subject;
+import com.moplus.moplus_server.domain.practiceTest.dto.admin.request.PracticeTestRequest;
+import com.moplus.moplus_server.domain.practiceTest.dto.admin.response.PracticeTestAdminResponse;
+import com.moplus.moplus_server.domain.practiceTest.dto.client.response.PracticeTestGetResponse;
+import com.moplus.moplus_server.domain.practiceTest.domain.PracticeTest;
+import com.moplus.moplus_server.domain.practiceTest.domain.Subject;
 import com.moplus.moplus_server.domain.practiceTest.repository.PracticeTestRepository;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.NotFoundException;
@@ -38,7 +38,7 @@ public class PracticeTestService {
     }
 
     @Transactional
-    public void updatePracticeTest(Long practiceTestId, PracticeTestCreateRequest request) {
+    public void updatePracticeTest(Long practiceTestId, PracticeTestRequest request) {
         PracticeTest practiceTest = practiceTestRepository.findById(practiceTestId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.PRACTICE_TEST_NOT_FOUND));
 
@@ -68,7 +68,7 @@ public class PracticeTestService {
     }
 
     @Transactional
-    public Long createPracticeTest(PracticeTestCreateRequest request) {
+    public Long createPracticeTest(PracticeTestRequest request) {
         return practiceTestRepository.save(request.toEntity()).getId();
     }
 }

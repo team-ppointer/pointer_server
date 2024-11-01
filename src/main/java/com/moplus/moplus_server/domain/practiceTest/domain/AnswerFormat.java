@@ -1,4 +1,4 @@
-package com.moplus.moplus_server.domain.practiceTest.entity;
+package com.moplus.moplus_server.domain.practiceTest.domain;
 
 import java.util.Arrays;
 import lombok.AllArgsConstructor;
