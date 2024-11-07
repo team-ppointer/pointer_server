@@ -42,41 +42,20 @@ public class PracticeTestCreateController {
 
     @PostMapping("/submit")
     @Operation(summary = "모의고사 정보 저장 요청")
-    public String updateForm(@ModelAttribute PracticeTestRequest practiceTestRequest, Model model) {
-        Long practiceTestId = practiceTestService.createPracticeTest(practiceTestRequest);
+    public String submitCreateTestInfo(@ModelAttribute PracticeTestRequest practiceTestRequest, Model model) {
+        Long practiceTestId = practiceTestAdminService.createPracticeTest(practiceTestRequest);
+        practiceTestAdminService.getProblemCreateModel(model, practiceTestId);
 
-        PracticeTest practiceTest = practiceTestService.getPracticeTestById(practiceTestId);
-        int totalQuestions = practiceTest.getSubject().getProblemCount();
-        boolean hasShortAnswer = false;
-
-        hasShortAnswer = List.of("미적분", "확률과통계", "기하").contains(practiceTest.getSubject().getValue());
-
-        model.addAttribute("practiceTestId", practiceTestId);
-        model.addAttribute("practiceTest", practiceTest);
-        model.addAttribute("totalQuestions", totalQuestions);
-        model.addAttribute("hasShortAnswer", hasShortAnswer);
-        // 리다이렉트 처리
         return "answerInputForm";
     }
 
     @PostMapping("/submit/{id}")
     @Operation(summary = "모의고사 정보 수정 요청")
-    public String updateForm(@PathVariable("id") Long id, @ModelAttribute PracticeTestRequest practiceTestRequest, Model model) {
-        PracticeTest practiceTest = practiceTestService.getPracticeTestById(id);
+    public String submitUpdateTestInfo(@PathVariable("id") Long id, @ModelAttribute PracticeTestRequest practiceTestRequest, Model model) {
 
-        practiceTestService.updatePracticeTest(id, practiceTestRequest);
-
-        int totalQuestions = practiceTest.getSubject().getProblemCount();
-        boolean hasShortAnswer = false;
-        List<ProblemGetResponse> problems = problemService.getProblemsByTestId(id);
-
-        hasShortAnswer = List.of("미적분", "확률과통계", "기하").contains(practiceTest.getSubject().getValue());
-
-        model.addAttribute("problems", problems);
-        model.addAttribute("practiceTestId", id);
-        model.addAttribute("practiceTest", practiceTest);
-        model.addAttribute("totalQuestions", totalQuestions);
-        model.addAttribute("hasShortAnswer", hasShortAnswer);
+        practiceTestAdminService.updatePracticeTest(id, practiceTestRequest);
+        practiceTestAdminService.getProblemUpdateModel(model, id);
+        model.addAttribute("problems", problemService.getProblemsByTestId(id));
 
         return "answerInputForm";
     }

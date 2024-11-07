@@ -19,6 +19,7 @@ public class PracticeTestService {
 
     private final PracticeTestRepository practiceTestRepository;
 
+
     public List<PracticeTestGetResponse> getAllPracticeTest(){
         return practiceTestRepository.findAllByOrderByViewCountDesc().stream()
             .map(PracticeTestGetResponse::from)
@@ -37,19 +38,7 @@ public class PracticeTestService {
         practiceTest.plus1SolvesCount();
     }
 
-    @Transactional
-    public void updatePracticeTest(Long practiceTestId, PracticeTestRequest request) {
-        PracticeTest practiceTest = practiceTestRepository.findById(practiceTestId)
-            .orElseThrow(() -> new NotFoundException(ErrorCode.PRACTICE_TEST_NOT_FOUND));
 
-        practiceTest.updateName(request.getName());
-        practiceTest.updateProvider(request.getProvider());
-        practiceTest.updateSubject(Subject.fromValue(request.getSubject()));
-        practiceTest.updatePublicationYear(request.getPublicationYear());
-        practiceTest.updateRound(request.getRound());
-
-        practiceTestRepository.save(practiceTest);
-    }
 
     public PracticeTestAdminResponse getPracticeTestResponseByIdForAdmin(Long id) {
         PracticeTest practiceTest = practiceTestRepository.findById(id)
@@ -67,8 +56,5 @@ public class PracticeTestService {
         return PracticeTestGetResponse.from(getPracticeTestById(id));
     }
 
-    @Transactional
-    public Long createPracticeTest(PracticeTestRequest request) {
-        return practiceTestRepository.save(request.toEntity()).getId();
-    }
+
 }

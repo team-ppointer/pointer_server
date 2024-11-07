@@ -2,6 +2,7 @@ package com.moplus.moplus_server.domain.practiceTest.dto.admin.request;
 
 import com.moplus.moplus_server.domain.practiceTest.domain.PracticeTest;
 import com.moplus.moplus_server.domain.practiceTest.domain.RatingRow;
+import com.moplus.moplus_server.domain.practiceTest.domain.RatingTable;
 import com.moplus.moplus_server.domain.practiceTest.domain.Subject;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,26 +20,25 @@ public class PracticeTestRequest {
     private String provider;
     private String publicationYear;
     private String subject;
-    private List<RatingRow> ratingRows;
+    private List<RatingTableRequest> ratingTables  = new ArrayList<>();
 
     public PracticeTestRequest(Long id, String name, String round, String provider, String publicationYear,
-                               String subject,
-                               List<RatingRow> ratingRows) {
+                               String subject, List<RatingTableRequest> ratingTables) {
         this.id = id;
         this.name = name;
         this.round = round;
         this.provider = provider;
         this.publicationYear = publicationYear;
         this.subject = subject;
-        this.ratingRows = ratingRows;
+        this.ratingTables = ratingTables;
     }
 
-    public static PracticeTestRequest getUpdateModelObject(PracticeTest practiceTest, List<RatingRow> ratingRows) {
+    public static PracticeTestRequest getUpdateModelObject(PracticeTest practiceTest, List<RatingTableRequest> ratingTables) {
         return new PracticeTestRequest(
                 practiceTest.getId(), practiceTest.getName(), practiceTest.getRound(),
                 practiceTest.getProvider(), practiceTest.getPublicationYear(),
                 practiceTest.getSubject().getValue(),
-                ratingRows
+                ratingTables
         );
     }
 
@@ -47,15 +47,12 @@ public class PracticeTestRequest {
                 practiceTest.getId(), practiceTest.getName(), practiceTest.getRound(),
                 practiceTest.getProvider(), practiceTest.getPublicationYear(),
                 practiceTest.getSubject().getValue(),
-                List.of(new RatingRow(), new RatingRow(), new RatingRow(), new RatingRow(), new RatingRow(), new RatingRow(), new RatingRow(), new RatingRow(), new RatingRow())
+                RatingTableRequest.getDefaultRatingTableRequest()
         );
     }
 
     public static PracticeTestRequest getCreateModelObject() {
-        return new PracticeTestRequest(
-                null, "", "", "", "", null,
-                List.of(new RatingRow(), new RatingRow(), new RatingRow(), new RatingRow(), new RatingRow(), new RatingRow(), new RatingRow(), new RatingRow(), new RatingRow())
-                );
+        return new PracticeTestRequest(null, "", "", "", "", null,RatingTableRequest.getDefaultRatingTableRequest());
     }
 
     public PracticeTest toEntity() {
@@ -66,5 +63,9 @@ public class PracticeTestRequest {
                 .publicationYear(this.publicationYear)
                 .subject(Subject.fromValue(this.subject))
                 .build();
+    }
+
+    public List<RatingTableRequest> getRatingTableRequests() {
+        return this.ratingTables;
     }
 }

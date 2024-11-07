@@ -1,5 +1,6 @@
 package com.moplus.moplus_server.domain.practiceTest.domain;
 
+import com.moplus.moplus_server.domain.practiceTest.dto.admin.request.PracticeTestRequest;
 import com.moplus.moplus_server.global.common.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,25 +48,14 @@ public class PracticeTest extends BaseEntity {
         this.averageSolvingTime =  Duration.ZERO;
     }
 
-    public void updateName(String name) {
-        this.name = name;
+    public void updateByPracticeTestRequest(PracticeTestRequest request) {
+        this.name = request.getName();
+        this.round = request.getRound();
+        this.provider = request.getProvider();
+        this.publicationYear = request.getPublicationYear();
+        this.subject = Subject.valueOf(request.getSubject());
     }
 
-    public void updateRound(String round) {
-        this.round = round;
-    }
-
-    public void updateProvider(String provider) {
-        this.provider = provider;
-    }
-
-    public void updateSubject(Subject subject) {
-        this.subject = subject;
-    }
-
-    public void updatePublicationYear(String publicationYear) {
-        this.publicationYear = publicationYear;
-    }
     public void plus1ViewCount() {
         this.viewCount += 1;
     }

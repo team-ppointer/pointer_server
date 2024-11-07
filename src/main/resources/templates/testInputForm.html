@@ -141,25 +141,34 @@
 
   <!-- 과목에 따라 동적으로 표시할 표 -->
   <div id="subject-tables">
-    <div th:each="subject, iterStat : ${subjects}">
-      <div th:id="'subject-table-' + ${iterStat.index}" class="subject-table hidden">
+    <div th:each="subject, subjectStat : ${subjects}">
+      <div th:id="'subject-table-' + ${subjectStat.index}" class="subject-table hidden">
         <h3 th:text="${subject.getValue()}"></h3>
         <table>
-          <thead>
-          <tr>
-            <th>등급</th>
-            <th>원점수</th>
-            <th>표준점수</th>
-            <th>백분위</th>
-          </tr>
-          </thead>
           <tbody>
-          <tr th:each="i, rowStat : ${practiceTestRequest.ratingRows}">
-            <td th:text="${rowStat.index + 1} + '등급'"></td>
-            <td><input type="text" th:field="*{ratingRows[__${rowStat.index}__].rawScores}" placeholder="원점수"></td>
-            <td><input type="text" th:field="*{ratingRows[__${rowStat.index}__].standardScores}" placeholder="표준점수"></td>
-            <td><input type="text" th:field="*{ratingRows[__${rowStat.index}__].percentiles}" placeholder="백분위"></td>
-          </tr>
+              <div th:each="ratingTable, ratingTableStat : ${practiceTestRequest.ratingTables}">
+                <!-- Provider 이름 표시 행 -->
+                <th colspan="4">
+                  <input type="text" th:field="*{ratingTables[__${ratingTableStat.index}__].ratingProvider}"
+                         th:value="${ratingTable.ratingProvider}" placeholder="Rating Provider"/>
+                </th>
+                <tr>
+                  <th>등급</th>
+                  <th>원점수</th>
+                  <th>표준점수</th>
+                  <th>백분위</th>
+                </tr>
+                <tr th:if="${ratingTable.ratingRows != null and !#lists.isEmpty(ratingTable.ratingRows)}"
+                    th:each="ratingRow, ratingRowStat : ${ratingTable.ratingRows}">
+                  <td>
+                    <input type="text" th:field="*{ratingTables[__${ratingTableStat.index}__].ratingRows[__${ratingRowStat.index}__].rating}"
+                           th:value="${ratingRow.rating}" readonly />
+                  </td>
+                  <td><input type="text" th:field="*{ratingTables[__${ratingTableStat.index}__].ratingRows[__${ratingRowStat.index}__].rawScores}" placeholder="원점수"></td>
+                  <td><input type="text" th:field="*{ratingTables[__${ratingTableStat.index}__].ratingRows[__${ratingRowStat.index}__].standardScores}" placeholder="표준점수"></td>
+                  <td><input type="text" th:field="*{ratingTables[__${ratingTableStat.index}__].ratingRows[__${ratingRowStat.index}__].percentiles}" placeholder="백분위"></td>
+                </tr>
+              </div>
           </tbody>
         </table>
       </div>
@@ -171,15 +180,31 @@
 
 <script>
   function showTable(subjectIndex) {
-    // 모든 테이블 숨기기
+    // 모든 테이블 숨기고 입력 필드 비활성화
     document.querySelectorAll('.subject-table').forEach(function(table) {
       table.classList.add('hidden');
+      table.querySelectorAll('input').forEach(function(input) {
+        input.disabled = true;
+      });
     });
 
-    // 선택된 과목의 테이블 표시
-    document.getElementById('subject-table-' + subjectIndex).classList.remove('hidden');
+    // 선택된 과목의 테이블 표시 및 입력 필드 활성화
+    const selectedTable = document.getElementById('subject-table-' + subjectIndex);
+    if (selectedTable) {
+      selectedTable.classList.remove('hidden');
+      selectedTable.querySelectorAll('input').forEach(function(input) {
+        input.disabled = false;
+      });
+    }
   }
-</script>
 
+  // 페이지가 로드되었을 때 선택된 과목이 있으면 해당 테이블 표시
+  document.addEventListener('DOMContentLoaded', function() {
+    const selectedRadio = document.querySelector('.subject-item input[type="radio"]:checked');
+    if (selectedRadio) {
+      showTable(selectedRadio.id.replace('subject', ''));
+    }
+  });
+</script>
 </body>
 </html>

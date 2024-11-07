@@ -30,7 +30,7 @@ public class TestResultController {
     }
 
     @GetMapping("/{testResultId}")
-    @Operation(summary = "테스트 결과 가져오기")
+    @Operation(summary = "공유용 테스트 결과 가져오기")
     public ResponseEntity<TestResultGetResponse> getTestAnswers(@PathVariable("testResultId") Long id) {
         return ResponseEntity.ok(testResultService.getTestResult(id));
     }

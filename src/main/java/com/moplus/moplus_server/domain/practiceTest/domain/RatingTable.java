@@ -1,5 +1,6 @@
 package com.moplus.moplus_server.domain.practiceTest.domain;
 
+import com.moplus.moplus_server.domain.practiceTest.dto.admin.request.RatingTableRequest;
 import com.moplus.moplus_server.domain.practiceTest.repository.converter.RatingRowConverter;
 import com.moplus.moplus_server.global.common.BaseEntity;
 import jakarta.persistence.Column;
@@ -10,7 +11,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import java.util.List;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,16 +32,23 @@ public class RatingTable extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Subject subject;
 
-    private String provider;
+    private String ratingProvider;
 
+    @Lob
     @Convert(converter = RatingRowConverter.class)
     private List<RatingRow> ratingRows;
 
-    public RatingTable(Long practiceTestId, Subject subject, String provider, List<RatingRow> ratingRows) {
+    @Builder
+    public RatingTable(Long practiceTestId, Subject subject, String ratingProvider, List<RatingRow> ratingRows) {
         this.practiceTestId = practiceTestId;
         this.subject = subject;
-        this.provider = provider;
+        this.ratingProvider = ratingProvider;
         this.ratingRows = ratingRows;
+    }
+
+    public void updateByRatingTableRequest(RatingTableRequest request) {
+        this.ratingProvider = request.getRatingProvider();
+        this.ratingRows = request.getRatingRows();
     }
 
     public void validateRatingRows() {
