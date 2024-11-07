@@ -40,18 +40,15 @@ public class EstimatedRating {
 
     private static int calculateEstimatedRating(int testScore, List<RatingRow> ratingRows) {
 
-        for (int i = 1; i <= RATING_RANGE; i++) {
+        for (int i = 0; i < RATING_RANGE - 1; i++) {
             RatingRow ratingRow = ratingRows.get(i);
             String rawScores = ratingRow.getRawScores();
 
             int[] scoreRange = parseRawScores(rawScores);
             int min = scoreRange[0];
             int max = scoreRange[1];
-            if(testScore > max){
-                return i;
-            }
             if(testScore >= min){
-                return i;
+                return i + 1;
             }
         }
         return MIN_RATING;

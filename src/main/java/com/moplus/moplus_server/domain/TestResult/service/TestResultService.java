@@ -92,6 +92,7 @@ public class TestResultService {
 
         List<EstimatedRatingGetResponse> estimatedRatingGetResponses = ratingTableRepository.findAllByPracticeTestId(
                         practiceTest.getId()).stream()
+                .filter(TestResultService::hasRawScore)
                 .map(ratingTable -> EstimatedRating.of(testResult.getScore(), testResultId, ratingTable))
                 .map(estimatedRatingRepository::save)
                 .map(EstimatedRatingGetResponse::from)
