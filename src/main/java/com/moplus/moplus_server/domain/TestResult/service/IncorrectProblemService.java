@@ -34,6 +34,7 @@ public class IncorrectProblemService {
 
             tempIncorrectProblem.setTestResult(testResult);
             tempIncorrectProblem.setPracticeTestId(practiceTestId);
+            tempIncorrectProblem.setCorrectRate(matchedProblem.getCorrectRate());
             IncorrectProblem save = incorrectProblemRepository.save(tempIncorrectProblem);
             incorrectProblems.add(save);
         }

@@ -28,6 +28,7 @@ public class IncorrectProblem extends BaseEntity {
     private String incorrectAnswer;
     private String problemNumber;
     private int point;
+    private double correctRate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "test_result_id")
@@ -36,7 +37,7 @@ public class IncorrectProblem extends BaseEntity {
     @Builder
     public IncorrectProblem(Long problemId, Long practiceTestId, String incorrectAnswer, String problemNumber,
         int point,
-        TestResult testResult) {
+        TestResult testResult, double correctRate) {
         this.problemId = problemId;
         this.practiceTestId = practiceTestId;
         this.incorrectAnswer = incorrectAnswer;
@@ -51,5 +52,9 @@ public class IncorrectProblem extends BaseEntity {
 
     public void setPracticeTestId(Long practiceTestId) {
         this.practiceTestId = practiceTestId;
+    }
+
+    public void setCorrectRate(double correctRate) {
+        this.correctRate = correctRate;
     }
 }

@@ -12,6 +12,7 @@ public record IncorrectProblemGetResponse(
     public static IncorrectProblemGetResponse from(IncorrectProblem incorrectProblem) {
         return IncorrectProblemGetResponse.builder()
             .problemNumber(incorrectProblem.getProblemNumber())
+            .correctRate(incorrectProblem.getCorrectRate())
             .build();
     }
 
