@@ -2,11 +2,14 @@ package com.moplus.moplus_server.domain.TestResult.service;
 
 import com.moplus.moplus_server.domain.TestResult.dto.request.IncorrectProblemPostRequest;
 import com.moplus.moplus_server.domain.TestResult.dto.request.SolvingTimePostRequest;
+import com.moplus.moplus_server.domain.TestResult.dto.response.EstimatedRatingGetResponse;
 import com.moplus.moplus_server.domain.TestResult.dto.response.RatingTableGetResponse;
 import com.moplus.moplus_server.domain.TestResult.dto.response.TestResultGetResponse;
+import com.moplus.moplus_server.domain.TestResult.entity.EstimatedRating;
 import com.moplus.moplus_server.domain.TestResult.entity.IncorrectProblem;
 import com.moplus.moplus_server.domain.TestResult.entity.TestResult;
 import com.moplus.moplus_server.domain.TestResult.entity.TestScoreCalculator;
+import com.moplus.moplus_server.domain.TestResult.repository.EstimatedRatingRepository;
 import com.moplus.moplus_server.domain.TestResult.repository.TestResultRepository;
 import com.moplus.moplus_server.domain.practiceTest.domain.PracticeTest;
 import com.moplus.moplus_server.domain.practiceTest.domain.RatingTable;
@@ -29,6 +32,7 @@ public class TestResultService {
     private final TestScoreCalculator testScoreCalculator;
     private final IncorrectProblemService incorrectProblemService;
     private final RatingTableRepository ratingTableRepository;
+    private final EstimatedRatingRepository estimatedRatingRepository;
 
     @Transactional
     public Long createTestResult(Long practiceTestId, List<IncorrectProblemPostRequest> requests) {
@@ -57,15 +61,17 @@ public class TestResultService {
         PracticeTest practiceTest = getPracticeTestById(testResult.getPracticeTestId());
         Duration averageSolvingTime = practiceTest.getAverageSolvingTime();
 
-        List<RatingTableGetResponse> ratingTableGetResponses = ratingTableRepository.findAllByPracticeTestId(
-                        practiceTest.getId())
-                .stream()
-                .map(RatingTableGetResponse::from)
+        List<RatingTableGetResponse> ratingTableGetResponses = getRatingTableGetResponses(
+                practiceTest);
+
+        List<EstimatedRatingGetResponse> estimatedRatingGetResponses = estimatedRatingRepository.findAllByTestResultId(testResultId).stream()
+                .map(EstimatedRatingGetResponse::from)
                 .toList();
 
         return TestResultGetResponse.of(
                 testResult,
                 averageSolvingTime,
+                estimatedRatingGetResponses,
                 incorrectProblemService.getResponsesByTestResultId(testResultId),
                 ratingTableGetResponses
         );
@@ -81,18 +87,35 @@ public class TestResultService {
         PracticeTest practiceTest = getPracticeTestById(testResult.getPracticeTestId());
         Duration averageSolvingTime = practiceTest.getAverageSolvingTime();
 
-        List<RatingTableGetResponse> ratingTableGetResponses = ratingTableRepository.findAllByPracticeTestId(
-                        practiceTest.getId())
-                .stream()
-                .map(RatingTableGetResponse::from)
-                .toList();
+        List<RatingTableGetResponse> ratingTableGetResponses = getRatingTableGetResponses(
+                practiceTest);
 
+        List<EstimatedRatingGetResponse> estimatedRatingGetResponses = ratingTableRepository.findAllByPracticeTestId(
+                        practiceTest.getId()).stream()
+                .map(ratingTable -> EstimatedRating.of(testResult.getScore(), testResultId, ratingTable))
+                .map(estimatedRatingRepository::save)
+                .map(EstimatedRatingGetResponse::from)
+                .toList();
 
         return TestResultGetResponse.of(
                 testResult,
                 averageSolvingTime,
+                estimatedRatingGetResponses,
                 incorrectProblemService.getResponsesByTestResultId(testResultId),
                 ratingTableGetResponses
         );
+    }
+
+    private List<RatingTableGetResponse> getRatingTableGetResponses(PracticeTest practiceTest) {
+        return ratingTableRepository.findAllByPracticeTestId(
+                        practiceTest.getId())
+                .stream()
+                .filter(TestResultService::hasRawScore)
+                .map(RatingTableGetResponse::from)
+                .toList();
+    }
+
+    private static boolean hasRawScore(RatingTable ratingTable) {
+        return !ratingTable.getRatingRows().get(0).getRawScores().isBlank();
     }
 }
