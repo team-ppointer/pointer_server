@@ -7,3 +7,7 @@ spring:
       ddl-auto: update
 
 
+logging:
+  level:
+    root: DEBUG
+    org.springframework: DEBUG
