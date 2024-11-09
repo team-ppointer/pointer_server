@@ -9,5 +9,4 @@ spring:
 
 logging:
   level:
-    root: DEBUG
-    org.springframework: DEBUG
+    root: ERROR
