@@ -14,4 +14,8 @@ public interface PracticeTestRepository extends JpaRepository<PracticeTest, Long
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select s from PracticeTest s where s.id = :id")
     PracticeTest findByIdWithPessimisticLock(@Param("id") Long id);
+
+    @Lock(LockModeType.OPTIMISTIC)
+    @Query("select s from PracticeTest s where s.id = :id")
+    PracticeTest findByIdWithOptimisticLock(@Param("id") Long id);
 }

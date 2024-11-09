@@ -9,6 +9,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Version;
 import java.time.Duration;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,6 +28,8 @@ public class PracticeTest extends BaseEntity {
     private String name;
     private String round;
     private String provider;
+    @Version
+    private Long version;
     private long viewCount = 0L;
     private int solvesCount = 0;
     private String publicationYear;
