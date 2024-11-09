@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  mysql-testdb:
+    image: mysql:8.0
+    container_name: mysql_stock_example_testdb
+    ports:
+      - "3308:3306" # 호스트의 3308 포트를 컨테이너의 3306 포트와 매핑
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: stock_example_testdb
+    volumes:
+      - mysql_testdb_data:/var/lib/mysql
+    networks:
+      - stock_example_network
+
+volumes:
+  mysql_testdb_data:
+
+networks:
+  stock_example_network:

@@ -28,8 +28,9 @@ public class PracticeTestService {
 
     @Transactional
     public void updateViewCount(Long id) {
-        PracticeTest practiceTest = getPracticeTestById(id);
+        PracticeTest practiceTest = practiceTestRepository.findByIdWithPessimisticLock(id);
         practiceTest.plus1ViewCount();
+        practiceTestRepository.saveAndFlush(practiceTest);
     }
 
     @Transactional
@@ -37,8 +38,6 @@ public class PracticeTestService {
         PracticeTest practiceTest = getPracticeTestById(id);
         practiceTest.plus1SolvesCount();
     }
-
-
 
     public PracticeTestAdminResponse getPracticeTestResponseByIdForAdmin(Long id) {
         PracticeTest practiceTest = practiceTestRepository.findById(id)
