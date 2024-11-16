@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문제 이미지 업로드</title>
+    <link rel="stylesheet" href="/css/imageUploadPage.css">
+</head>
+<body>
+<div class="container">
+    <h2>문제 이미지 업로드</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>문제 ID</th>
+            <th>문제 번호</th>
+            <th>이미지</th>
+            <th>업로드</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 반복문으로 문제 리스트 출력 -->
+        <th:block th:each="problem : ${problemImageRequests}">
+            <tr>
+                <td th:text="${problem.problemId}">문제 ID</td>
+                <td th:text="${problem.problemNumber}">문제 번호</td>
+                <td>
+                    <!-- 이미지 URL이 있는 경우 이미지를 표시 -->
+                    <img th:if="${problem.imageUrl != null}" th:src="${problem.imageUrl}" alt="문제 이미지" class="problem-image">
+                    <!-- 이미지 URL이 없는 경우 업로드 버튼 표시 -->
+                    <span th:if="${problem.imageUrl == null}">이미지 없음</span>
+                </td>
+                <td>
+                    <!-- 업로드 버튼 -->
+                    <form th:action="'/admin/practiceTests/uploadImage/' + ${problem.problemId}" method="post" enctype="multipart/form-data">
+                        <input type="file" name="image" accept="image/*">
+                        <input type="hidden" th:value="${practiceTestId}" name="practiceTestId">
+                        <button type="submit" class="upload-button">업로드</button>
+                    </form>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+    <!-- 완료 버튼 -->
+    <div class="complete-button-container">
+        <form action="/practiceTests" method="get">
+            <button type="submit" class="complete-button">완료</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

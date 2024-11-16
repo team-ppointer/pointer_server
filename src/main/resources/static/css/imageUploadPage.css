@@ -1,0 +1,133 @@
+/* 공통 스타일 */
+.container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #FF9D55;
+    font-size: 24px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    table-layout: auto;
+}
+
+thead th {
+    background-color: #FF9D55;
+    color: white;
+    padding: 10px;
+    border: 1px solid #ddd;
+    font-size: 18px;
+}
+
+tbody td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+.problem-image {
+    max-width: 100px;
+    max-height: 100px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* 파일 선택 버튼 스타일 */
+.custom-file-label {
+    display: inline-block;
+    background-color: #f0f0f0;
+    color: #555;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.file-input {
+    display: none;
+}
+
+.custom-file-label:hover {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+/* 업로드 버튼 스타일 */
+.upload-button {
+    padding: 8px 12px;
+    background-color: #FF9D55;
+    color: white;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.upload-button:hover {
+    background-color: #e08e4f;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    h2 {
+        font-size: 20px;
+    }
+
+    tbody td {
+        padding: 8px;
+    }
+
+    .upload-button {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    .custom-file-label {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}
+
+.complete-button-container {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.complete-button {
+    padding: 10px 20px;
+    background-color: #FF9D55;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.complete-button:hover {
+    background-color: #e08e4f;
+}
+
+/* 이미지 크기 확대 */
+.problem-image {
+    max-width: 300px; /* 이미지 가로 최대 크기 */
+    max-height: 300px; /* 이미지 세로 최대 크기 */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}

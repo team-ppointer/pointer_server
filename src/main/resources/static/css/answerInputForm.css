@@ -71,6 +71,7 @@ label {
   transition: background-color 0.3s, color 0.3s;
 }
 
+
 /* 라디오 버튼 선택 시 스타일 */
 input[type="radio"]:checked + label {
   background-color: #FF9D55;

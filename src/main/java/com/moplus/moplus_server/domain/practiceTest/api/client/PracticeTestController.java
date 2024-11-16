@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class PracticeTestController {
 
     private final PracticeTestService practiceTestService;
-    private final OptimisticLockPracticeTestFacade optimisticLockPracticeTestFacade;
 
     @GetMapping("/all")
     @Operation(summary = "모든 모의고사 목록 조회 (검색용)")
@@ -30,7 +29,7 @@ public class PracticeTestController {
     @PutMapping("/{practiceTestid}/viewCount")
     @Operation(summary = "조회수 업데이트하기")
     public ResponseEntity<Void> updateViewCount(@PathVariable("practiceTestid") Long id) throws InterruptedException {
-        optimisticLockPracticeTestFacade.updateViewCount(id);
+        practiceTestService.updateViewCount(id);
         return ResponseEntity.ok().body(null);
     }
 

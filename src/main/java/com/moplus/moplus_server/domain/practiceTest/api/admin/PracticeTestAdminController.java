@@ -31,23 +31,6 @@ public class PracticeTestAdminController {
         return "practiceTestList";
     }
 
-    @PostMapping("/submitAnswers")
-    @Operation(summary = "모의고사 문제 답안 생성 요청")
-    public String submitAnswers(@RequestParam("practiceTestId") Long practiceTestId, HttpServletRequest request) {
-        PracticeTest practiceTest = practiceTestService.getPracticeTestById(practiceTestId);
 
-        problemService.saveProblems(practiceTest, request);
-
-        return "redirect:/practiceTests";
-    }
-
-    @PostMapping("/submitAnswers/{id}")
-    @Operation(summary = "모의고사 문제 답안 수정 요청")
-    public String updateAnswers(@PathVariable("id") Long id, HttpServletRequest request) {
-        PracticeTest practiceTest = practiceTestService.getPracticeTestById(id);
-        problemService.updateProblems(practiceTest, request);
-
-        return "redirect:/practiceTests";
-    }
 
 }

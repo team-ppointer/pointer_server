@@ -18,3 +18,17 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+
+cloud:
+  aws:
+    s3:
+      bucket: test
+      signature-version: AWS4-HMAC-SHA256
+    credentials:
+      access-key: 0eFd7h2PLQ5tH7v3jBcXFr6L8hYh5u3g1kFxWrZ0dJc=
+      secret-key: q8aV4Mf4r7l5u9OxC7ZtVx2qY2eDz9Tw5uDl9JQ6SJI=
+    region:
+      static: test
+      auto: false
+    stack:
+      auto: false

@@ -19,6 +19,10 @@ public enum ErrorCode {
 
     //등급 테이블
     RATING_TABLE_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 등급 테이블을 찾을 수 없습니다"),
+
+    //이미지
+    IMAGE_FILE_EXTENSION_NOT_FOUND(HttpStatus.NOT_FOUND, "지원하지 않는 이미지 확장자입니다"),
+    IMAGE_FILE_NOT_FOUND_IN_S3(HttpStatus.NOT_FOUND, "S3에 해당 이미지 파일을 찾을 수 없습니다"),
     ;
 
 

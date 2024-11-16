@@ -1,6 +1,7 @@
 package com.moplus.moplus_server.domain.practiceTest.domain;
 
 import com.moplus.moplus_server.global.common.BaseEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,13 +37,21 @@ public class Problem extends BaseEntity {
     private String subunit;
     double correctRate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Enumerated(EnumType.STRING)
+    ProblemRating problemRating;
+
+    @ManyToOne()
     @JoinColumn(name = "practice_test_id")
     private PracticeTest practiceTest;
 
+    @OneToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "problem_image_id")
+    private ProblemImage image;
+
     @Builder
     public Problem(String problemNumber, AnswerFormat answerFormat, String answer, int point, Long incorrectNum,
-        String conceptType, String unit, String subunit, PracticeTest practiceTest, double correctRate) {
+                   String conceptType, String unit, String subunit, double correctRate, ProblemRating problemRating,
+                   PracticeTest practiceTest) {
         this.problemNumber = problemNumber;
         this.answerFormat = answerFormat;
         this.answer = answer;
@@ -50,8 +60,18 @@ public class Problem extends BaseEntity {
         this.conceptType = conceptType;
         this.unit = unit;
         this.subunit = subunit;
-        this.practiceTest = practiceTest;
         this.correctRate = correctRate;
+        this.problemRating = problemRating;
+        this.practiceTest = practiceTest;
+    }
+
+
+    public void addImage(ProblemImage image) {
+        this.image = image;
+    }
+
+    public void calculateProblemRating(){
+        this.problemRating = ProblemRating.findProblemRating(this);
     }
 
     public void updateAnswer(String answer) {

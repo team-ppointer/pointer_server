@@ -32,10 +32,16 @@ public class ProblemService {
             int point = Integer.parseInt(request.getParameter("point_" + i));
             double correctRate = Double.parseDouble(request.getParameter("correctRate_" + i));
 
-            ProblemCreateRequest problem = new ProblemCreateRequest(problemNumber, answerFormat, answer, point, correctRate);
+            ProblemCreateRequest problem = new ProblemCreateRequest(problemNumber, answerFormat, answer, point,
+                    correctRate);
             problems.add(problem);
         }
-        problems.forEach( problem -> problemRepository.save(problem.toEntity(practiceTest)));
+        List<Problem> problemsEntities = problems.stream()
+                .map(problem -> problem.toEntity(practiceTest))
+                .toList();
+        problemsEntities
+                .forEach(Problem::calculateProblemRating);
+        problemRepository.saveAll(problemsEntities);
     }
 
     @Transactional
@@ -48,18 +54,30 @@ public class ProblemService {
             problem.updatePoint(Integer.parseInt(request.getParameter("point_" + i)));
             problem.updateCorrectRate(Double.parseDouble(request.getParameter("correctRate_" + i)));
 
+            problem.calculateProblemRating();
             problemRepository.save(problem);
         }
     }
 
+
     public Problem getProblemByPracticeTestIdAndNumber(Long practiceId, String problemNumber) {
         return problemRepository.findByProblemNumberAndPracticeTestId(problemNumber, practiceId)
-            .orElseThrow(() -> new NotFoundException(ErrorCode.PROBLEM_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.PROBLEM_NOT_FOUND));
+    }
+
+    @Transactional
+    public Problem updateCorrectRate(Long practiceTestId, String problemNumber, double correctRate) {
+        Problem problem = problemRepository.findByProblemNumberAndPracticeTestIdWithPessimisticLock(problemNumber,
+                        practiceTestId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.PROBLEM_NOT_FOUND));
+        problem.getPracticeTest();
+        problem.updateCorrectRate(correctRate);
+        return problemRepository.save(problem);
     }
 
     public List<ProblemGetResponse> getProblemsByTestId(Long testId) {
         return problemRepository.findAllByPracticeTestId(testId).stream()
-            .map(ProblemGetResponse::from)
-            .toList();
+                .map(ProblemGetResponse::from)
+                .toList();
     }
 }

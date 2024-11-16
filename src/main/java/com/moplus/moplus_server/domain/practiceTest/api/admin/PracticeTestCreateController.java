@@ -1,13 +1,10 @@
 package com.moplus.moplus_server.domain.practiceTest.api.admin;
 
 import com.moplus.moplus_server.domain.practiceTest.dto.admin.request.PracticeTestRequest;
-import com.moplus.moplus_server.domain.practiceTest.dto.client.response.ProblemGetResponse;
-import com.moplus.moplus_server.domain.practiceTest.domain.PracticeTest;
 import com.moplus.moplus_server.domain.practiceTest.service.admin.PracticeTestAdminService;
 import com.moplus.moplus_server.domain.practiceTest.service.client.PracticeTestService;
 import com.moplus.moplus_server.domain.practiceTest.service.client.ProblemService;
 import io.swagger.v3.oas.annotations.Operation;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
