@@ -28,8 +28,7 @@ public class PracticeTest extends BaseEntity {
     private String name;
     private String round;
     private String provider;
-    @Version
-    private Long version;
+
     private long viewCount = 0L;
     private int solvesCount = 0;
     private String publicationYear;
