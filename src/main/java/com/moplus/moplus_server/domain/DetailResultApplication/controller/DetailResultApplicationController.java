@@ -1,6 +1,7 @@
 package com.moplus.moplus_server.domain.DetailResultApplication.controller;
 
 import com.moplus.moplus_server.domain.DetailResultApplication.dto.request.DetailResultApplicationPostRequest;
+import com.moplus.moplus_server.domain.DetailResultApplication.dto.response.ReviewNoteGetResponse;
 import com.moplus.moplus_server.domain.DetailResultApplication.service.DetailResultApplicationService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +20,10 @@ public class DetailResultApplicationController {
 
     @PostMapping("")
     @Operation(summary = "모의고사 결과 상세 분석서 신청하기")
-    public ResponseEntity<Void> createApplication(@RequestBody DetailResultApplicationPostRequest request) {
+    public ResponseEntity<ReviewNoteGetResponse> createApplication(@RequestBody DetailResultApplicationPostRequest request) {
         detailResultApplicationService.saveApplication(request);
-        return ResponseEntity.ok().body(null);
+        ReviewNoteGetResponse reviewNoteInfo = detailResultApplicationService.getReviewNoteInfo(request.testResultId());
+        return ResponseEntity.ok(reviewNoteInfo);
     }
 
 }
