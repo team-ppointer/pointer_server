@@ -10,7 +10,7 @@
 
 ## 서버 팀원 소개
 |[BE 개발자 박세준](https://github.com/sejoon00)|
-|:--------:|:--------:|:--------:|
+|:--------:|
 |<img src="https://avatars.githubusercontent.com/u/74056843?v=4" width=200>|
 
 </div>
