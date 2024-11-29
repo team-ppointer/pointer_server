@@ -18,7 +18,7 @@
   <img src="https://github.com/user-attachments/assets/b255e176-8eec-4666-b190-12c6e5a3c996" alt="image" width="400" height="400">
   <img src="https://github.com/user-attachments/assets/26ac807a-eeab-42ab-8f66-bcb9af101ee4" alt="image" width="400" height="400">
 </div>
-Thymeleaf를 통해 모의고사에 대한 정보, 정답, 정답률, 문제 이미지를 업로드할 수 있는 어드민 페이지를 만들었습니다.
+Thymeleaf를 통해 구현한 어드민 페이지로 모의고사에 대한 정보, 정답, 정답률, 문제 이미지를 업로드할 수 있습니다.
 
 <br/>
 
