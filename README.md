@@ -14,7 +14,7 @@
 <h2>  Admin 페이지  </h2>
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
   <img src="https://github.com/user-attachments/assets/f9bfffc3-7708-49a4-b240-80ea71bae83e" alt="image" width="400">
-  <img width="1024" alt="image" src="https://github.com/user-attachments/assets/6bf10fa0-018a-4e63-9219-442ed3843312">
+  <img src="https://github.com/user-attachments/assets/6bf10fa0-018a-4e63-9219-442ed3843312" alt="image" width="400">
   <img src="https://github.com/user-attachments/assets/b255e176-8eec-4666-b190-12c6e5a3c996" alt="image" width="400">
   <img src="https://github.com/user-attachments/assets/26ac807a-eeab-42ab-8f66-bcb9af101ee4" alt="image" width="400">
 </div>
