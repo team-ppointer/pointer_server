@@ -16,7 +16,8 @@ jobs:
           script: |
             cd ~/moplus_server
             kill -9 $(lsof -t -i :8081)
-            git add ../
+            git checkout master
+            git add .
             git commit -m "temp commit"
             git fetch origin master
             git merge origin/master
@@ -31,6 +32,6 @@ jobs:
             
             ./gradlew clean build
             docker rm -f moplus_server_prod --force
-            docker rmi moplus_server_back
-            docker-compose -f docker-compose-prod.yml up --build -d
+            docker rmi moplus_server_prod
+            docker-compose -f docker-compose-prod.yml -p moplus-prod up --build -d
 

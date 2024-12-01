@@ -4,6 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile.prod
     container_name: moplus-server-prod
+    image: moplus-backend-prod
     restart: always
     ports:
       - 8080:8080
