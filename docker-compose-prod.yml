@@ -26,16 +26,11 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - prod_data:/var/lib/mysql
+      - moplus_prod_data:/var/lib/mysql
     networks:
       - moplus-prod
 volumes:
-  prod_data:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: ../mopl_data/prod_data
+  moplus_prod_data:
 
 networks:
   moplus-prod:
