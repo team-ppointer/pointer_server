@@ -30,7 +30,7 @@ jobs:
             fi
             
             ./gradlew clean build
-            docker rm -f moplus_server_back_1 --force
+            docker rm -f moplus_server_prod --force
             docker rmi moplus_server_back
-            docker-compose -f docker-compose-dev.yml up --build -d
+            docker-compose -f docker-compose-prod.yml up --build -d
 
