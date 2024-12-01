@@ -30,7 +30,12 @@ services:
     networks:
       - moplus-dev
 volumes:
-  mysql_data:
+  mysql_data_prod:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./dev_data/mysql_data
 
 networks:
   moplus-dev:
