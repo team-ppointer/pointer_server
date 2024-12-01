@@ -16,6 +16,7 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           script: |
             cd ~/moplus_server
+            git checkout develop
             kill -9 $(lsof -t -i :8081)
             git add ../
             git commit -m "temp commit"
