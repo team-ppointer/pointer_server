@@ -29,7 +29,7 @@ services:
     networks:
       - moplus-prod
 volumes:
-  mysql_data:
+  mysql_data_prod:
 
 networks:
   moplus-prod:
