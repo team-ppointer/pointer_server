@@ -30,7 +30,7 @@ services:
     networks:
       - moplus-dev
 volumes:
-  mysql_data_prod:
+  mysql_data:
     driver: local
     driver_opts:
       o: bind
