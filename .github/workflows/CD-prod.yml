@@ -31,7 +31,7 @@ jobs:
             fi
             
             ./gradlew clean build
-            docker rm -f moplus_server_prod --force
-            docker rmi moplus_server_prod
+            docker rm -f moplus-server-prod --force
+            docker rmi moplus-server-prod
             docker-compose -f docker-compose-prod.yml -p moplus-prod up --build -d
 
