@@ -3,23 +3,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: moplus-server-dev
     restart: always
     ports:
-      - 8080:8080
+      - 8081:8080
     environment:
       - TZ=Asia/Seoul
-      - SPRING_PROFILES_ACTIVE=dev
-      - SPRING_DATASOURCE_URL=jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${DB_NAME}?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&tinyInt1isBit=false
-      - SPRING_DATASOURCE_USERNAME=${MYSQL_USERNAME}
-      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD}
-      - SENTRY_DSN=${SENTRY_DSN}
-      - CLOUD_AWS_S3_BUCKET=${S3_BUCKET}
-      - CLOUD_AWS_S3_SIGNATURE_VERSION=AWS4-HMAC-SHA256
-      - CLOUD_AWS_CREDENTIALS_ACCESS_KEY=${AWS_ACCESS_KEY}
-      - CLOUD_AWS_CREDENTIALS_SECRET_KEY=${AWS_SECRET_KEY}
-      - CLOUD_AWS_REGION_STATIC=${AWS_REGION}
-      - CLOUD_AWS_REGION_AUTO=false
-      - CLOUD_AWS_STACK_AUTO=false
+    env_file:
+      - .env.dev
     depends_on:
       - mysql
     networks:
@@ -29,13 +20,10 @@ services:
   mysql:
     image: mysql:8.0
     container_name: moplus-mysql-dev
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    env_file:
+      - .env.dev
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
