@@ -26,11 +26,16 @@ services:
     ports:
       - "3307:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - dev_data:/var/lib/mysql
     networks:
       - moplus-dev
 volumes:
-  mysql_data:
+  dev_data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./dev_data
 
 networks:
   moplus-dev:

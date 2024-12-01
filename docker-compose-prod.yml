@@ -31,6 +31,11 @@ services:
       - moplus-prod
 volumes:
   mysql_data_prod:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./prod_data/mysql_data
 
 networks:
   moplus-prod:
