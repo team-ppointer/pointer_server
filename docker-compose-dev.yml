@@ -14,7 +14,7 @@ services:
     depends_on:
       - mysql
     networks:
-      - moplus
+      - moplus-dev
       - nginx-network
 
   mysql:
@@ -27,12 +27,13 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
-      - moplus
+      - moplus-dev
 volumes:
   mysql_data:
 
 networks:
   moplus:
+    name: moplus-dev
     driver: bridge
   nginx-network:
     external: true
