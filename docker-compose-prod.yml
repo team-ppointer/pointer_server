@@ -2,38 +2,38 @@ services:
   back:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: moplus-server-dev
-    image: moplus-server-dev
+      dockerfile: Dockerfile.prod
+    container_name: moplus-server-prod
+    image: moplus-server-prod
     restart: always
     ports:
-      - 8081:8080
+      - 8080:8080
     environment:
       - TZ=Asia/Seoul
     env_file:
-      - .env.dev
+      - .env.prod
     depends_on:
       - mysql
     networks:
-      - moplus-dev
+      - moplus-prod
       - nginx-network
 
   mysql:
     image: mysql:8.0
-    container_name: moplus-mysql-dev
+    container_name: moplus-mysql-prod
     env_file:
-      - .env.dev
+      - .env.prod
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql_data_prod:/var/lib/mysql
     networks:
-      - moplus-dev
+      - moplus-prod
 volumes:
-  mysql_data:
+  mysql_data_prod:
 
 networks:
-  moplus-dev:
+  moplus-prod:
     driver: bridge
   nginx-network:
     external: true
