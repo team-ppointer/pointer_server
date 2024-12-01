@@ -35,7 +35,7 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: ${PWD}/prod_data
+      device: ../mopl_data/prod_data
 
 networks:
   moplus-prod:

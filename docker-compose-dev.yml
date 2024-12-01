@@ -35,7 +35,7 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: ./dev_data
+      device: ../mopl_data/dev_data
 
 networks:
   moplus-dev:
