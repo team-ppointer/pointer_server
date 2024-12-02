@@ -5,6 +5,20 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+  datasource:
+    url: jdbc:mysql://moplus-mysql-dev:3306/${DEV_MYSQL_DATABASE}?useSSL=false&characterEncoding=UTF-8
+    username: ${DEV_MYSQL_USER}
+    password: ${DEV_MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10 # default
+      connection-timeout: 3000 # 30 seconds in milliseconds
+      keepalive-time: 600000 # 5 minutes in milliseconds
 
 logging:
   level:

@@ -2,8 +2,9 @@ spring:
   profiles:
     active: ${profile}
     group:
-      local: "local, datasource"
-      dev: "dev, datasource"
+      local: "local"
+      dev: "dev"
+      prod: "prod"
     include:
       - aws
   mvc:

@@ -10,8 +10,18 @@ services:
       - 8080:8080
     environment:
       - TZ=Asia/Seoul
-    env_file:
-      - .env.prod
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:mysql://moplus-mysql-prod:3306/${PROD_MYSQL_DATABASE}?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&tinyInt1isBit=false
+      - SPRING_DATASOURCE_USERNAME=${PROD_MYSQL_USER}
+      - SPRING_DATASOURCE_PASSWORD=${PROD_MYSQL_PASSWORD}
+      - SENTRY_DSN=${SENTRY_DSN}
+      - CLOUD_AWS_S3_BUCKET=${S3_BUCKET}
+      - CLOUD_AWS_S3_SIGNATURE_VERSION=AWS4-HMAC-SHA256
+      - CLOUD_AWS_CREDENTIALS_ACCESS_KEY=${AWS_ACCESS_KEY}
+      - CLOUD_AWS_CREDENTIALS_SECRET_KEY=${AWS_SECRET_KEY}
+      - CLOUD_AWS_REGION_STATIC=${AWS_REGION}
+      - CLOUD_AWS_REGION_AUTO=false
+      - CLOUD_AWS_STACK_AUTO=false
     depends_on:
       - mysql
     networks:
@@ -21,8 +31,11 @@ services:
   mysql:
     image: mysql:8.0
     container_name: moplus-mysql-prod
-    env_file:
-      - .env.prod
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PROD_MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${PROD_MYSQL_DATABASE}
+      MYSQL_USER: ${PROD_MYSQL_USER}
+      MYSQL_PASSWORD: ${PROD_MYSQL_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
