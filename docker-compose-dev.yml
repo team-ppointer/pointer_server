@@ -12,7 +12,7 @@ services:
       - TZ=Asia/Seoul
       - SPRING_PROFILES_ACTIVE=dev
       - SPRING_DATASOURCE_URL=jdbc:mysql://${MYSQL_HOST}:3307/${DEV_MYSQL_DATABASE}?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&tinyInt1isBit=false
-      - SPRING_DATASOURCE_USERNAME=${DEV_MYSQL_USERNAME}
+      - SPRING_DATASOURCE_USERNAME=${DEV_MYSQL_USER}
       - SPRING_DATASOURCE_PASSWORD=${DEV_MYSQL_PASSWORD}
       - SENTRY_DSN=${SENTRY_DSN}
       - CLOUD_AWS_S3_BUCKET=${S3_BUCKET}
