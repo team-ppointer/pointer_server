@@ -5,11 +5,16 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
   datasource:
-    url: jdbc:mysql://${DEV_MYSQL_HOST}:3306/${DEV_MYSQL_DATABASE}?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&tinyInt1isBit=false
+    url: jdbc:mysql://${MYSQL_HOST}:3307/${DEV_MYSQL_DATABASE}?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&tinyInt1isBit=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: ${DEV_MYSQL_PASSWORD}
-    username: ${DEV_MYSQL_USERNAME}
+    username: ${DEV_MYSQL_USER}
     hikari:
       maximum-pool-size: 10 # default
       connection-timeout: 3000 # 30 seconds in milliseconds
