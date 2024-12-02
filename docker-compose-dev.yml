@@ -27,7 +27,6 @@ services:
       - mysql
     networks:
       - moplus-dev
-      - nginx-network
 
   mysql:
     image: mysql:8.0
