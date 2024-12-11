@@ -79,10 +79,11 @@ public class PracticeTestAdminService {
         model.addAttribute("practiceTest", practiceTest);
         model.addAttribute("totalQuestions", totalQuestions);
         model.addAttribute("hasShortAnswer", isMathPracticeTest(practiceTest));
+        model.addAttribute("subject", practiceTest.getSubject().getValue());
     }
 
     private static boolean isMathPracticeTest(PracticeTest practiceTest) {
-        return List.of("미적분", "확률과통계", "기하").contains(practiceTest.getSubject().getValue());
+        return List.of("미적분", "확률과통계", "기하", "고1", "고2").contains(practiceTest.getSubject().getValue());
     }
 
     @Transactional
@@ -103,5 +104,6 @@ public class PracticeTestAdminService {
         model.addAttribute("practiceTest", practiceTest);
         model.addAttribute("totalQuestions", totalQuestions);
         model.addAttribute("hasShortAnswer", isMathPracticeTest(practiceTest));
+        model.addAttribute("subject", practiceTest.getSubject().getValue());
     }
 }
