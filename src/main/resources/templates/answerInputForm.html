@@ -61,10 +61,10 @@
                    th:checked="${#arrays.contains(new int[]{1, 2, 3}, i)}">
             <label th:for="'point_' + ${i} + '_2'">2점</label>
             <input type="radio" th:id="'point_' + ${i} + '_3'" th:name="'point_' + ${i}" value="3"
-                   th:checked="${#arrays.contains(new int[]{4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 22, 23, 24}, i)}">
+                   th:checked="${#arrays.contains(new int[]{4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 22, 23, 24, 25}, i)}">
             <label th:for="'point_' + ${i} + '_3'">3점</label>
             <input type="radio" th:id="'point_' + ${i} + '_4'" th:name="'point_' + ${i}" value="4"
-                   th:checked="${#arrays.contains(new int[]{14, 15, 16, 17, 18, 19, 20, 21, 25, 26, 27, 28, 29, 30}, i)}">
+                   th:checked="${#arrays.contains(new int[]{14, 15, 16, 17, 18, 19, 20, 21, 26, 27, 28, 29, 30}, i)}">
             <label th:for="'point_' + ${i} + '_4'">4점</label>
           </th:block>
         </td>
