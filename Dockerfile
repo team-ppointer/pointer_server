@@ -10,7 +10,7 @@ ENV SPRING_PROFILES_ACTIVE=${PROFILE}
 
 ENTRYPOINT ["java", \
 "-javaagent:/apm-agent.jar", \
-"-Delastic.apm.server_urls=http://114.70.23.79:8200", \
+"-Delastic.apm.server_urls=http://apm-server:8200", \
 "-Delastic.apm.service_name=moplus-apm-agent", \
 "-Delastic.apm.application_packages=com.server", \
 "-Delastic.apm.environment=dev", \
