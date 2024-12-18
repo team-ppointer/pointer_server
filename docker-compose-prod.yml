@@ -51,6 +51,5 @@ networks:
     driver: bridge
   nginx-network:
     external: true
-  apm-network:
-    external:
-      name: apm_env
+  apm_env:
+    external: true
