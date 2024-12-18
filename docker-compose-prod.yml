@@ -27,7 +27,7 @@ services:
     networks:
       - moplus-prod
       - nginx-network
-      - apm-network
+      - apm_env
 
   mysql:
     image: mysql:8.0
