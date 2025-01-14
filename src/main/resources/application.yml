@@ -2,10 +2,15 @@ spring:
   profiles:
     active: ${profile}
     group:
-      local: "local"
+      local: "local, datasource"
       dev: "dev"
       prod: "prod"
     include:
       - aws
+      - security
   mvc:
     ignore-default-favicon: true
+
+cors-allowed-origins:
+  http://localhost:8080,
+  http://localhost:3000,
