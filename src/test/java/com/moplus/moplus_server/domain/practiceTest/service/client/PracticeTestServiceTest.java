@@ -1,31 +1,21 @@
 package com.moplus.moplus_server.domain.practiceTest.service.client;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.moplus.moplus_server.domain.practiceTest.domain.PracticeTest;
-import com.moplus.moplus_server.domain.practiceTest.domain.Problem;
 import com.moplus.moplus_server.domain.practiceTest.repository.PracticeTestRepository;
 import com.moplus.moplus_server.domain.practiceTest.repository.ProblemRepository;
-import jakarta.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
 
 @SpringBootTest
-@ActiveProfiles("test")
+@ActiveProfiles("h2test")
 class PracticeTestServiceTest {
 
     @Autowired

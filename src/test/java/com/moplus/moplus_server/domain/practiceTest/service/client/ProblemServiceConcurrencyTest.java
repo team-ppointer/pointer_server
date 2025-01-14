@@ -2,10 +2,8 @@ package com.moplus.moplus_server.domain.practiceTest.service.client;
 
 import com.moplus.moplus_server.domain.practiceTest.domain.PracticeTest;
 import com.moplus.moplus_server.domain.practiceTest.domain.Problem;
-import com.moplus.moplus_server.domain.practiceTest.dto.client.response.ProblemGetResponse;
 import com.moplus.moplus_server.domain.practiceTest.repository.PracticeTestRepository;
 import com.moplus.moplus_server.domain.practiceTest.repository.ProblemRepository;
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -17,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
-@ActiveProfiles("test")
+@ActiveProfiles("h2test")
 public class ProblemServiceConcurrencyTest {
 
     @Autowired
@@ -58,9 +56,8 @@ public class ProblemServiceConcurrencyTest {
         CountDownLatch countDownLatch = new CountDownLatch(threadCount);
         Problem problem = problemRepository.findById(1L).orElseThrow();
 
-
         for (int i = 0; i < threadCount; i++) {
-            if(i % 2 == 0){
+            if (i % 2 == 0) {
                 executorService.submit(() -> {
                     try {
                         practiceTestService.updateViewCount(practiceTestId);
@@ -82,7 +79,7 @@ public class ProblemServiceConcurrencyTest {
 
         PracticeTest practiceTest = practiceTestRepository.findById(practiceTestId).orElseThrow();
 
-        Assertions.assertEquals(threadCount/2, practiceTest.getViewCount());
+        Assertions.assertEquals(threadCount / 2, practiceTest.getViewCount());
     }
 
 }
