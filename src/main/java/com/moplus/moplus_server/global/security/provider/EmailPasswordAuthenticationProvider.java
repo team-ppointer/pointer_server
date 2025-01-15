@@ -2,21 +2,27 @@ package com.moplus.moplus_server.global.security.provider;
 
 import com.moplus.moplus_server.domain.member.domain.Member;
 import com.moplus.moplus_server.domain.member.service.MemberService;
+import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @RequiredArgsConstructor
 public class EmailPasswordAuthenticationProvider implements AuthenticationProvider {
 
     private final MemberService memberService;
-    private final BCryptPasswordEncoder passwordEncoder;
+
+    private static void validateEmail(String memberEmail) {
+        if (!EmailValidator.getInstance().isValid(memberEmail)) {
+            throw new BadCredentialsException(ErrorCode.BAD_CREDENTIALS.getMessage());
+        }
+    }
 
     @Override
     public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
@@ -24,9 +30,10 @@ public class EmailPasswordAuthenticationProvider implements AuthenticationProvid
         final String memberEmail = token.getName();
         final String memberPassword = (String) token.getCredentials();
 
-        Member member = memberService.getMemberByEmail(memberEmail);
-        if (!memberPassword.equals(member.getPassword())) {
-            throw new BadCredentialsException(member.getEmail() + "Invalid password");
+        validateEmail(memberEmail);
+        final Member member = getMemberByEmail(memberEmail);
+        if (!member.isMatchingPassword(memberPassword)) {
+            throw new BadCredentialsException(ErrorCode.BAD_CREDENTIALS.getMessage());
         }
 
         return UsernamePasswordAuthenticationToken.authenticated(
@@ -34,6 +41,14 @@ public class EmailPasswordAuthenticationProvider implements AuthenticationProvid
                 memberPassword,
                 List.of(new SimpleGrantedAuthority(member.getRole().getValue())
                 ));
+    }
+
+    private Member getMemberByEmail(String memberEmail) {
+        try {
+            return memberService.getMemberByEmail(memberEmail);
+        } catch (Exception e) {
+            throw new BadCredentialsException(ErrorCode.BAD_CREDENTIALS.getMessage());
+        }
     }
 
     @Override

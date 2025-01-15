@@ -89,7 +89,7 @@ public class SecurityConfig {
 
     @Bean
     public EmailPasswordAuthenticationProvider emailPasswordAuthenticationProvider() {
-        return new EmailPasswordAuthenticationProvider(memberService, bCryptPasswordEncoder());
+        return new EmailPasswordAuthenticationProvider(memberService);
     }
 
     @Bean

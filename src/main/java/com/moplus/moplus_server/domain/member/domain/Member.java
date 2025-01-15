@@ -35,4 +35,8 @@ public class Member extends BaseEntity {
         this.password = password;
         this.role = role;
     }
+
+    public boolean isMatchingPassword(String password) {
+        return this.password.equals(password);
+    }
 }

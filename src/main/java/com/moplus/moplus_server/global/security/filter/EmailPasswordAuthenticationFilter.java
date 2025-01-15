@@ -3,11 +3,11 @@ package com.moplus.moplus_server.global.security.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moplus.moplus_server.domain.auth.dto.request.AdminLoginRequest;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
-import com.moplus.moplus_server.global.error.exception.NotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -29,7 +29,7 @@ public class EmailPasswordAuthenticationFilter extends UsernamePasswordAuthentic
             authRequest = UsernamePasswordAuthenticationToken.unauthenticated(loginRequest.email(),
                     loginRequest.password());
         } catch (IOException exception) {
-            throw new NotFoundException(ErrorCode.MEMBER_NOT_FOUND);
+            throw new BadCredentialsException(ErrorCode.INVALID_INPUT_VALUE.getMessage());
         }
         setDetails(request, authRequest);
         return this.getAuthenticationManager().authenticate(authRequest);
