@@ -14,8 +14,6 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public Member getMemberByEmail(String email) {
-        return memberRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("해당 이메일로 가입된 회원이 없습니다."));
+        return memberRepository.findByEmailOrThrow(email);
     }
-
 }
