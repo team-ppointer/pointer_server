@@ -1,0 +1,33 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+  datasource:
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false;MODE=MYSQL
+
+jwt:
+  access-token-secret: 0eFd7h2PLQ5tH7v3jBcXFr6L8hYh5u3g1kFxWrZ0dJc=
+  refresh-token-secret: q8aV4Mf4r7l5u9OxC7ZtVx2qY2eDz9Tw5uDl9JQ6SJI=
+  access-token-expiration-time: 3600 #1시간
+  refresh-token-expiration-time: 604800 #7일
+  issuer: test
+
+cloud:
+  aws:
+    s3:
+      bucket: test
+      signature-version: AWS4-HMAC-SHA256
+    credentials:
+      access-key: 0eFd7h2PLQ5tH7v3jBcXFr6L8hYh5u3g1kFxWrZ0dJc=
+      secret-key: q8aV4Mf4r7l5u9OxC7ZtVx2qY2eDz9Tw5uDl9JQ6SJI=
+    region:
+      static: test
+      auto: false
+    stack:
+      auto: false
+
+cors-allowed-origins:
+  http://localhost:8080,
+  http://localhost:3000,
