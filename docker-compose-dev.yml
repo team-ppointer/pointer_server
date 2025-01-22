@@ -29,6 +29,7 @@ services:
       - moplus-dev
       - nginx-network
       - apm_env
+      - monitoring
 
   mysql:
     image: mysql:8.0
@@ -54,6 +55,8 @@ volumes:
 
 networks:
   moplus-dev:
+    driver: bridge
+  monitoring:
     driver: bridge
   nginx-network:
     external: true
