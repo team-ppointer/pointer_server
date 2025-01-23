@@ -3,6 +3,7 @@ package com.moplus.moplus_server.domain.DetailResultApplication.controller;
 import com.moplus.moplus_server.domain.DetailResultApplication.dto.request.DetailResultApplicationPostRequest;
 import com.moplus.moplus_server.domain.DetailResultApplication.dto.response.ReviewNoteGetResponse;
 import com.moplus.moplus_server.domain.DetailResultApplication.service.DetailResultApplicationService;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Hidden
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/detailResultApplication")
@@ -20,7 +22,8 @@ public class DetailResultApplicationController {
 
     @PostMapping("")
     @Operation(summary = "모의고사 결과 상세 분석서 신청하기")
-    public ResponseEntity<ReviewNoteGetResponse> createApplication(@RequestBody DetailResultApplicationPostRequest request) {
+    public ResponseEntity<ReviewNoteGetResponse> createApplication(
+            @RequestBody DetailResultApplicationPostRequest request) {
         detailResultApplicationService.saveApplication(request);
         ReviewNoteGetResponse reviewNoteInfo = detailResultApplicationService.getReviewNoteInfo(request.testResultId());
         return ResponseEntity.ok(reviewNoteInfo);

@@ -3,6 +3,7 @@ package com.moplus.moplus_server.domain.practiceTest.api.admin;
 import com.moplus.moplus_server.domain.practiceTest.domain.PracticeTest;
 import com.moplus.moplus_server.domain.practiceTest.service.client.PracticeTestService;
 import com.moplus.moplus_server.domain.practiceTest.service.client.ProblemService;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+@Hidden
 @Controller
 @RequestMapping("/admin/practiceTests")
 @RequiredArgsConstructor

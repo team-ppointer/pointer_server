@@ -1,6 +1,7 @@
 package com.moplus.moplus_server.domain.practiceTest.api.admin;
 
 import com.moplus.moplus_server.domain.practiceTest.service.admin.ProblemImageUploadService;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -10,9 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+@Hidden
 @Controller
 @RequestMapping("/admin/practiceTests")
 @RequiredArgsConstructor
@@ -31,9 +32,10 @@ public class ProblemImageUploadController {
 
     @PostMapping("/uploadImage/{problemId}")
     @Operation(summary = "문제 이미지 업로드 요청")
-    public String uploadImage(@RequestParam("practiceTestId") Long practiceTestId, @PathVariable("problemId") Long problemId, @RequestParam("image") MultipartFile image) {
+    public String uploadImage(@RequestParam("practiceTestId") Long practiceTestId,
+                              @PathVariable("problemId") Long problemId, @RequestParam("image") MultipartFile image) {
         // 이미지 업로드 처리
-        problemImageUploadService.uploadImage(practiceTestId ,problemId, image);
+        problemImageUploadService.uploadImage(practiceTestId, problemId, image);
 
         return "redirect:/admin/practiceTests/imageUploadPage/" + practiceTestId;
     }

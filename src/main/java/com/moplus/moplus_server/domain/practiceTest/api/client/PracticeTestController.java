@@ -1,8 +1,8 @@
 package com.moplus.moplus_server.domain.practiceTest.api.client;
 
 import com.moplus.moplus_server.domain.practiceTest.dto.client.response.PracticeTestGetResponse;
-import com.moplus.moplus_server.domain.practiceTest.service.client.OptimisticLockPracticeTestFacade;
 import com.moplus.moplus_server.domain.practiceTest.service.client.PracticeTestService;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Hidden
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/practiceTests")
