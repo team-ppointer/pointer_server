@@ -1,9 +1,9 @@
 package com.moplus.moplus_server.global.scheduler;
 
-import com.moplus.moplus_server.domain.TestResult.entity.TestResult;
-import com.moplus.moplus_server.domain.TestResult.repository.TestResultRepository;
-import com.moplus.moplus_server.domain.practiceTest.domain.PracticeTest;
-import com.moplus.moplus_server.domain.practiceTest.repository.PracticeTestRepository;
+import com.moplus.moplus_server.domain.v0.TestResult.entity.TestResult;
+import com.moplus.moplus_server.domain.v0.TestResult.repository.TestResultRepository;
+import com.moplus.moplus_server.domain.v0.practiceTest.domain.PracticeTest;
+import com.moplus.moplus_server.domain.v0.practiceTest.repository.PracticeTestRepository;
 import java.time.Duration;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class TestResultScheduler {
 
             Duration sum = Duration.ZERO;
             List<TestResult> allByPracticeTestId =
-                testResultRepository.findAllByPracticeTestId(practiceTest.getId());
+                    testResultRepository.findAllByPracticeTestId(practiceTest.getId());
 
             long validCount = 0;
 
@@ -52,7 +52,8 @@ public class TestResultScheduler {
                 practiceTest.updateAverageSolvingTime(average);
                 practiceTestRepository.save(practiceTest);
             }
-            System.out.println("평균 풀이 시간 계산 완료 : " + practiceTest.getId() + "L, 평균 시간 " + practiceTest.getAverageSolvingTime());
+            System.out.println(
+                    "평균 풀이 시간 계산 완료 : " + practiceTest.getId() + "L, 평균 시간 " + practiceTest.getAverageSolvingTime());
         }
     }
 }
