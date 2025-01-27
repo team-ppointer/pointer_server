@@ -44,4 +44,19 @@ public class Problem extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "problem_id")
     private List<ChildProblem> childProblems = new ArrayList<>();
+
+    public Problem(String practiceTestId, int number, int answer, String comment, String mainProblemImageUrl,
+                   String mainAnalysisImageUrl, String readingTipImageUrl, String seniorTipImageUrl,
+                   String prescriptionImageUrl, Set<Long> conceptTagIds) {
+        this.practiceTestId = practiceTestId;
+        this.number = number;
+        this.answer = answer;
+        this.comment = comment;
+        this.mainProblemImageUrl = mainProblemImageUrl;
+        this.mainAnalysisImageUrl = mainAnalysisImageUrl;
+        this.readingTipImageUrl = readingTipImageUrl;
+        this.seniorTipImageUrl = seniorTipImageUrl;
+        this.prescriptionImageUrl = prescriptionImageUrl;
+        this.conceptTagIds = conceptTagIds;
+    }
 }

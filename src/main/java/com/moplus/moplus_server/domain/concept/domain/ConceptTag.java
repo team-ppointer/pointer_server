@@ -20,4 +20,8 @@ public class ConceptTag extends BaseEntity {
     Long id;
 
     String name;
+
+    public ConceptTag(String name) {
+        this.name = name;
+    }
 }
