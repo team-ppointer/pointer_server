@@ -2,11 +2,11 @@ package com.moplus.moplus_server.domain.TestResult.entity;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.moplus.moplus_server.domain.practiceTest.domain.RatingRow;
-import com.moplus.moplus_server.domain.practiceTest.domain.RatingTable;
+import com.moplus.moplus_server.domain.v0.TestResult.entity.EstimatedRating;
+import com.moplus.moplus_server.domain.v0.practiceTest.domain.RatingRow;
+import com.moplus.moplus_server.domain.v0.practiceTest.domain.RatingTable;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 

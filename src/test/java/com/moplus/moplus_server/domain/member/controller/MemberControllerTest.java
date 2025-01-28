@@ -32,7 +32,7 @@ import org.springframework.web.context.WebApplicationContext;
 class MemberControllerTest {
 
     @Nested
-    class 어드민_로그인 {
+    class 내정보_가져오기 {
 
         @Autowired
         private JwtProperties jwtProperties;
