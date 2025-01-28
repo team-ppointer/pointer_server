@@ -4,7 +4,6 @@ import com.moplus.moplus_server.domain.member.domain.Member;
 import com.moplus.moplus_server.domain.member.repository.MemberRepository;
 import com.moplus.moplus_server.global.error.exception.BusinessException;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
-import com.moplus.moplus_server.global.error.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.Authentication;
@@ -35,19 +34,16 @@ public class AuthenticationArgumentResolver implements HandlerMethodArgumentReso
     }
 
     private Member getCurrentMember() {
-        return memberRepository
-                .findById(getCurrentMemberId())
-                .orElseThrow(() -> new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
-    }
-
-    private Long getCurrentMemberId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        
+
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new BusinessException(ErrorCode.AUTH_NOT_FOUND);
         }
+        Object principal = authentication.getPrincipal();
 
-        Member principal = (Member) authentication.getPrincipal();
-        return principal.getId();
+        if (!(principal instanceof Member)) {
+            throw new BusinessException(ErrorCode.INVALID_PRINCIPAL);
+        }
+        return (Member) principal;
     }
 }
