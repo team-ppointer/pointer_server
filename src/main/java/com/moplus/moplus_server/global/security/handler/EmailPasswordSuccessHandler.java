@@ -2,7 +2,7 @@ package com.moplus.moplus_server.global.security.handler;
 
 import com.moplus.moplus_server.domain.member.domain.Member;
 import com.moplus.moplus_server.global.security.AuthConstants;
-import com.moplus.moplus_server.global.security.JwtUtil;
+import com.moplus.moplus_server.global.security.utils.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

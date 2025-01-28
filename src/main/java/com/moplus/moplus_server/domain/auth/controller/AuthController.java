@@ -36,4 +36,5 @@ public class AuthController {
     ) {
         // 실제 처리는 Security 필터에서 이루어지며, 이 메서드는 Swagger 명세용입니다.
     }
+    
 }

@@ -1,13 +1,16 @@
-package com.moplus.moplus_server.global.security;
+package com.moplus.moplus_server.global.security.utils;
 
 import com.moplus.moplus_server.domain.member.domain.Member;
 import com.moplus.moplus_server.global.properties.jwt.JwtProperties;
+import com.moplus.moplus_server.global.security.token.JwtAuthenticationToken;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -43,6 +46,16 @@ public class JwtUtil {
                 .setExpiration(expiredAt)
                 .signWith(getRefreshTokenKey())
                 .compact();
+    }
+
+    public Claims getAccessTokenClaims(Authentication authentication) {
+
+        return Jwts.parserBuilder()
+                .requireIssuer(jwtProperties.issuer())
+                .setSigningKey(getAccessTokenKey())
+                .build()
+                .parseClaimsJws(((JwtAuthenticationToken) authentication).getJsonWebToken())
+                .getBody();
     }
 
     private Key getAccessTokenKey() {
