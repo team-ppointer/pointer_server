@@ -1,6 +1,7 @@
 package com.moplus.moplus_server.domain.TestResult.controller;
 
 import com.moplus.moplus_server.domain.TestResult.dto.response.RatingGetResponse;
+import io.swagger.v3.oas.annotations.Hidden;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Hidden
 @RestController
 @RequestMapping("/api/v1/rating")
 @RequiredArgsConstructor

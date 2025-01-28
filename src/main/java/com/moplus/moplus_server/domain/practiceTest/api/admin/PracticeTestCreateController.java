@@ -4,6 +4,7 @@ import com.moplus.moplus_server.domain.practiceTest.dto.admin.request.PracticeTe
 import com.moplus.moplus_server.domain.practiceTest.service.admin.PracticeTestAdminService;
 import com.moplus.moplus_server.domain.practiceTest.service.client.PracticeTestService;
 import com.moplus.moplus_server.domain.practiceTest.service.client.ProblemService;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@Hidden
 @Controller
 @RequestMapping("/admin/practiceTests")
 @RequiredArgsConstructor
@@ -48,7 +50,8 @@ public class PracticeTestCreateController {
 
     @PostMapping("/submit/{id}")
     @Operation(summary = "모의고사 정보 수정 요청")
-    public String submitUpdateTestInfo(@PathVariable("id") Long id, @ModelAttribute PracticeTestRequest practiceTestRequest, Model model) {
+    public String submitUpdateTestInfo(@PathVariable("id") Long id,
+                                       @ModelAttribute PracticeTestRequest practiceTestRequest, Model model) {
 
         practiceTestAdminService.updatePracticeTest(id, practiceTestRequest);
         practiceTestAdminService.getProblemUpdateModel(model, id);

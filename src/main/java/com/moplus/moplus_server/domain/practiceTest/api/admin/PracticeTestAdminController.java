@@ -1,20 +1,17 @@
 package com.moplus.moplus_server.domain.practiceTest.api.admin;
 
 import com.moplus.moplus_server.domain.practiceTest.dto.client.response.PracticeTestGetResponse;
-import com.moplus.moplus_server.domain.practiceTest.domain.PracticeTest;
 import com.moplus.moplus_server.domain.practiceTest.service.client.PracticeTestService;
 import com.moplus.moplus_server.domain.practiceTest.service.client.ProblemService;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+@Hidden
 @Controller
 @RequiredArgsConstructor
 public class PracticeTestAdminController {
@@ -30,7 +27,6 @@ public class PracticeTestAdminController {
         model.addAttribute("practiceTests", practiceTests);
         return "practiceTestList";
     }
-
 
 
 }
