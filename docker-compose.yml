@@ -6,17 +6,13 @@ services:
     container_name: prometheus
     volumes:
       - ./src/main/resources/prometheus.yml:/etc/prometheus/prometheus.yml
-    command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
-    env_file:
-      - .env
     environment:
-      - PROMETHEUS_SCRAPE_INTERVAL=${PROMETHEUS_SCRAPE_INTERVAL}
+      PROMETHEUS_SCRAPE_INTERVAL: ${PROMETHEUS_SCRAPE_INTERVAL}
+      PROMETHEUS_TARGET_BACKEND: ${PROMETHEUS_TARGET_BACKEND}
     ports:
       - "9090:9090"
     networks:
       - monitoring
-    restart: always
 
   grafana:
     image: grafana/grafana:9.4.7
@@ -39,16 +35,12 @@ services:
     ports:
       - "3100:3100"
     volumes:
-      - loki-data:/var/lib/loki
+      - ./loki-data:/var/lib/loki
       - ./loki-config.yml:/etc/loki/config.yml
-    command: -config.file=/etc/loki/config.yml
-    env_file:
-      - .env
     environment:
-      - LOKI_PORT=${LOKI_PORT}
+      LOKI_PORT: ${LOKI_PORT}
     networks:
       - monitoring
-    restart: always
 
   promtail:
     image: grafana/promtail:2.8.2
@@ -56,16 +48,12 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./promtail-config.yml:/etc/promtail/config.yml
-    command: -config.file=/etc/promtail/config.yml
-    env_file:
-      - .env
     environment:
-      - PROMTAIL_PORT=${PROMTAIL_PORT}
+      PROMTAIL_PORT: ${PROMTAIL_PORT}
     depends_on:
       - loki
     networks:
       - monitoring
-    restart: always
 
 networks:
   monitoring:
