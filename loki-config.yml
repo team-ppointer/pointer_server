@@ -6,11 +6,16 @@ ingester:
     enabled: true
     dir: /var/lib/loki/wal
   lifecycler:
-    address: 127.0.0.1
+    address: 0.0.0.0
     ring:
       kvstore:
         store: inmemory
       replication_factor: 1
+
+compactor:
+  working_directory: /var/lib/loki/compactor
+  shared_store: filesystem
+  retention_enabled: true
 
 schema_config:
   configs:
@@ -33,8 +38,8 @@ limits_config:
   reject_old_samples_max_age: 168h
 
 chunk_store_config:
-  max_look_back_period: 0s
+  max_look_back_period: 168h
 
 table_manager:
-  retention_deletes_enabled: false
-  retention_period: 0s
+  retention_deletes_enabled: true
+  retention_period: 168h

@@ -16,7 +16,13 @@ scrape_configs:
         refresh_interval: 5s
     relabel_configs:
       - source_labels: [__meta_docker_container_name]
-        regex: "/moplus-server-dev"
+        regex: "/?moplus-server-dev"
         action: keep
       - source_labels: [__meta_docker_container_name]
+        regex: "/?(.+)"
         target_label: container
+      - source_labels: [container]
+        target_label: job
+        replacement: "moplus-server-dev-logs"
+      - source_labels: [container]
+        target_label: instance
