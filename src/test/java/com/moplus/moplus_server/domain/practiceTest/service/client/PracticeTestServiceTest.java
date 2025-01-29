@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.moplus.moplus_server.domain.v0.practiceTest.domain.PracticeTest;
 import com.moplus.moplus_server.domain.v0.practiceTest.repository.PracticeTestRepository;
-import com.moplus.moplus_server.domain.v0.practiceTest.repository.ProblemRepository;
+import com.moplus.moplus_server.domain.v0.practiceTest.repository.ProblemForTestRepository;
 import com.moplus.moplus_server.domain.v0.practiceTest.service.client.PracticeTestService;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -25,7 +25,7 @@ class PracticeTestServiceTest {
     @Autowired
     private PracticeTestRepository practiceTestRepository;
     @Autowired
-    private ProblemRepository problemRepository;
+    private ProblemForTestRepository problemForTestRepository;
 
     @BeforeEach
     void setup() {

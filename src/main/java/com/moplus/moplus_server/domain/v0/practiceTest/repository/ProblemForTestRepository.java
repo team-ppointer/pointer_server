@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface ProblemRepository extends JpaRepository<ProblemForTest, Long> {
+public interface ProblemForTestRepository extends JpaRepository<ProblemForTest, Long> {
 
     List<ProblemForTest> findAllByPracticeTestId(Long id);
 

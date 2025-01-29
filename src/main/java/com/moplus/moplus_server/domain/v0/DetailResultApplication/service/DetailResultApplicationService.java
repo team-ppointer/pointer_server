@@ -14,7 +14,7 @@ import com.moplus.moplus_server.domain.v0.TestResult.service.IncorrectProblemSer
 import com.moplus.moplus_server.domain.v0.practiceTest.domain.PracticeTest;
 import com.moplus.moplus_server.domain.v0.practiceTest.domain.ProblemForTest;
 import com.moplus.moplus_server.domain.v0.practiceTest.repository.PracticeTestRepository;
-import com.moplus.moplus_server.domain.v0.practiceTest.repository.ProblemRepository;
+import com.moplus.moplus_server.domain.v0.practiceTest.repository.ProblemForTestRepository;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.NotFoundException;
 import java.time.Duration;
@@ -33,7 +33,7 @@ public class DetailResultApplicationService {
     private final EstimatedRatingRepository estimatedRatingRepository;
     private final IncorrectProblemService incorrectProblemService;
     private final IncorrectProblemRepository incorrectProblemRepository;
-    private final ProblemRepository problemRepository;
+    private final ProblemForTestRepository problemForTestRepository;
 
     @Transactional
     public void saveApplication(DetailResultApplicationPostRequest request) {
@@ -57,7 +57,7 @@ public class DetailResultApplicationService {
         List<ProblemForTest> incorrectProblemForTests = incorrectProblemRepository.findAllByTestResultId(testResultId)
                 .stream()
                 .map(IncorrectProblem::getProblemId)
-                .map(problemId -> problemRepository.findById(problemId).orElseThrow())
+                .map(problemId -> problemForTestRepository.findById(problemId).orElseThrow())
                 .toList();
 
         List<ProblemGetResponse> forCurrentRating = incorrectProblemForTests.stream()
