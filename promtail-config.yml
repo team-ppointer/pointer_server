@@ -1,5 +1,5 @@
 server:
-  http_listen_port: ${PROMTAIL_PORT}
+  http_listen_port: 9080
 
 positions:
   filename: /tmp/positions.yaml

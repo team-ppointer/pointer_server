@@ -1,7 +1,7 @@
 auth_enabled: false
 
 server:
-  http_listen_port: ${LOKI_PORT}
+  http_listen_port: 3100
 
 ingester:
   wal:
