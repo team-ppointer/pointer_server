@@ -6,8 +6,8 @@ import com.moplus.moplus_server.domain.v0.practiceTest.domain.ProblemForTest;
 import com.moplus.moplus_server.domain.v0.practiceTest.domain.ProblemImageForTest;
 import com.moplus.moplus_server.domain.v0.practiceTest.dto.admin.request.ProblemImageRequest;
 import com.moplus.moplus_server.domain.v0.practiceTest.repository.PracticeTestRepository;
+import com.moplus.moplus_server.domain.v0.practiceTest.repository.ProblemForTestRepository;
 import com.moplus.moplus_server.domain.v0.practiceTest.repository.ProblemImageRepository;
-import com.moplus.moplus_server.domain.v0.practiceTest.repository.ProblemRepository;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.NotFoundException;
 import com.moplus.moplus_server.global.utils.s3.S3Util;
@@ -26,12 +26,13 @@ public class ProblemImageUploadService {
 
     private final S3Util s3Util;
     private final PracticeTestRepository practiceTestRepository;
-    private final ProblemRepository problemRepository;
+    private final ProblemForTestRepository problemForTestRepository;
     private final ProblemImageRepository problemImageRepository;
 
     @Transactional(readOnly = true)
     public void setProblemImagesByPracticeTestId(Long practiceTestId, Model model) {
-        List<ProblemImageRequest> imageRequests = problemRepository.findAllByPracticeTestId(practiceTestId).stream()
+        List<ProblemImageRequest> imageRequests = problemForTestRepository.findAllByPracticeTestId(practiceTestId)
+                .stream()
                 .map(ProblemImageRequest::of)
                 .toList();
         model.addAttribute("problemImageRequests", imageRequests);
@@ -41,7 +42,7 @@ public class ProblemImageUploadService {
     public void uploadImage(Long practiceId, Long problemId, MultipartFile image) {
         PracticeTest practiceTest = practiceTestRepository.findById(practiceId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.PRACTICE_TEST_NOT_FOUND));
-        ProblemForTest problemForTest = problemRepository.findById(problemId)
+        ProblemForTest problemForTest = problemForTestRepository.findById(problemId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.PROBLEM_NOT_FOUND));
         String fileName = uploadFile(image, problemId, practiceTest.getName());
         String s3ObjectUrl = s3Util.getS3ObjectUrl(fileName);
@@ -52,7 +53,7 @@ public class ProblemImageUploadService {
                 .build();
         ProblemImageForTest saved = problemImageRepository.save(problemImageForTest);
         problemForTest.addImage(saved);
-        problemRepository.save(problemForTest);
+        problemForTestRepository.save(problemForTest);
     }
 
     public String uploadFile(MultipartFile file, Long problemId, String practiceTestName) {
