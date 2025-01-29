@@ -1,210 +1,219 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Practice Test 등록</title>
-  <meta charset="UTF-8">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 50px;
-    }
+    <title>Practice Test 등록</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
 
-    .form-group {
-      margin-bottom: 15px;
-    }
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
 
-    input[type="text"] {
-      width: 100%;
-      padding: 8px;
-      box-sizing: border-box;
-    }
+        input[problemType="text"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
 
-    button {
-      background-color: #f79a3e;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      cursor: pointer;
-    }
+        button {
+            background-color: #f79a3e;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
 
-    button:hover {
-      background-color: #f47c20;
-    }
+        button:hover {
+            background-color: #f47c20;
+        }
 
-    .subject-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
+        .subject-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
 
-    .subject-item {
-      position: relative;
-    }
+        .subject-item {
+            position: relative;
+        }
 
-    /* Radio 버튼 숨기기 */
-    .subject-item input[type="radio"] {
-      display: none;
-    }
+        /* Radio 버튼 숨기기 */
+        .subject-item input[problemType="radio"] {
+            display: none;
+        }
 
-    /* 버튼처럼 보이게 하기 */
-    .subject-item label {
-      display: inline-block;
-      padding: 10px 20px;
-      border: 1px solid #ccc;
-      background-color: #f3f3f3;
-      color: black;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
+        /* 버튼처럼 보이게 하기 */
+        .subject-item label {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            background-color: #f3f3f3;
+            color: black;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-    /* 선택된 라디오 버튼 스타일 */
-    .subject-item input[type="radio"]:checked + label {
-      background-color: #f79a3e;
-      color: white;
-      border-color: #f47c20;
-    }
+        /* 선택된 라디오 버튼 스타일 */
+        .subject-item input[problemType="radio"]:checked + label {
+            background-color: #f79a3e;
+            color: white;
+            border-color: #f47c20;
+        }
 
-    /* 마우스 호버 시 스타일 */
-    .subject-item label:hover {
-      background-color: #e0e0e0;
-    }
+        /* 마우스 호버 시 스타일 */
+        .subject-item label:hover {
+            background-color: #e0e0e0;
+        }
 
-    /* 숨겨진 표 스타일 */
-    .hidden {
-      display: none;
-    }
+        /* 숨겨진 표 스타일 */
+        .hidden {
+            display: none;
+        }
 
-    /* 표 스타일 */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-    }
+        /* 표 스타일 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
 
-    table, th, td {
-      border: 1px solid #ccc;
-    }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
 
-    th, td {
-      padding: 8px;
-      text-align: center;
-    }
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
 
-    th {
-      background-color: #f3f3f3;
-    }
-  </style>
+        th {
+            background-color: #f3f3f3;
+        }
+    </style>
 </head>
 <body>
 
 <h1>Practice Test 등록</h1>
 
-<form th:action="${practiceTestRequest.id != null ? '/admin/practiceTests/submit/' + practiceTestRequest.id : '/admin/practiceTests/submit'}"
-      th:object="${practiceTestRequest}" method="post">
-  <div class="form-group">
-    <label for="name">이름</label>
-    <input type="text" id="name" th:field="*{name}" placeholder="이름">
-  </div>
-
-  <div class="form-group">
-    <label for="round">회차</label>
-    <input type="text" id="round" th:field="*{round}" placeholder="회차">
-  </div>
-
-  <div class="form-group">
-    <label for="provider">출제기관</label>
-    <input type="text" id="provider" th:field="*{provider}" placeholder="출제기관">
-  </div>
-
-  <div class="form-group">
-    <label for="provider">출제 연도</label>
-    <input type="text" id="publicationYear" th:field="*{publicationYear}" placeholder="출제 연도">
-  </div>
-
-  <div class="form-group">
-    <label>과목</label>
-    <div class="subject-container">
-      <div class="subject-item" th:each="subject, iterStat : ${subjects}">
-        <!-- 고유한 id와 for 값을 설정 -->
-        <input type="radio" th:id="'subject' + ${iterStat.index}" th:field="*{subject}" th:value="${subject}"
-               th:onchange="'showTable(' + ${iterStat.index} + ')'"/>
-        <label th:for="'subject' + ${iterStat.index}" th:text="${subject.getValue()}"></label>
-      </div>
+<form method="post"
+      th:action="${practiceTestRequest.id != null ? '/admin/practiceTests/submit/' + practiceTestRequest.id : '/admin/practiceTests/submit'}" th:object="${practiceTestRequest}">
+    <div class="form-group">
+        <label for="name">이름</label>
+        <input id="name" placeholder="이름" problemType="text" th:field="*{name}">
     </div>
-  </div>
 
-  <!-- 과목에 따라 동적으로 표시할 표 -->
-  <div id="subject-tables">
-    <div th:each="subject, subjectStat : ${subjects}">
-      <div th:id="'subject-table-' + ${subjectStat.index}" class="subject-table hidden">
-        <h3 th:text="${subject.getValue()}"></h3>
-        <table>
-          <tbody>
-              <div th:each="ratingTable, ratingTableStat : ${practiceTestRequest.ratingTables}">
-                <!-- Provider 이름 표시 행 -->
-                <th colspan="4">
-                  <input type="text" th:field="*{ratingTables[__${ratingTableStat.index}__].ratingProvider}"
-                         th:value="${ratingTable.ratingProvider}" placeholder="Rating Provider"/>
-                </th>
-                <tr>
-                  <th>등급</th>
-                  <th>원점수</th>
-                  <th>표준점수</th>
-                  <th>백분위</th>
-                </tr>
-                <tr th:if="${ratingTable.ratingRows != null and !#lists.isEmpty(ratingTable.ratingRows)}"
-                    th:each="ratingRow, ratingRowStat : ${ratingTable.ratingRows}">
-                  <td>
-                    <input type="text" th:field="*{ratingTables[__${ratingTableStat.index}__].ratingRows[__${ratingRowStat.index}__].rating}"
-                           th:value="${ratingRow.rating}" readonly />
-                  </td>
-                  <td><input type="text" th:field="*{ratingTables[__${ratingTableStat.index}__].ratingRows[__${ratingRowStat.index}__].rawScores}" placeholder="원점수"></td>
-                  <td><input type="text" th:field="*{ratingTables[__${ratingTableStat.index}__].ratingRows[__${ratingRowStat.index}__].standardScores}" placeholder="표준점수"></td>
-                  <td><input type="text" th:field="*{ratingTables[__${ratingTableStat.index}__].ratingRows[__${ratingRowStat.index}__].percentiles}" placeholder="백분위"></td>
-                </tr>
-              </div>
-          </tbody>
-        </table>
-      </div>
+    <div class="form-group">
+        <label for="round">회차</label>
+        <input id="round" placeholder="회차" problemType="text" th:field="*{round}">
     </div>
-  </div>
 
-  <button type="submit">선택완료</button>
+    <div class="form-group">
+        <label for="provider">출제기관</label>
+        <input id="provider" placeholder="출제기관" problemType="text" th:field="*{provider}">
+    </div>
+
+    <div class="form-group">
+        <label for="provider">출제 연도</label>
+        <input id="publicationYear" placeholder="출제 연도" problemType="text" th:field="*{publicationYear}">
+    </div>
+
+    <div class="form-group">
+        <label>과목</label>
+        <div class="subject-container">
+            <div class="subject-item" th:each="subject, iterStat : ${subjects}">
+                <!-- 고유한 id와 for 값을 설정 -->
+                <input problemType="radio" th:field="*{subject}" th:id="'subject' + ${iterStat.index}"
+                       th:onchange="'showTable(' + ${iterStat.index} + ')'"
+                       th:value="${subject}"/>
+                <label th:for="'subject' + ${iterStat.index}" th:text="${subject.getValue()}"></label>
+            </div>
+        </div>
+    </div>
+
+    <!-- 과목에 따라 동적으로 표시할 표 -->
+    <div id="subject-tables">
+        <div th:each="subject, subjectStat : ${subjects}">
+            <div class="subject-table hidden" th:id="'subject-table-' + ${subjectStat.index}">
+                <h3 th:text="${subject.getValue()}"></h3>
+                <table>
+                    <tbody>
+                    <div th:each="ratingTable, ratingTableStat : ${practiceTestRequest.ratingTables}">
+                        <!-- Provider 이름 표시 행 -->
+                        <th colspan="4">
+                            <input placeholder="Rating Provider"
+                                   problemType="text"
+                                   th:field="*{ratingTables[__${ratingTableStat.index}__].ratingProvider}" th:value="${ratingTable.ratingProvider}"/>
+                        </th>
+                        <tr>
+                            <th>등급</th>
+                            <th>원점수</th>
+                            <th>표준점수</th>
+                            <th>백분위</th>
+                        </tr>
+                        <tr th:each="ratingRow, ratingRowStat : ${ratingTable.ratingRows}"
+                            th:if="${ratingTable.ratingRows != null and !#lists.isEmpty(ratingTable.ratingRows)}">
+                            <td>
+                                <input problemType="text"
+                                       readonly
+                                       th:field="*{ratingTables[__${ratingTableStat.index}__].ratingRows[__${ratingRowStat.index}__].rating}" th:value="${ratingRow.rating}"/>
+                            </td>
+                            <td><input placeholder="원점수"
+                                       problemType="text"
+                                       th:field="*{ratingTables[__${ratingTableStat.index}__].ratingRows[__${ratingRowStat.index}__].rawScores}"></td>
+                            <td><input placeholder="표준점수"
+                                       problemType="text"
+                                       th:field="*{ratingTables[__${ratingTableStat.index}__].ratingRows[__${ratingRowStat.index}__].standardScores}"></td>
+                            <td><input placeholder="백분위"
+                                       problemType="text"
+                                       th:field="*{ratingTables[__${ratingTableStat.index}__].ratingRows[__${ratingRowStat.index}__].percentiles}"></td>
+                        </tr>
+                    </div>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <button problemType="submit">선택완료</button>
 </form>
 
 <script>
-  function showTable(subjectIndex) {
-    // 모든 테이블 숨기고 입력 필드 비활성화
-    document.querySelectorAll('.subject-table').forEach(function(table) {
-      table.classList.add('hidden');
-      table.querySelectorAll('input').forEach(function(input) {
-        input.disabled = true;
-      });
+    function showTable(subjectIndex) {
+        // 모든 테이블 숨기고 입력 필드 비활성화
+        document.querySelectorAll('.subject-table').forEach(function (table) {
+            table.classList.add('hidden');
+            table.querySelectorAll('input').forEach(function (input) {
+                input.disabled = true;
+            });
+        });
+
+        // 선택된 과목의 테이블 표시 및 입력 필드 활성화
+        const selectedTable = document.getElementById('subject-table-' + subjectIndex);
+        if (selectedTable) {
+            selectedTable.classList.remove('hidden');
+            selectedTable.querySelectorAll('input').forEach(function (input) {
+                input.disabled = false;
+            });
+        }
+    }
+
+    // 페이지가 로드되었을 때 선택된 과목이 있으면 해당 테이블 표시
+    document.addEventListener('DOMContentLoaded', function () {
+        const selectedRadio = document.querySelector('.subject-item input[problemType="radio"]:checked');
+        if (selectedRadio) {
+            showTable(selectedRadio.id.replace('subject', ''));
+        }
     });
-
-    // 선택된 과목의 테이블 표시 및 입력 필드 활성화
-    const selectedTable = document.getElementById('subject-table-' + subjectIndex);
-    if (selectedTable) {
-      selectedTable.classList.remove('hidden');
-      selectedTable.querySelectorAll('input').forEach(function(input) {
-        input.disabled = false;
-      });
-    }
-  }
-
-  // 페이지가 로드되었을 때 선택된 과목이 있으면 해당 테이블 표시
-  document.addEventListener('DOMContentLoaded', function() {
-    const selectedRadio = document.querySelector('.subject-item input[type="radio"]:checked');
-    if (selectedRadio) {
-      showTable(selectedRadio.id.replace('subject', ''));
-    }
-  });
 </script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.moplus.moplus_server.domain.v0.practiceTest.domain;
 
+import com.moplus.moplus_server.domain.problem.domain.practiceTest.Subject;
 import com.moplus.moplus_server.domain.v0.practiceTest.dto.admin.request.RatingTableRequest;
 import com.moplus.moplus_server.domain.v0.practiceTest.repository.converter.RatingRowConverter;
 import com.moplus.moplus_server.global.common.BaseEntity;

@@ -1,5 +1,6 @@
 package com.moplus.moplus_server.domain.v0.practiceTest.domain;
 
+import com.moplus.moplus_server.domain.problem.domain.practiceTest.Subject;
 import com.moplus.moplus_server.domain.v0.practiceTest.dto.admin.request.PracticeTestRequest;
 import com.moplus.moplus_server.global.common.BaseEntity;
 import jakarta.persistence.Column;
@@ -30,7 +31,8 @@ public class PracticeTest extends BaseEntity {
 
     private long viewCount = 0L;
     private int solvesCount = 0;
-    private String publicationYear;
+    private int publicationYear;
+    private int month = 0;
 
     @Enumerated(EnumType.STRING)
     private Subject subject;
@@ -38,15 +40,18 @@ public class PracticeTest extends BaseEntity {
     private Duration averageSolvingTime = Duration.ZERO;
 
     @Builder
-    public PracticeTest(String name, String round, String provider, String publicationYear, Subject subject) {
+    public PracticeTest(String name, String round, String provider, long viewCount, int solvesCount,
+                        int publicationYear,
+                        int month, Subject subject, Duration averageSolvingTime) {
         this.name = name;
         this.round = round;
         this.provider = provider;
-        this.viewCount = 0;
-        this.solvesCount = 0;
+        this.viewCount = viewCount;
+        this.solvesCount = solvesCount;
         this.publicationYear = publicationYear;
+        this.month = month;
         this.subject = subject;
-        this.averageSolvingTime = Duration.ZERO;
+        this.averageSolvingTime = averageSolvingTime;
     }
 
     public void updateByPracticeTestRequest(PracticeTestRequest request) {

@@ -1,12 +1,12 @@
 package com.moplus.moplus_server.domain.v0.practiceTest.service.admin;
 
+import com.moplus.moplus_server.domain.problem.domain.practiceTest.Subject;
 import com.moplus.moplus_server.domain.v0.practiceTest.domain.PracticeTest;
 import com.moplus.moplus_server.domain.v0.practiceTest.domain.RatingTable;
-import com.moplus.moplus_server.domain.v0.practiceTest.domain.Subject;
 import com.moplus.moplus_server.domain.v0.practiceTest.dto.admin.request.PracticeTestRequest;
 import com.moplus.moplus_server.domain.v0.practiceTest.dto.admin.request.RatingTableRequest;
 import com.moplus.moplus_server.domain.v0.practiceTest.repository.PracticeTestRepository;
-import com.moplus.moplus_server.domain.v0.practiceTest.repository.ProblemRepository;
+import com.moplus.moplus_server.domain.v0.practiceTest.repository.ProblemForTestRepository;
 import com.moplus.moplus_server.domain.v0.practiceTest.repository.RatingTableRepository;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.NotFoundException;
@@ -22,7 +22,7 @@ public class PracticeTestAdminService {
 
     private final PracticeTestRepository practiceTestRepository;
     private final RatingTableRepository ratingTableRepository;
-    private final ProblemRepository problemRepository;
+    private final ProblemForTestRepository problemForTestRepository;
     private final RatingTableAdminService ratingTableAdminService;
 
     private static void addToPracticeTestUpdateModel(Model model, List<RatingTable> ratingTables,
@@ -63,7 +63,7 @@ public class PracticeTestAdminService {
     @Transactional
     public void deletePracticeTest(Long id) {
         ratingTableRepository.deleteAllByPracticeTestId(id);
-        problemRepository.deleteAllByPracticeTestId(id);
+        problemForTestRepository.deleteAllByPracticeTestId(id);
         practiceTestRepository.deleteById(id);
     }
 

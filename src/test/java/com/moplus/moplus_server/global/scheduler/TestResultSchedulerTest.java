@@ -1,23 +1,22 @@
 package com.moplus.moplus_server.global.scheduler;
 
+import static org.mockito.Mockito.when;
+
+import com.moplus.moplus_server.domain.problem.domain.practiceTest.Subject;
 import com.moplus.moplus_server.domain.v0.TestResult.entity.TestResult;
 import com.moplus.moplus_server.domain.v0.TestResult.repository.TestResultRepository;
 import com.moplus.moplus_server.domain.v0.practiceTest.domain.PracticeTest;
-import com.moplus.moplus_server.domain.v0.practiceTest.domain.Subject;
 import com.moplus.moplus_server.domain.v0.practiceTest.repository.PracticeTestRepository;
 import java.lang.reflect.Field;
+import java.time.Duration;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-
-import java.time.Duration;
-import java.util.List;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TestResultSchedulerTest {
