@@ -9,4 +9,4 @@ scrape_configs:
   - job_name: 'moplus_server'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: back:8080
+      - targets: ['back:8080']
