@@ -100,11 +100,8 @@ public class Problem extends BaseEntity {
     }
 
     public void updateChildProblem(List<ChildProblem> inputChildProblems) {
-        List<ChildProblem> mutableChildProblems = new ArrayList<>(inputChildProblems);
-        mutableChildProblems.sort(Comparator.comparingInt(ChildProblem::getSequence));
-
         inputChildProblems.forEach(childProblem -> {
-            childProblems.stream()
+            this.childProblems.stream()
                     .filter(existingChildProblem -> existingChildProblem.getId().equals(childProblem.getId()))
                     .findFirst()
                     .ifPresentOrElse(
