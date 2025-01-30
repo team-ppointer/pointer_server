@@ -1,16 +1,17 @@
 package com.moplus.moplus_server.domain.problem.service;
 
 import com.moplus.moplus_server.domain.concept.repository.ConceptTagRepository;
-import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTest;
+import com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem;
+import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTestTag;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemId;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemIdService;
-import com.moplus.moplus_server.domain.problem.dto.request.ChildProblemDeleteRequest;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemPostRequest;
-import com.moplus.moplus_server.domain.problem.dto.request.ProblemUpdateRequest;
-import com.moplus.moplus_server.domain.problem.dto.response.ProblemGetResponse;
 import com.moplus.moplus_server.domain.problem.repository.PracticeTestTagRepository;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
+import com.moplus.moplus_server.domain.problem.service.mapper.ChildProblemMapper;
+import com.moplus.moplus_server.domain.problem.service.mapper.ProblemMapper;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,35 +24,23 @@ public class ProblemSaveService {
     private final PracticeTestTagRepository practiceTestRepository;
     private final ConceptTagRepository conceptTagRepository;
     private final ProblemIdService problemIdService;
+    private final ProblemMapper problemMapper;
+    private final ChildProblemMapper childProblemMapper;
 
     @Transactional
     public ProblemId createProblem(ProblemPostRequest request) {
-        PracticeTest practiceTest = practiceTestRepository.findByIdElseThrow(request.practiceTestId());
-        problemRepository.existsByPracticeTestIdAndNumberOrThrow(practiceTest.getId(), request.number());
+        PracticeTestTag practiceTestTag = practiceTestRepository.findByIdElseThrow(request.practiceTestId());
+        problemRepository.existsByPracticeTestIdAndNumberOrThrow(practiceTestTag.getId(), request.number());
         conceptTagRepository.existsByIdElseThrow(request.conceptTagIds());
 
-        ProblemId problemId = problemIdService.nextId(request.number(), practiceTest);
-        Problem problem = request.toEntity(practiceTest, problemId);
-        request.childProblems()
-                .forEach(problem::addChildProblem);
+        ProblemId problemId = problemIdService.nextId(request.number(), practiceTestTag);
+        Problem problem = problemMapper.from(request, problemId, practiceTestTag);
+
+        List<ChildProblem> childProblems = request.childProblems().stream()
+                .map(childProblemMapper::from)
+                .toList();
+        problem.addChildProblem(childProblems);
 
         return problemRepository.save(problem).getId();
-    }
-
-    @Transactional
-    public ProblemGetResponse updateProblem(String problemId, ProblemUpdateRequest request) {
-        PracticeTest practiceTest = practiceTestRepository.findByIdElseThrow(request.practiceTestId());
-        problemRepository.existsByPracticeTestIdAndNumberOrThrow(practiceTest.getId(), request.number());
-        conceptTagRepository.existsByIdElseThrow(request.conceptTagIds());
-
-        Problem problem = problemRepository.findByIdElseThrow(new ProblemId(problemId));
-        request.deleteChildProblems().stream()
-                .map(ChildProblemDeleteRequest::childProblemId)
-                .forEach(problem::deleteChildProblem);
-        request.createChildProblems().forEach(problem::addChildProblem);
-        request.updateChildProblems().forEach(problem::updateChildProblem);
-
-        Problem savedProblem = problemRepository.save(problem);
-        return ProblemGetResponse.of(savedProblem);
     }
 }

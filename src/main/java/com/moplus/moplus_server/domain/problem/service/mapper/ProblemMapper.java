@@ -1,4 +1,4 @@
-package com.moplus.moplus_server.domain.problem.service;
+package com.moplus.moplus_server.domain.problem.service.mapper;
 
 import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTestTag;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;

@@ -33,6 +33,9 @@ public enum ErrorCode {
     INVALID_MULTIPLE_CHOICE_ANSWER(HttpStatus.BAD_REQUEST, "객관식 문제의 정답은 1~5 사이의 숫자여야 합니다"),
     INVALID_SHORT_NUMBER_ANSWER(HttpStatus.BAD_REQUEST, "주관식 문제의 정답은 0~999 사이의 숫자여야 합니다"),
 
+    //새끼 문항
+    CHILD_PROBLEM_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 새끼 문제를 찾을 수 없습니다"),
+
     //개념태그
     CONCEPT_TAG_NOT_FOUND_IN_LIST(HttpStatus.NOT_FOUND, "해당 리스트 중 존재하지 않는 개념 태그가 있습니다."),
 

@@ -5,8 +5,6 @@ import java.util.Set;
 
 public record ProblemUpdateRequest(
         Set<Long> conceptTagIds,
-        Long practiceTestId,
-        int number,
         int answer,
         String comment,
         String mainProblemImageUrl,
@@ -15,7 +13,6 @@ public record ProblemUpdateRequest(
         String seniorTipImageUrl,
         String prescriptionImageUrl,
         List<ChildProblemUpdateRequest> updateChildProblems,
-        List<ChildProblemPostRequest> createChildProblems,
-        List<ChildProblemDeleteRequest> deleteChildProblems
+        List<Long> deleteChildProblems
 ) {
 }

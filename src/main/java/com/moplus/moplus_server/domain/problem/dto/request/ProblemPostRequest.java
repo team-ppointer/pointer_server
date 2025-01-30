@@ -1,6 +1,6 @@
 package com.moplus.moplus_server.domain.problem.dto.request;
 
-import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTest;
+import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTestTag;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemId;
 import java.util.List;
@@ -19,11 +19,11 @@ public record ProblemPostRequest(
         String prescriptionImageUrl,
         List<ChildProblemPostRequest> childProblems
 ) {
-    public Problem toEntity(PracticeTest practiceTest, ProblemId problemId) {
+    public Problem toEntity(PracticeTestTag practiceTestTag, ProblemId problemId) {
         return Problem.builder()
                 .id(problemId)
                 .conceptTagIds(conceptTagIds)
-                .practiceTest(practiceTest)
+                .practiceTestTag(practiceTestTag)
                 .number(number)
                 .answer(answer)
                 .comment(comment)

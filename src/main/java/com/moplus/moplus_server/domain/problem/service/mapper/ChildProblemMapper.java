@@ -1,4 +1,4 @@
-package com.moplus.moplus_server.domain.problem.service;
+package com.moplus.moplus_server.domain.problem.service.mapper;
 
 import com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem;
 import com.moplus.moplus_server.domain.problem.dto.request.ChildProblemPostRequest;

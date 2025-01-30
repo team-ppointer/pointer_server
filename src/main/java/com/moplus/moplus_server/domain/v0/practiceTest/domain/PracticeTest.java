@@ -10,6 +10,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.time.Duration;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,6 +18,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
+@Table(name = "practice_test")
 @NoArgsConstructor
 public class PracticeTest extends BaseEntity {
 
@@ -32,7 +34,6 @@ public class PracticeTest extends BaseEntity {
     private long viewCount = 0L;
     private int solvesCount = 0;
     private int publicationYear;
-    private int month = 0;
 
     @Enumerated(EnumType.STRING)
     private Subject subject;
@@ -41,15 +42,13 @@ public class PracticeTest extends BaseEntity {
 
     @Builder
     public PracticeTest(String name, String round, String provider, long viewCount, int solvesCount,
-                        int publicationYear,
-                        int month, Subject subject, Duration averageSolvingTime) {
+                        int publicationYear, Subject subject, Duration averageSolvingTime) {
         this.name = name;
         this.round = round;
         this.provider = provider;
         this.viewCount = viewCount;
         this.solvesCount = solvesCount;
         this.publicationYear = publicationYear;
-        this.month = month;
         this.subject = subject;
         this.averageSolvingTime = averageSolvingTime;
     }

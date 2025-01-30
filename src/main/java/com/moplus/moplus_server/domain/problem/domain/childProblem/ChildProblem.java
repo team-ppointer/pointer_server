@@ -2,7 +2,6 @@ package com.moplus.moplus_server.domain.problem.domain.childProblem;
 
 import com.moplus.moplus_server.domain.problem.domain.Answer;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemType;
-import com.moplus.moplus_server.domain.problem.dto.request.ChildProblemUpdateRequest;
 import com.moplus.moplus_server.global.common.BaseEntity;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.InvalidValueException;
@@ -11,6 +10,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,14 +28,16 @@ public class ChildProblem extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "problem_id")
+    @Column(name = "child_problem_id")
     Long id;
     @ElementCollection
-    @CollectionTable(name = "child_problem_concept", joinColumns = @JoinColumn(name = "concept_tag_id"))
+    @CollectionTable(name = "child_problem_concept", joinColumns = @JoinColumn(name = "child_problem_id"))
+    @Column(name = "concept_tag_id")
     Set<Long> conceptTagIds;
     private String imageUrl;
     @Embedded
     private Answer answer;
+    @Enumerated(EnumType.STRING)
     private ProblemType problemType;
     private int sequence;
 
@@ -57,12 +60,12 @@ public class ChildProblem extends BaseEntity {
         }
     }
 
-    public void update(ChildProblemUpdateRequest request) {
-        this.imageUrl = request.imageUrl();
-        this.problemType = request.problemType();
-        this.answer = new Answer(request.answer(), request.problemType());
-        this.conceptTagIds = request.conceptTagIds();
-        this.sequence = request.sequence();
+    public void update(ChildProblem input) {
+        this.imageUrl = input.imageUrl;
+        this.problemType = input.problemType;
+        this.answer = input.answer;
+        this.conceptTagIds = input.conceptTagIds;
+        this.sequence = input.sequence;
     }
 
     public String getAnswer() {
