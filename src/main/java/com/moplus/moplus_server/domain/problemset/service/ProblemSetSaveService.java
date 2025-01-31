@@ -3,9 +3,11 @@ package com.moplus.moplus_server.domain.problemset.service;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemId;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSet;
+import com.moplus.moplus_server.domain.problemset.dto.request.ProblemReorderRequest;
 import com.moplus.moplus_server.domain.problemset.dto.request.ProblemSetPostRequest;
 import com.moplus.moplus_server.domain.problemset.repository.ProblemSetRepository;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,5 +33,17 @@ public class ProblemSetSaveService {
         ProblemSet problemSet = request.toEntity(request.problemSetName());
 
         return problemSetRepository.save(problemSet).getId();
+    }
+
+    @Transactional
+    public void reorderProblems(Long problemSetId, ProblemReorderRequest problemReorderRequest) {
+        ProblemSet problemSet = problemSetRepository.findByIdElseThrow(problemSetId);
+
+        // 기존 문항 ID 리스트 업데이트 (순서 반영)
+        List<ProblemId> updatedProblemIds = problemReorderRequest.newProblems().stream()
+                .map(ProblemId::new)
+                .collect(Collectors.toList());
+
+        problemSet.updateProblemOrder(updatedProblemIds);
     }
 }

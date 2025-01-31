@@ -52,6 +52,9 @@ public enum ErrorCode {
 
     //회원
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 회원을 찾을 수 없습니다"),
+
+    //문항세트
+    PROBLEM_SET_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 문항세트를 찾을 수 없습니다"),
     ;
 
 
