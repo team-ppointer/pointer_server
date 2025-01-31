@@ -49,4 +49,17 @@ public class ProblemSet extends BaseEntity {
         this.problemIds.clear();
         this.problemIds.addAll(newProblems);
     }
+
+    public void deleteProblemSet() {
+        this.isDeleted = true;
+    }
+
+    public void toggleConfirm(boolean isConfirmed) {
+        this.isConfirmed = isConfirmed;
+    }
+
+    public void updateProblemSet(String name, List<ProblemId> newProblems) {
+        this.name = name;
+        this.problemIds = newProblems;
+    }
 }

@@ -5,6 +5,7 @@ import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSet;
 import com.moplus.moplus_server.domain.problemset.dto.request.ProblemReorderRequest;
 import com.moplus.moplus_server.domain.problemset.dto.request.ProblemSetPostRequest;
+import com.moplus.moplus_server.domain.problemset.dto.request.ProblemSetUpdateRequest;
 import com.moplus.moplus_server.domain.problemset.repository.ProblemSetRepository;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,14 +37,42 @@ public class ProblemSetSaveService {
     }
 
     @Transactional
-    public void reorderProblems(Long problemSetId, ProblemReorderRequest problemReorderRequest) {
+    public void reorderProblems(Long problemSetId, ProblemReorderRequest request) {
         ProblemSet problemSet = problemSetRepository.findByIdElseThrow(problemSetId);
 
         // 기존 문항 ID 리스트 업데이트 (순서 반영)
-        List<ProblemId> updatedProblemIds = problemReorderRequest.newProblems().stream()
+        List<ProblemId> updatedProblemIds = request.newProblems().stream()
                 .map(ProblemId::new)
                 .collect(Collectors.toList());
 
         problemSet.updateProblemOrder(updatedProblemIds);
+    }
+
+    @Transactional
+    public void updateProblemSet(Long problemSetId, ProblemSetUpdateRequest request) {
+        ProblemSet problemSet = problemSetRepository.findByIdElseThrow(problemSetId);
+
+        // 문항 리스트 검증
+        List<ProblemId> problemIdList = request.problems().stream()
+                .map(ProblemId::new)
+                .collect(Collectors.toList());
+        problemIdList.forEach(problemRepository::findByIdElseThrow);
+
+        problemSet.updateProblemSet(request.problemSetName(), problemIdList);
+    }
+
+    @Transactional
+    public void deleteProblemSet(Long problemSetId) {
+        ProblemSet problemSet = problemSetRepository.findByIdElseThrow(problemSetId);
+        problemSet.deleteProblemSet();
+    }
+
+    @Transactional
+    public boolean toggleConfirmProblemSet(Long problemSetId) {
+        ProblemSet problemSet = problemSetRepository.findByIdElseThrow(problemSetId);
+
+        // 현재 상태 반전 (true → false, false → true)
+        problemSet.toggleConfirm(!problemSet.isConfirmed());
+        return problemSet.isConfirmed();
     }
 }
