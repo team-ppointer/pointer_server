@@ -1,5 +1,6 @@
 package com.moplus.moplus_server.domain.v0.practiceTest.domain;
 
+import com.moplus.moplus_server.domain.problem.domain.practiceTest.Subject;
 import com.moplus.moplus_server.domain.v0.practiceTest.dto.admin.request.PracticeTestRequest;
 import com.moplus.moplus_server.global.common.BaseEntity;
 import jakarta.persistence.Column;
@@ -9,6 +10,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.time.Duration;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,6 +18,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
+@Table(name = "practice_test")
 @NoArgsConstructor
 public class PracticeTest extends BaseEntity {
 
@@ -30,7 +33,7 @@ public class PracticeTest extends BaseEntity {
 
     private long viewCount = 0L;
     private int solvesCount = 0;
-    private String publicationYear;
+    private int publicationYear;
 
     @Enumerated(EnumType.STRING)
     private Subject subject;
@@ -38,15 +41,16 @@ public class PracticeTest extends BaseEntity {
     private Duration averageSolvingTime = Duration.ZERO;
 
     @Builder
-    public PracticeTest(String name, String round, String provider, String publicationYear, Subject subject) {
+    public PracticeTest(String name, String round, String provider, long viewCount, int solvesCount,
+                        int publicationYear, Subject subject, Duration averageSolvingTime) {
         this.name = name;
         this.round = round;
         this.provider = provider;
-        this.viewCount = 0;
-        this.solvesCount = 0;
+        this.viewCount = viewCount;
+        this.solvesCount = solvesCount;
         this.publicationYear = publicationYear;
         this.subject = subject;
-        this.averageSolvingTime = Duration.ZERO;
+        this.averageSolvingTime = averageSolvingTime;
     }
 
     public void updateByPracticeTestRequest(PracticeTestRequest request) {

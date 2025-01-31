@@ -1,7 +1,7 @@
 package com.moplus.moplus_server.domain.v0.practiceTest.dto.admin.request;
 
+import com.moplus.moplus_server.domain.problem.domain.practiceTest.Subject;
 import com.moplus.moplus_server.domain.v0.practiceTest.domain.PracticeTest;
-import com.moplus.moplus_server.domain.v0.practiceTest.domain.Subject;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -16,11 +16,11 @@ public class PracticeTestRequest {
     private String name;
     private String round;
     private String provider;
-    private String publicationYear;
+    private int publicationYear;
     private String subject;
     private List<RatingTableRequest> ratingTables = new ArrayList<>();
 
-    public PracticeTestRequest(Long id, String name, String round, String provider, String publicationYear,
+    public PracticeTestRequest(Long id, String name, String round, String provider, int publicationYear,
                                String subject, List<RatingTableRequest> ratingTables) {
         this.id = id;
         this.name = name;
@@ -51,7 +51,7 @@ public class PracticeTestRequest {
     }
 
     public static PracticeTestRequest getCreateModelObject() {
-        return new PracticeTestRequest(null, "", "", "", "", null, RatingTableRequest.getDefaultRatingTableRequest());
+        return new PracticeTestRequest(null, "", "", "", 0, null, RatingTableRequest.getDefaultRatingTableRequest());
     }
 
     public PracticeTest toEntity() {

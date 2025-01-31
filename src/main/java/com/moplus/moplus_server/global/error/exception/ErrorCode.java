@@ -10,6 +10,7 @@ public enum ErrorCode {
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류, 관리자에게 문의하세요"),
     INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "잘못된 입력 값입니다"),
     BAD_CREDENTIALS(HttpStatus.UNAUTHORIZED, "잘못된 인증 정보입니다"),
+    BLANK_INPUT_VALUE(HttpStatus.BAD_REQUEST, "빈 값이 입력되었습니다"),
 
     //Auth
     AUTH_NOT_FOUND(HttpStatus.UNAUTHORIZED, "시큐리티 인증 정보를 찾을 수 없습니다."),
@@ -26,8 +27,17 @@ public enum ErrorCode {
     //모의고사
     PRACTICE_TEST_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 모의고사를 찾을 수 없습니다"),
 
-    //문제
+    //문항
     PROBLEM_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 문제를 찾을 수 없습니다"),
+    PROBLEM_ALREADY_EXIST(HttpStatus.CONFLICT, "해당 문제는 이미 존재합니다"),
+    INVALID_MULTIPLE_CHOICE_ANSWER(HttpStatus.BAD_REQUEST, "객관식 문제의 정답은 1~5 사이의 숫자여야 합니다"),
+    INVALID_SHORT_NUMBER_ANSWER(HttpStatus.BAD_REQUEST, "주관식 문제의 정답은 0~999 사이의 숫자여야 합니다"),
+
+    //새끼 문항
+    CHILD_PROBLEM_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 새끼 문제를 찾을 수 없습니다"),
+
+    //개념태그
+    CONCEPT_TAG_NOT_FOUND_IN_LIST(HttpStatus.NOT_FOUND, "해당 리스트 중 존재하지 않는 개념 태그가 있습니다."),
 
     //시험결과
     TEST_RESULT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 시험 결과지를 찾을 수 없습니다"),

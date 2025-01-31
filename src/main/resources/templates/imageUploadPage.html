@@ -35,9 +35,9 @@
                     <!-- 업로드 버튼 -->
                     <form enctype="multipart/form-data" method="post"
                           th:action="'/admin/practiceTests/uploadImage/' + ${problemForTest.problemId}">
-                        <input accept="image/*" name="image" type="file">
-                        <input name="practiceTestId" th:value="${practiceTestId}" type="hidden">
-                        <button class="upload-button" type="submit">업로드</button>
+                        <input accept="image/*" name="image" problemType="file">
+                        <input name="practiceTestId" problemType="hidden" th:value="${practiceTestId}">
+                        <button class="upload-button" problemType="submit">업로드</button>
                     </form>
                 </td>
             </tr>
@@ -47,7 +47,7 @@
     <!-- 완료 버튼 -->
     <div class="complete-button-container">
         <form action="/practiceTests" method="get">
-            <button class="complete-button" type="submit">완료</button>
+            <button class="complete-button" problemType="submit">완료</button>
         </form>
     </div>
 </div>

@@ -1,8 +1,8 @@
 package com.moplus.moplus_server.domain.v0.practiceTest.service.admin;
 
+import com.moplus.moplus_server.domain.problem.domain.practiceTest.Subject;
 import com.moplus.moplus_server.domain.v0.practiceTest.domain.PracticeTest;
 import com.moplus.moplus_server.domain.v0.practiceTest.domain.RatingTable;
-import com.moplus.moplus_server.domain.v0.practiceTest.domain.Subject;
 import com.moplus.moplus_server.domain.v0.practiceTest.dto.admin.request.PracticeTestRequest;
 import com.moplus.moplus_server.domain.v0.practiceTest.dto.admin.request.RatingTableRequest;
 import com.moplus.moplus_server.domain.v0.practiceTest.repository.PracticeTestRepository;
