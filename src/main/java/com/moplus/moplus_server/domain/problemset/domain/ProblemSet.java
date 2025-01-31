@@ -1,5 +1,6 @@
 package com.moplus.moplus_server.domain.problemset.domain;
 
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemId;
 import com.moplus.moplus_server.global.common.BaseEntity;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -34,7 +35,7 @@ public class ProblemSet extends BaseEntity {
     @ElementCollection
     @CollectionTable(name = "problem_set_problems", joinColumns = @JoinColumn(name = "problem_set_id"))
     @Column(name = "problem_id")
-    private Set<String> problemIds = new HashSet<>();
+    private Set<ProblemId> problemIds = new HashSet<>();
 
     @Builder
     public ProblemSet(String name) {
