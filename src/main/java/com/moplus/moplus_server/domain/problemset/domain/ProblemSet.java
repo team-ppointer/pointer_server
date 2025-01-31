@@ -5,14 +5,14 @@ import com.moplus.moplus_server.global.common.BaseEntity;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import java.util.HashSet;
-import java.util.Set;
+import jakarta.persistence.OrderColumn;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,7 +35,8 @@ public class ProblemSet extends BaseEntity {
     @ElementCollection
     @CollectionTable(name = "problem_set_problems", joinColumns = @JoinColumn(name = "problem_set_id"))
     @Column(name = "problem_id")
-    private Set<ProblemId> problemIds = new HashSet<>();
+    @OrderColumn(name = "sequence")
+    private List<ProblemId> problemIds = new ArrayList<>();
 
     @Builder
     public ProblemSet(String name) {
@@ -44,4 +45,8 @@ public class ProblemSet extends BaseEntity {
         this.isConfirmed = false;
     }
 
+    public void updateProblemOrder(List<ProblemId> newProblems) {
+        this.problemIds.clear();
+        this.problemIds.addAll(newProblems);
+    }
 }
