@@ -1,0 +1,74 @@
+version: "3"
+services:
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./src/main/resources/prometheus.yml:/etc/prometheus/prometheus.yml
+    environment:
+      PROMETHEUS_SCRAPE_INTERVAL: ${PROMETHEUS_SCRAPE_INTERVAL}
+      PROMETHEUS_TARGET_BACKEND: ${PROMETHEUS_TARGET_BACKEND}
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:9.4.7
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-volume:/var/lib/grafana
+    restart: always
+    networks:
+      - monitoring
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
+    user: "472"
+
+  loki:
+    image: grafana/loki:2.8.2
+    container_name: loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki-data:/var/lib/loki
+      - ./loki-config.yml:/etc/loki/config.yml
+    environment:
+      LOKI_PORT: ${LOKI_PORT}
+    networks:
+      - monitoring
+
+  promtail:
+    image: grafana/promtail:2.8.2
+    container_name: promtail
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./promtail-config.yml:/etc/promtail/config.yml
+    environment:
+      PROMTAIL_PORT: ${PROMTAIL_PORT}
+    depends_on:
+      - loki
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    driver: bridge
+
+volumes:
+  grafana-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./grafana/volume
+  loki-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./loki-data
