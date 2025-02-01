@@ -3,7 +3,9 @@ package com.moplus.moplus_server.domain.problemset.controller;
 import com.moplus.moplus_server.domain.problemset.dto.request.ProblemReorderRequest;
 import com.moplus.moplus_server.domain.problemset.dto.request.ProblemSetPostRequest;
 import com.moplus.moplus_server.domain.problemset.dto.request.ProblemSetUpdateRequest;
+import com.moplus.moplus_server.domain.problemset.service.ProblemSetDeleteService;
 import com.moplus.moplus_server.domain.problemset.service.ProblemSetSaveService;
+import com.moplus.moplus_server.domain.problemset.service.ProblemSetUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProblemSetController {
 
     private final ProblemSetSaveService problemSetSaveService;
+    private final ProblemSetUpdateService problemSetUpdateService;
+    private final ProblemSetDeleteService problemSetDeleteService;
 
     @PostMapping("")
     @Operation(summary = "문항세트 생성", description = "문항세트를 생성합니다. 문항은 요청 순서대로 저장합니다.")
@@ -35,7 +39,7 @@ public class ProblemSetController {
     public ResponseEntity<Void> reorderProblems(
             @PathVariable Long problemSetId,
             @RequestBody ProblemReorderRequest request) {
-        problemSetSaveService.reorderProblems(problemSetId, request);
+        problemSetUpdateService.reorderProblems(problemSetId, request);
         return ResponseEntity.noContent().build();
     }
 
@@ -45,7 +49,7 @@ public class ProblemSetController {
             @PathVariable Long problemSetId,
             @RequestBody ProblemSetUpdateRequest request
     ) {
-        problemSetSaveService.updateProblemSet(problemSetId, request);
+        problemSetUpdateService.updateProblemSet(problemSetId, request);
         return ResponseEntity.noContent().build();
     }
 
@@ -54,14 +58,14 @@ public class ProblemSetController {
     public ResponseEntity<Void> deleteProblemSet(
             @PathVariable Long problemSetId
     ) {
-        problemSetSaveService.deleteProblemSet(problemSetId);
+        problemSetDeleteService.deleteProblemSet(problemSetId);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{problemSetId}/confirm")
     @Operation(summary = "문항세트 컨펌 토글", description = "문항세트의 컨펌 상태를 토글합니다.")
     public ResponseEntity<Boolean> toggleConfirmProblemSet(@PathVariable Long problemSetId) {
-        boolean updatedState = problemSetSaveService.toggleConfirmProblemSet(problemSetId);
+        boolean updatedState = problemSetUpdateService.toggleConfirmProblemSet(problemSetId);
         return ResponseEntity.ok(updatedState);
     }
 }
