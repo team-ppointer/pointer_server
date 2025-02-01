@@ -11,12 +11,13 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ProblemSearchRepositoryImpl extends QuerydslRepositorySupport implements ProblemSearchRepository {
+@RequiredArgsConstructor
+public class ProblemSearchRepositoryImpl {
 
     private final JPAQueryFactory queryFactory;
 
@@ -35,7 +36,7 @@ public class ProblemSearchRepositoryImpl extends QuerydslRepositorySupport imple
                         containsName(comment),
                         inConceptTagIds(conceptTagIds)
                 )
-                .leftJoin(conceptTag).on(conceptTag.id.in(problem.conceptTagIds))
+                .leftJoin(conceptTag).on(conceptTag.id.in(problem.conceptTagIds)).fetchJoin()
                 .distinct()
                 .transform(GroupBy.groupBy(problem.id.id).list(
                         Projections.constructor(ProblemSearchGetResponse.class,
