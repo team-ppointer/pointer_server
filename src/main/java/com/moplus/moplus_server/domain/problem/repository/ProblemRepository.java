@@ -7,7 +7,7 @@ import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.NotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ProblemRepository extends JpaRepository<Problem, ProblemId> {
+public interface ProblemRepository extends JpaRepository<Problem, ProblemId>, ProblemSearchRepository {
 
     boolean existsByPracticeTestIdAndNumber(Long practiceTestId, int number);
 
@@ -22,7 +22,6 @@ public interface ProblemRepository extends JpaRepository<Problem, ProblemId> {
             throw new NotFoundException(ErrorCode.PROBLEM_NOT_FOUND);
         }
     }
-
 
     default Problem findByIdElseThrow(ProblemId problemId) {
         return findById(problemId).orElseThrow(() -> new NotFoundException(ErrorCode.PROBLEM_NOT_FOUND));
