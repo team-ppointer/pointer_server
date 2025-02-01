@@ -15,10 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @ActiveProfiles("h2test")
 @Sql({"/practice-test-tag.sql", "/concept-tag.sql", "/insert-problem.sql"})
-public class ProblemSearchRepositoryImplTest {
+public class ProblemSearchRepositoryCustomTest {
 
     @Autowired
-    private ProblemRepository problemSearchRepository;
+    private ProblemSearchRepositoryCustom problemSearchRepository;
 
     @Test
     void problemId_일부_포함_검색() {

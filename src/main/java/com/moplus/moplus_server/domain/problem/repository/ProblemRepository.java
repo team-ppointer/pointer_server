@@ -7,7 +7,7 @@ import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.NotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ProblemRepository extends JpaRepository<Problem, ProblemId>, ProblemSearchRepository {
+public interface ProblemRepository extends JpaRepository<Problem, ProblemId> {
 
     boolean existsByPracticeTestIdAndNumber(Long practiceTestId, int number);
 

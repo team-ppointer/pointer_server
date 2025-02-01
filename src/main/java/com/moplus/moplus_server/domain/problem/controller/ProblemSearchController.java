@@ -1,7 +1,7 @@
 package com.moplus.moplus_server.domain.problem.controller;
 
 import com.moplus.moplus_server.domain.problem.dto.response.ProblemSearchGetResponse;
-import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
+import com.moplus.moplus_server.domain.problem.repository.ProblemSearchRepositoryCustom;
 import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ProblemSearchController {
 
-    private final ProblemRepository problemRepository;
+    private final ProblemSearchRepositoryCustom problemSearchRepository;
 
     @GetMapping("/search")
     @Operation(
@@ -28,7 +28,7 @@ public class ProblemSearchController {
             @RequestParam(value = "comment", required = false) String comment,
             @RequestParam(value = "conceptTagIds", required = false) List<Long> conceptTagIds
     ) {
-        List<ProblemSearchGetResponse> problems = problemRepository.search(problemId, comment, conceptTagIds);
+        List<ProblemSearchGetResponse> problems = problemSearchRepository.search(problemId, comment, conceptTagIds);
         return ResponseEntity.ok(problems);
     }
 }

@@ -3,7 +3,6 @@ package com.moplus.moplus_server.domain.problem.repository;
 import static com.moplus.moplus_server.domain.concept.domain.QConceptTag.conceptTag;
 import static com.moplus.moplus_server.domain.problem.domain.problem.QProblem.problem;
 
-import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.dto.response.ConceptTagSearchResponse;
 import com.moplus.moplus_server.domain.problem.dto.response.ProblemSearchGetResponse;
 import com.querydsl.core.group.GroupBy;
@@ -12,24 +11,17 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class ProblemSearchRepositoryImpl {
+public class ProblemSearchRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    @Autowired
-    public ProblemSearchRepositoryImpl(JPAQueryFactory queryFactory) {
-        super(Problem.class);
-        this.queryFactory = queryFactory;
-    }
-
-    @Override
     public List<ProblemSearchGetResponse> search(String problemId, String comment, List<Long> conceptTagIds) {
         return queryFactory
+                .select(problem.id.id, problem.comment, problem.mainProblemImageUrl)
                 .from(problem)
                 .where(
                         containsProblemId(problemId),
