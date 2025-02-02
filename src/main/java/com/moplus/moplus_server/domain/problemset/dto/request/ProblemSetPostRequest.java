@@ -7,9 +7,9 @@ public record ProblemSetPostRequest(
         String problemSetName,
         List<String> problems
 ) {
-    public ProblemSet toEntity(String problemSetName) {
+    public ProblemSet toEntity() {
         return ProblemSet.builder()
-                .name(problemSetName)
+                .name(this.problemSetName)
                 .build();
     }
 }

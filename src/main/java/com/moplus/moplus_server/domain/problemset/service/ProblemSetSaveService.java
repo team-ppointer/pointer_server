@@ -31,7 +31,7 @@ public class ProblemSetSaveService {
         problemIdList.forEach(problemRepository::findByIdElseThrow);
 
         // ProblemSet 생성
-        ProblemSet problemSet = request.toEntity(request.problemSetName());
+        ProblemSet problemSet = request.toEntity();
 
         return problemSetRepository.save(problemSet).getId();
     }
