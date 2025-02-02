@@ -50,7 +50,7 @@ public class ProblemSetServiceTest {
     }
 
     @Test
-    @Rollback(false)
+    @Rollback(true)
     void 문항세트_생성_테스트() {
         // when
         Long problemSetId = problemSetSaveService.createProblemSet(problemSetPostRequest);
