@@ -123,7 +123,11 @@ public class Problem extends BaseEntity {
 
     public boolean isValid() {
         return answer != null && !answer.getValue().isEmpty()
-                && conceptTagIds != null && !conceptTagIds.isEmpty()
+                && practiceTestId != null
+                && comment != null && !comment.isEmpty()
+                && readingTipImageUrl != null && !readingTipImageUrl.isEmpty()
+                && seniorTipImageUrl != null && !seniorTipImageUrl.isEmpty()
+                && prescriptionImageUrl != null && !prescriptionImageUrl.isEmpty()
                 && mainProblemImageUrl != null && !mainProblemImageUrl.isEmpty()
                 && mainAnalysisImageUrl != null && !mainAnalysisImageUrl.isEmpty();
     }

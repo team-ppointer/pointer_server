@@ -43,15 +43,15 @@ public class ProblemSet extends BaseEntity {
     private List<ProblemId> problemIds = new ArrayList<>();
 
     @Builder
-    public ProblemSet(String name) {
+    public ProblemSet(String name, List<ProblemId> problemIds) {
         this.name = name;
         this.isDeleted = false;
         this.confirmStatus = ProblemSetConfirmStatus.NOT_CONFIRMED;
+        this.problemIds = problemIds;
     }
 
     public void updateProblemOrder(List<ProblemId> newProblems) {
-        this.problemIds.clear();
-        this.problemIds.addAll(newProblems);
+        this.problemIds = new ArrayList<>(newProblems);
     }
 
     public void deleteProblemSet() {
