@@ -1,7 +1,9 @@
+DELETE FROM problem_set_problems;
+DELETE FROM problem_set;
+DELETE FROM problem;
 DELETE FROM practice_test_tag;
 DELETE FROM concept_tag;
-DELETE FROM problem;
-DELETE FROM practice_test; -- practice_test 데이터도 삭제
+DELETE FROM practice_test;
 
 -- practice_test 데이터 삽입
 INSERT INTO practice_test (practice_test_id, publication_year, subject, name, provider, round, average_solving_time, solves_count, view_count)
