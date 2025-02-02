@@ -1,23 +1,11 @@
+DELETE FROM problem_concept;
+DELETE
+FROM child_problem_concept;
+DELETE
+FROM child_problem;
 DELETE FROM problem_set_problems;
 DELETE FROM problem_set;
 DELETE FROM problem;
-DELETE FROM practice_test_tag;
-DELETE FROM concept_tag;
-DELETE FROM practice_test;
-
--- practice_test 데이터 삽입
-INSERT INTO practice_test (practice_test_id, publication_year, subject, name, provider, round, average_solving_time, solves_count, view_count)
-VALUES (1, 2024, '고1', '2024 5월 고1 모의고사', '교육청', '1', 60, 100, 1000);
-
--- practice-test-tag 데이터 삽입
-INSERT INTO practice_test_tag (id, test_year, test_month, subject)
-VALUES (1, 2024, 5, '고1');
-
--- concept-tag 데이터 삽입
-INSERT INTO concept_tag (concept_tag_id, name)
-VALUES (1, '미적분'),
-       (2, '기하'),
-       (3, '확통');
 
 -- problem 데이터 삽입
 INSERT INTO problem (problem_id, practice_test_id, number, answer, comment, main_problem_image_url,
