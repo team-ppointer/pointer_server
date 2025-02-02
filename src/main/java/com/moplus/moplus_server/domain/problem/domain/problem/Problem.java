@@ -120,4 +120,11 @@ public class Problem extends BaseEntity {
     public void deleteChildProblem(List<Long> deleteChildProblems) {
         childProblems.removeIf(childProblem -> deleteChildProblems.contains(childProblem.getId()));
     }
+
+    public boolean isValid() {
+        return answer != null && !answer.getValue().isEmpty()
+                && conceptTagIds != null && !conceptTagIds.isEmpty()
+                && mainProblemImageUrl != null && !mainProblemImageUrl.isEmpty()
+                && mainAnalysisImageUrl != null && !mainAnalysisImageUrl.isEmpty();
+    }
 }
