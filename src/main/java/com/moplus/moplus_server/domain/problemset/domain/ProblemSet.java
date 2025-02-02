@@ -6,6 +6,8 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,7 +32,9 @@ public class ProblemSet extends BaseEntity {
 
     private String name;
     private boolean isDeleted;
-    private boolean isConfirmed;
+
+    @Enumerated(EnumType.STRING)
+    private ProblemSetConfirmStatus confirmStatus;
 
     @ElementCollection
     @CollectionTable(name = "problem_set_problems", joinColumns = @JoinColumn(name = "problem_set_id"))
@@ -42,7 +46,7 @@ public class ProblemSet extends BaseEntity {
     public ProblemSet(String name) {
         this.name = name;
         this.isDeleted = false;
-        this.isConfirmed = false;
+        this.confirmStatus = ProblemSetConfirmStatus.NOT_CONFIRMED;
     }
 
     public void updateProblemOrder(List<ProblemId> newProblems) {
@@ -54,8 +58,12 @@ public class ProblemSet extends BaseEntity {
         this.isDeleted = true;
     }
 
-    public void toggleConfirm(boolean isConfirmed) {
-        this.isConfirmed = isConfirmed;
+    public void toggleConfirm() {
+        if (this.confirmStatus == ProblemSetConfirmStatus.CONFIRMED) {
+            this.confirmStatus = ProblemSetConfirmStatus.NOT_CONFIRMED;
+        } else {
+            this.confirmStatus = ProblemSetConfirmStatus.CONFIRMED;
+        }
     }
 
     public void updateProblemSet(String name, List<ProblemId> newProblems) {

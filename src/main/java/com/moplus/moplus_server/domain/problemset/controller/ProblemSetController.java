@@ -1,5 +1,6 @@
 package com.moplus.moplus_server.domain.problemset.controller;
 
+import com.moplus.moplus_server.domain.problemset.domain.ProblemSetConfirmStatus;
 import com.moplus.moplus_server.domain.problemset.dto.request.ProblemReorderRequest;
 import com.moplus.moplus_server.domain.problemset.dto.request.ProblemSetPostRequest;
 import com.moplus.moplus_server.domain.problemset.dto.request.ProblemSetUpdateRequest;
@@ -64,8 +65,7 @@ public class ProblemSetController {
 
     @PutMapping("/{problemSetId}/confirm")
     @Operation(summary = "문항세트 컨펌 토글", description = "문항세트의 컨펌 상태를 토글합니다.")
-    public ResponseEntity<Boolean> toggleConfirmProblemSet(@PathVariable Long problemSetId) {
-        boolean updatedState = problemSetUpdateService.toggleConfirmProblemSet(problemSetId);
-        return ResponseEntity.ok(updatedState);
+    public ResponseEntity<ProblemSetConfirmStatus> toggleConfirmProblemSet(@PathVariable Long problemSetId) {
+        return ResponseEntity.ok(problemSetUpdateService.toggleConfirmProblemSet(problemSetId));
     }
 }

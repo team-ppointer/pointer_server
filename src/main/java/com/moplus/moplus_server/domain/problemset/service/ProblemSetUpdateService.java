@@ -4,6 +4,7 @@ import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemId;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSet;
+import com.moplus.moplus_server.domain.problemset.domain.ProblemSetConfirmStatus;
 import com.moplus.moplus_server.domain.problemset.dto.request.ProblemReorderRequest;
 import com.moplus.moplus_server.domain.problemset.dto.request.ProblemSetUpdateRequest;
 import com.moplus.moplus_server.domain.problemset.repository.ProblemSetRepository;
@@ -48,7 +49,7 @@ public class ProblemSetUpdateService {
     }
 
     @Transactional
-    public boolean toggleConfirmProblemSet(Long problemSetId) {
+    public ProblemSetConfirmStatus toggleConfirmProblemSet(Long problemSetId) {
         ProblemSet problemSet = problemSetRepository.findByIdElseThrow(problemSetId);
 
         // 문항 유효성 검사
@@ -60,9 +61,7 @@ public class ProblemSetUpdateService {
             }
         }
 
-        // 현재 상태 반전 (true → false, false → true)
-        problemSet.toggleConfirm(!problemSet.isConfirmed());
-        return problemSet.isConfirmed();
+        problemSet.toggleConfirm();
+        return problemSet.getConfirmStatus();
     }
-
 }
