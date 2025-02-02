@@ -52,12 +52,14 @@ public class ProblemSetUpdateService {
     public ProblemSetConfirmStatus toggleConfirmProblemSet(Long problemSetId) {
         ProblemSet problemSet = problemSetRepository.findByIdElseThrow(problemSetId);
 
-        // 문항 유효성 검사
-        for (ProblemId problemId : problemSet.getProblemIds()) {
-            Problem problem = problemRepository.findByIdElseThrow(problemId);
+        if(problemSet.getConfirmStatus() == ProblemSetConfirmStatus.NOT_CONFIRMED){
+            // 문항 유효성 검사
+            for (ProblemId problemId : problemSet.getProblemIds()) {
+                Problem problem = problemRepository.findByIdElseThrow(problemId);
 
-            if (!problem.isValid()) {
-                throw new InvalidValueException(ErrorCode.INVALID_CONFIRM_PROBLEM);
+                if (!problem.isValid()) {
+                    throw new InvalidValueException(ErrorCode.INVALID_CONFIRM_PROBLEM);
+                }
             }
         }
 
