@@ -50,7 +50,6 @@ public class ProblemSetServiceTest {
     }
 
     @Test
-    @Rollback(true)
     void 문항세트_생성_테스트() {
         // when
         Long problemSetId = problemSetSaveService.createProblemSet(problemSetPostRequest);
@@ -68,7 +67,6 @@ public class ProblemSetServiceTest {
     }
 
     @Test
-    @Rollback(true)
     void 문항세트_문항순서_변경_테스트() {
         // given
         Long problemSetId = problemSetSaveService.createProblemSet(problemSetPostRequest);
@@ -89,7 +87,6 @@ public class ProblemSetServiceTest {
     }
 
     @Test
-    @Rollback(true)
     void 문항세트_업데이트_테스트() {
         // given
         Long problemSetId = problemSetSaveService.createProblemSet(problemSetPostRequest);
@@ -112,7 +109,6 @@ public class ProblemSetServiceTest {
     }
 
     @Test
-    @Rollback(true)
     void 문항세트_컨펌_토글_테스트() {
         // given
         Long problemSetId = problemSetSaveService.createProblemSet(problemSetPostRequest);
@@ -127,7 +123,6 @@ public class ProblemSetServiceTest {
     }
 
     @Test
-    @Rollback(true)
     void 유효하지_않은_문항이_포함된_문항세트_컨펌_실패_테스트() {
         // given
         Long problemSetId = problemSetSaveService.createProblemSet(problemSetPostRequest);

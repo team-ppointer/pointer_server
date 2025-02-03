@@ -1,7 +1,10 @@
 package com.moplus.moplus_server.domain.problemset.domain;
 
+import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemId;
 import com.moplus.moplus_server.global.common.BaseEntity;
+import com.moplus.moplus_server.global.error.exception.ErrorCode;
+import com.moplus.moplus_server.global.error.exception.InvalidValueException;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -58,12 +61,16 @@ public class ProblemSet extends BaseEntity {
         this.isDeleted = true;
     }
 
-    public void toggleConfirm() {
-        if (this.confirmStatus == ProblemSetConfirmStatus.CONFIRMED) {
-            this.confirmStatus = ProblemSetConfirmStatus.NOT_CONFIRMED;
-        } else {
-            this.confirmStatus = ProblemSetConfirmStatus.CONFIRMED;
+    public void toggleConfirm(List<Problem> problems) {
+        if(this.confirmStatus == ProblemSetConfirmStatus.NOT_CONFIRMED){
+            // 문항 유효성 검사
+            for (Problem problem : problems) {
+                if (!problem.isValid()) {
+                    throw new InvalidValueException(ErrorCode.INVALID_CONFIRM_PROBLEM);
+                }
+            }
         }
+        this.confirmStatus = this.confirmStatus.toggle();
     }
 
     public void updateProblemSet(String name, List<ProblemId> newProblems) {
