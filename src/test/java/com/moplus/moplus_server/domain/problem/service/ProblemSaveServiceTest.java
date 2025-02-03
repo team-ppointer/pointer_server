@@ -16,7 +16,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,10 +79,10 @@ class ProblemSaveServiceTest {
                 "prescription2.png",
                 List.of(childProblem3, childProblem2, childProblem4, childProblem1) // 🔹 순서 유지 (0,1,2,3)
         );
+
     }
 
     @Test
-    @Rollback(value = false)
     void 정상동작() {
 
         // when
@@ -113,7 +112,6 @@ class ProblemSaveServiceTest {
     }
 
     @Test
-    @Rollback(true)
     void 자식문제_올바른_순서_저장() {
         // when
         ProblemId createdProblemId = problemSaveService.createProblem(problemPostRequestOutOfOrder);

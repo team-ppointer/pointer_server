@@ -19,6 +19,7 @@ public class PracticeTestTag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "practice_test_tag_id")
     private Long id;
 
     private String name;

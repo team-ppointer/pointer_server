@@ -6,10 +6,12 @@ FROM child_problem;
 INSERT INTO problem (problem_id, practice_test_id, number, answer, comment, main_problem_image_url,
                      main_analysis_image_url, reading_tip_image_url, senior_tip_image_url, prescription_image_url,
                      is_published, is_variation)
-VALUES ('240520012001', 1, 1, '1', '기존 문제 설명',
+VALUES ('240520012001', 1, 1, '1', '기존 문제 설명 1',
+        'mainProblem.png', 'mainAnalysis.png', 'readingTip.png', 'seniorTip.png', 'prescription.png',
+        false, false),
+       ('240520012002', 1, 1, '1', '기존 문제 설명 2',
         'mainProblem.png', 'mainAnalysis.png', 'readingTip.png', 'seniorTip.png', 'prescription.png',
         false, false);
-
 -- ✅ 기존 자식 문제(ChildProblem) 삽입
 INSERT INTO child_problem (child_problem_id, problem_id, image_url, problem_type, answer, sequence)
 VALUES (1, '240520012001', 'child1.png', 'MULTIPLE_CHOICE', '1', 0),
@@ -19,7 +21,9 @@ VALUES (1, '240520012001', 'child1.png', 'MULTIPLE_CHOICE', '1', 0),
 INSERT INTO problem_concept (problem_id, concept_tag_id)
 VALUES ('240520012001', 1),
        ('240520012001', 2),
-       ('240520012001', 3);
+       ('240520012001', 3),
+       ('240520012002', 1),
+       ('240520012002', 3);
 
 -- ✅ 자식 문제-컨셉 태그 연결
 INSERT INTO child_problem_concept (child_problem_id, concept_tag_id)
