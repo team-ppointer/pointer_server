@@ -5,12 +5,12 @@ import com.moplus.moplus_server.domain.problemset.domain.ProblemSet;
 import java.util.List;
 
 public record ProblemSetPostRequest(
-        String problemSetName,
+        String problemSetTitle,
         List<String> problems
 ) {
     public ProblemSet toEntity(List<ProblemId> problemIdList) {
         return ProblemSet.builder()
-                .name(this.problemSetName)
+                .title(this.problemSetTitle)
                 .problemIds(problemIdList)
                 .build();
     }

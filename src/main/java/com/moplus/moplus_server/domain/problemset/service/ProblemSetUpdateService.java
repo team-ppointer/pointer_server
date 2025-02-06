@@ -8,8 +8,6 @@ import com.moplus.moplus_server.domain.problemset.domain.ProblemSetConfirmStatus
 import com.moplus.moplus_server.domain.problemset.dto.request.ProblemReorderRequest;
 import com.moplus.moplus_server.domain.problemset.dto.request.ProblemSetUpdateRequest;
 import com.moplus.moplus_server.domain.problemset.repository.ProblemSetRepository;
-import com.moplus.moplus_server.global.error.exception.ErrorCode;
-import com.moplus.moplus_server.global.error.exception.InvalidValueException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,7 +44,7 @@ public class ProblemSetUpdateService {
                 .collect(Collectors.toList());
         problemIdList.forEach(problemRepository::findByIdElseThrow);
 
-        problemSet.updateProblemSet(request.problemSetName(), problemIdList);
+        problemSet.updateProblemSet(request.problemSetTitle(), problemIdList);
     }
 
     @Transactional

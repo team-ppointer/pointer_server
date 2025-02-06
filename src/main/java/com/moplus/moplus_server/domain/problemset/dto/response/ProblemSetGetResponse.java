@@ -8,7 +8,7 @@ import lombok.Builder;
 @Builder
 public record ProblemSetGetResponse(
         Long id,
-        String name,
+        String title,
         ProblemSetConfirmStatus confirmStatus,
         List<ProblemSummaryResponse> problemSummaries
 ) {
@@ -16,7 +16,7 @@ public record ProblemSetGetResponse(
 
         return ProblemSetGetResponse.builder()
                 .id(problemSet.getId())
-                .name(problemSet.getName())
+                .title(problemSet.getTitle())
                 .confirmStatus(problemSet.getConfirmStatus())
                 .problemSummaries(problemSummaries)
                 .build();

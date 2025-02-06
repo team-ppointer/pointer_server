@@ -33,7 +33,7 @@ public class ProblemSet extends BaseEntity {
     @Column(name = "problem_set_id")
     Long id;
 
-    private String name;
+    private String title;
     private boolean isDeleted;
 
     @Enumerated(EnumType.STRING)
@@ -46,8 +46,8 @@ public class ProblemSet extends BaseEntity {
     private List<ProblemId> problemIds = new ArrayList<>();
 
     @Builder
-    public ProblemSet(String name, List<ProblemId> problemIds) {
-        this.name = name;
+    public ProblemSet(String title, List<ProblemId> problemIds) {
+        this.title = title;
         this.isDeleted = false;
         this.confirmStatus = ProblemSetConfirmStatus.NOT_CONFIRMED;
         this.problemIds = problemIds;
@@ -74,7 +74,7 @@ public class ProblemSet extends BaseEntity {
     }
 
     public void updateProblemSet(String name, List<ProblemId> newProblems) {
-        this.name = name;
+        this.title = title;
         this.problemIds = newProblems;
     }
 }
