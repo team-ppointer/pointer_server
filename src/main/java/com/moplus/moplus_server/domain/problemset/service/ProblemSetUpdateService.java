@@ -8,6 +8,8 @@ import com.moplus.moplus_server.domain.problemset.domain.ProblemSetConfirmStatus
 import com.moplus.moplus_server.domain.problemset.dto.request.ProblemReorderRequest;
 import com.moplus.moplus_server.domain.problemset.dto.request.ProblemSetUpdateRequest;
 import com.moplus.moplus_server.domain.problemset.repository.ProblemSetRepository;
+import com.moplus.moplus_server.global.error.exception.ErrorCode;
+import com.moplus.moplus_server.global.error.exception.InvalidValueException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,6 +39,11 @@ public class ProblemSetUpdateService {
     @Transactional
     public void updateProblemSet(Long problemSetId, ProblemSetUpdateRequest request) {
         ProblemSet problemSet = problemSetRepository.findByIdElseThrow(problemSetId);
+
+        // 빈 문항 유효성 검증
+        if (request.problems().isEmpty()) {
+            throw new InvalidValueException(ErrorCode.EMPTY_PROBLEMS_ERROR);
+        }
 
         // 문항 리스트 검증
         List<ProblemId> problemIdList = request.problems().stream()

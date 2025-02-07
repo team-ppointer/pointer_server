@@ -138,4 +138,60 @@ public class ProblemSetServiceTest {
                 .isInstanceOf(InvalidValueException.class)
                 .hasMessageContaining(ErrorCode.INVALID_CONFIRM_PROBLEM.getMessage());
     }
+
+    @Test
+    void 빈_문항리스트_문항세트_생성_실패_테스트() {
+        // given
+        ProblemSetPostRequest emptyProblemSetRequest = new ProblemSetPostRequest(
+                "빈 문항세트",
+                List.of() // 빈 리스트
+        );
+
+        // when & then
+        assertThatThrownBy(() -> problemSetSaveService.createProblemSet(emptyProblemSetRequest))
+                .isInstanceOf(InvalidValueException.class)
+                .hasMessageContaining(ErrorCode.EMPTY_PROBLEMS_ERROR.getMessage());
+    }
+
+    @Test
+    void 빈_제목_문항세트_생성_테스트() {
+        // given
+        ProblemSetPostRequest emptyTitleRequest = new ProblemSetPostRequest(
+                "", // 빈 문자열 제목
+                List.of("24052001001", "24052001002", "24052001003")
+        );
+
+        ProblemSetPostRequest nullTitleRequest = new ProblemSetPostRequest(
+                null, // null 제목
+                List.of("24052001001", "24052001002", "24052001003")
+        );
+
+        // when
+        Long emptyTitleProblemSetId = problemSetSaveService.createProblemSet(emptyTitleRequest);
+        Long nullTitleProblemSetId = problemSetSaveService.createProblemSet(nullTitleRequest);
+
+        // then
+        ProblemSet emptyTitleSavedProblemSet = problemSetRepository.findByIdElseThrow(emptyTitleProblemSetId);
+
+        ProblemSet nullTitleSavedProblemSet = problemSetRepository.findByIdElseThrow(nullTitleProblemSetId);
+
+        assertThat(emptyTitleSavedProblemSet.getTitle()).isEqualTo("제목 없음"); // 빈 문자열 제목 테스트
+        assertThat(nullTitleSavedProblemSet.getTitle()).isEqualTo("제목 없음"); // null 제목 테스트
+    }
+
+    @Test
+    void 문항세트_빈_제목_업데이트_테스트() {
+        // given
+        Long problemSetId = problemSetSaveService.createProblemSet(problemSetPostRequest);
+
+        ProblemSetUpdateRequest emptyUpdateRequest = new ProblemSetUpdateRequest(
+                "업데이트된 빈 문항세트",
+                List.of()
+        );
+
+        // when & then
+        assertThatThrownBy(() -> problemSetUpdateService.updateProblemSet(problemSetId, emptyUpdateRequest))
+                .isInstanceOf(InvalidValueException.class)
+                .hasMessageContaining(ErrorCode.EMPTY_PROBLEMS_ERROR.getMessage());
+    }
 }

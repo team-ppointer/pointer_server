@@ -56,6 +56,7 @@ public enum ErrorCode {
 
     //문항세트
     PROBLEM_SET_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 문항세트를 찾을 수 없습니다"),
+    EMPTY_PROBLEMS_ERROR(HttpStatus.BAD_REQUEST, "적어도 1개의 문항을 등록해주세요"),
     ;
 
 
