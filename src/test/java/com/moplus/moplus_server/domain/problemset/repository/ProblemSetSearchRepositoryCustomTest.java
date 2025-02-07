@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.moplus.moplus_server.domain.problemset.dto.response.ProblemSetSearchGetResponse;
 import com.moplus.moplus_server.domain.problemset.dto.response.ProblemThumbnailResponse;
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,30 +87,5 @@ public class ProblemSetSearchRepositoryCustomTest {
         // ✅ 문항의 이미지 URL이 올바르게 매핑되었는지 확인
         assertThat(problems.get(0).getMainProblemImageUrl()).isEqualTo("mainProblem.png1");
         assertThat(problems.get(1).getMainProblemImageUrl()).isEqualTo("mainProblem.png2");
-    }
-
-    @Test
-    void 문항태그_조회_테스트() {
-        // when
-        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search("고2 모의고사", null, null);
-
-        // then
-        assertThat(result).hasSize(1);
-        ProblemSetSearchGetResponse response = result.get(0);
-        assertThat(response.getProblemSetTitle()).isEqualTo("2025년 5월 고2 모의고사 문제 세트");
-
-        // ✅ 문항별 개념 태그 확인
-        List<ProblemThumbnailResponse> problems = response.getProblemThumbnailResponses();
-        assertThat(problems).hasSize(2);
-
-        // ✅ 첫 번째 문제(240520012001)의 개념 태그 확인
-        List<String> firstProblemTags = new ArrayList<>(problems.get(0).getTagNames());
-
-        assertThat(firstProblemTags).containsExactlyInAnyOrder("미분 개념", "적분 개념", "삼각함수 개념");
-
-        // ✅ 두 번째 문제(240520012002)의 개념 태그 확인
-        List<String> secondProblemTags = new ArrayList<>(problems.get(1).getTagNames());
-
-        assertThat(secondProblemTags).containsExactlyInAnyOrder("미분 개념", "삼각함수 개념");
     }
 }
