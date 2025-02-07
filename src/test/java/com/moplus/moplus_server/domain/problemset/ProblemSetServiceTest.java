@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @ActiveProfiles("h2test")
-@Sql({"/insert-problemset.sql"})
+@Sql({"/insert-problem2.sql"})
 @SpringBootTest
 public class ProblemSetServiceTest {
 
@@ -58,7 +58,7 @@ public class ProblemSetServiceTest {
                 .orElseThrow(() -> new IllegalArgumentException("문항세트를 찾을 수 없습니다."));
 
         assertThat(savedProblemSet).isNotNull();
-        assertThat(savedProblemSet.getName()).isEqualTo("초기 문항세트");
+        assertThat(savedProblemSet.getTitle()).isEqualTo("초기 문항세트");
         assertThat(savedProblemSet.getProblemIds()).hasSize(3);
         assertThat(savedProblemSet.getProblemIds().get(0).getId()).isEqualTo("24052001001");
         assertThat(savedProblemSet.getProblemIds().get(1).getId()).isEqualTo("24052001002");
@@ -101,7 +101,7 @@ public class ProblemSetServiceTest {
         ProblemSet updatedProblemSet = problemSetRepository.findById(problemSetId)
                 .orElseThrow(() -> new IllegalArgumentException("문항세트를 찾을 수 없습니다."));
 
-        assertThat(updatedProblemSet.getName()).isEqualTo("업데이트된 문항세트");
+        assertThat(updatedProblemSet.getTitle()).isEqualTo("업데이트된 문항세트");
         assertThat(updatedProblemSet.getProblemIds()).hasSize(2);
         assertThat(updatedProblemSet.getProblemIds().get(0).getId()).isEqualTo("24052001002");
         assertThat(updatedProblemSet.getProblemIds().get(1).getId()).isEqualTo("24052001003");

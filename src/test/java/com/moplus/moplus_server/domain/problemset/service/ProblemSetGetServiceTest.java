@@ -92,7 +92,7 @@ public class ProblemSetGetServiceTest {
 
         // then
         assertThat(response).isNotNull();
-        assertThat(response.name()).isEqualTo("테스트 문항세트");
+        assertThat(response.title()).isEqualTo("테스트 문항세트");
         assertThat(response.problemSummaries()).hasSize(1);
         assertThat(response.problemSummaries().get(0).problemId()).isEqualTo(savedProblem.getId().toString());
         assertThat(response.problemSummaries().get(0).practiceTestName()).isEqualTo("2025년 5월 고2 모의고사");
@@ -135,7 +135,7 @@ public class ProblemSetGetServiceTest {
 
         // then
         assertThat(response).isNotNull();
-        assertThat(response.name()).isEqualTo("여러 문항 테스트 문항세트");
+        assertThat(response.title()).isEqualTo("여러 문항 테스트 문항세트");
         assertThat(response.problemSummaries()).hasSize(2);
 
         // 첫 번째 문제 검증
