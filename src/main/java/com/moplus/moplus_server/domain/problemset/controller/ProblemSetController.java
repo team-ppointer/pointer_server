@@ -9,6 +9,7 @@ import com.moplus.moplus_server.domain.problemset.service.ProblemSetDeleteServic
 import com.moplus.moplus_server.domain.problemset.service.ProblemSetGetService;
 import com.moplus.moplus_server.domain.problemset.service.ProblemSetSaveService;
 import com.moplus.moplus_server.domain.problemset.service.ProblemSetUpdateService;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,7 @@ public class ProblemSetController {
         return ResponseEntity.ok(problemSetSaveService.createProblemSet(request));
     }
 
+    @Hidden
     @PutMapping("/{problemSetId}/sequence")
     @Operation(summary = "세트 문항순서 변경", description = "문항세트 내의 문항 리스트의 순서를 변경합니다.")
     public ResponseEntity<Void> reorderProblems(
