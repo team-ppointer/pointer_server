@@ -73,7 +73,7 @@ public class ProblemSet extends BaseEntity {
         this.confirmStatus = this.confirmStatus.toggle();
     }
 
-    public void updateProblemSet(String name, List<ProblemId> newProblems) {
+    public void updateProblemSet(String title, List<ProblemId> newProblems) {
         this.title = title;
         this.problemIds = newProblems;
     }

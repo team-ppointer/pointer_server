@@ -34,7 +34,7 @@ public class ProblemSetSearchRepositoryCustomTest {
     @Test
     void 문항타이틀_포함_검색() {
         // when
-        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search(null, "코멘트1", null);
+        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search(null, "설명 1", null);
 
         // then
         assertThat(result).hasSize(1);
@@ -54,7 +54,7 @@ public class ProblemSetSearchRepositoryCustomTest {
     @Test
     void 모두_적용된_검색() {
         // when
-        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search("고2", "코멘트1", List.of("미분 개념"));
+        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search("고2", "설명 1", List.of("미분 개념"));
 
         // then
         assertThat(result).hasSize(1);

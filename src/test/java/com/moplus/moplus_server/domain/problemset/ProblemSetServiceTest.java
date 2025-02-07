@@ -98,8 +98,7 @@ public class ProblemSetServiceTest {
         problemSetUpdateService.updateProblemSet(problemSetId, updateRequest);
 
         // then
-        ProblemSet updatedProblemSet = problemSetRepository.findById(problemSetId)
-                .orElseThrow(() -> new IllegalArgumentException("문항세트를 찾을 수 없습니다."));
+        ProblemSet updatedProblemSet = problemSetRepository.findByIdElseThrow(problemSetId);
 
         assertThat(updatedProblemSet.getTitle()).isEqualTo("업데이트된 문항세트");
         assertThat(updatedProblemSet.getProblemIds()).hasSize(2);
