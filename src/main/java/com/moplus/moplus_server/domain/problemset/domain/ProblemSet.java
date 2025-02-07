@@ -8,6 +8,7 @@ import com.moplus.moplus_server.global.error.exception.InvalidValueException;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -33,7 +34,8 @@ public class ProblemSet extends BaseEntity {
     @Column(name = "problem_set_id")
     Long id;
 
-    private String title;
+    @Embedded
+    private Title title;
     private boolean isDeleted;
 
     @Enumerated(EnumType.STRING)
@@ -47,7 +49,7 @@ public class ProblemSet extends BaseEntity {
 
     @Builder
     public ProblemSet(String title, List<ProblemId> problemIds) {
-        this.title = title;
+        this.title = new Title(title);
         this.isDeleted = false;
         this.confirmStatus = ProblemSetConfirmStatus.NOT_CONFIRMED;
         this.problemIds = problemIds;
@@ -74,7 +76,7 @@ public class ProblemSet extends BaseEntity {
     }
 
     public void updateProblemSet(String title, List<ProblemId> newProblems) {
-        this.title = title;
+        this.title = new Title(title);
         this.problemIds = newProblems;
     }
 }

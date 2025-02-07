@@ -58,7 +58,7 @@ public class ProblemSetServiceTest {
                 .orElseThrow(() -> new IllegalArgumentException("문항세트를 찾을 수 없습니다."));
 
         assertThat(savedProblemSet).isNotNull();
-        assertThat(savedProblemSet.getTitle()).isEqualTo("초기 문항세트");
+        assertThat(savedProblemSet.getTitle().getValue()).isEqualTo("초기 문항세트");
         assertThat(savedProblemSet.getProblemIds()).hasSize(3);
         assertThat(savedProblemSet.getProblemIds().get(0).getId()).isEqualTo("24052001001");
         assertThat(savedProblemSet.getProblemIds().get(1).getId()).isEqualTo("24052001002");
@@ -100,7 +100,7 @@ public class ProblemSetServiceTest {
         // then
         ProblemSet updatedProblemSet = problemSetRepository.findByIdElseThrow(problemSetId);
 
-        assertThat(updatedProblemSet.getTitle()).isEqualTo("업데이트된 문항세트");
+        assertThat(updatedProblemSet.getTitle().getValue()).isEqualTo("업데이트된 문항세트");
         assertThat(updatedProblemSet.getProblemIds()).hasSize(2);
         assertThat(updatedProblemSet.getProblemIds().get(0).getId()).isEqualTo("24052001002");
         assertThat(updatedProblemSet.getProblemIds().get(1).getId()).isEqualTo("24052001003");
@@ -174,8 +174,8 @@ public class ProblemSetServiceTest {
 
         ProblemSet nullTitleSavedProblemSet = problemSetRepository.findByIdElseThrow(nullTitleProblemSetId);
 
-        assertThat(emptyTitleSavedProblemSet.getTitle()).isEqualTo("제목 없음"); // 빈 문자열 제목 테스트
-        assertThat(nullTitleSavedProblemSet.getTitle()).isEqualTo("제목 없음"); // null 제목 테스트
+        assertThat(emptyTitleSavedProblemSet.getTitle().getValue()).isEqualTo("제목 없음"); // 빈 문자열 제목 테스트
+        assertThat(nullTitleSavedProblemSet.getTitle().getValue()).isEqualTo("제목 없음"); // null 제목 테스트
     }
 
     @Test

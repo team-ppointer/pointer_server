@@ -16,7 +16,7 @@ public record ProblemSetGetResponse(
 
         return ProblemSetGetResponse.builder()
                 .id(problemSet.getId())
-                .title(problemSet.getTitle())
+                .title(problemSet.getTitle().getValue())
                 .confirmStatus(problemSet.getConfirmStatus())
                 .problemSummaries(problemSummaries)
                 .build();

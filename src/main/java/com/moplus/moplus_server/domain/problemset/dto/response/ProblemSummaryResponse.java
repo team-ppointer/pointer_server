@@ -11,17 +11,15 @@ public record ProblemSummaryResponse(
         String practiceTestName,
         String comment,
         String mainProblemImageUrl,
-        List<String> tagNames,
-        int sequence
+        List<String> tagNames
 ) {
-    public static ProblemSummaryResponse of(Problem problem, int sequence, String practiceTestName, List<String> tagNames) {
+    public static ProblemSummaryResponse of(Problem problem, String practiceTestName, List<String> tagNames) {
 
         return ProblemSummaryResponse.builder()
                 .problemId(problem.getId().toString())
                 .number(problem.getNumber())
                 .comment(problem.getComment())
                 .mainProblemImageUrl(problem.getMainProblemImageUrl())
-                .sequence(sequence)
                 .practiceTestName(practiceTestName)
                 .tagNames(tagNames)
                 .build();

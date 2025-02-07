@@ -10,8 +10,9 @@ public class ProblemSetSearchGetResponse {
     private String problemSetTitle;
     private List<ProblemThumbnailResponse> problemThumbnailResponses;
 
-    public ProblemSetSearchGetResponse(String problemSetTitle,
-                                       List<ProblemThumbnailResponse> problemThumbnailResponses) {
+    public ProblemSetSearchGetResponse(
+            String problemSetTitle, List<ProblemThumbnailResponse> problemThumbnailResponses
+    ) {
         this.problemSetTitle = problemSetTitle;
         this.problemThumbnailResponses = problemThumbnailResponses;
     }

@@ -4,6 +4,7 @@ import com.moplus.moplus_server.domain.concept.domain.ConceptTag;
 import com.moplus.moplus_server.domain.concept.repository.ConceptTagRepository;
 import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTestTag;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemId;
 import com.moplus.moplus_server.domain.problem.repository.PracticeTestTagRepository;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSet;
@@ -31,14 +32,14 @@ public class ProblemSetGetService {
         ProblemSet problemSet = problemSetRepository.findByIdElseThrow(problemSetId);
 
         List<ProblemSummaryResponse> problemSummaries = new ArrayList<>();
-        for (int i = 0; i < problemSet.getProblemIds().size(); i++) {
-            Problem problem = problemRepository.findByIdElseThrow(problemSet.getProblemIds().get(i));
+        for (ProblemId problemId : problemSet.getProblemIds()) {
+            Problem problem = problemRepository.findByIdElseThrow(problemId);
             PracticeTestTag practiceTestTag = practiceTestTagRepository.findByIdElseThrow(problem.getPracticeTestId());
-            List<String> tagNames = conceptTagRepository.findByIdInElseThrow(problem.getConceptTagIds())
+            List<String> tagNames = conceptTagRepository.findAllByIdsElseThrow(problem.getConceptTagIds())
                     .stream()
                     .map(ConceptTag::getName)
                     .toList();
-            problemSummaries.add(ProblemSummaryResponse.of(problem, i, practiceTestTag.getName(), tagNames));
+            problemSummaries.add(ProblemSummaryResponse.of(problem, practiceTestTag.getName(), tagNames));
         }
         return ProblemSetGetResponse.of(problemSet, problemSummaries);
     }

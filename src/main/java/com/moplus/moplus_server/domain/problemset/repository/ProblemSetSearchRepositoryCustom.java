@@ -33,7 +33,7 @@ public class ProblemSetSearchRepositoryCustom {
                 .distinct()
                 .transform(GroupBy.groupBy(problemSet.id).list(
                         Projections.constructor(ProblemSetSearchGetResponse.class,
-                                problemSet.title,
+                                problemSet.title.value,
                                 GroupBy.list(
                                         Projections.constructor(ProblemThumbnailResponse.class,
                                                 problem.mainProblemImageUrl
@@ -44,7 +44,7 @@ public class ProblemSetSearchRepositoryCustom {
     }
 
     private BooleanExpression containsProblemSetTitle(String problemSetTitle) {
-        return (problemSetTitle == null || problemSetTitle.isEmpty()) ? null : problemSet.title.containsIgnoreCase(problemSetTitle);
+        return (problemSetTitle == null || problemSetTitle.isEmpty()) ? null : problemSet.title.value.containsIgnoreCase(problemSetTitle);
     }
 
     private BooleanExpression containsProblemTitle(String problemTitle) {

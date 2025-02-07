@@ -10,13 +10,8 @@ public record ProblemSetPostRequest(
 ) {
     public ProblemSet toEntity(List<ProblemId> problemIdList) {
         return ProblemSet.builder()
-                .title(verifyTitle(this.problemSetTitle))
+                .title(this.problemSetTitle)
                 .problemIds(problemIdList)
                 .build();
-    }
-
-    // 빈 타이틀 "제목 없음"으로 임시 세팅
-    private static String verifyTitle(String title) {
-        return (title == null || title.trim().isEmpty()) ? "제목 없음" : title;
     }
 }
