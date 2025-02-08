@@ -18,6 +18,8 @@ public class QProblemSet extends EntityPathBase<ProblemSet> {
 
     private static final long serialVersionUID = -499971265L;
 
+    private static final PathInits INITS = PathInits.DIRECT2;
+
     public static final QProblemSet problemSet = new QProblemSet("problemSet");
 
     public final com.moplus.moplus_server.global.common.QBaseEntity _super = new com.moplus.moplus_server.global.common.QBaseEntity(this);
@@ -31,23 +33,32 @@ public class QProblemSet extends EntityPathBase<ProblemSet> {
 
     public final BooleanPath isDeleted = createBoolean("isDeleted");
 
-    public final StringPath name = createString("name");
-
     public final ListPath<com.moplus.moplus_server.domain.problem.domain.problem.ProblemId, com.moplus.moplus_server.domain.problem.domain.problem.QProblemId> problemIds = this.<com.moplus.moplus_server.domain.problem.domain.problem.ProblemId, com.moplus.moplus_server.domain.problem.domain.problem.QProblemId>createList("problemIds", com.moplus.moplus_server.domain.problem.domain.problem.ProblemId.class, com.moplus.moplus_server.domain.problem.domain.problem.QProblemId.class, PathInits.DIRECT2);
+
+    public final QTitle title;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedDate = _super.updatedDate;
 
     public QProblemSet(String variable) {
-        super(ProblemSet.class, forVariable(variable));
+        this(ProblemSet.class, forVariable(variable), INITS);
     }
 
     public QProblemSet(Path<? extends ProblemSet> path) {
-        super(path.getType(), path.getMetadata());
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
     public QProblemSet(PathMetadata metadata) {
-        super(ProblemSet.class, metadata);
+        this(metadata, PathInits.getFor(metadata, INITS));
+    }
+
+    public QProblemSet(PathMetadata metadata, PathInits inits) {
+        this(ProblemSet.class, metadata, inits);
+    }
+
+    public QProblemSet(Class<? extends ProblemSet> type, PathMetadata metadata, PathInits inits) {
+        super(type, metadata, inits);
+        this.title = inits.isInitialized("title") ? new QTitle(forProperty("title")) : null;
     }
 
 }
