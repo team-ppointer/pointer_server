@@ -27,7 +27,6 @@ services:
     networks:
       - moplus-prod
       - nginx-network
-      - apm_env
 
   mysql:
     image: mysql:8.0
@@ -50,6 +49,4 @@ networks:
   moplus-prod:
     driver: bridge
   nginx-network:
-    external: true
-  apm_env:
     external: true
