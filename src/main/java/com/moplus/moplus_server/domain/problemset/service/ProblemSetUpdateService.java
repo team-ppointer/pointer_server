@@ -40,13 +40,18 @@ public class ProblemSetUpdateService {
     public void updateProblemSet(Long problemSetId, ProblemSetUpdateRequest request) {
         ProblemSet problemSet = problemSetRepository.findByIdElseThrow(problemSetId);
 
+        // 빈 문항 유효성 검증
+        if (request.problems().isEmpty()) {
+            throw new InvalidValueException(ErrorCode.EMPTY_PROBLEMS_ERROR);
+        }
+
         // 문항 리스트 검증
         List<ProblemId> problemIdList = request.problems().stream()
                 .map(ProblemId::new)
                 .collect(Collectors.toList());
         problemIdList.forEach(problemRepository::findByIdElseThrow);
 
-        problemSet.updateProblemSet(request.problemSetName(), problemIdList);
+        problemSet.updateProblemSet(request.problemSetTitle(), problemIdList);
     }
 
     @Transactional
