@@ -20,6 +20,15 @@ spring:
       connection-timeout: 3000 # 30 seconds in milliseconds
       keepalive-time: 600000 # 5 minutes in milliseconds
 
+swagger:
+  servers:
+    - url: https://dev.mopl.kr
+      description: "mopl dev https 서버입니다."
+    - url: http://dev.mopl.kr
+      description: "mopl dev http 서버입니다."
+    - url: http://localhost:8080
+      description: "mopl local 서버입니다."
+
 logging:
   level:
     root: ERROR

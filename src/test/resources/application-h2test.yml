@@ -36,3 +36,8 @@ cloud:
 cors-allowed-origins:
   http://localhost:8080,
   http://localhost:3000,
+
+swagger:
+  servers:
+    - url: http://localhost:8080
+      description: "mopl local 서버입니다."
