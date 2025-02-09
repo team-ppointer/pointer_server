@@ -80,17 +80,17 @@ public class PublishServiceTest {
     void 월별_발행_조회_테스트() {
         // given
         publishSaveService.createPublish(new PublishPostRequest(
-                LocalDate.of(2025, 2, 10),
+                LocalDate.of(2025, 3, 10),
                 1L
         ));
 
         publishSaveService.createPublish(new PublishPostRequest(
-                LocalDate.of(2025, 2, 15),
+                LocalDate.of(2025, 3, 15),
                 1L
         ));
 
         // when
-        List<PublishMonthGetResponse> publishList = publishGetService.getPublishMonth(2025, 2);
+        List<PublishMonthGetResponse> publishList = publishGetService.getPublishMonth(2025, 3);
 
         // then
         assertThat(publishList).hasSize(2);

@@ -11,6 +11,9 @@ import com.moplus.moplus_server.domain.problemset.domain.ProblemSet;
 import com.moplus.moplus_server.domain.problemset.dto.response.ProblemSetGetResponse;
 import com.moplus.moplus_server.domain.problemset.dto.response.ProblemSummaryResponse;
 import com.moplus.moplus_server.domain.problemset.repository.ProblemSetRepository;
+import com.moplus.moplus_server.domain.publish.domain.Publish;
+import com.moplus.moplus_server.domain.publish.repository.PublishRepository;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -25,11 +28,15 @@ public class ProblemSetGetService {
     private final ProblemRepository problemRepository;
     private final PracticeTestTagRepository practiceTestTagRepository;
     private final ConceptTagRepository conceptTagRepository;
+    private final PublishRepository publishRepository;
 
     @Transactional(readOnly = true)
     public ProblemSetGetResponse getProblemSet(Long problemSetId) {
 
         ProblemSet problemSet = problemSetRepository.findByIdElseThrow(problemSetId);
+        LocalDate publishedDate = publishRepository.findByProblemSetId(problemSetId)
+                .map(Publish::getPublishedDate)
+                .orElse(null);
 
         List<ProblemSummaryResponse> problemSummaries = new ArrayList<>();
         for (ProblemId problemId : problemSet.getProblemIds()) {
@@ -41,6 +48,6 @@ public class ProblemSetGetService {
                     .toList();
             problemSummaries.add(ProblemSummaryResponse.of(problem, practiceTestTag.getName(), tagNames));
         }
-        return ProblemSetGetResponse.of(problemSet, problemSummaries);
+        return ProblemSetGetResponse.of(problemSet, publishedDate, problemSummaries);
     }
 }

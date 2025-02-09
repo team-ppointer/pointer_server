@@ -2,8 +2,12 @@ package com.moplus.moplus_server.domain.problemset.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.moplus.moplus_server.domain.problemset.domain.ProblemSetConfirmStatus;
 import com.moplus.moplus_server.domain.problemset.dto.response.ProblemSetSearchGetResponse;
 import com.moplus.moplus_server.domain.problemset.dto.response.ProblemThumbnailResponse;
+import com.moplus.moplus_server.domain.publish.dto.request.PublishPostRequest;
+import com.moplus.moplus_server.domain.publish.service.PublishSaveService;
+import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +25,9 @@ public class ProblemSetSearchRepositoryCustomTest {
     @Autowired
     private ProblemSetSearchRepositoryCustom problemSetSearchRepository;
 
+    @Autowired
+    private PublishSaveService publishSaveService;
+
     @Test
     void 문항세트_타이틀_일부_포함_검색() {
         // when
@@ -37,8 +44,9 @@ public class ProblemSetSearchRepositoryCustomTest {
         List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search(null, "설명 1", null);
 
         // then
-        assertThat(result).hasSize(1);
+        assertThat(result).hasSize(2);
         assertThat(result.get(0).getProblemSetTitle()).isEqualTo("2025년 5월 고2 모의고사 문제 세트");
+        assertThat(result.get(1).getProblemSetTitle()).isEqualTo("2025년 5월 고3 모의고사 문제 세트");
     }
 
     @Test
@@ -47,8 +55,9 @@ public class ProblemSetSearchRepositoryCustomTest {
         List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search(null, null, List.of("미분 개념"));
 
         // then
-        assertThat(result).hasSize(1);
+        assertThat(result).hasSize(2);
         assertThat(result.get(0).getProblemSetTitle()).isEqualTo("2025년 5월 고2 모의고사 문제 세트");
+        assertThat(result.get(1).getProblemSetTitle()).isEqualTo("2025년 5월 고3 모의고사 문제 세트");
     }
 
     @Test
@@ -67,7 +76,7 @@ public class ProblemSetSearchRepositoryCustomTest {
         List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search(null, null, null);
 
         // then
-        assertThat(result).hasSize(1);
+        assertThat(result).hasSize(2);
     }
 
     @Test
@@ -87,5 +96,34 @@ public class ProblemSetSearchRepositoryCustomTest {
         // ✅ 문항의 이미지 URL이 올바르게 매핑되었는지 확인
         assertThat(problems.get(0).getMainProblemImageUrl()).isEqualTo("mainProblem.png1");
         assertThat(problems.get(1).getMainProblemImageUrl()).isEqualTo("mainProblem.png2");
+    }
+
+    @Test
+    void 발행되지_않은_문항세트는_NOT_CONFIRMED_테스트() {
+        // when
+        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search("고2 모의고사", null, null);
+
+        // then
+        assertThat(result).hasSize(1);
+        ProblemSetSearchGetResponse response = result.get(0);
+
+        assertThat(response.getConfirmStatus()).isEqualTo(ProblemSetConfirmStatus.NOT_CONFIRMED);
+        assertThat(response.getPublishedDate()).isNull();
+    }
+
+    @Test
+    void 발행된_문항세트_발행날짜_테스트() {
+        // given
+        LocalDate publishDate = LocalDate.now().plusDays(1);
+        publishSaveService.createPublish(new PublishPostRequest(publishDate, 2L));
+
+        // when
+        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search("고3 모의고사", null, null);
+
+        // then
+        assertThat(result).hasSize(1);
+        ProblemSetSearchGetResponse response = result.get(0);
+
+        assertThat(response.getPublishedDate()).isEqualTo(publishDate);
     }
 }
