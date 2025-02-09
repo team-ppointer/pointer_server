@@ -32,7 +32,7 @@ public enum ErrorCode {
     PROBLEM_ALREADY_EXIST(HttpStatus.CONFLICT, "해당 문제는 이미 존재합니다"),
     INVALID_MULTIPLE_CHOICE_ANSWER(HttpStatus.BAD_REQUEST, "객관식 문제의 정답은 1~5 사이의 숫자여야 합니다"),
     INVALID_SHORT_NUMBER_ANSWER(HttpStatus.BAD_REQUEST, "주관식 문제의 정답은 0~999 사이의 숫자여야 합니다"),
-    INVALID_CONFIRM_PROBLEM(HttpStatus.BAD_REQUEST, "문항의 모든 요소를 등록해야 컨펌을 완료할 수 있습니다."),
+    INVALID_CONFIRM_PROBLEM(HttpStatus.BAD_REQUEST, "유효하지 않은 문항들 : "),
 
     //새끼 문항
     CHILD_PROBLEM_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 새끼 문제를 찾을 수 없습니다"),
