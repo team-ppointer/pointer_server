@@ -1,7 +1,7 @@
 package com.moplus.moplus_server.domain.auth.controller;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,11 +56,11 @@ class AuthControllerTest {
             mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/auth/admin/login")
                             .contentType("application/json")
                             .content(requestBody))
-                    .andExpect(status().isOk()) // 200 응답 확인
-                    .andExpect(header().exists("Authorization"))
-                    .andExpect(header().exists("RefreshToken"));
-
+                    .andExpect(status().isOk()) // HTTP 200 응답 확인
+                    .andExpect(jsonPath("$.accessToken").isNotEmpty()) // accessToken 필드 존재 여부 확인
+                    .andExpect(jsonPath("$.refreshToken").isNotEmpty()); // refreshToken 필드 존재 여부 확인
         }
+
 
         @Test
         void 잘못된_요청_본문() throws Exception {

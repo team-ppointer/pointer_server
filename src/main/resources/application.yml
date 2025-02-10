@@ -17,6 +17,8 @@ cors-allowed-origins:
   http://dev.mopl.kr,
   https://prod.mopl.kr,
   http://prod.mopl.kr,
+  
   http://localhost:3000,
+  http://localhost:5173,
   https://www.mopl.kr,
   http://www.mopl.kr
