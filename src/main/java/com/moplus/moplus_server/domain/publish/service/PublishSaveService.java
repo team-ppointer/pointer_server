@@ -19,6 +19,8 @@ public class PublishSaveService {
     public Long createPublish(PublishPostRequest request) {
         problemSetRepository.existsConfirmedActiveByIdElseThrow(request.problemSetId());
         Publish publish = request.toEntity();
+        // 발행날짜 유효성 검사
+        publish.validatePublishedDate();
         return publishRepository.save(publish).getId();
     }
 }
