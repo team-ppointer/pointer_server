@@ -10,6 +10,7 @@ import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.InvalidValueException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,17 +34,32 @@ public class PublishGetService {
         // 주어진 월에 해당하는 모든 Publish 조회
         List<Publish> publishes = publishRepository.findByPublishedDateBetween(startDate, endDate);
 
-        // 데이터를 day 기준으로 매핑
-        return publishes.stream()
-                .map(publish -> {
-                    ProblemSet problemSet = problemSetRepository.findByIdElseThrow(publish.getProblemSetId());
-                    PublishProblemSetResponse problemSetResponse = PublishProblemSetResponse.of(problemSet);
+        // 한 번의 쿼리로 모든 ProblemSet 조회
+        Map<Long, ProblemSet> problemSetMap = getProblemSetMap(publishes);
 
-                    return PublishMonthGetResponse.of(
-                            publish.getPublishedDate().getDayOfMonth(),
-                            problemSetResponse
-                    );
-                })
+        return publishes.stream()
+                .map(publish -> convertToResponse(publish, problemSetMap))
                 .collect(Collectors.toList());
+    }
+
+    private Map<Long, ProblemSet> getProblemSetMap(List<Publish> publishes) {
+        List<Long> problemSetIds = publishes.stream()
+                .map(Publish::getProblemSetId)
+                .distinct()
+                .collect(Collectors.toList());
+
+        return problemSetRepository.findAllById(problemSetIds).stream()
+                .collect(Collectors.toMap(ProblemSet::getId, problemSet -> problemSet));
+    }
+
+    private PublishMonthGetResponse convertToResponse(Publish publish, Map<Long, ProblemSet> problemSetMap) {
+        ProblemSet problemSet = problemSetMap.get(publish.getProblemSetId());
+        if (problemSet == null) {
+            throw new InvalidValueException(ErrorCode.PROBLEM_SET_NOT_FOUND);
+        }
+        return PublishMonthGetResponse.of(
+                publish.getPublishedDate().getDayOfMonth(),
+                PublishProblemSetResponse.of(problemSet)
+        );
     }
 }
