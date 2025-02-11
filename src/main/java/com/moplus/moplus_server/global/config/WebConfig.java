@@ -26,6 +26,7 @@ public class WebConfig implements WebMvcConfigurer {
                                 + "://localhost:3000", "https://dev-web.mopl.kr", "http://dev-web.mopl.kr")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
+                .exposedHeaders("Authorization", "RefreshToken")
                 .allowCredentials(true);
     }
 

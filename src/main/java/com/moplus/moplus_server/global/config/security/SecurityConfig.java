@@ -120,6 +120,7 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(corsAllowedOrigins);
         configuration.addAllowedMethod("*");
         configuration.setAllowedHeaders(List.of("*")); // 허용할 헤더
+        configuration.setExposedHeaders(List.of("Authorization", "RefreshToken")); // 노출할 헤더
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
