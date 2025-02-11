@@ -2,6 +2,7 @@ package com.moplus.moplus_server.global.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moplus.moplus_server.domain.member.domain.Member;
+import com.moplus.moplus_server.global.security.AuthConstants;
 import com.moplus.moplus_server.global.security.utils.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,6 +27,9 @@ public class EmailPasswordSuccessHandler extends SavedRequestAwareAuthentication
         Member member = (Member) authentication.getPrincipal();
         String accessToken = jwtUtil.generateAccessToken(member);
         String refreshToken = jwtUtil.generateRefreshToken(member);
+
+        response.addHeader(AuthConstants.AUTH_HEADER, AuthConstants.TOKEN_TYPE + " " + accessToken);
+        response.addHeader(AuthConstants.REFRESH_TOKEN_HEADER, AuthConstants.TOKEN_TYPE + " " + refreshToken);
 
         // JSON 응답 생성
         Map<String, String> tokenResponse = new HashMap<>();
