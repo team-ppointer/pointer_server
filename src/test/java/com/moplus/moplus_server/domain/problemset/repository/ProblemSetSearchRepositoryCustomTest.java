@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSetConfirmStatus;
 import com.moplus.moplus_server.domain.problemset.dto.response.ProblemSetSearchGetResponse;
 import com.moplus.moplus_server.domain.problemset.dto.response.ProblemThumbnailResponse;
+import com.moplus.moplus_server.domain.problemset.service.ProblemSetUpdateService;
 import com.moplus.moplus_server.domain.publish.dto.request.PublishPostRequest;
 import com.moplus.moplus_server.domain.publish.service.PublishSaveService;
 import java.time.LocalDate;
@@ -27,6 +28,10 @@ public class ProblemSetSearchRepositoryCustomTest {
 
     @Autowired
     private PublishSaveService publishSaveService;
+
+    @Autowired
+    private ProblemSetUpdateService problemSetUpdateService;
+
 
     @Test
     void 문항세트_타이틀_일부_포함_검색() {
@@ -119,6 +124,62 @@ public class ProblemSetSearchRepositoryCustomTest {
 
         // when
         List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search("고3 모의고사", null, null);
+
+        // then
+        assertThat(result).hasSize(1);
+        ProblemSetSearchGetResponse response = result.get(0);
+
+        assertThat(response.getPublishedDate()).isEqualTo(publishDate);
+    }
+
+    @Test
+    void 컴펌된_문항세트_검색_테스트() {
+        // given: CONFIRMED 상태의 문제 세트만 발행
+        LocalDate publishDate = LocalDate.now();
+        publishSaveService.createPublish(new PublishPostRequest(publishDate.plusDays(5), 2L)); // CONFIRMED 상태
+
+        // when: publishSearch 실행 (CONFIRMED 상태만 검색되어야 함)
+        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.confirmSearch(
+                "고",
+                "설명",
+                List.of("미분 개념")
+        );
+
+        // then
+        assertThat(result).isNotEmpty();
+        assertThat(result).allSatisfy(response ->
+                assertThat(response.getConfirmStatus()).isEqualTo(ProblemSetConfirmStatus.CONFIRMED)
+        );
+    }
+
+    @Test
+    void 컴펌되지_않은_문항세트_검색_결과없음_테스트() {
+        // given: 발행되지 않은 문제 세트 존재
+        problemSetUpdateService.toggleConfirmProblemSet(2L);
+
+        // when: 발행된 문제 세트만 조회하는 publishSearch 실행
+        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.confirmSearch(
+                null,
+                null,
+                null
+        );
+
+        // then: CONFIRMED 상태가 없는 경우, 결과가 비어 있어야 함
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    void 컨펌된_문항세트_정확한_발행날짜_검증() {
+        // given
+        LocalDate publishDate = LocalDate.now().plusDays(1);
+        publishSaveService.createPublish(new PublishPostRequest(publishDate, 2L)); // 발행 처리
+
+        // when
+        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.confirmSearch(
+                "고3 모의고사",
+                null,
+                null
+        );
 
         // then
         assertThat(result).hasSize(1);
