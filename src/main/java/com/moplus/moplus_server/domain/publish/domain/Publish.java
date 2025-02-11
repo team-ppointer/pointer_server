@@ -1,6 +1,8 @@
 package com.moplus.moplus_server.domain.publish.domain;
 
 import com.moplus.moplus_server.global.common.BaseEntity;
+import com.moplus.moplus_server.global.error.exception.ErrorCode;
+import com.moplus.moplus_server.global.error.exception.InvalidValueException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,4 +36,10 @@ public class Publish extends BaseEntity {
         this.problemSetId = problemSetId;
     }
 
+    public void validatePublishedDate() {
+        // 발행 시점 다음날부터 발행 가능
+        if (this.publishedDate.isBefore(LocalDate.now().plusDays(1))) {
+            throw new InvalidValueException(ErrorCode.INVALID_DATE_ERROR);
+        }
+    }
 }

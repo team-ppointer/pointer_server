@@ -65,11 +65,14 @@ public class ProblemSet extends BaseEntity {
 
     public void toggleConfirm(List<Problem> problems) {
         if(this.confirmStatus == ProblemSetConfirmStatus.NOT_CONFIRMED){
-            // 문항 유효성 검사
-            for (Problem problem : problems) {
-                if (!problem.isValid()) {
-                    throw new InvalidValueException(ErrorCode.INVALID_CONFIRM_PROBLEM);
-                }
+            List<String> invalidProblemIds = problems.stream()
+                    .filter(problem -> !problem.isValid())
+                    .map(problem -> problem.getId().getId())
+                    .toList();
+            if (!invalidProblemIds.isEmpty()) {
+                String message = ErrorCode.INVALID_CONFIRM_PROBLEM.getMessage() +
+                        String.join("번 ", invalidProblemIds) + "번";
+                throw new InvalidValueException(message, ErrorCode.INVALID_CONFIRM_PROBLEM);
             }
         }
         this.confirmStatus = this.confirmStatus.toggle();

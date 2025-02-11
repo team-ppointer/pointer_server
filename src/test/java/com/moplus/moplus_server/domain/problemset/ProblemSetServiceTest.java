@@ -135,6 +135,7 @@ public class ProblemSetServiceTest {
         // when & then
         assertThatThrownBy(() -> problemSetUpdateService.toggleConfirmProblemSet(problemSetId))
                 .isInstanceOf(InvalidValueException.class)
+                .hasMessageContaining("24052001004번") // 메시지에 포함된 ID 확인
                 .hasMessageContaining(ErrorCode.INVALID_CONFIRM_PROBLEM.getMessage());
     }
 
