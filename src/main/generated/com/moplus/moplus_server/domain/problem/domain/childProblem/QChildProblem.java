@@ -26,6 +26,8 @@ public class QChildProblem extends EntityPathBase<ChildProblem> {
 
     public final com.moplus.moplus_server.domain.problem.domain.QAnswer answer;
 
+    public final EnumPath<com.moplus.moplus_server.domain.problem.domain.problem.AnswerType> answerType = createEnum("answerType", com.moplus.moplus_server.domain.problem.domain.problem.AnswerType.class);
+
     public final SetPath<Long, NumberPath<Long>> conceptTagIds = this.<Long, NumberPath<Long>>createSet("conceptTagIds", Long.class, NumberPath.class, PathInits.DIRECT2);
 
     //inherited
@@ -34,8 +36,6 @@ public class QChildProblem extends EntityPathBase<ChildProblem> {
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath imageUrl = createString("imageUrl");
-
-    public final EnumPath<com.moplus.moplus_server.domain.problem.domain.problem.ProblemType> problemType = createEnum("problemType", com.moplus.moplus_server.domain.problem.domain.problem.ProblemType.class);
 
     public final NumberPath<Integer> sequence = createNumber("sequence", Integer.class);
 

@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @Getter
 @Embeddable
 @NoArgsConstructor
-public class ProblemId implements Serializable {
+public class ProblemAdminId implements Serializable {
 
-    @Column(name = "problem_id")
+    @Column(name = "problem_admin_id")
     private String id;
 
-    public ProblemId(String id) {
+    public ProblemAdminId(String id) {
         this.id = id;
     }
 }

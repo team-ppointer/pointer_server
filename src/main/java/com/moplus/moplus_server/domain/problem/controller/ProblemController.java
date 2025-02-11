@@ -55,7 +55,7 @@ public class ProblemController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "문항 삭제")
-    public ResponseEntity<ProblemGetResponse> updateProblem(
+    public ResponseEntity<Void> updateProblem(
             @PathVariable("id") String id
     ) {
         problemDeleteService.deleteProblem(id);

@@ -2,7 +2,7 @@ package com.moplus.moplus_server.domain.problem.service.mapper;
 
 import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTestTag;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemId;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminId;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemPostRequest;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemUpdateRequest;
 import java.util.LinkedHashSet;
@@ -12,62 +12,51 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-02-08T16:27:45+0900",
+    date = "2025-02-12T02:55:03+0900",
     comments = "version: 1.6.3, compiler: javac, environment: Java 17.0.10 (JetBrains s.r.o.)"
 )
 @Component
 public class ProblemMapperImpl implements ProblemMapper {
 
     @Override
-    public Problem from(ProblemPostRequest request, ProblemId problemId, PracticeTestTag practiceTestTag) {
-        if ( request == null && problemId == null && practiceTestTag == null ) {
+    public Problem from(ProblemPostRequest request, ProblemAdminId problemAdminId, PracticeTestTag practiceTestTag) {
+        if ( request == null && problemAdminId == null && practiceTestTag == null ) {
             return null;
         }
 
         Problem.ProblemBuilder problem = Problem.builder();
 
         if ( request != null ) {
+            problem.problemType( request.problemType() );
             problem.number( request.number() );
-            problem.answer( request.answer() );
-            problem.comment( request.comment() );
-            problem.mainProblemImageUrl( request.mainProblemImageUrl() );
-            problem.mainAnalysisImageUrl( request.mainAnalysisImageUrl() );
-            problem.readingTipImageUrl( request.readingTipImageUrl() );
-            problem.seniorTipImageUrl( request.seniorTipImageUrl() );
-            problem.prescriptionImageUrl( request.prescriptionImageUrl() );
-            Set<Long> set = request.conceptTagIds();
-            if ( set != null ) {
-                problem.conceptTagIds( new LinkedHashSet<Long>( set ) );
-            }
         }
-        problem.id( problemId );
+        problem.problemAdminId( problemAdminId );
         problem.practiceTestTag( practiceTestTag );
 
         return problem.build();
     }
 
     @Override
-    public Problem from(ProblemUpdateRequest request, ProblemId problemId, PracticeTestTag practiceTestTag) {
-        if ( request == null && problemId == null && practiceTestTag == null ) {
+    public Problem from(ProblemUpdateRequest request, ProblemAdminId problemAdminId, PracticeTestTag practiceTestTag) {
+        if ( request == null && problemAdminId == null && practiceTestTag == null ) {
             return null;
         }
 
         Problem.ProblemBuilder problem = Problem.builder();
 
         if ( request != null ) {
-            problem.answer( String.valueOf( request.answer() ) );
-            problem.comment( request.comment() );
-            problem.mainProblemImageUrl( request.mainProblemImageUrl() );
-            problem.mainAnalysisImageUrl( request.mainAnalysisImageUrl() );
-            problem.readingTipImageUrl( request.readingTipImageUrl() );
-            problem.seniorTipImageUrl( request.seniorTipImageUrl() );
-            problem.prescriptionImageUrl( request.prescriptionImageUrl() );
             Set<Long> set = request.conceptTagIds();
             if ( set != null ) {
                 problem.conceptTagIds( new LinkedHashSet<Long>( set ) );
             }
+            problem.prescriptionImageUrl( request.prescriptionImageUrl() );
+            problem.seniorTipImageUrl( request.seniorTipImageUrl() );
+            problem.readingTipImageUrl( request.readingTipImageUrl() );
+            problem.mainAnalysisImageUrl( request.mainAnalysisImageUrl() );
+            problem.mainProblemImageUrl( request.mainProblemImageUrl() );
+            problem.answer( request.answer() );
         }
-        problem.id( problemId );
+        problem.problemAdminId( problemAdminId );
         problem.practiceTestTag( practiceTestTag );
 
         return problem.build();

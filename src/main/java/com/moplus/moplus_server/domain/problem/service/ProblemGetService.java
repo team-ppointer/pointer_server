@@ -1,7 +1,7 @@
 package com.moplus.moplus_server.domain.problem.service;
 
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemId;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminId;
 import com.moplus.moplus_server.domain.problem.dto.response.ProblemGetResponse;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public class ProblemGetService {
 
     @Transactional(readOnly = true)
     public ProblemGetResponse getProblem(String problemId) {
-        Problem problem = problemRepository.findByIdElseThrow(new ProblemId(problemId));
+        Problem problem = problemRepository.findByIdElseThrow(new ProblemAdminId(problemId));
         return ProblemGetResponse.of(problem);
     }
 }

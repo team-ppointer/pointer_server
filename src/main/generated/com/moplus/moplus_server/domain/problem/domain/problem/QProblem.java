@@ -26,24 +26,24 @@ public class QProblem extends EntityPathBase<Problem> {
 
     public final com.moplus.moplus_server.domain.problem.domain.QAnswer answer;
 
-    public final ListPath<com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem, com.moplus.moplus_server.domain.problem.domain.childProblem.QChildProblem> childProblems = this.<com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem, com.moplus.moplus_server.domain.problem.domain.childProblem.QChildProblem>createList("childProblems", com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem.class, com.moplus.moplus_server.domain.problem.domain.childProblem.QChildProblem.class, PathInits.DIRECT2);
+    public final EnumPath<AnswerType> answerType = createEnum("answerType", AnswerType.class);
 
-    public final StringPath comment = createString("comment");
+    public final ListPath<com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem, com.moplus.moplus_server.domain.problem.domain.childProblem.QChildProblem> childProblems = this.<com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem, com.moplus.moplus_server.domain.problem.domain.childProblem.QChildProblem>createList("childProblems", com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem.class, com.moplus.moplus_server.domain.problem.domain.childProblem.QChildProblem.class, PathInits.DIRECT2);
 
     public final SetPath<Long, NumberPath<Long>> conceptTagIds = this.<Long, NumberPath<Long>>createSet("conceptTagIds", Long.class, NumberPath.class, PathInits.DIRECT2);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
 
-    public final QProblemId id;
+    public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final BooleanPath isPublished = createBoolean("isPublished");
-
-    public final BooleanPath isVariation = createBoolean("isVariation");
+    public final BooleanPath isConfirmed = createBoolean("isConfirmed");
 
     public final StringPath mainAnalysisImageUrl = createString("mainAnalysisImageUrl");
 
     public final StringPath mainProblemImageUrl = createString("mainProblemImageUrl");
+
+    public final StringPath memo = createString("memo");
 
     public final NumberPath<Integer> number = createNumber("number", Integer.class);
 
@@ -51,11 +51,15 @@ public class QProblem extends EntityPathBase<Problem> {
 
     public final StringPath prescriptionImageUrl = createString("prescriptionImageUrl");
 
+    public final QProblemAdminId problemAdminId;
+
     public final EnumPath<ProblemType> problemType = createEnum("problemType", ProblemType.class);
 
     public final StringPath readingTipImageUrl = createString("readingTipImageUrl");
 
     public final StringPath seniorTipImageUrl = createString("seniorTipImageUrl");
+
+    public final StringPath title = createString("title");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedDate = _super.updatedDate;
@@ -79,7 +83,7 @@ public class QProblem extends EntityPathBase<Problem> {
     public QProblem(Class<? extends Problem> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.answer = inits.isInitialized("answer") ? new com.moplus.moplus_server.domain.problem.domain.QAnswer(forProperty("answer")) : null;
-        this.id = inits.isInitialized("id") ? new QProblemId(forProperty("id")) : null;
+        this.problemAdminId = inits.isInitialized("problemAdminId") ? new QProblemAdminId(forProperty("problemAdminId")) : null;
     }
 
 }

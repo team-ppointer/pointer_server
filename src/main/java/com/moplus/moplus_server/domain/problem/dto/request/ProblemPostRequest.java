@@ -2,36 +2,20 @@ package com.moplus.moplus_server.domain.problem.dto.request;
 
 import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTestTag;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemId;
-import java.util.List;
-import java.util.Set;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminId;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemType;
 
 public record ProblemPostRequest(
-        Set<Long> conceptTagIds,
+        ProblemType problemType,
         Long practiceTestId,
-        int number,
-        String answer,
-        String comment,
-        String mainProblemImageUrl,
-        String mainAnalysisImageUrl,
-        String readingTipImageUrl,
-        String seniorTipImageUrl,
-        String prescriptionImageUrl,
-        List<ChildProblemPostRequest> childProblems
+        int number
 ) {
-    public Problem toEntity(PracticeTestTag practiceTestTag, ProblemId problemId) {
+    public Problem toEntity(PracticeTestTag practiceTestTag, ProblemAdminId problemAdminId) {
         return Problem.builder()
-                .id(problemId)
-                .conceptTagIds(conceptTagIds)
+                .problemAdminId(problemAdminId)
                 .practiceTestTag(practiceTestTag)
                 .number(number)
-                .answer(answer)
-                .comment(comment)
-                .mainProblemImageUrl(mainProblemImageUrl)
-                .mainAnalysisImageUrl(mainAnalysisImageUrl)
-                .readingTipImageUrl(readingTipImageUrl)
-                .seniorTipImageUrl(seniorTipImageUrl)
-                .prescriptionImageUrl(prescriptionImageUrl)
+                .problemType(problemType)
                 .build();
     }
 }

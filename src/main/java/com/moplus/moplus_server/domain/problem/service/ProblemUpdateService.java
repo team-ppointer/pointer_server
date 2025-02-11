@@ -4,7 +4,7 @@ import com.moplus.moplus_server.domain.concept.repository.ConceptTagRepository;
 import com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem;
 import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTestTag;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemId;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminId;
 import com.moplus.moplus_server.domain.problem.dto.request.ChildProblemUpdateRequest;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemUpdateRequest;
 import com.moplus.moplus_server.domain.problem.dto.response.ProblemGetResponse;
@@ -32,9 +32,9 @@ public class ProblemUpdateService {
     @Transactional
     public ProblemGetResponse updateProblem(String problemId, ProblemUpdateRequest request) {
         conceptTagRepository.existsByIdElseThrow(request.conceptTagIds());
-        Problem problem = problemRepository.findByIdElseThrow(new ProblemId(problemId));
+        Problem problem = problemRepository.findByIdElseThrow(new ProblemAdminId(problemId));
         PracticeTestTag practiceTestTag = practiceTestRepository.findByIdElseThrow(problem.getPracticeTestId());
-        Problem inputProblem = problemMapper.from(request, problem.getId(), practiceTestTag);
+        Problem inputProblem = problemMapper.from(request, problem.getProblemAdminId(), practiceTestTag);
         problem.update(inputProblem);
         problem.deleteChildProblem(request.deleteChildProblems());
 

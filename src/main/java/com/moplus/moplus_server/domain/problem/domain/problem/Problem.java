@@ -9,9 +9,13 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
@@ -29,14 +33,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Problem extends BaseEntity {
 
-    @EmbeddedId
-    ProblemId id;
-
+    @Embedded
+    ProblemAdminId problemAdminId;
     Long practiceTestId;
     int number;
+    @Enumerated(EnumType.STRING)
+    ProblemType problemType;
+    String title;
     @Embedded
     Answer answer;
-    String comment;
+    String memo;
     String mainProblemImageUrl;
     String mainAnalysisImageUrl;
     String readingTipImageUrl;
@@ -46,9 +52,16 @@ public class Problem extends BaseEntity {
     @CollectionTable(name = "problem_concept", joinColumns = @JoinColumn(name = "problem_id"))
     @Column(name = "concept_tag_id")
     Set<Long> conceptTagIds;
-    private ProblemType problemType;
-    private boolean isPublished;
-    private boolean isVariation;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "problem_id")
+    private Long id;
+
+    @Enumerated(EnumType.STRING)
+    private AnswerType answerType;
+
+    private boolean isConfirmed;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "problem_id")
@@ -56,24 +69,28 @@ public class Problem extends BaseEntity {
     private List<ChildProblem> childProblems = new ArrayList<>();
 
     @Builder
-    public Problem(ProblemId id, PracticeTestTag practiceTestTag, int number, String answer, String comment,
-                   String mainProblemImageUrl,
-                   String mainAnalysisImageUrl, String readingTipImageUrl, String seniorTipImageUrl,
-                   String prescriptionImageUrl, Set<Long> conceptTagIds) {
-        this.id = id;
-        this.practiceTestId = practiceTestTag.getId();
-        this.number = number;
-        this.comment = comment;
-        this.mainProblemImageUrl = mainProblemImageUrl;
-        this.mainAnalysisImageUrl = mainAnalysisImageUrl;
-        this.readingTipImageUrl = readingTipImageUrl;
-        this.seniorTipImageUrl = seniorTipImageUrl;
+    public Problem(List<ChildProblem> childProblems, boolean isConfirmed, AnswerType answerType,
+                   Set<Long> conceptTagIds,
+                   String prescriptionImageUrl, String seniorTipImageUrl, String readingTipImageUrl,
+                   String mainAnalysisImageUrl, String mainProblemImageUrl, String memo, String answer, String title,
+                   ProblemType problemType, int number, PracticeTestTag practiceTestTag,
+                   ProblemAdminId problemAdminId) {
+        this.childProblems = childProblems;
+        this.isConfirmed = isConfirmed;
+        this.answerType = AnswerType.getTypeForProblem(practiceTestTag.getSubject().getValue(), number);
+        this.conceptTagIds = conceptTagIds;
         this.prescriptionImageUrl = prescriptionImageUrl;
-        this.problemType = ProblemType.getTypeForProblem(practiceTestTag.getSubject().getValue(), number);
-        this.answer = new Answer(answer, this.problemType);
-        this.conceptTagIds = new HashSet<>(conceptTagIds);
-        this.isPublished = false;
-        this.isVariation = false;
+        this.seniorTipImageUrl = seniorTipImageUrl;
+        this.readingTipImageUrl = readingTipImageUrl;
+        this.mainAnalysisImageUrl = mainAnalysisImageUrl;
+        this.mainProblemImageUrl = mainProblemImageUrl;
+        this.memo = memo;
+        this.answer = new Answer(answer, this.answerType);
+        this.title = title;
+        this.problemType = problemType;
+        this.number = number;
+        this.practiceTestId = practiceTestTag.getId();
+        this.problemAdminId = problemAdminId;
     }
 
     public String getAnswer() {
@@ -90,8 +107,8 @@ public class Problem extends BaseEntity {
     public void update(Problem inputProblem) {
         this.conceptTagIds = new HashSet<>(inputProblem.getConceptTagIds());
         this.number = inputProblem.getNumber();
-        this.answer = new Answer(inputProblem.getAnswer(), this.problemType);
-        this.comment = inputProblem.getComment();
+        this.answer = new Answer(inputProblem.getAnswer(), this.answerType);
+        this.memo = inputProblem.getMemo();
         this.mainProblemImageUrl = inputProblem.getMainProblemImageUrl();
         this.mainAnalysisImageUrl = inputProblem.getMainAnalysisImageUrl();
         this.readingTipImageUrl = inputProblem.getReadingTipImageUrl();
@@ -124,7 +141,7 @@ public class Problem extends BaseEntity {
     public boolean isValid() {
         return answer != null && !answer.getValue().isEmpty()
                 && practiceTestId != null
-                && comment != null && !comment.isEmpty()
+                && memo != null && !memo.isEmpty()
                 && readingTipImageUrl != null && !readingTipImageUrl.isEmpty()
                 && seniorTipImageUrl != null && !seniorTipImageUrl.isEmpty()
                 && prescriptionImageUrl != null && !prescriptionImageUrl.isEmpty()

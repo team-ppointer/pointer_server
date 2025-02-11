@@ -1,6 +1,6 @@
 package com.moplus.moplus_server.domain.problem.service;
 
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemId;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminId;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ public class ProblemDeleteService {
 
     @Transactional
     public void deleteProblem(String problemId) {
-        problemRepository.existsByIdElseThrow(new ProblemId(problemId));
-        problemRepository.deleteById(new ProblemId(problemId));
+        problemRepository.existsByIdElseThrow(new ProblemAdminId(problemId));
+        problemRepository.deleteById(new ProblemAdminId(problemId));
     }
 }

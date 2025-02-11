@@ -9,7 +9,7 @@ public record ProblemSummaryResponse(
         String problemId,
         int number,
         String practiceTestName,
-        String comment,
+        String memo,
         String mainProblemImageUrl,
         List<String> tagNames
 ) {
@@ -18,7 +18,7 @@ public record ProblemSummaryResponse(
         return ProblemSummaryResponse.builder()
                 .problemId(problem.getId().toString())
                 .number(problem.getNumber())
-                .comment(problem.getComment())
+                .memo(problem.getMemo())
                 .mainProblemImageUrl(problem.getMainProblemImageUrl())
                 .practiceTestName(practiceTestName)
                 .tagNames(tagNames)

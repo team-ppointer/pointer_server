@@ -1,7 +1,7 @@
 package com.moplus.moplus_server.domain.problemset.service;
 
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemId;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminId;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSet;
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSetConfirmStatus;
@@ -29,11 +29,11 @@ public class ProblemSetUpdateService {
         ProblemSet problemSet = problemSetRepository.findByIdElseThrow(problemSetId);
 
         // 기존 문항 ID 리스트 업데이트 (순서 반영)
-        List<ProblemId> updatedProblemIds = request.newProblems().stream()
-                .map(ProblemId::new)
+        List<ProblemAdminId> updatedProblemAdminIds = request.newProblems().stream()
+                .map(ProblemAdminId::new)
                 .collect(Collectors.toList());
 
-        problemSet.updateProblemOrder(updatedProblemIds);
+        problemSet.updateProblemOrder(updatedProblemAdminIds);
     }
 
     @Transactional
@@ -46,20 +46,20 @@ public class ProblemSetUpdateService {
         }
 
         // 문항 리스트 검증
-        List<ProblemId> problemIdList = request.problems().stream()
-                .map(ProblemId::new)
+        List<ProblemAdminId> problemAdminIdList = request.problems().stream()
+                .map(ProblemAdminId::new)
                 .collect(Collectors.toList());
-        problemIdList.forEach(problemRepository::findByIdElseThrow);
+        problemAdminIdList.forEach(problemRepository::findByIdElseThrow);
 
-        problemSet.updateProblemSet(request.problemSetTitle(), problemIdList);
+        problemSet.updateProblemSet(request.problemSetTitle(), problemAdminIdList);
     }
 
     @Transactional
     public ProblemSetConfirmStatus toggleConfirmProblemSet(Long problemSetId) {
         ProblemSet problemSet = problemSetRepository.findByIdElseThrow(problemSetId);
         List<Problem> problems = new ArrayList<>();
-        for (ProblemId problemId : problemSet.getProblemIds()) {
-            Problem problem = problemRepository.findByIdElseThrow(problemId);
+        for (ProblemAdminId problemAdminId : problemSet.getProblemAdminIds()) {
+            Problem problem = problemRepository.findByIdElseThrow(problemAdminId);
             problems.add(problem);
         }
         problemSet.toggleConfirm(problems);

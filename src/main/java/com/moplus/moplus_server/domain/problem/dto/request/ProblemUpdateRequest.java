@@ -5,7 +5,7 @@ import java.util.Set;
 
 public record ProblemUpdateRequest(
         Set<Long> conceptTagIds,
-        int answer,
+        String answer,
         String comment,
         String mainProblemImageUrl,
         String mainAnalysisImageUrl,

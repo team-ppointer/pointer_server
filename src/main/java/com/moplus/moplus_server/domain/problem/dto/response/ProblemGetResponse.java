@@ -1,6 +1,8 @@
 package com.moplus.moplus_server.domain.problem.dto.response;
 
+import com.moplus.moplus_server.domain.problem.domain.problem.AnswerType;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemType;
 import java.util.List;
 import java.util.Set;
 import lombok.Builder;
@@ -13,6 +15,8 @@ public record ProblemGetResponse(
         int number,
         String answer,
         String comment,
+        ProblemType problemType,
+        AnswerType answerType,
         String mainProblemImageUrl,
         String mainAnalysisImageUrl,
         String readingTipImageUrl,
@@ -28,7 +32,9 @@ public record ProblemGetResponse(
                 .practiceTestId(problem.getPracticeTestId())
                 .number(problem.getNumber())
                 .answer(problem.getAnswer())
-                .comment(problem.getComment())
+                .comment(problem.getMemo())
+                .problemType(problem.getProblemType())
+                .answerType(problem.getAnswerType())
                 .mainProblemImageUrl(problem.getMainProblemImageUrl())
                 .mainAnalysisImageUrl(problem.getMainAnalysisImageUrl())
                 .readingTipImageUrl(problem.getReadingTipImageUrl())

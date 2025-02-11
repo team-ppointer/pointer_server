@@ -3,9 +3,9 @@ package com.moplus.moplus_server.domain.problem.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem;
+import com.moplus.moplus_server.domain.problem.domain.problem.AnswerType;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemId;
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemType;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminId;
 import com.moplus.moplus_server.domain.problem.dto.request.ChildProblemPostRequest;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemPostRequest;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
@@ -39,16 +39,16 @@ class ProblemSaveServiceTest {
     void setUp() {
         // 🔹 1. 일부러 순서를 뒤죽박죽으로 설정한 문제
         ChildProblemPostRequest childProblem1 = new ChildProblemPostRequest(
-                "child1.png", ProblemType.SHORT_STRING_ANSWER, "정답1", Set.of(3L, 4L), 3
+                "child1.png", AnswerType.SHORT_STRING_ANSWER, "정답1", Set.of(3L, 4L), 3
         );
         ChildProblemPostRequest childProblem2 = new ChildProblemPostRequest(
-                "child2.png", ProblemType.MULTIPLE_CHOICE, "1", Set.of(5L, 6L), 1
+                "child2.png", AnswerType.MULTIPLE_CHOICE, "1", Set.of(5L, 6L), 1
         );
         ChildProblemPostRequest childProblem3 = new ChildProblemPostRequest(
-                "child3.png", ProblemType.MULTIPLE_CHOICE, "2", Set.of(3L, 4L), 0
+                "child3.png", AnswerType.MULTIPLE_CHOICE, "2", Set.of(3L, 4L), 0
         );
         ChildProblemPostRequest childProblem4 = new ChildProblemPostRequest(
-                "child4.png", ProblemType.SHORT_NUMBER_ANSWER, "0", Set.of(1L, 2L), 2
+                "child4.png", AnswerType.SHORT_NUMBER_ANSWER, "0", Set.of(1L, 2L), 2
         );
 
         problemPostRequestOutOfOrder = new ProblemPostRequest(
@@ -86,13 +86,13 @@ class ProblemSaveServiceTest {
     void 정상동작() {
 
         // when
-        ProblemId createdProblemId = problemSaveService.createProblem(problemPostRequestInOrder);
+        ProblemAdminId createdProblemAdminId = problemSaveService.createProblem(problemPostRequestInOrder);
 
         // then
-        assertThat(createdProblemId).isNotNull();
-        assertThat(createdProblemId.getId()).startsWith("2405200120"); // ID 앞부분 확인
+        assertThat(createdProblemAdminId).isNotNull();
+        assertThat(createdProblemAdminId.getId()).startsWith("2405200120"); // ID 앞부분 확인
 
-        Problem savedProblem = problemRepository.findByIdElseThrow(createdProblemId);
+        Problem savedProblem = problemRepository.findByIdElseThrow(createdProblemAdminId);
 
         // 모든 자식 문제의 conceptTagIds가 부모 문제의 conceptTagIds에 포함되는지 검증
         Set<Long> problemTags = savedProblem.getConceptTagIds();
@@ -114,14 +114,14 @@ class ProblemSaveServiceTest {
     @Test
     void 자식문제_올바른_순서_저장() {
         // when
-        ProblemId createdProblemId = problemSaveService.createProblem(problemPostRequestOutOfOrder);
+        ProblemAdminId createdProblemAdminId = problemSaveService.createProblem(problemPostRequestOutOfOrder);
 
         // then
-        assertThat(createdProblemId).isNotNull();
-        assertThat(createdProblemId.getId()).startsWith("2405210120"); // ID 앞부분 확인
+        assertThat(createdProblemAdminId).isNotNull();
+        assertThat(createdProblemAdminId.getId()).startsWith("2405210120"); // ID 앞부분 확인
 
         // 저장된 문제 조회
-        Problem savedProblem = problemRepository.findByIdElseThrow(createdProblemId);
+        Problem savedProblem = problemRepository.findByIdElseThrow(createdProblemAdminId);
 
         // ✅ 모든 자식 문제의 conceptTagIds가 부모 문제의 conceptTagIds에 포함되는지 검증
         Set<Long> problemTags = savedProblem.getConceptTagIds();

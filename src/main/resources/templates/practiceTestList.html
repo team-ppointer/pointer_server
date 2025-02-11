@@ -34,8 +34,8 @@
 <body>
 <div class="container">
     <div class="search-bar">
-        <input id="search-input" onkeyup="filterTests()" placeholder="검색" problemType="text">
-        <button problemType="button">
+        <input answerType="text" id="search-input" onkeyup="filterTests()" placeholder="검색">
+        <button answerType="button">
             <img alt="검색" src="/images/search_icon.png">
         </button>
     </div>
@@ -57,8 +57,8 @@
                     </a>
                 </div>
                 <form class="delete-form" method="post" th:action="@{'/admin/practiceTests/' + ${test.id} + '/delete'}">
-                    <input name="_method" problemType="hidden" value="delete">
-                    <button class="delete-test-button" onclick="confirmDeletion(event)" problemType="button">삭제</button>
+                    <input answerType="hidden" name="_method" value="delete">
+                    <button answerType="button" class="delete-test-button" onclick="confirmDeletion(event)">삭제</button>
                 </form>
             </div>
         </li>

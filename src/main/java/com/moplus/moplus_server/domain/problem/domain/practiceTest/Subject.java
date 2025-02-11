@@ -19,7 +19,7 @@ public enum Subject {
     private final String value;
     private final int problemCount;
     private final int perfectScore;
-    private final int idCode;
+    private final int code;
 
     public static Subject fromValue(String value) {
         return Arrays.stream(Subject.values())

@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemId;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminId;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemPostRequest;
 import com.moplus.moplus_server.domain.problem.repository.PracticeTestTagRepository;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
@@ -61,9 +61,9 @@ public class ProblemSetGetServiceTest {
         );
 
         // 문제 저장
-        ProblemId createdProblemId = problemRepository.save(
+        ProblemAdminId createdProblemAdminId = problemRepository.save(
                 new Problem(
-                        new ProblemId("24052001001"),
+                        new ProblemAdminId("24052001001"),
                         practiceTestTagRepository.findByIdElseThrow(1L),
                         1,
                         "1",
@@ -77,7 +77,7 @@ public class ProblemSetGetServiceTest {
                 )
         ).getId();
 
-        savedProblem = problemRepository.findByIdElseThrow(createdProblemId);
+        savedProblem = problemRepository.findByIdElseThrow(createdProblemAdminId);
 
         // 문항세트 저장
         savedProblemSet = problemSetRepository.save(
@@ -112,7 +112,7 @@ public class ProblemSetGetServiceTest {
         // given: 여러 개의 문제를 저장
         Problem savedProblem2 = problemRepository.save(
                 new Problem(
-                        new ProblemId("24052001002"),
+                        new ProblemAdminId("24052001002"),
                         practiceTestTagRepository.findByIdElseThrow(1L),
                         2,
                         "2",

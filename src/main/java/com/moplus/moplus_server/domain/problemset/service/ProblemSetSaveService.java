@@ -1,6 +1,6 @@
 package com.moplus.moplus_server.domain.problemset.service;
 
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemId;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminId;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSet;
 import com.moplus.moplus_server.domain.problemset.dto.request.ProblemSetPostRequest;
@@ -27,15 +27,15 @@ public class ProblemSetSaveService {
         }
 
         // 문제 ID 리스트를 ProblemId 객체로 변환
-        List<ProblemId> problemIdList = request.problems().stream()
-                .map(ProblemId::new)
+        List<ProblemAdminId> problemAdminIdList = request.problems().stream()
+                .map(ProblemAdminId::new)
                 .toList();
 
         // 모든 문항이 DB에 존재하는지 검증
-        problemIdList.forEach(problemRepository::findByIdElseThrow);
+        problemAdminIdList.forEach(problemRepository::findByIdElseThrow);
 
         // ProblemSet 생성
-        ProblemSet problemSet = request.toEntity(problemIdList);
+        ProblemSet problemSet = request.toEntity(problemAdminIdList);
 
         return problemSetRepository.save(problemSet).getId();
     }

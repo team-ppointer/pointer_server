@@ -19,7 +19,7 @@
             font-weight: bold;
         }
 
-        input[problemType="text"] {
+        input[answerType="text"] {
             width: 100%;
             padding: 8px;
             box-sizing: border-box;
@@ -48,7 +48,7 @@
         }
 
         /* Radio 버튼 숨기기 */
-        .subject-item input[problemType="radio"] {
+        .subject-item input[answerType="radio"] {
             display: none;
         }
 
@@ -64,7 +64,7 @@
         }
 
         /* 선택된 라디오 버튼 스타일 */
-        .subject-item input[problemType="radio"]:checked + label {
+        .subject-item input[answerType="radio"]:checked + label {
             background-color: #f79a3e;
             color: white;
             border-color: #f47c20;
@@ -106,25 +106,26 @@
 <h1>Practice Test 등록</h1>
 
 <form method="post"
-      th:action="${practiceTestRequest.id != null ? '/admin/practiceTests/submit/' + practiceTestRequest.id : '/admin/practiceTests/submit'}" th:object="${practiceTestRequest}">
+      th:action="${practiceTestRequest.id != null ? '/admin/practiceTests/submit/' + practiceTestRequest.id : '/admin/practiceTests/submit'}"
+      th:object="${practiceTestRequest}">
     <div class="form-group">
         <label for="name">이름</label>
-        <input id="name" placeholder="이름" problemType="text" th:field="*{name}">
+        <input answerType="text" id="name" placeholder="이름" th:field="*{name}">
     </div>
 
     <div class="form-group">
         <label for="round">회차</label>
-        <input id="round" placeholder="회차" problemType="text" th:field="*{round}">
+        <input answerType="text" id="round" placeholder="회차" th:field="*{round}">
     </div>
 
     <div class="form-group">
         <label for="provider">출제기관</label>
-        <input id="provider" placeholder="출제기관" problemType="text" th:field="*{provider}">
+        <input answerType="text" id="provider" placeholder="출제기관" th:field="*{provider}">
     </div>
 
     <div class="form-group">
         <label for="provider">출제 연도</label>
-        <input id="publicationYear" placeholder="출제 연도" problemType="text" th:field="*{publicationYear}">
+        <input answerType="text" id="publicationYear" placeholder="출제 연도" th:field="*{publicationYear}">
     </div>
 
     <div class="form-group">
@@ -132,7 +133,7 @@
         <div class="subject-container">
             <div class="subject-item" th:each="subject, iterStat : ${subjects}">
                 <!-- 고유한 id와 for 값을 설정 -->
-                <input problemType="radio" th:field="*{subject}" th:id="'subject' + ${iterStat.index}"
+                <input answerType="radio" th:field="*{subject}" th:id="'subject' + ${iterStat.index}"
                        th:onchange="'showTable(' + ${iterStat.index} + ')'"
                        th:value="${subject}"/>
                 <label th:for="'subject' + ${iterStat.index}" th:text="${subject.getValue()}"></label>
@@ -150,9 +151,10 @@
                     <div th:each="ratingTable, ratingTableStat : ${practiceTestRequest.ratingTables}">
                         <!-- Provider 이름 표시 행 -->
                         <th colspan="4">
-                            <input placeholder="Rating Provider"
-                                   problemType="text"
-                                   th:field="*{ratingTables[__${ratingTableStat.index}__].ratingProvider}" th:value="${ratingTable.ratingProvider}"/>
+                            <input answerType="text"
+                                   placeholder="Rating Provider"
+                                   th:field="*{ratingTables[__${ratingTableStat.index}__].ratingProvider}"
+                                   th:value="${ratingTable.ratingProvider}"/>
                         </th>
                         <tr>
                             <th>등급</th>
@@ -163,19 +165,23 @@
                         <tr th:each="ratingRow, ratingRowStat : ${ratingTable.ratingRows}"
                             th:if="${ratingTable.ratingRows != null and !#lists.isEmpty(ratingTable.ratingRows)}">
                             <td>
-                                <input problemType="text"
+                                <input answerType="text"
                                        readonly
-                                       th:field="*{ratingTables[__${ratingTableStat.index}__].ratingRows[__${ratingRowStat.index}__].rating}" th:value="${ratingRow.rating}"/>
+                                       th:field="*{ratingTables[__${ratingTableStat.index}__].ratingRows[__${ratingRowStat.index}__].rating}"
+                                       th:value="${ratingRow.rating}"/>
                             </td>
-                            <td><input placeholder="원점수"
-                                       problemType="text"
-                                       th:field="*{ratingTables[__${ratingTableStat.index}__].ratingRows[__${ratingRowStat.index}__].rawScores}"></td>
-                            <td><input placeholder="표준점수"
-                                       problemType="text"
-                                       th:field="*{ratingTables[__${ratingTableStat.index}__].ratingRows[__${ratingRowStat.index}__].standardScores}"></td>
-                            <td><input placeholder="백분위"
-                                       problemType="text"
-                                       th:field="*{ratingTables[__${ratingTableStat.index}__].ratingRows[__${ratingRowStat.index}__].percentiles}"></td>
+                            <td><input answerType="text"
+                                       placeholder="원점수"
+                                       th:field="*{ratingTables[__${ratingTableStat.index}__].ratingRows[__${ratingRowStat.index}__].rawScores}">
+                            </td>
+                            <td><input answerType="text"
+                                       placeholder="표준점수"
+                                       th:field="*{ratingTables[__${ratingTableStat.index}__].ratingRows[__${ratingRowStat.index}__].standardScores}">
+                            </td>
+                            <td><input answerType="text"
+                                       placeholder="백분위"
+                                       th:field="*{ratingTables[__${ratingTableStat.index}__].ratingRows[__${ratingRowStat.index}__].percentiles}">
+                            </td>
                         </tr>
                     </div>
                     </tbody>
@@ -184,7 +190,7 @@
         </div>
     </div>
 
-    <button problemType="submit">선택완료</button>
+    <button answerType="submit">선택완료</button>
 </form>
 
 <script>
@@ -209,7 +215,7 @@
 
     // 페이지가 로드되었을 때 선택된 과목이 있으면 해당 테이블 표시
     document.addEventListener('DOMContentLoaded', function () {
-        const selectedRadio = document.querySelector('.subject-item input[problemType="radio"]:checked');
+        const selectedRadio = document.querySelector('.subject-item input[answerType="radio"]:checked');
         if (selectedRadio) {
             showTable(selectedRadio.id.replace('subject', ''));
         }

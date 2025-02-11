@@ -22,10 +22,11 @@ public class ProblemSetSearchRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public List<ProblemSetSearchGetResponse> search(String problemSetTitle, String problemTitle, List<String> conceptTagNames) {
+    public List<ProblemSetSearchGetResponse> search(String problemSetTitle, String problemTitle,
+                                                    List<String> conceptTagNames) {
         return queryFactory
                 .from(problemSet)
-                .leftJoin(problem).on(problem.id.in(problemSet.problemIds)) // 문제 세트 내 포함된 문항과 조인
+                .leftJoin(problem).on(problem.problemAdminId.in(problemSet.problemAdminIds)) // 문제 세트 내 포함된 문항과 조인
                 .leftJoin(conceptTag).on(conceptTag.id.in(problem.conceptTagIds)) // 문제의 개념 태그 조인
                 .leftJoin(publish).on(publish.problemSetId.eq(problemSet.id)) // 문제 세트와 발행 데이터 조인
                 .where(
@@ -48,10 +49,11 @@ public class ProblemSetSearchRepositoryCustom {
                 ));
     }
 
-    public List<ProblemSetSearchGetResponse> confirmSearch(String problemSetTitle, String problemTitle, List<String> conceptTagNames) {
+    public List<ProblemSetSearchGetResponse> confirmSearch(String problemSetTitle, String problemTitle,
+                                                           List<String> conceptTagNames) {
         return queryFactory
                 .from(problemSet)
-                .leftJoin(problem).on(problem.id.in(problemSet.problemIds)) // 문제 세트 내 포함된 문항과 조인
+                .leftJoin(problem).on(problem.problemAdminId.in(problemSet.problemAdminIds)) // 문제 세트 내 포함된 문항과 조인
                 .leftJoin(conceptTag).on(conceptTag.id.in(problem.conceptTagIds)) // 문제의 개념 태그 조인
                 .leftJoin(publish).on(publish.problemSetId.eq(problemSet.id)) // 문제 세트와 발행 데이터 조인
                 .where(
@@ -76,11 +78,12 @@ public class ProblemSetSearchRepositoryCustom {
     }
 
     private BooleanExpression containsProblemSetTitle(String problemSetTitle) {
-        return (problemSetTitle == null || problemSetTitle.isEmpty()) ? null : problemSet.title.value.containsIgnoreCase(problemSetTitle);
+        return (problemSetTitle == null || problemSetTitle.isEmpty()) ? null
+                : problemSet.title.value.containsIgnoreCase(problemSetTitle);
     }
 
     private BooleanExpression containsProblemTitle(String problemTitle) {
-        return (problemTitle == null || problemTitle.isEmpty()) ? null : problem.comment.containsIgnoreCase(problemTitle);
+        return (problemTitle == null || problemTitle.isEmpty()) ? null : problem.memo.containsIgnoreCase(problemTitle);
     }
 
     private BooleanExpression containsConceptTagNames(List<String> conceptTagNames) {

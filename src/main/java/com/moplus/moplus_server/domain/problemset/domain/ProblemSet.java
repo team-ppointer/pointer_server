@@ -1,7 +1,7 @@
 package com.moplus.moplus_server.domain.problemset.domain;
 
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemId;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminId;
 import com.moplus.moplus_server.global.common.BaseEntity;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.InvalidValueException;
@@ -43,20 +43,20 @@ public class ProblemSet extends BaseEntity {
 
     @ElementCollection
     @CollectionTable(name = "problem_set_problems", joinColumns = @JoinColumn(name = "problem_set_id"))
-    @Column(name = "problem_id")
+    @Column(name = "problem_admin_id")
     @OrderColumn(name = "sequence")
-    private List<ProblemId> problemIds = new ArrayList<>();
+    private List<ProblemAdminId> problemAdminIds = new ArrayList<>();
 
     @Builder
-    public ProblemSet(String title, List<ProblemId> problemIds) {
+    public ProblemSet(String title, List<ProblemAdminId> problemAdminIds) {
         this.title = new Title(title);
         this.isDeleted = false;
         this.confirmStatus = ProblemSetConfirmStatus.NOT_CONFIRMED;
-        this.problemIds = problemIds;
+        this.problemAdminIds = problemAdminIds;
     }
 
-    public void updateProblemOrder(List<ProblemId> newProblems) {
-        this.problemIds = new ArrayList<>(newProblems);
+    public void updateProblemOrder(List<ProblemAdminId> newProblems) {
+        this.problemAdminIds = new ArrayList<>(newProblems);
     }
 
     public void deleteProblemSet() {
@@ -64,10 +64,10 @@ public class ProblemSet extends BaseEntity {
     }
 
     public void toggleConfirm(List<Problem> problems) {
-        if(this.confirmStatus == ProblemSetConfirmStatus.NOT_CONFIRMED){
+        if (this.confirmStatus == ProblemSetConfirmStatus.NOT_CONFIRMED) {
             List<String> invalidProblemIds = problems.stream()
                     .filter(problem -> !problem.isValid())
-                    .map(problem -> problem.getId().getId())
+                    .map(problem -> problem.getProblemAdminId().getId())
                     .toList();
             if (!invalidProblemIds.isEmpty()) {
                 String message = ErrorCode.INVALID_CONFIRM_PROBLEM.getMessage() +
@@ -78,8 +78,8 @@ public class ProblemSet extends BaseEntity {
         this.confirmStatus = this.confirmStatus.toggle();
     }
 
-    public void updateProblemSet(String title, List<ProblemId> newProblems) {
+    public void updateProblemSet(String title, List<ProblemAdminId> newProblems) {
         this.title = new Title(title);
-        this.problemIds = newProblems;
+        this.problemAdminIds = newProblems;
     }
 }

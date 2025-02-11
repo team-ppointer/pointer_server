@@ -59,10 +59,10 @@ public class ProblemSetServiceTest {
 
         assertThat(savedProblemSet).isNotNull();
         assertThat(savedProblemSet.getTitle().getValue()).isEqualTo("초기 문항세트");
-        assertThat(savedProblemSet.getProblemIds()).hasSize(3);
-        assertThat(savedProblemSet.getProblemIds().get(0).getId()).isEqualTo("24052001001");
-        assertThat(savedProblemSet.getProblemIds().get(1).getId()).isEqualTo("24052001002");
-        assertThat(savedProblemSet.getProblemIds().get(2).getId()).isEqualTo("24052001003");
+        assertThat(savedProblemSet.getProblemAdminIds()).hasSize(3);
+        assertThat(savedProblemSet.getProblemAdminIds().get(0).getId()).isEqualTo("24052001001");
+        assertThat(savedProblemSet.getProblemAdminIds().get(1).getId()).isEqualTo("24052001002");
+        assertThat(savedProblemSet.getProblemAdminIds().get(2).getId()).isEqualTo("24052001003");
     }
 
     @Test
@@ -80,9 +80,9 @@ public class ProblemSetServiceTest {
         ProblemSet updatedProblemSet = problemSetRepository.findById(problemSetId)
                 .orElseThrow(() -> new IllegalArgumentException("문항세트를 찾을 수 없습니다."));
 
-        assertThat(updatedProblemSet.getProblemIds().get(0).getId()).isEqualTo("24052001003");
-        assertThat(updatedProblemSet.getProblemIds().get(1).getId()).isEqualTo("24052001001");
-        assertThat(updatedProblemSet.getProblemIds().get(2).getId()).isEqualTo("24052001002");
+        assertThat(updatedProblemSet.getProblemAdminIds().get(0).getId()).isEqualTo("24052001003");
+        assertThat(updatedProblemSet.getProblemAdminIds().get(1).getId()).isEqualTo("24052001001");
+        assertThat(updatedProblemSet.getProblemAdminIds().get(2).getId()).isEqualTo("24052001002");
     }
 
     @Test
@@ -101,9 +101,9 @@ public class ProblemSetServiceTest {
         ProblemSet updatedProblemSet = problemSetRepository.findByIdElseThrow(problemSetId);
 
         assertThat(updatedProblemSet.getTitle().getValue()).isEqualTo("업데이트된 문항세트");
-        assertThat(updatedProblemSet.getProblemIds()).hasSize(2);
-        assertThat(updatedProblemSet.getProblemIds().get(0).getId()).isEqualTo("24052001002");
-        assertThat(updatedProblemSet.getProblemIds().get(1).getId()).isEqualTo("24052001003");
+        assertThat(updatedProblemSet.getProblemAdminIds()).hasSize(2);
+        assertThat(updatedProblemSet.getProblemAdminIds().get(0).getId()).isEqualTo("24052001002");
+        assertThat(updatedProblemSet.getProblemAdminIds().get(1).getId()).isEqualTo("24052001003");
     }
 
     @Test
@@ -112,8 +112,10 @@ public class ProblemSetServiceTest {
         Long problemSetId = problemSetSaveService.createProblemSet(problemSetPostRequest);
 
         // when
-        ProblemSetConfirmStatus firstToggleStatus = problemSetUpdateService.toggleConfirmProblemSet(problemSetId); // CONFIRMED
-        ProblemSetConfirmStatus secondToggleStatus = problemSetUpdateService.toggleConfirmProblemSet(problemSetId); // NOT_CONFIRMED
+        ProblemSetConfirmStatus firstToggleStatus = problemSetUpdateService.toggleConfirmProblemSet(
+                problemSetId); // CONFIRMED
+        ProblemSetConfirmStatus secondToggleStatus = problemSetUpdateService.toggleConfirmProblemSet(
+                problemSetId); // NOT_CONFIRMED
 
         // then
         assertThat(firstToggleStatus).isEqualTo(ProblemSetConfirmStatus.CONFIRMED); // 첫 번째 호출 후 컨펌 상태 확인

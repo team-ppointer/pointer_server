@@ -3,9 +3,9 @@ package com.moplus.moplus_server.domain.problem.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem;
+import com.moplus.moplus_server.domain.problem.domain.problem.AnswerType;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemId;
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemType;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminId;
 import com.moplus.moplus_server.domain.problem.dto.request.ChildProblemUpdateRequest;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemUpdateRequest;
 import com.moplus.moplus_server.domain.problem.dto.response.ProblemGetResponse;
@@ -33,18 +33,18 @@ class ProblemUpdateServiceTest {
     @Autowired
     private ProblemRepository problemRepository;
 
-    private ProblemId problemId;
+    private ProblemAdminId problemAdminId;
     private ProblemUpdateRequest problemUpdateRequest;
 
     @BeforeEach
     void setUp() {
-        problemId = new ProblemId("240520012001");
+        problemAdminId = new ProblemAdminId("240520012001");
 
         // 🔹 새 자식 문제 추가
         ChildProblemUpdateRequest newChildProblem = new ChildProblemUpdateRequest(
                 null,
                 "newChild.png",
-                ProblemType.SHORT_STRING_ANSWER,
+                AnswerType.SHORT_STRING_ANSWER,
                 "새로운 정답",
                 Set.of(1L, 2L),
                 1
@@ -54,7 +54,7 @@ class ProblemUpdateServiceTest {
         ChildProblemUpdateRequest updateChildProblem = new ChildProblemUpdateRequest(
                 1L, // 기존 자식 문제 ID
                 "updatedChild.png",
-                ProblemType.MULTIPLE_CHOICE,
+                AnswerType.MULTIPLE_CHOICE,
                 "2",
                 Set.of(2L, 3L),
                 0
@@ -80,7 +80,7 @@ class ProblemUpdateServiceTest {
     @Test
     void 문제_업데이트_정상동작() {
         // when
-        ProblemGetResponse response = problemUpdateService.updateProblem(problemId.getId(),
+        ProblemGetResponse response = problemUpdateService.updateProblem(problemAdminId.getId(),
                 problemUpdateRequest);
 
         // then
@@ -88,7 +88,7 @@ class ProblemUpdateServiceTest {
         assertThat(response.comment()).isEqualTo("수정된 설명"); // ✅ 설명이 변경되었는지 검증
         assertThat(response.mainProblemImageUrl()).isEqualTo("updatedMainProblem.png"); // ✅ 이미지 URL 변경 확인
 
-        Problem updatedProblem = problemRepository.findByIdElseThrow(problemId);
+        Problem updatedProblem = problemRepository.findByIdElseThrow(problemAdminId);
 
         // ✅ 자식 문제 개수 검증
         List<ChildProblem> childProblems = updatedProblem.getChildProblems();
