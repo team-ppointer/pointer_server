@@ -46,7 +46,7 @@ public class ProblemSetSearchRepositoryCustomTest {
     @Test
     void 문항타이틀_포함_검색() {
         // when
-        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search(null, "설명 1", null);
+        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search(null, "설명", null);
 
         // then
         assertThat(result).hasSize(2);

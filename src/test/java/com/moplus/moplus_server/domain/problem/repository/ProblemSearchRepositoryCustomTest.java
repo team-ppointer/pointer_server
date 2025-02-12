@@ -23,12 +23,12 @@ public class ProblemSearchRepositoryCustomTest {
     @Test
     void problemId_일부_포함_검색() {
         // when
-        List<ProblemSearchGetResponse> result = problemSearchRepository.search("240520012", null, null);
+        List<ProblemSearchGetResponse> result = problemSearchRepository.search("12240520", null, null);
 
         // then
         assertThat(result).hasSize(2);
         assertThat(result).extracting(ProblemSearchGetResponse::getProblemId)
-                .containsExactlyInAnyOrder("240520012001", "240520012002");
+                .containsExactlyInAnyOrder("1224052001", "1224052002");
     }
 
     @Test
@@ -38,7 +38,7 @@ public class ProblemSearchRepositoryCustomTest {
 
         // then
         assertThat(result).hasSize(1);
-        assertThat(result.get(0).getProblemId()).isEqualTo("240520012001");
+        assertThat(result.get(0).getProblemId()).isEqualTo("1224052001");
     }
 
     @Test
@@ -49,17 +49,17 @@ public class ProblemSearchRepositoryCustomTest {
         // then
         assertThat(result).hasSize(2);
         assertThat(result).extracting(ProblemSearchGetResponse::getProblemId)
-                .containsExactlyInAnyOrder("240520012001", "240520012002");
+                .containsExactlyInAnyOrder("1224052001", "1224052002");
     }
 
     @Test
     void problemId_이름_conceptTagIds_모두_적용된_검색() {
         // when
-        List<ProblemSearchGetResponse> result = problemSearchRepository.search("2405200120", "설명 1", List.of(1L));
+        List<ProblemSearchGetResponse> result = problemSearchRepository.search("12240520", "설명 1", List.of(1L));
 
         // then
         assertThat(result).hasSize(1);
-        assertThat(result.get(0).getProblemId()).isEqualTo("240520012001");
+        assertThat(result.get(0).getProblemId()).isEqualTo("1224052001");
     }
 
     @Test

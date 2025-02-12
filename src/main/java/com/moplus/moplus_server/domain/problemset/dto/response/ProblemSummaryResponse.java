@@ -16,7 +16,7 @@ public record ProblemSummaryResponse(
     public static ProblemSummaryResponse of(Problem problem, String practiceTestName, List<String> tagNames) {
 
         return ProblemSummaryResponse.builder()
-                .problemId(problem.getId().toString())
+                .problemId(problem.getProblemAdminId().getId())
                 .number(problem.getNumber())
                 .memo(problem.getMemo())
                 .mainProblemImageUrl(problem.getMainProblemImageUrl())

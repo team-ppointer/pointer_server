@@ -13,33 +13,39 @@ public record ProblemGetResponse(
         Set<Long> conceptTagIds,
         Long practiceTestId,
         int number,
+        Integer difficulty,
+        String title,
         String answer,
-        String comment,
+        String memo,
         ProblemType problemType,
         AnswerType answerType,
         String mainProblemImageUrl,
+        String mainHandwritingExplanationImageUrl,
         String mainAnalysisImageUrl,
         String readingTipImageUrl,
         String seniorTipImageUrl,
-        String prescriptionImageUrl,
+        List<String> prescriptionImageUrls,
         List<ChildProblemGetResponse> childProblems
 ) {
 
     public static ProblemGetResponse of(Problem problem) {
         return ProblemGetResponse.builder()
-                .problemId(problem.getId().toString())
+                .problemId(problem.getProblemAdminId().getId())
                 .conceptTagIds(problem.getConceptTagIds())
                 .practiceTestId(problem.getPracticeTestId())
                 .number(problem.getNumber())
                 .answer(problem.getAnswer())
-                .comment(problem.getMemo())
+                .title(problem.getTitle())
+                .difficulty(problem.getDifficulty())
+                .memo(problem.getMemo())
                 .problemType(problem.getProblemType())
                 .answerType(problem.getAnswerType())
                 .mainProblemImageUrl(problem.getMainProblemImageUrl())
+                .mainHandwritingExplanationImageUrl(problem.getMainHandwritingExplanationImageUrl())
                 .mainAnalysisImageUrl(problem.getMainAnalysisImageUrl())
                 .readingTipImageUrl(problem.getReadingTipImageUrl())
                 .seniorTipImageUrl(problem.getSeniorTipImageUrl())
-                .prescriptionImageUrl(problem.getPrescriptionImageUrl())
+                .prescriptionImageUrls(problem.getPrescriptionImageUrls())
                 .childProblems(problem.getChildProblems().stream()
                         .map(ChildProblemGetResponse::of)
                         .toList())

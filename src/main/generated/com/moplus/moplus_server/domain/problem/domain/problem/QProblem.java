@@ -35,11 +35,15 @@ public class QProblem extends EntityPathBase<Problem> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
 
+    public final QDifficulty difficulty;
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final BooleanPath isConfirmed = createBoolean("isConfirmed");
 
     public final StringPath mainAnalysisImageUrl = createString("mainAnalysisImageUrl");
+
+    public final StringPath mainHandwritingExplanationImageUrl = createString("mainHandwritingExplanationImageUrl");
 
     public final StringPath mainProblemImageUrl = createString("mainProblemImageUrl");
 
@@ -49,7 +53,7 @@ public class QProblem extends EntityPathBase<Problem> {
 
     public final NumberPath<Long> practiceTestId = createNumber("practiceTestId", Long.class);
 
-    public final StringPath prescriptionImageUrl = createString("prescriptionImageUrl");
+    public final ListPath<String, StringPath> prescriptionImageUrls = this.<String, StringPath>createList("prescriptionImageUrls", String.class, StringPath.class, PathInits.DIRECT2);
 
     public final QProblemAdminId problemAdminId;
 
@@ -59,7 +63,7 @@ public class QProblem extends EntityPathBase<Problem> {
 
     public final StringPath seniorTipImageUrl = createString("seniorTipImageUrl");
 
-    public final StringPath title = createString("title");
+    public final QTitle title;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedDate = _super.updatedDate;
@@ -83,7 +87,9 @@ public class QProblem extends EntityPathBase<Problem> {
     public QProblem(Class<? extends Problem> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.answer = inits.isInitialized("answer") ? new com.moplus.moplus_server.domain.problem.domain.QAnswer(forProperty("answer")) : null;
+        this.difficulty = inits.isInitialized("difficulty") ? new QDifficulty(forProperty("difficulty")) : null;
         this.problemAdminId = inits.isInitialized("problemAdminId") ? new QProblemAdminId(forProperty("problemAdminId")) : null;
+        this.title = inits.isInitialized("title") ? new QTitle(forProperty("title")) : null;
     }
 
 }

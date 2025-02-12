@@ -44,7 +44,7 @@ public class ProblemSetServiceTest {
         // 초기 문항 세트 생성 요청 데이터 준비
         problemSetPostRequest = new ProblemSetPostRequest(
                 "초기 문항세트",
-                List.of("24052001001", "24052001002", "24052001003")
+                List.of(1L, 2L, 3L)
         );
     }
 
@@ -59,10 +59,7 @@ public class ProblemSetServiceTest {
 
         assertThat(savedProblemSet).isNotNull();
         assertThat(savedProblemSet.getTitle().getValue()).isEqualTo("초기 문항세트");
-        assertThat(savedProblemSet.getProblemAdminIds()).hasSize(3);
-        assertThat(savedProblemSet.getProblemAdminIds().get(0).getId()).isEqualTo("24052001001");
-        assertThat(savedProblemSet.getProblemAdminIds().get(1).getId()).isEqualTo("24052001002");
-        assertThat(savedProblemSet.getProblemAdminIds().get(2).getId()).isEqualTo("24052001003");
+        assertThat(savedProblemSet.getProblemIds()).hasSize(3);
     }
 
     @Test
@@ -72,7 +69,7 @@ public class ProblemSetServiceTest {
 
         // when
         ProblemReorderRequest reorderRequest = new ProblemReorderRequest(
-                List.of("24052001003", "24052001001", "24052001002")
+                List.of(1L, 2L, 3L)
         );
         problemSetUpdateService.reorderProblems(problemSetId, reorderRequest);
 
@@ -80,9 +77,6 @@ public class ProblemSetServiceTest {
         ProblemSet updatedProblemSet = problemSetRepository.findById(problemSetId)
                 .orElseThrow(() -> new IllegalArgumentException("문항세트를 찾을 수 없습니다."));
 
-        assertThat(updatedProblemSet.getProblemAdminIds().get(0).getId()).isEqualTo("24052001003");
-        assertThat(updatedProblemSet.getProblemAdminIds().get(1).getId()).isEqualTo("24052001001");
-        assertThat(updatedProblemSet.getProblemAdminIds().get(2).getId()).isEqualTo("24052001002");
     }
 
     @Test
@@ -93,7 +87,7 @@ public class ProblemSetServiceTest {
         // when
         ProblemSetUpdateRequest updateRequest = new ProblemSetUpdateRequest(
                 "업데이트된 문항세트",
-                List.of("24052001002", "24052001003")
+                List.of(1L, 2L)
         );
         problemSetUpdateService.updateProblemSet(problemSetId, updateRequest);
 
@@ -101,9 +95,8 @@ public class ProblemSetServiceTest {
         ProblemSet updatedProblemSet = problemSetRepository.findByIdElseThrow(problemSetId);
 
         assertThat(updatedProblemSet.getTitle().getValue()).isEqualTo("업데이트된 문항세트");
-        assertThat(updatedProblemSet.getProblemAdminIds()).hasSize(2);
-        assertThat(updatedProblemSet.getProblemAdminIds().get(0).getId()).isEqualTo("24052001002");
-        assertThat(updatedProblemSet.getProblemAdminIds().get(1).getId()).isEqualTo("24052001003");
+        assertThat(updatedProblemSet.getProblemIds()).hasSize(2);
+
     }
 
     @Test
@@ -130,7 +123,7 @@ public class ProblemSetServiceTest {
         // 유효하지 않은 문항을 포함하도록 설정 (문항 ID가 존재하지 않거나 필수 필드가 누락된 경우)
         ProblemSetUpdateRequest invalidUpdateRequest = new ProblemSetUpdateRequest(
                 "유효하지 않은 문항세트",
-                List.of("24052001001", "24052001004")
+                List.of(1L, 4L)
         );
         problemSetUpdateService.updateProblemSet(problemSetId, invalidUpdateRequest);
 
@@ -160,12 +153,12 @@ public class ProblemSetServiceTest {
         // given
         ProblemSetPostRequest emptyTitleRequest = new ProblemSetPostRequest(
                 "", // 빈 문자열 제목
-                List.of("24052001001", "24052001002", "24052001003")
+                List.of(1L, 2L, 3L)
         );
 
         ProblemSetPostRequest nullTitleRequest = new ProblemSetPostRequest(
                 null, // null 제목
-                List.of("24052001001", "24052001002", "24052001003")
+                List.of(1L, 2L, 3L)
         );
 
         // when

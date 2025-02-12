@@ -1,7 +1,6 @@
 package com.moplus.moplus_server.domain.problemset.domain;
 
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminId;
 import com.moplus.moplus_server.global.common.BaseEntity;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.InvalidValueException;
@@ -43,20 +42,20 @@ public class ProblemSet extends BaseEntity {
 
     @ElementCollection
     @CollectionTable(name = "problem_set_problems", joinColumns = @JoinColumn(name = "problem_set_id"))
-    @Column(name = "problem_admin_id")
+    @Column(name = "problem_id")
     @OrderColumn(name = "sequence")
-    private List<ProblemAdminId> problemAdminIds = new ArrayList<>();
+    private List<Long> problemIds = new ArrayList<>();
 
     @Builder
-    public ProblemSet(String title, List<ProblemAdminId> problemAdminIds) {
+    public ProblemSet(String title, List<Long> problemIds) {
         this.title = new Title(title);
         this.isDeleted = false;
         this.confirmStatus = ProblemSetConfirmStatus.NOT_CONFIRMED;
-        this.problemAdminIds = problemAdminIds;
+        this.problemIds = problemIds;
     }
 
-    public void updateProblemOrder(List<ProblemAdminId> newProblems) {
-        this.problemAdminIds = new ArrayList<>(newProblems);
+    public void updateProblemOrder(List<Long> newProblems) {
+        this.problemIds = new ArrayList<>(newProblems);
     }
 
     public void deleteProblemSet() {
@@ -78,8 +77,8 @@ public class ProblemSet extends BaseEntity {
         this.confirmStatus = this.confirmStatus.toggle();
     }
 
-    public void updateProblemSet(String title, List<ProblemAdminId> newProblems) {
+    public void updateProblemSet(String title, List<Long> newProblems) {
         this.title = new Title(title);
-        this.problemAdminIds = newProblems;
+        this.problemIds = newProblems;
     }
 }

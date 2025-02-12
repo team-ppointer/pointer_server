@@ -21,11 +21,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class ProblemAdminIdServiceTest {
 
+    public static final String ID_LENGTH = "10";
     @Mock
     private ProblemRepository problemRepository;
 
     @InjectMocks
-    private ProblemIdService problemIdService;
+    private ProblemAdminIdService problemAdminIdService;
 
     private PracticeTestTag practiceTestTag;
 
@@ -41,18 +42,19 @@ class ProblemAdminIdServiceTest {
     void nextId_정상생성_및_중복확인() {
         // given
         int 문제번호 = 20;
-        when(problemRepository.existsById(any(ProblemAdminId.class))).thenReturn(false); // 중복 없음
+        ProblemType problemType = ProblemType.GICHUL_PROBLEM;
+        when(problemRepository.existsByProblemAdminId(any())).thenReturn(false); // 중복 없음
 
         // when
-        ProblemAdminId generatedId = problemIdService.nextId(문제번호, practiceTestTag);
+        ProblemAdminId generatedId = problemAdminIdService.nextId(문제번호, practiceTestTag, problemType);
 
         // then
         assertThat(generatedId).isNotNull();
-        assertThat(generatedId.getId()).matches("\\d{13}"); // ID 형식이 맞는지 확인
-        assertThat(generatedId.getId()).startsWith("2405200120");
+        assertThat(generatedId.getId()).matches("\\d{" + ID_LENGTH + "}"); // ID 형식이 맞는지 확인
+        assertThat(generatedId.getId()).startsWith("12240520");
 
         // 문제 ID 중복 확인을 위해 existsById 호출 확인
-        verify(problemRepository, atLeastOnce()).existsById(any(ProblemAdminId.class));
+        verify(problemRepository, atLeastOnce()).existsByProblemAdminId(any());
 
     }
 
@@ -60,19 +62,20 @@ class ProblemAdminIdServiceTest {
     void nextId_중복발생시_다시_생성() {
         // given
         int 문제번호 = 2;
-        when(problemRepository.existsById(any(ProblemAdminId.class)))
+        ProblemType problemType = ProblemType.GICHUL_PROBLEM;
+        when(problemRepository.existsByProblemAdminId(any()))
                 .thenReturn(true)  // 첫 번째 생성된 ID는 중복됨
                 .thenReturn(false); // 두 번째는 중복 없음
 
         // when
-        ProblemAdminId generatedId = problemIdService.nextId(문제번호, practiceTestTag);
+        ProblemAdminId generatedId = problemAdminIdService.nextId(문제번호, practiceTestTag, problemType);
 
         // then
         assertThat(generatedId).isNotNull();
-        assertThat(generatedId.getId()).matches("\\d{13}");
-        assertThat(generatedId.getId()).startsWith("2405020120");
+        assertThat(generatedId.getId()).matches("\\d{" + ID_LENGTH + "}");
+        assertThat(generatedId.getId()).startsWith("12240502");
 
         // 중복된 ID가 나왔으므로 existsById가 최소 두 번 이상 호출되었는지 확인
-        verify(problemRepository, atLeast(2)).existsById(any(ProblemAdminId.class));
+        verify(problemRepository, atLeast(2)).existsByProblemAdminId(any());
     }
 }

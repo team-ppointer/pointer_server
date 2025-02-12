@@ -6,16 +6,17 @@ import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.NotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ProblemRepository extends JpaRepository<Problem, ProblemAdminId> {
+public interface ProblemRepository extends JpaRepository<Problem, Long> {
 
+    boolean existsByProblemAdminId(ProblemAdminId problemAdminId);
 
-    default void existsByIdElseThrow(ProblemAdminId problemAdminId) {
-        if (!existsById(problemAdminId)) {
+    default void existsByIdElseThrow(Long id) {
+        if (!existsById(id)) {
             throw new NotFoundException(ErrorCode.PROBLEM_NOT_FOUND);
         }
     }
 
-    default Problem findByIdElseThrow(ProblemAdminId problemAdminId) {
-        return findById(problemAdminId).orElseThrow(() -> new NotFoundException(ErrorCode.PROBLEM_NOT_FOUND));
+    default Problem findByIdElseThrow(Long id) {
+        return findById(id).orElseThrow(() -> new NotFoundException(ErrorCode.PROBLEM_NOT_FOUND));
     }
 }

@@ -3,7 +3,7 @@ package com.moplus.moplus_server.domain.problem.service;
 import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTestTag;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminId;
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemIdService;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminIdService;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemPostRequest;
 import com.moplus.moplus_server.domain.problem.repository.PracticeTestTagRepository;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
@@ -18,17 +18,17 @@ public class ProblemSaveService {
 
     private final ProblemRepository problemRepository;
     private final PracticeTestTagRepository practiceTestRepository;
-    private final ProblemIdService problemIdService;
+    private final ProblemAdminIdService problemAdminIdService;
     private final ProblemMapper problemMapper;
 
     @Transactional
-    public ProblemAdminId createProblem(ProblemPostRequest request) {
+    public Long createProblem(ProblemPostRequest request) {
         PracticeTestTag practiceTestTag = practiceTestRepository.findByIdElseThrow(request.practiceTestId());
-
-        ProblemAdminId problemAdminId = problemIdService.nextId(request.number(), practiceTestTag,
+        ProblemAdminId problemAdminId = problemAdminIdService.nextId(request.number(), practiceTestTag,
                 request.problemType());
+
         Problem problem = problemMapper.from(request, problemAdminId, practiceTestTag);
 
-        return problemRepository.save(problem).getProblemAdminId();
+        return problemRepository.save(problem).getId();
     }
 }

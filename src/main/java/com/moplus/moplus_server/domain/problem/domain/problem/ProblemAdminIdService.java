@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ProblemIdService {
+public class ProblemAdminIdService {
 
     private static final AtomicInteger SEQUENCE = new AtomicInteger(1); // XXX 값 증가를 위한 카운터
     private final ProblemRepository problemRepository;
@@ -37,7 +37,7 @@ public class ProblemIdService {
             sequence = SEQUENCE.getAndIncrement() % 100; // 000~999 순환
             generatedId = String.format("%d%d%02d%02d%02d%02d",
                     problemTypeCode, subject, year, month, number, sequence);
-        } while (problemRepository.existsById(new ProblemAdminId(generatedId))); // ID가 이미 존재하면 재생성
+        } while (problemRepository.existsByProblemAdminId(new ProblemAdminId(generatedId))); // ID가 이미 존재하면 재생성
 
         return new ProblemAdminId(generatedId);
     }

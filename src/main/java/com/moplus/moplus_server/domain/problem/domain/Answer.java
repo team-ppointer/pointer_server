@@ -18,14 +18,14 @@ public class Answer {
     private String value;
 
     public Answer(String value, AnswerType answerType) {
+        if (value == null) {
+            return;
+        }
         validateByType(value, answerType);
         this.value = value;
     }
 
     private void validateByType(String answer, AnswerType answerType) {
-        if (answer.isBlank()) {
-            throw new InvalidValueException(ErrorCode.BLANK_INPUT_VALUE);
-        }
         if (answerType == AnswerType.MULTIPLE_CHOICE) {
             if (!answer.matches("^[1-5]*$")) {
                 throw new InvalidValueException(ErrorCode.INVALID_MULTIPLE_CHOICE_ANSWER);

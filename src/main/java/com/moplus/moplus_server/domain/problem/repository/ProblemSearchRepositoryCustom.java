@@ -21,7 +21,7 @@ public class ProblemSearchRepositoryCustom {
 
     public List<ProblemSearchGetResponse> search(String problemId, String comment, List<Long> conceptTagIds) {
         return queryFactory
-                .select(problem.id.id, problem.comment, problem.mainProblemImageUrl)
+                .select(problem.problemAdminId.id, problem.memo, problem.mainProblemImageUrl)
                 .from(problem)
                 .where(
                         containsProblemId(problemId),
@@ -30,10 +30,10 @@ public class ProblemSearchRepositoryCustom {
                 )
                 .leftJoin(conceptTag).on(conceptTag.id.in(problem.conceptTagIds)).fetchJoin()
                 .distinct()
-                .transform(GroupBy.groupBy(problem.id.id).list(
+                .transform(GroupBy.groupBy(problem.id).list(
                         Projections.constructor(ProblemSearchGetResponse.class,
-                                problem.id.id,
-                                problem.comment,
+                                problem.problemAdminId.id,
+                                problem.memo,
                                 problem.mainProblemImageUrl,
                                 GroupBy.set(
                                         Projections.constructor(ConceptTagSearchResponse.class,
@@ -47,7 +47,8 @@ public class ProblemSearchRepositoryCustom {
 
     //problemId 일부 포함 검색
     private BooleanExpression containsProblemId(String problemId) {
-        return (problemId == null || problemId.isEmpty()) ? null : problem.id.id.containsIgnoreCase(problemId);
+        return (problemId == null || problemId.isEmpty()) ? null
+                : problem.problemAdminId.id.containsIgnoreCase(problemId);
     }
 
     //name 조건 (포함 검색)
@@ -55,7 +56,7 @@ public class ProblemSearchRepositoryCustom {
         if (comment == null || comment.trim().isEmpty()) {
             return null;
         }
-        return problem.comment.containsIgnoreCase(comment.trim());
+        return problem.memo.containsIgnoreCase(comment.trim());
     }
 
     //conceptTagIds 조건 (하나라도 포함되면 조회)
