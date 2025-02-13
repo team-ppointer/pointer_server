@@ -3,15 +3,21 @@ package com.moplus.moplus_server.domain.problem.domain.problem;
 import com.moplus.moplus_server.domain.problem.domain.Answer;
 import com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem;
 import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTestTag;
+import com.moplus.moplus_server.domain.problem.repository.converter.StringListConverter;
 import com.moplus.moplus_server.global.common.BaseEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
@@ -20,35 +26,53 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Problem extends BaseEntity {
 
-    @EmbeddedId
-    ProblemId id;
-
+    @Embedded
+    ProblemAdminId problemAdminId;
     Long practiceTestId;
     int number;
+    @Enumerated(EnumType.STRING)
+    ProblemType problemType;
+    @Embedded
+    Title title;
     @Embedded
     Answer answer;
-    String comment;
+    @Embedded
+    Difficulty difficulty;
+
+    String memo;
     String mainProblemImageUrl;
     String mainAnalysisImageUrl;
+    String mainHandwritingExplanationImageUrl;
     String readingTipImageUrl;
     String seniorTipImageUrl;
-    String prescriptionImageUrl;
+
+    @Convert(converter = StringListConverter.class)
+    @Column(columnDefinition = "TEXT")
+    List<String> prescriptionImageUrls;
     @ElementCollection
     @CollectionTable(name = "problem_concept", joinColumns = @JoinColumn(name = "problem_id"))
     @Column(name = "concept_tag_id")
     Set<Long> conceptTagIds;
-    private ProblemType problemType;
-    private boolean isPublished;
-    private boolean isVariation;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "problem_id")
+    private Long id;
+
+    @Enumerated(EnumType.STRING)
+    private AnswerType answerType;
+
+    private boolean isConfirmed;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "problem_id")
@@ -56,24 +80,30 @@ public class Problem extends BaseEntity {
     private List<ChildProblem> childProblems = new ArrayList<>();
 
     @Builder
-    public Problem(ProblemId id, PracticeTestTag practiceTestTag, int number, String answer, String comment,
-                   String mainProblemImageUrl,
-                   String mainAnalysisImageUrl, String readingTipImageUrl, String seniorTipImageUrl,
-                   String prescriptionImageUrl, Set<Long> conceptTagIds) {
-        this.id = id;
-        this.practiceTestId = practiceTestTag.getId();
-        this.number = number;
-        this.comment = comment;
-        this.mainProblemImageUrl = mainProblemImageUrl;
-        this.mainAnalysisImageUrl = mainAnalysisImageUrl;
-        this.readingTipImageUrl = readingTipImageUrl;
+    public Problem(List<ChildProblem> childProblems, boolean isConfirmed, AnswerType answerType,
+                   Set<Long> conceptTagIds, Integer difficulty, String mainHandwritingExplanationImageUrl,
+                   List<String> prescriptionImageUrls, String seniorTipImageUrl, String readingTipImageUrl,
+                   String mainAnalysisImageUrl, String mainProblemImageUrl, String memo, String answer, String title,
+                   ProblemType problemType, int number, PracticeTestTag practiceTestTag,
+                   ProblemAdminId problemAdminId) {
+        this.childProblems = childProblems;
+        this.isConfirmed = isConfirmed;
+        this.answerType = answerType;
+        this.conceptTagIds = conceptTagIds;
+        this.mainHandwritingExplanationImageUrl = mainHandwritingExplanationImageUrl;
+        this.prescriptionImageUrls = prescriptionImageUrls;
         this.seniorTipImageUrl = seniorTipImageUrl;
-        this.prescriptionImageUrl = prescriptionImageUrl;
-        this.problemType = ProblemType.getTypeForProblem(practiceTestTag.getSubject().getValue(), number);
-        this.answer = new Answer(answer, this.problemType);
-        this.conceptTagIds = new HashSet<>(conceptTagIds);
-        this.isPublished = false;
-        this.isVariation = false;
+        this.readingTipImageUrl = readingTipImageUrl;
+        this.mainAnalysisImageUrl = mainAnalysisImageUrl;
+        this.mainProblemImageUrl = mainProblemImageUrl;
+        this.difficulty = new Difficulty(difficulty);
+        this.memo = memo;
+        this.answer = new Answer(answer, this.answerType);
+        this.title = new Title(title);
+        this.problemType = problemType;
+        this.number = number;
+        this.practiceTestId = practiceTestTag.getId();
+        this.problemAdminId = problemAdminId;
     }
 
     public String getAnswer() {
@@ -88,15 +118,23 @@ public class Problem extends BaseEntity {
     }
 
     public void update(Problem inputProblem) {
-        this.conceptTagIds = new HashSet<>(inputProblem.getConceptTagIds());
+        this.problemAdminId = inputProblem.getProblemAdminId();
+        this.practiceTestId = inputProblem.getPracticeTestId();
         this.number = inputProblem.getNumber();
-        this.answer = new Answer(inputProblem.getAnswer(), this.problemType);
-        this.comment = inputProblem.getComment();
+        this.problemType = inputProblem.getProblemType();
+        this.title = new Title(inputProblem.getTitle());
+        this.answer = new Answer(inputProblem.getAnswer(), inputProblem.getAnswerType());
+        this.difficulty = new Difficulty(inputProblem.getDifficulty());
+        this.conceptTagIds = new HashSet<>(inputProblem.getConceptTagIds());
+        this.memo = inputProblem.getMemo();
         this.mainProblemImageUrl = inputProblem.getMainProblemImageUrl();
         this.mainAnalysisImageUrl = inputProblem.getMainAnalysisImageUrl();
+        this.mainHandwritingExplanationImageUrl = inputProblem.getMainHandwritingExplanationImageUrl(); // 추가
         this.readingTipImageUrl = inputProblem.getReadingTipImageUrl();
         this.seniorTipImageUrl = inputProblem.getSeniorTipImageUrl();
-        this.prescriptionImageUrl = inputProblem.getPrescriptionImageUrl();
+        this.prescriptionImageUrls = inputProblem.getPrescriptionImageUrls();
+        this.answerType = inputProblem.getAnswerType();
+        this.isConfirmed = inputProblem.isConfirmed();
     }
 
     public void updateChildProblem(List<ChildProblem> inputChildProblems) {
@@ -122,13 +160,29 @@ public class Problem extends BaseEntity {
     }
 
     public boolean isValid() {
-        return answer != null && !answer.getValue().isEmpty()
+        return problemAdminId != null
                 && practiceTestId != null
-                && comment != null && !comment.isEmpty()
+                && problemType != null
+                && title != null && !title.getTitle().isEmpty()
+                && answer != null && !answer.getValue().isEmpty()
+                && difficulty != null && difficulty.getDifficulty() != null
+                && memo != null && !memo.isEmpty()
+                && mainProblemImageUrl != null && !mainProblemImageUrl.isEmpty()
+                && mainAnalysisImageUrl != null && !mainAnalysisImageUrl.isEmpty()
+                && mainHandwritingExplanationImageUrl != null && !mainHandwritingExplanationImageUrl.isEmpty()
                 && readingTipImageUrl != null && !readingTipImageUrl.isEmpty()
                 && seniorTipImageUrl != null && !seniorTipImageUrl.isEmpty()
-                && prescriptionImageUrl != null && !prescriptionImageUrl.isEmpty()
-                && mainProblemImageUrl != null && !mainProblemImageUrl.isEmpty()
-                && mainAnalysisImageUrl != null && !mainAnalysisImageUrl.isEmpty();
+                && prescriptionImageUrls != null && !prescriptionImageUrls.isEmpty()
+                && prescriptionImageUrls.stream().allMatch(url -> url != null && !url.isEmpty())
+                && answerType != null
+                && conceptTagIds != null && !conceptTagIds.isEmpty();
+    }
+
+    public String getTitle() {
+        return title.getTitle();
+    }
+
+    public Integer getDifficulty() {
+        return difficulty.getDifficulty();
     }
 }

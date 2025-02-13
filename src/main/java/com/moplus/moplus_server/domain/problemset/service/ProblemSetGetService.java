@@ -4,7 +4,6 @@ import com.moplus.moplus_server.domain.concept.domain.ConceptTag;
 import com.moplus.moplus_server.domain.concept.repository.ConceptTagRepository;
 import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTestTag;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemId;
 import com.moplus.moplus_server.domain.problem.repository.PracticeTestTagRepository;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSet;
@@ -39,7 +38,7 @@ public class ProblemSetGetService {
                 .orElse(null);
 
         List<ProblemSummaryResponse> problemSummaries = new ArrayList<>();
-        for (ProblemId problemId : problemSet.getProblemIds()) {
+        for (Long problemId : problemSet.getProblemIds()) {
             Problem problem = problemRepository.findByIdElseThrow(problemId);
             PracticeTestTag practiceTestTag = practiceTestTagRepository.findByIdElseThrow(problem.getPracticeTestId());
             List<String> tagNames = conceptTagRepository.findAllByIdsElseThrow(problem.getConceptTagIds())

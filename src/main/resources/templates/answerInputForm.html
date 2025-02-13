@@ -8,7 +8,7 @@
     <script>
         function validatePoints() {
             let totalPoints = 0;
-            const radios = document.querySelectorAll('input[problemType="radio"]:checked');
+            const radios = document.querySelectorAll('input[answerType="radio"]:checked');
 
             radios.forEach(radio => {
                 if (radio.name.startsWith('point_')) {
@@ -30,7 +30,7 @@
     <form method="post"
           onsubmit="return validatePoints()"
           th:action="${problemForTests != null ? '/admin/practiceTests/submitAnswers/' + practiceTestId : '/admin/practiceTests/submitAnswers'}">
-        <input name="practiceTestId" problemType="hidden" th:value="${practiceTestId}">
+        <input answerType="hidden" name="practiceTestId" th:value="${practiceTestId}">
         <table>
             <thead>
             <tr>
@@ -46,38 +46,42 @@
                 <td>
                     <!-- subject가 미적분, 기하, 확률과통계일 경우의 배점 로직 -->
                     <th:block th:if="${subject eq '미적분' || subject eq '기하' || subject eq '확률과통계'}">
-                        <input problemType="radio" th:checked="${#arrays.contains(new int[]{1, 2, 23}, i)}"
+                        <input answerType="radio" th:checked="${#arrays.contains(new int[]{1, 2, 23}, i)}"
                                th:id="'point_' + ${i} + '_2'" th:name="'point_' + ${i}"
                                value="2">
                         <label th:for="'point_' + ${i} + '_2'">2점</label>
-                        <input problemType="radio"
-                               th:checked="${#arrays.contains(new int[]{3, 4, 5, 6, 7, 8, 16, 17, 18, 19, 24, 25, 26, 27}, i)}" th:id="'point_' + ${i} + '_3'" th:name="'point_' + ${i}"
+                        <input answerType="radio"
+                               th:checked="${#arrays.contains(new int[]{3, 4, 5, 6, 7, 8, 16, 17, 18, 19, 24, 25, 26, 27}, i)}"
+                               th:id="'point_' + ${i} + '_3'" th:name="'point_' + ${i}"
                                value="3">
                         <label th:for="'point_' + ${i} + '_3'">3점</label>
-                        <input problemType="radio"
-                               th:checked="${#arrays.contains(new int[]{9, 10, 11, 12, 13, 14, 15, 20, 21, 22, 28, 29, 30}, i)}" th:id="'point_' + ${i} + '_4'" th:name="'point_' + ${i}"
+                        <input answerType="radio"
+                               th:checked="${#arrays.contains(new int[]{9, 10, 11, 12, 13, 14, 15, 20, 21, 22, 28, 29, 30}, i)}"
+                               th:id="'point_' + ${i} + '_4'" th:name="'point_' + ${i}"
                                value="4">
                         <label th:for="'point_' + ${i} + '_4'">4점</label>
                     </th:block>
 
                     <!-- subject가 고1, 고2일 경우의 배점 로직 -->
                     <th:block th:if="${subject eq '고1' || subject eq '고2'}">
-                        <input problemType="radio" th:checked="${#arrays.contains(new int[]{1, 2, 3}, i)}"
+                        <input answerType="radio" th:checked="${#arrays.contains(new int[]{1, 2, 3}, i)}"
                                th:id="'point_' + ${i} + '_2'" th:name="'point_' + ${i}"
                                value="2">
                         <label th:for="'point_' + ${i} + '_2'">2점</label>
-                        <input problemType="radio"
-                               th:checked="${#arrays.contains(new int[]{4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 22, 23, 24, 25}, i)}" th:id="'point_' + ${i} + '_3'" th:name="'point_' + ${i}"
+                        <input answerType="radio"
+                               th:checked="${#arrays.contains(new int[]{4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 22, 23, 24, 25}, i)}"
+                               th:id="'point_' + ${i} + '_3'" th:name="'point_' + ${i}"
                                value="3">
                         <label th:for="'point_' + ${i} + '_3'">3점</label>
-                        <input problemType="radio"
-                               th:checked="${#arrays.contains(new int[]{14, 15, 16, 17, 18, 19, 20, 21, 26, 27, 28, 29, 30}, i)}" th:id="'point_' + ${i} + '_4'" th:name="'point_' + ${i}"
+                        <input answerType="radio"
+                               th:checked="${#arrays.contains(new int[]{14, 15, 16, 17, 18, 19, 20, 21, 26, 27, 28, 29, 30}, i)}"
+                               th:id="'point_' + ${i} + '_4'" th:name="'point_' + ${i}"
                                value="4">
                         <label th:for="'point_' + ${i} + '_4'">4점</label>
                     </th:block>
                 </td>
 
-                <input problemType="hidden" th:name="'answerFormat_' + ${i}"
+                <input answerType="hidden" th:name="'answerFormat_' + ${i}"
                        th:value="${hasShortAnswer && i > 22 ? '단답식' : '객관식'}">
 
                 <!-- 문제 형식이 단답식인 경우 -->
@@ -85,30 +89,35 @@
                     <td th:if="${hasShortAnswer}">
                         <div th:if="${i <= 15 || (i >=23 && i<=28)}">
                             <!-- 첫 22개의 객관식 문항 -->
-                            <input problemType="radio"
-                                   th:checked="${problemForTests != null && problemForTests[i-1] != null && problemForTests[i-1].answer == '1'}" th:id="'answer_' + ${i} + '_1'" th:name="'answer_' + ${i}"
+                            <input answerType="radio"
+                                   th:checked="${problemForTests != null && problemForTests[i-1] != null && problemForTests[i-1].answer == '1'}"
+                                   th:id="'answer_' + ${i} + '_1'" th:name="'answer_' + ${i}"
                                    value="1">
                             <label th:for="'answer_' + ${i} + '_1'">1</label>
-                            <input problemType="radio"
-                                   th:checked="${problemForTests != null && problemForTests[i-1] != null && problemForTests[i-1].answer == '2'}" th:id="'answer_' + ${i} + '_2'" th:name="'answer_' + ${i}"
+                            <input answerType="radio"
+                                   th:checked="${problemForTests != null && problemForTests[i-1] != null && problemForTests[i-1].answer == '2'}"
+                                   th:id="'answer_' + ${i} + '_2'" th:name="'answer_' + ${i}"
                                    value="2">
                             <label th:for="'answer_' + ${i} + '_2'">2</label>
-                            <input problemType="radio"
-                                   th:checked="${problemForTests != null && problemForTests[i-1] != null && problemForTests[i-1].answer == '3'}" th:id="'answer_' + ${i} + '_3'" th:name="'answer_' + ${i}"
+                            <input answerType="radio"
+                                   th:checked="${problemForTests != null && problemForTests[i-1] != null && problemForTests[i-1].answer == '3'}"
+                                   th:id="'answer_' + ${i} + '_3'" th:name="'answer_' + ${i}"
                                    value="3">
                             <label th:for="'answer_' + ${i} + '_3'">3</label>
-                            <input problemType="radio"
-                                   th:checked="${problemForTests != null && problemForTests[i-1] != null && problemForTests[i-1].answer == '4'}" th:id="'answer_' + ${i} + '_4'" th:name="'answer_' + ${i}"
+                            <input answerType="radio"
+                                   th:checked="${problemForTests != null && problemForTests[i-1] != null && problemForTests[i-1].answer == '4'}"
+                                   th:id="'answer_' + ${i} + '_4'" th:name="'answer_' + ${i}"
                                    value="4">
                             <label th:for="'answer_' + ${i} + '_4'">4</label>
-                            <input problemType="radio"
-                                   th:checked="${problemForTests != null && problemForTests[i-1] != null && problemForTests[i-1].answer == '5'}" th:id="'answer_' + ${i} + '_5'" th:name="'answer_' + ${i}"
+                            <input answerType="radio"
+                                   th:checked="${problemForTests != null && problemForTests[i-1] != null && problemForTests[i-1].answer == '5'}"
+                                   th:id="'answer_' + ${i} + '_5'" th:name="'answer_' + ${i}"
                                    value="5">
                             <label th:for="'answer_' + ${i} + '_5'">5</label>
                         </div>
                         <div th:if="${(i >= 16 && i<= 22) || i == 29 || i == 30}">
                             <!-- 단답식 문항 -->
-                            <input problemType="text"
+                            <input answerType="text"
                                    th:name="'answer_' + ${i}"
                                    th:value="${problemForTests != null && problemForTests[i-1] != null ? problemForTests[i-1].answer : ''}">
                         </div>
@@ -119,30 +128,35 @@
                     <td th:if="${hasShortAnswer}">
                         <div th:if="${i <= 21}">
                             <!-- 첫 21개의 객관식 문항 -->
-                            <input problemType="radio"
-                                   th:checked="${problemForTests != null && problemForTests[i-1]?.answer == '1'}" th:id="'answer_' + ${i} + '_1'" th:name="'answer_' + ${i}"
+                            <input answerType="radio"
+                                   th:checked="${problemForTests != null && problemForTests[i-1]?.answer == '1'}"
+                                   th:id="'answer_' + ${i} + '_1'" th:name="'answer_' + ${i}"
                                    value="1">
                             <label th:for="'answer_' + ${i} + '_1'">1</label>
-                            <input problemType="radio"
-                                   th:checked="${problemForTests != null && problemForTests[i-1]?.answer == '2'}" th:id="'answer_' + ${i} + '_2'" th:name="'answer_' + ${i}"
+                            <input answerType="radio"
+                                   th:checked="${problemForTests != null && problemForTests[i-1]?.answer == '2'}"
+                                   th:id="'answer_' + ${i} + '_2'" th:name="'answer_' + ${i}"
                                    value="2">
                             <label th:for="'answer_' + ${i} + '_2'">2</label>
-                            <input problemType="radio"
-                                   th:checked="${problemForTests != null && problemForTests[i-1]?.answer == '3'}" th:id="'answer_' + ${i} + '_3'" th:name="'answer_' + ${i}"
+                            <input answerType="radio"
+                                   th:checked="${problemForTests != null && problemForTests[i-1]?.answer == '3'}"
+                                   th:id="'answer_' + ${i} + '_3'" th:name="'answer_' + ${i}"
                                    value="3">
                             <label th:for="'answer_' + ${i} + '_3'">3</label>
-                            <input problemType="radio"
-                                   th:checked="${problemForTests != null && problemForTests[i-1]?.answer == '4'}" th:id="'answer_' + ${i} + '_4'" th:name="'answer_' + ${i}"
+                            <input answerType="radio"
+                                   th:checked="${problemForTests != null && problemForTests[i-1]?.answer == '4'}"
+                                   th:id="'answer_' + ${i} + '_4'" th:name="'answer_' + ${i}"
                                    value="4">
                             <label th:for="'answer_' + ${i} + '_4'">4</label>
-                            <input problemType="radio"
-                                   th:checked="${problemForTests != null && problemForTests[i-1]?.answer == '5'}" th:id="'answer_' + ${i} + '_5'" th:name="'answer_' + ${i}"
+                            <input answerType="radio"
+                                   th:checked="${problemForTests != null && problemForTests[i-1]?.answer == '5'}"
+                                   th:id="'answer_' + ${i} + '_5'" th:name="'answer_' + ${i}"
                                    value="5">
                             <label th:for="'answer_' + ${i} + '_5'">5</label>
                         </div>
                         <div th:if="${i >= 22 && i <= 30}">
                             <!-- 단답식 문항 -->
-                            <input problemType="text"
+                            <input answerType="text"
                                    th:name="'answer_' + ${i}"
                                    th:value="${problemForTests != null && problemForTests[i-1] != null ? problemForTests[i-1].answer : ''}">
                         </div>
@@ -151,31 +165,36 @@
 
                 <!-- 객관식만 있을 때 -->
                 <td th:unless="${hasShortAnswer}">
-                    <input problemType="radio"
-                           th:checked="${problemForTests != null && problemForTests[i-1] != null && problemForTests[i-1].answer == '1'}" th:id="'answer_' + ${i} + '_1'" th:name="'answer_' + ${i}"
+                    <input answerType="radio"
+                           th:checked="${problemForTests != null && problemForTests[i-1] != null && problemForTests[i-1].answer == '1'}"
+                           th:id="'answer_' + ${i} + '_1'" th:name="'answer_' + ${i}"
                            value="1">
                     <label th:for="'answer_' + ${i} + '_1'">1</label>
-                    <input problemType="radio"
-                           th:checked="${problemForTests != null && problemForTests[i-1] != null && problemForTests[i-1].answer == '2'}" th:id="'answer_' + ${i} + '_2'" th:name="'answer_' + ${i}"
+                    <input answerType="radio"
+                           th:checked="${problemForTests != null && problemForTests[i-1] != null && problemForTests[i-1].answer == '2'}"
+                           th:id="'answer_' + ${i} + '_2'" th:name="'answer_' + ${i}"
                            value="2">
                     <label th:for="'answer_' + ${i} + '_2'">2</label>
-                    <input problemType="radio"
-                           th:checked="${problemForTests != null && problemForTests[i-1] != null && problemForTests[i-1].answer == '3'}" th:id="'answer_' + ${i} + '_3'" th:name="'answer_' + ${i}"
+                    <input answerType="radio"
+                           th:checked="${problemForTests != null && problemForTests[i-1] != null && problemForTests[i-1].answer == '3'}"
+                           th:id="'answer_' + ${i} + '_3'" th:name="'answer_' + ${i}"
                            value="3">
                     <label th:for="'answer_' + ${i} + '_3'">3</label>
-                    <input problemType="radio"
-                           th:checked="${problemForTests != null && problemForTests[i-1] != null && problemForTests[i-1].answer == '4'}" th:id="'answer_' + ${i} + '_4'" th:name="'answer_' + ${i}"
+                    <input answerType="radio"
+                           th:checked="${problemForTests != null && problemForTests[i-1] != null && problemForTests[i-1].answer == '4'}"
+                           th:id="'answer_' + ${i} + '_4'" th:name="'answer_' + ${i}"
                            value="4">
                     <label th:for="'answer_' + ${i} + '_4'">4</label>
-                    <input problemType="radio"
-                           th:checked="${problemForTests != null && problemForTests[i-1] != null && problemForTests[i-1].answer == '5'}" th:id="'answer_' + ${i} + '_5'" th:name="'answer_' + ${i}"
+                    <input answerType="radio"
+                           th:checked="${problemForTests != null && problemForTests[i-1] != null && problemForTests[i-1].answer == '5'}"
+                           th:id="'answer_' + ${i} + '_5'" th:name="'answer_' + ${i}"
                            value="5">
                     <label th:for="'answer_' + ${i} + '_5'">5</label>
                 </td>
 
                 <!-- 정답률 입력 필드 -->
                 <td>
-                    <input placeholder="정답률 입력" problemType="text" style="width: 150px;"
+                    <input answerType="text" placeholder="정답률 입력" style="width: 150px;"
                            th:id="'correctRate_' + ${i}"
                            th:name="'correctRate_' + ${i}"
                            th:value="${problemForTests != null && problemForTests[i-1] != null ? problemForTests[i-1].correctRate : ''}">
@@ -183,7 +202,7 @@
             </tr>
             </tbody>
         </table>
-        <button problemType="submit">입력 완료</button>
+        <button answerType="submit">입력 완료</button>
     </form>
 </div>
 <script th:inline="javascript">

@@ -33,7 +33,7 @@ public class QProblemSet extends EntityPathBase<ProblemSet> {
 
     public final BooleanPath isDeleted = createBoolean("isDeleted");
 
-    public final ListPath<com.moplus.moplus_server.domain.problem.domain.problem.ProblemId, com.moplus.moplus_server.domain.problem.domain.problem.QProblemId> problemIds = this.<com.moplus.moplus_server.domain.problem.domain.problem.ProblemId, com.moplus.moplus_server.domain.problem.domain.problem.QProblemId>createList("problemIds", com.moplus.moplus_server.domain.problem.domain.problem.ProblemId.class, com.moplus.moplus_server.domain.problem.domain.problem.QProblemId.class, PathInits.DIRECT2);
+    public final ListPath<Long, NumberPath<Long>> problemIds = this.<Long, NumberPath<Long>>createList("problemIds", Long.class, NumberPath.class, PathInits.DIRECT2);
 
     public final QTitle title;
 

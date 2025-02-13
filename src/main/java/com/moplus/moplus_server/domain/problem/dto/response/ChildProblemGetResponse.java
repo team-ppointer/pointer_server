@@ -1,7 +1,7 @@
 package com.moplus.moplus_server.domain.problem.dto.response;
 
 import com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem;
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemType;
+import com.moplus.moplus_server.domain.problem.domain.problem.AnswerType;
 import java.util.Set;
 import lombok.Builder;
 
@@ -9,7 +9,7 @@ import lombok.Builder;
 public record ChildProblemGetResponse(
         Long childProblemId,
         String imageUrl,
-        ProblemType problemType,
+        AnswerType answerType,
         String answer,
         Set<Long> conceptTagIds
 ) {
@@ -18,7 +18,7 @@ public record ChildProblemGetResponse(
         return ChildProblemGetResponse.builder()
                 .childProblemId(childProblem.getId())
                 .imageUrl(childProblem.getImageUrl())
-                .problemType(childProblem.getProblemType())
+                .answerType(childProblem.getAnswerType())
                 .answer(childProblem.getAnswer())
                 .conceptTagIds(childProblem.getConceptTagIds())
                 .build();

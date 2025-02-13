@@ -9,16 +9,16 @@ public record ProblemSummaryResponse(
         String problemId,
         int number,
         String practiceTestName,
-        String comment,
+        String memo,
         String mainProblemImageUrl,
         List<String> tagNames
 ) {
     public static ProblemSummaryResponse of(Problem problem, String practiceTestName, List<String> tagNames) {
 
         return ProblemSummaryResponse.builder()
-                .problemId(problem.getId().toString())
+                .problemId(problem.getProblemAdminId().getId())
                 .number(problem.getNumber())
-                .comment(problem.getComment())
+                .memo(problem.getMemo())
                 .mainProblemImageUrl(problem.getMainProblemImageUrl())
                 .practiceTestName(practiceTestName)
                 .tagNames(tagNames)

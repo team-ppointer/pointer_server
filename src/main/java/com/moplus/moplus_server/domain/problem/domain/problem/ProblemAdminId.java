@@ -3,18 +3,19 @@ package com.moplus.moplus_server.domain.problem.domain.problem;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import java.io.Serializable;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @Embeddable
-@NoArgsConstructor
-public class ProblemId implements Serializable {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class ProblemAdminId implements Serializable {
 
-    @Column(name = "problem_id")
+    @Column(name = "problem_admin_id")
     private String id;
 
-    public ProblemId(String id) {
+    public ProblemAdminId(String id) {
         this.id = id;
     }
 }

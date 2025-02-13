@@ -1,7 +1,7 @@
 package com.moplus.moplus_server.domain.problem.domain.childProblem;
 
 import com.moplus.moplus_server.domain.problem.domain.Answer;
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemType;
+import com.moplus.moplus_server.domain.problem.domain.problem.AnswerType;
 import com.moplus.moplus_server.global.common.BaseEntity;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.InvalidValueException;
@@ -17,13 +17,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import java.util.Set;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChildProblem extends BaseEntity {
 
     @Id
@@ -38,22 +39,22 @@ public class ChildProblem extends BaseEntity {
     @Embedded
     private Answer answer;
     @Enumerated(EnumType.STRING)
-    private ProblemType problemType;
+    private AnswerType answerType;
     private int sequence;
 
     @Builder
-    public ChildProblem(String imageUrl, ProblemType problemType, String answer, Set<Long> conceptTagIds,
+    public ChildProblem(String imageUrl, AnswerType answerType, String answer, Set<Long> conceptTagIds,
                         int sequence) {
-        validateAnswerByType(answer, problemType);
+        validateAnswerByType(answer, answerType);
         this.imageUrl = imageUrl;
-        this.problemType = problemType;
-        this.answer = new Answer(answer, problemType);
+        this.answerType = answerType;
+        this.answer = new Answer(answer, answerType);
         this.conceptTagIds = conceptTagIds;
         this.sequence = sequence;
     }
 
-    public void validateAnswerByType(String answer, ProblemType problemType) {
-        if (this.problemType == ProblemType.MULTIPLE_CHOICE) {
+    public void validateAnswerByType(String answer, AnswerType answerType) {
+        if (this.answerType == AnswerType.MULTIPLE_CHOICE) {
             if (!answer.matches("^[1-5]*$")) {
                 throw new InvalidValueException(ErrorCode.INVALID_MULTIPLE_CHOICE_ANSWER);
             }
@@ -62,7 +63,7 @@ public class ChildProblem extends BaseEntity {
 
     public void update(ChildProblem input) {
         this.imageUrl = input.imageUrl;
-        this.problemType = input.problemType;
+        this.answerType = input.answerType;
         this.answer = input.answer;
         this.conceptTagIds = input.conceptTagIds;
         this.sequence = input.sequence;

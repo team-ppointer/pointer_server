@@ -4,6 +4,6 @@ import java.util.List;
 
 public record ProblemSetUpdateRequest(
         String problemSetTitle,
-        List<String> problems
+        List<Long> problemIds
 ) {
 }

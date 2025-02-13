@@ -8,6 +8,7 @@ import com.moplus.moplus_server.domain.problem.service.ProblemGetService;
 import com.moplus.moplus_server.domain.problem.service.ProblemSaveService;
 import com.moplus.moplus_server.domain.problem.service.ProblemUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,23 +32,23 @@ public class ProblemController {
     @GetMapping("/{id}")
     @Operation(summary = "문항 조회", description = "문항를 조회합니다.")
     public ResponseEntity<ProblemGetResponse> getProblem(
-            @PathVariable("id") String id
+            @PathVariable("id") Long id
     ) {
         return ResponseEntity.ok(problemGetService.getProblem(id));
     }
 
     @PostMapping("")
     @Operation(summary = "문항 생성", description = "문제를 생성합니다. 새끼 문항은 list 순서대로 sequence를 저장합니다.")
-    public ResponseEntity<String> createProblem(
-            @RequestBody ProblemPostRequest request
+    public ResponseEntity<Long> createProblem(
+            @Valid @RequestBody ProblemPostRequest request
     ) {
-        return ResponseEntity.ok(problemSaveService.createProblem(request).toString());
+        return ResponseEntity.ok(problemSaveService.createProblem(request));
     }
 
     @PostMapping("/{id}")
     @Operation(summary = "문항 업데이트", description = "문제를 업데이트합니다. 문항 번호, 모의고사는 수정할 수 없습니다. 새로 추가되는 새끼문항 id는 빈 값입니다.")
     public ResponseEntity<ProblemGetResponse> updateProblem(
-            @PathVariable("id") String id,
+            @PathVariable("id") Long id,
             @RequestBody ProblemUpdateRequest request
     ) {
         return ResponseEntity.ok(problemUpdateService.updateProblem(id, request));
@@ -55,8 +56,8 @@ public class ProblemController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "문항 삭제")
-    public ResponseEntity<ProblemGetResponse> updateProblem(
-            @PathVariable("id") String id
+    public ResponseEntity<Void> updateProblem(
+            @PathVariable("id") Long id
     ) {
         problemDeleteService.deleteProblem(id);
         return ResponseEntity.ok().body(null);

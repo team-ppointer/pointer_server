@@ -4,7 +4,8 @@ import com.moplus.moplus_server.domain.concept.repository.ConceptTagRepository;
 import com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem;
 import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTestTag;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemId;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminId;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminIdService;
 import com.moplus.moplus_server.domain.problem.dto.request.ChildProblemUpdateRequest;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemUpdateRequest;
 import com.moplus.moplus_server.domain.problem.dto.response.ProblemGetResponse;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProblemUpdateService {
 
     private final ProblemRepository problemRepository;
+    private final ProblemAdminIdService problemAdminIdService;
     private final PracticeTestTagRepository practiceTestRepository;
     private final ConceptTagRepository conceptTagRepository;
     private final ChildProblemRepository childProblemRepository;
@@ -30,11 +32,15 @@ public class ProblemUpdateService {
     private final ProblemMapper problemMapper;
 
     @Transactional
-    public ProblemGetResponse updateProblem(String problemId, ProblemUpdateRequest request) {
+    public ProblemGetResponse updateProblem(Long problemId, ProblemUpdateRequest request) {
+        PracticeTestTag practiceTestTag = practiceTestRepository.findByIdElseThrow(request.practiceTestId());
         conceptTagRepository.existsByIdElseThrow(request.conceptTagIds());
-        Problem problem = problemRepository.findByIdElseThrow(new ProblemId(problemId));
-        PracticeTestTag practiceTestTag = practiceTestRepository.findByIdElseThrow(problem.getPracticeTestId());
-        Problem inputProblem = problemMapper.from(request, problem.getId(), practiceTestTag);
+        Problem problem = problemRepository.findByIdElseThrow(problemId);
+
+        ProblemAdminId problemAdminId = problemAdminIdService.nextId(request.number(), practiceTestTag,
+                request.problemType());
+
+        Problem inputProblem = problemMapper.from(request, problemAdminId, practiceTestTag);
         problem.update(inputProblem);
         problem.deleteChildProblem(request.deleteChildProblems());
 
