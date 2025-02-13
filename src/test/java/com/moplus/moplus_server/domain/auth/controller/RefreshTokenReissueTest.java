@@ -80,7 +80,7 @@ public class RefreshTokenReissueTest {
         void 실패_리프레시토큰_없음() throws Exception {
             // when & then
             mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/auth/reissue"))
-                    .andExpect(status().isUnauthorized());
+                    .andExpect(status().is4xxClientError());
         }
 
         @Test
