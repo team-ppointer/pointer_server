@@ -2,6 +2,7 @@ package com.moplus.moplus_server.global.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moplus.moplus_server.domain.member.domain.Member;
+import com.moplus.moplus_server.global.security.utils.CookieUtil;
 import com.moplus.moplus_server.global.security.utils.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 public class EmailPasswordSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
     private final JwtUtil jwtUtil;
+    private final CookieUtil cookieUtil;
     private final ObjectMapper objectMapper = new ObjectMapper(); // JSON 변환을 위한 ObjectMapper
 
     @Override
@@ -27,10 +29,10 @@ public class EmailPasswordSuccessHandler extends SavedRequestAwareAuthentication
         String accessToken = jwtUtil.generateAccessToken(member);
         String refreshToken = jwtUtil.generateRefreshToken(member);
 
-        // JSON 응답 생성
+        response.addCookie(cookieUtil.createCookie(refreshToken));
+
         Map<String, String> tokenResponse = new HashMap<>();
         tokenResponse.put("accessToken", accessToken);
-        tokenResponse.put("refreshToken", refreshToken);
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

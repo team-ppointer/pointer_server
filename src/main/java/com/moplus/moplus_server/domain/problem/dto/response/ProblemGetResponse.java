@@ -3,12 +3,14 @@ package com.moplus.moplus_server.domain.problem.dto.response;
 import com.moplus.moplus_server.domain.problem.domain.problem.AnswerType;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemType;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Set;
 import lombok.Builder;
 
 @Builder
 public record ProblemGetResponse(
+        @NotNull(message = "문항 ID은 필수입니다")
         String problemId,
         Set<Long> conceptTagIds,
         Long practiceTestId,

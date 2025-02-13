@@ -1,13 +1,16 @@
 package com.moplus.moplus_server.domain.problem.dto.response;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
 public class ConceptTagSearchResponse {
+    @NotNull(message = "개념 태그 ID는 필수입니다")
     private Long id;
-    private String name; // 예시로 태그 이름을 추가 (필요에 따라 변경 가능)
+    @NotNull(message = "개념 태그 이름은 필수입니다")
+    private String name;
 
     public ConceptTagSearchResponse(Long id, String name) {
         this.id = id;

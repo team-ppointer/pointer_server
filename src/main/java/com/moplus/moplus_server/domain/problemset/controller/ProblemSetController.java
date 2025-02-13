@@ -11,6 +11,7 @@ import com.moplus.moplus_server.domain.problemset.service.ProblemSetSaveService;
 import com.moplus.moplus_server.domain.problemset.service.ProblemSetUpdateService;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "문항세트", description = "문항세트 관련 API")
 @RestController
 @RequestMapping("/api/v1/problemSet")
 @RequiredArgsConstructor

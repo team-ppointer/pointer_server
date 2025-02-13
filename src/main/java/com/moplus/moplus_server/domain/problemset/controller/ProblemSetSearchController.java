@@ -4,6 +4,7 @@ package com.moplus.moplus_server.domain.problemset.controller;
 import com.moplus.moplus_server.domain.problemset.dto.response.ProblemSetSearchGetResponse;
 import com.moplus.moplus_server.domain.problemset.repository.ProblemSetSearchRepositoryCustom;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public class ProblemSetSearchController {
 
     private final ProblemSetSearchRepositoryCustom problemSetSearchRepository;
 
+    @Tag(name = "문항세트", description = "문항세트 관련 API")
     @GetMapping("/search")
     @Operation(
             summary = "문항세트 검색",
@@ -29,10 +31,12 @@ public class ProblemSetSearchController {
             @RequestParam(value = "problemTitle", required = false) String problemTitle,
             @RequestParam(value = "conceptTagNames", required = false) List<String> conceptTagNames
     ) {
-        List<ProblemSetSearchGetResponse> problemSets = problemSetSearchRepository.search(problemSetTitle, problemTitle, conceptTagNames);
+        List<ProblemSetSearchGetResponse> problemSets = problemSetSearchRepository.search(problemSetTitle, problemTitle,
+                conceptTagNames);
         return ResponseEntity.ok(problemSets);
     }
 
+    @Tag(name = "발행", description = "발행 관련 API")
     @GetMapping("/confirm/search")
     @Operation(
             summary = "발행용 문항세트 검색",
@@ -43,7 +47,8 @@ public class ProblemSetSearchController {
             @RequestParam(value = "problemTitle", required = false) String problemTitle,
             @RequestParam(value = "conceptTagNames", required = false) List<String> conceptTagNames
     ) {
-        List<ProblemSetSearchGetResponse> problemSets = problemSetSearchRepository.confirmSearch(problemSetTitle, problemTitle, conceptTagNames);
+        List<ProblemSetSearchGetResponse> problemSets = problemSetSearchRepository.confirmSearch(problemSetTitle,
+                problemTitle, conceptTagNames);
         return ResponseEntity.ok(problemSets);
     }
 }

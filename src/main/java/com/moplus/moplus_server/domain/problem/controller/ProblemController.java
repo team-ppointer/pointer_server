@@ -8,6 +8,7 @@ import com.moplus.moplus_server.domain.problem.service.ProblemGetService;
 import com.moplus.moplus_server.domain.problem.service.ProblemSaveService;
 import com.moplus.moplus_server.domain.problem.service.ProblemUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "문항", description = "문항 관련 API")
 @RestController
 @RequestMapping("/api/v1/problems")
 @RequiredArgsConstructor

@@ -36,7 +36,8 @@ public class SecurityConfig {
     private final EmailPasswordSuccessHandler emailPasswordSuccessHandler;
     private final JwtUtil jwtUtil;
 
-    private String[] allowUrls = {"/", "/favicon.ico", "/swagger-ui/**", "/v3/**", "/actuator/**"};
+    private String[] allowUrls = {"/", "/favicon.ico", "/swagger-ui/**", "/v3/**", "/actuator/**",
+            "/api/v1/auth/reissue"};
 
     @Value("${cors-allowed-origins}")
     private List<String> corsAllowedOrigins;
