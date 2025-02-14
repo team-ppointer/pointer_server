@@ -2,10 +2,12 @@ package com.moplus.moplus_server.domain.problem.dto.request;
 
 import com.moplus.moplus_server.domain.problem.domain.problem.AnswerType;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemType;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Set;
 
 public record ProblemUpdateRequest(
+        @NotNull(message = "문제 유형은 필수입니다")
         ProblemType problemType,
         Long practiceTestId,
         int number,

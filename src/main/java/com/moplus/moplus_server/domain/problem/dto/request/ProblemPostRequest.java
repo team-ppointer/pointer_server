@@ -7,7 +7,7 @@ import com.moplus.moplus_server.domain.problem.domain.problem.ProblemType;
 import jakarta.validation.constraints.NotNull;
 
 public record ProblemPostRequest(
-        @NotNull(message = "문제 유형은 필수입니다")
+        @NotNull(message = "문항 유형은 필수입니다")
         ProblemType problemType,
         Long practiceTestId,
         int number

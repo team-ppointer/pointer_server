@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProblemAdminId implements Serializable {
 
-    @Column(name = "problem_admin_id")
+    @Column(name = "problem_admin_id", nullable = false)
     private String id;
 
     public ProblemAdminId(String id) {

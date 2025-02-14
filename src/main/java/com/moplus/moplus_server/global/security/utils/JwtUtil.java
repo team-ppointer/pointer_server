@@ -58,6 +58,15 @@ public class JwtUtil {
                 .getBody();
     }
 
+    public Claims getRefreshTokenClaims(String refreshToken) {
+        return Jwts.parserBuilder()
+                .requireIssuer(jwtProperties.issuer())
+                .setSigningKey(getRefreshTokenKey())
+                .build()
+                .parseClaimsJws(refreshToken)
+                .getBody();
+    }
+
     private Key getAccessTokenKey() {
         return Keys.hmacShaKeyFor(jwtProperties.accessTokenSecret().getBytes());
     }

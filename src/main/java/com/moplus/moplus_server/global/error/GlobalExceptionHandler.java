@@ -3,6 +3,7 @@ package com.moplus.moplus_server.global.error;
 import com.moplus.moplus_server.global.error.exception.BusinessException;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.NotFoundException;
+import com.moplus.moplus_server.global.security.exception.JwtInvalidException;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -68,5 +69,13 @@ public class GlobalExceptionHandler {
         log.error(exception.getMessage(), exception);
         final ErrorResponse response = ErrorResponse.from(ErrorCode.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(response, response.getStatus());
+    }
+
+    @ExceptionHandler(JwtInvalidException.class)
+    protected ResponseEntity<ErrorResponse> handleJwtInvalidException(final JwtInvalidException exception) {
+        log.error("handleJwtInvalidException", exception);
+        final ErrorResponse response = ErrorResponse.from(ErrorCode.BAD_CREDENTIALS);
+
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 }
