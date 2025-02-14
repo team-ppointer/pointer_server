@@ -16,6 +16,12 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
         }
     }
 
+    default void existsByProblemAdminIdElseThrow(ProblemAdminId problemAdminId) {
+        if (!existsByProblemAdminId(problemAdminId)) {
+            throw new NotFoundException(ErrorCode.PROBLEM_NOT_FOUND);
+        }
+    }
+
     default Problem findByIdElseThrow(Long id) {
         return findById(id).orElseThrow(() -> new NotFoundException(ErrorCode.PROBLEM_NOT_FOUND));
     }
