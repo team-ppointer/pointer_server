@@ -98,8 +98,13 @@ public class ProblemSetSearchRepositoryCustomTest {
         List<ProblemThumbnailResponse> problems = response.getProblemThumbnailResponses();
         assertThat(problems).hasSize(2);
 
-        // ✅ 문항의 이미지 URL이 올바르게 매핑되었는지 확인
+        // ✅ 문항의 타이틀, 메모, 이미지 URL이 올바르게 매핑되었는지 확인
+        assertThat(problems.get(0).getProblemTitle()).isEqualTo("제목1");
+        assertThat(problems.get(0).getProblemMemo()).isEqualTo("기존 문제 설명 1");
         assertThat(problems.get(0).getMainProblemImageUrl()).isEqualTo("mainProblem.png1");
+
+        assertThat(problems.get(1).getProblemTitle()).isEqualTo("제목2");
+        assertThat(problems.get(1).getProblemMemo()).isEqualTo("기존 문제 설명 2");
         assertThat(problems.get(1).getMainProblemImageUrl()).isEqualTo("mainProblem.png2");
     }
 
