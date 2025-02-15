@@ -35,15 +35,17 @@ public class ProblemSet extends BaseEntity {
 
     @Embedded
     private Title title;
+    @Column(nullable = false)
     private boolean isDeleted;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private ProblemSetConfirmStatus confirmStatus;
 
     @ElementCollection
     @CollectionTable(name = "problem_set_problems", joinColumns = @JoinColumn(name = "problem_set_id"))
-    @Column(name = "problem_id")
     @OrderColumn(name = "sequence")
+    @Column(name = "problem_id", nullable = false)
     private List<Long> problemIds = new ArrayList<>();
 
     @Builder
