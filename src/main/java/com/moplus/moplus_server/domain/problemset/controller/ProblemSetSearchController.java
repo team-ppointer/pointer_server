@@ -28,11 +28,9 @@ public class ProblemSetSearchController {
     )
     public ResponseEntity<List<ProblemSetSearchGetResponse>> search(
             @RequestParam(value = "problemSetTitle", required = false) String problemSetTitle,
-            @RequestParam(value = "problemTitle", required = false) String problemTitle,
-            @RequestParam(value = "conceptTagNames", required = false) List<String> conceptTagNames
+            @RequestParam(value = "problemTitle", required = false) String problemTitle
     ) {
-        List<ProblemSetSearchGetResponse> problemSets = problemSetSearchRepository.search(problemSetTitle, problemTitle,
-                conceptTagNames);
+        List<ProblemSetSearchGetResponse> problemSets = problemSetSearchRepository.search(problemSetTitle, problemTitle);
         return ResponseEntity.ok(problemSets);
     }
 
@@ -44,11 +42,10 @@ public class ProblemSetSearchController {
     )
     public ResponseEntity<List<ProblemSetSearchGetResponse>> confirmSearch(
             @RequestParam(value = "problemSetTitle", required = false) String problemSetTitle,
-            @RequestParam(value = "problemTitle", required = false) String problemTitle,
-            @RequestParam(value = "conceptTagNames", required = false) List<String> conceptTagNames
+            @RequestParam(value = "problemTitle", required = false) String problemTitle
     ) {
         List<ProblemSetSearchGetResponse> problemSets = problemSetSearchRepository.confirmSearch(problemSetTitle,
-                problemTitle, conceptTagNames);
+                problemTitle);
         return ResponseEntity.ok(problemSets);
     }
 }
