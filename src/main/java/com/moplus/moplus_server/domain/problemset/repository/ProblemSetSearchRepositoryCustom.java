@@ -42,6 +42,8 @@ public class ProblemSetSearchRepositoryCustom {
                                 publish.publishedDate, // 발행되지 않은 경우 null 반환
                                 GroupBy.list(
                                         Projections.constructor(ProblemThumbnailResponse.class,
+                                                problem.title.title,
+                                                problem.memo,
                                                 problem.mainProblemImageUrl
                                         )
                                 )
@@ -70,6 +72,8 @@ public class ProblemSetSearchRepositoryCustom {
                                 publish.publishedDate, // 발행되지 않은 경우 null 반환
                                 GroupBy.list(
                                         Projections.constructor(ProblemThumbnailResponse.class,
+                                                problem.title.title,
+                                                problem.memo,
                                                 problem.mainProblemImageUrl
                                         )
                                 )

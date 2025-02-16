@@ -7,6 +7,7 @@ import com.moplus.moplus_server.domain.publish.service.PublishGetService;
 import com.moplus.moplus_server.domain.publish.service.PublishSaveService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,7 @@ public class PublishController {
     @PostMapping("")
     @Operation(summary = "발행 생성하기", description = "특정 날짜에 문항세트를 발행합니다.")
     public ResponseEntity<Long> postPublish(
-            @RequestBody PublishPostRequest request
+            @Valid @RequestBody PublishPostRequest request
     ) {
         return ResponseEntity.ok(publishSaveService.createPublish(request));
     }
