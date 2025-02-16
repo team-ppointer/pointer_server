@@ -22,8 +22,7 @@ public class ProblemSetSearchRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public List<ProblemSetSearchGetResponse> search(String problemSetTitle, String problemTitle,
-                                                    List<String> conceptTagNames) {
+    public List<ProblemSetSearchGetResponse> search(String problemSetTitle, String problemTitle) {
         return queryFactory
                 .from(problemSet)
                 .leftJoin(problem).on(problem.id.in(problemSet.problemIds)) // 문제 세트 내 포함된 문항과 조인
@@ -31,8 +30,7 @@ public class ProblemSetSearchRepositoryCustom {
                 .leftJoin(publish).on(publish.problemSetId.eq(problemSet.id)) // 문제 세트와 발행 데이터 조인
                 .where(
                         containsProblemSetTitle(problemSetTitle),
-                        containsProblemTitle(problemTitle),
-                        containsConceptTagNames(conceptTagNames)
+                        containsProblemTitle(problemTitle)
                 )
                 .distinct()
                 .transform(GroupBy.groupBy(problemSet.id).list(
@@ -51,8 +49,7 @@ public class ProblemSetSearchRepositoryCustom {
                 ));
     }
 
-    public List<ProblemSetSearchGetResponse> confirmSearch(String problemSetTitle, String problemTitle,
-                                                           List<String> conceptTagNames) {
+    public List<ProblemSetSearchGetResponse> confirmSearch(String problemSetTitle, String problemTitle) {
         return queryFactory
                 .from(problemSet)
                 .leftJoin(problem).on(problem.id.in(problemSet.problemIds)) // 문제 세트 내 포함된 문항과 조인
@@ -61,8 +58,7 @@ public class ProblemSetSearchRepositoryCustom {
                 .where(
                         problemSet.confirmStatus.eq(CONFIRMED),
                         containsProblemSetTitle(problemSetTitle),
-                        containsProblemTitle(problemTitle),
-                        containsConceptTagNames(conceptTagNames)
+                        containsProblemTitle(problemTitle)
                 )
                 .distinct()
                 .transform(GroupBy.groupBy(problemSet.id).list(
@@ -88,9 +84,5 @@ public class ProblemSetSearchRepositoryCustom {
 
     private BooleanExpression containsProblemTitle(String problemTitle) {
         return (problemTitle == null || problemTitle.isEmpty()) ? null : problem.memo.containsIgnoreCase(problemTitle);
-    }
-
-    private BooleanExpression containsConceptTagNames(List<String> conceptTagNames) {
-        return (conceptTagNames == null || conceptTagNames.isEmpty()) ? null : conceptTag.name.in(conceptTagNames);
     }
 }

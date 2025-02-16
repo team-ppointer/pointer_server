@@ -36,7 +36,7 @@ public class ProblemSetSearchRepositoryCustomTest {
     @Test
     void 문항세트_타이틀_일부_포함_검색() {
         // when
-        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search("고2 모의고사", null, null);
+        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search("고2 모의고사", null);
 
         // then
         assertThat(result).hasSize(1);
@@ -46,18 +46,7 @@ public class ProblemSetSearchRepositoryCustomTest {
     @Test
     void 문항타이틀_포함_검색() {
         // when
-        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search(null, "설명", null);
-
-        // then
-        assertThat(result).hasSize(2);
-        assertThat(result.get(0).getProblemSetTitle()).isEqualTo("2025년 5월 고2 모의고사 문제 세트");
-        assertThat(result.get(1).getProblemSetTitle()).isEqualTo("2025년 5월 고3 모의고사 문제 세트");
-    }
-
-    @Test
-    void 개념태그_하나라도_포함되면_조회() {
-        // when
-        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search(null, null, List.of("미분 개념"));
+        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search(null, "설명");
 
         // then
         assertThat(result).hasSize(2);
@@ -68,7 +57,7 @@ public class ProblemSetSearchRepositoryCustomTest {
     @Test
     void 모두_적용된_검색() {
         // when
-        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search("고2", "설명 1", List.of("미분 개념"));
+        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search("고2", "설명 1");
 
         // then
         assertThat(result).hasSize(1);
@@ -78,7 +67,7 @@ public class ProblemSetSearchRepositoryCustomTest {
     @Test
     void 아무_조건도_없으면_모든_데이터_조회() {
         // when
-        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search(null, null, null);
+        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search(null, null);
 
         // then
         assertThat(result).hasSize(2);
@@ -87,7 +76,7 @@ public class ProblemSetSearchRepositoryCustomTest {
     @Test
     void 문항_여러개_문항세트_검색_조회() {
         // when
-        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search("고2 모의고사", null, null);
+        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search("고2 모의고사", null);
 
         // then
         assertThat(result).hasSize(1);
@@ -111,7 +100,7 @@ public class ProblemSetSearchRepositoryCustomTest {
     @Test
     void 발행되지_않은_문항세트는_NOT_CONFIRMED_테스트() {
         // when
-        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search("고2 모의고사", null, null);
+        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search("고2 모의고사", null);
 
         // then
         assertThat(result).hasSize(1);
@@ -128,7 +117,7 @@ public class ProblemSetSearchRepositoryCustomTest {
         publishSaveService.createPublish(new PublishPostRequest(publishDate, 2L));
 
         // when
-        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search("고3 모의고사", null, null);
+        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search("고3 모의고사", null);
 
         // then
         assertThat(result).hasSize(1);
@@ -146,8 +135,7 @@ public class ProblemSetSearchRepositoryCustomTest {
         // when: publishSearch 실행 (CONFIRMED 상태만 검색되어야 함)
         List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.confirmSearch(
                 "고",
-                "설명",
-                List.of("미분 개념")
+                "설명"
         );
 
         // then
@@ -165,7 +153,6 @@ public class ProblemSetSearchRepositoryCustomTest {
         // when: 발행된 문제 세트만 조회하는 publishSearch 실행
         List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.confirmSearch(
                 null,
-                null,
                 null
         );
 
@@ -182,7 +169,6 @@ public class ProblemSetSearchRepositoryCustomTest {
         // when
         List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.confirmSearch(
                 "고3 모의고사",
-                null,
                 null
         );
 
