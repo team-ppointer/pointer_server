@@ -1,6 +1,7 @@
 package com.moplus.moplus_server.domain.problem.controller;
 
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemImageType;
+import com.moplus.moplus_server.domain.problem.dto.response.PresignedUrlResponse;
 import com.moplus.moplus_server.domain.problem.service.ImageUploadService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,11 +23,11 @@ public class ImageUploadController {
 
     @Operation(summary = "이미지 업로드를 위한 presigned URL 발급")
     @GetMapping("/problem/{problemId}/presigned-url")
-    public ResponseEntity<String> getProblemImagePresignedUrl(
+    public ResponseEntity<PresignedUrlResponse> getProblemImagePresignedUrl(
             @PathVariable("problemId") String problemId,
             @RequestParam(value = "image-type") ProblemImageType imageType) {
         String presignedUrl = imageUploadService.generateProblemImagePresignedUrl(problemId, imageType);
-        return ResponseEntity.ok(presignedUrl);
+        return ResponseEntity.ok(PresignedUrlResponse.of(presignedUrl));
     }
 
     @Operation(summary = "이미지 업로드 완료 후 URL 조회")
