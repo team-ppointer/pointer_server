@@ -134,7 +134,7 @@ public class Problem extends BaseEntity {
         if (isConfirmed && this.childProblems.size() != inputChildProblems.size()) {
             throw new InvalidValueException(ErrorCode.INVALID_CHILD_PROBLEM_SIZE);
         }
-        
+
         for (int i = 0; i < inputChildProblems.size(); i++) {
             this.childProblems.get(i).update(inputChildProblems.get(i));
         }
@@ -160,10 +160,10 @@ public class Problem extends BaseEntity {
     }
 
     public String getTitle() {
-        return title.getTitle();
+        return title != null ? title.getTitle() : "제목 없음";
     }
 
     public Integer getDifficulty() {
-        return difficulty.getDifficulty();
+        return difficulty != null ? difficulty.getDifficulty() : null;
     }
 }

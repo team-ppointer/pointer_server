@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemType;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemPostRequest;
+import com.moplus.moplus_server.domain.problem.dto.response.ProblemPostResponse;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.global.error.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,12 +47,12 @@ class ProblemSaveServiceTest {
         @Test
         void 성공() {
             // when
-            Long createdProblemId = problemSaveService.createProblem(problemPostRequest);
+            ProblemPostResponse problemResponse = problemSaveService.createProblem(problemPostRequest);
 
             // then
-            assertThat(createdProblemId).isNotNull();
+            assertThat(problemResponse).isNotNull();
 
-            Problem savedProblem = problemRepository.findByIdElseThrow(createdProblemId);
+            Problem savedProblem = problemRepository.findByIdElseThrow(problemResponse.id());
             assertThat(savedProblem).isNotNull();
             assertThat(savedProblem.getProblemType()).isEqualTo(ProblemType.GICHUL_PROBLEM);
         }

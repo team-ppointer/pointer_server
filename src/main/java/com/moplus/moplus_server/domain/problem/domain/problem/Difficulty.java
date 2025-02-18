@@ -17,9 +17,6 @@ public class Difficulty {
     private Integer difficulty;
 
     public Difficulty(Integer difficulty) {
-        if (difficulty == null) {
-            return;
-        }
         validate(difficulty);
         this.difficulty = difficulty;
     }
