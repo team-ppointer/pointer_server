@@ -19,13 +19,13 @@ public class ProblemSearchRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public List<ProblemSearchGetResponse> search(String problemId, String comment, List<Long> conceptTagIds) {
+    public List<ProblemSearchGetResponse> search(String problemId, String memo, List<Long> conceptTagIds) {
         return queryFactory
                 .select(problem.problemCustomId.id, problem.memo, problem.mainProblemImageUrl)
                 .from(problem)
                 .where(
                         containsProblemId(problemId),
-                        containsName(comment),
+                        containsName(memo),
                         inConceptTagIds(conceptTagIds)
                 )
                 .leftJoin(conceptTag).on(conceptTag.id.in(problem.conceptTagIds)).fetchJoin()

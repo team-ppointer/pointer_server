@@ -27,10 +27,10 @@ public class ProblemSearchController {
     )
     public ResponseEntity<List<ProblemSearchGetResponse>> search(
             @RequestParam(value = "problemCustomId", required = false) String problemCustomId,
-            @RequestParam(value = "comment", required = false) String comment,
+            @RequestParam(value = "memo", required = false) String memo,
             @RequestParam(value = "conceptTagIds", required = false) List<Long> conceptTagIds
     ) {
-        List<ProblemSearchGetResponse> problems = problemSearchRepository.search(problemCustomId, comment,
+        List<ProblemSearchGetResponse> problems = problemSearchRepository.search(problemCustomId, memo,
                 conceptTagIds);
         return ResponseEntity.ok(problems);
     }

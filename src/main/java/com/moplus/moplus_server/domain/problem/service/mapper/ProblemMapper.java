@@ -22,6 +22,8 @@ public interface ProblemMapper {
     @Mappings({
             @Mapping(target = "problemCustomId", source = "problemCustomId"),
             @Mapping(target = "practiceTestTag", source = "practiceTestTag"),
+            @Mapping(target = "recommendedMinute", source = "request.recommendedMinute"),
+            @Mapping(target = "recommendedSecond", source = "request.recommendedSecond")
     })
     Problem from(ProblemUpdateRequest request, ProblemCustomId problemCustomId, PracticeTestTag practiceTestTag);
 

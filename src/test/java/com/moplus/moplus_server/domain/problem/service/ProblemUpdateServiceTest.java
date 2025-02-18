@@ -71,12 +71,14 @@ class ProblemUpdateServiceTest {
                 "업데이트된 메모",
                 "updatedMainProblem.png",
                 "updatedMainAnalysis.png",
-                "updatedMainHandwriting.png", // 추가
+                "updatedMainHandwriting.png",
                 "updatedReadingTip.png",
                 "updatedSeniorTip.png",
-                List.of("prescription1.png", "prescription2.png"), // List<String>으로 변경
+                List.of("prescription1.png", "prescription2.png"),
                 AnswerType.SHORT_STRING_ANSWER,
-                List.of(updateChildProblem1, updateChildProblem2)
+                List.of(updateChildProblem1, updateChildProblem2),
+                30,
+                45
         );
     }
 
@@ -133,6 +135,10 @@ class ProblemUpdateServiceTest {
             assertThat(newChild.getAnswerType()).isEqualTo(AnswerType.SHORT_STRING_ANSWER);
             assertThat(newChild.getAnswer()).isEqualTo("23");
             assertThat(newChild.getConceptTagIds()).containsExactlyInAnyOrderElementsOf(Set.of(3L, 4L));
+
+            // 추가된 검증
+            assertThat(response.recommendedMinute()).isEqualTo(30);
+            assertThat(response.recommendedSecond()).isEqualTo(45);
         }
     }
 
@@ -163,12 +169,14 @@ class ProblemUpdateServiceTest {
                     "잘못된 메모",
                     "updatedMainProblem.png",
                     "updatedMainAnalysis.png",
-                    "updatedMainHandwriting.png", // 추가
+                    "updatedMainHandwriting.png",
                     "updatedReadingTip.png",
                     "updatedSeniorTip.png",
-                    List.of("prescription1.png"), // List<String>으로 변경
+                    List.of("prescription1.png"),
                     AnswerType.SHORT_STRING_ANSWER,
-                    List.of()
+                    List.of(),
+                    30,
+                    45
             );
 
             // when & then

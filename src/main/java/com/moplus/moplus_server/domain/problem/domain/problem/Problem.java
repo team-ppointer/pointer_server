@@ -80,13 +80,16 @@ public class Problem extends BaseEntity {
     @OrderColumn(name = "sequence")
     private List<ChildProblem> childProblems = new ArrayList<>();
 
+    @Embedded
+    private RecommendedTime recommendedTime;
+
     @Builder
     public Problem(List<ChildProblem> childProblems, boolean isConfirmed, AnswerType answerType,
                    Set<Long> conceptTagIds, Integer difficulty, String mainHandwritingExplanationImageUrl,
                    List<String> prescriptionImageUrls, String seniorTipImageUrl, String readingTipImageUrl,
                    String mainAnalysisImageUrl, String mainProblemImageUrl, String memo, String answer, String title,
                    ProblemType problemType, int number, PracticeTestTag practiceTestTag,
-                   ProblemCustomId problemCustomId) {
+                   ProblemCustomId problemCustomId, Integer recommendedMinute, Integer recommendedSecond) {
         this.childProblems = childProblems;
         this.isConfirmed = isConfirmed;
         this.answerType = answerType;
@@ -105,6 +108,7 @@ public class Problem extends BaseEntity {
         this.number = number;
         this.practiceTestId = practiceTestTag != null ? practiceTestTag.getId() : null;
         this.problemCustomId = problemCustomId;
+        this.recommendedTime = new RecommendedTime(recommendedMinute, recommendedSecond);
     }
 
     public String getAnswer() {
@@ -123,11 +127,15 @@ public class Problem extends BaseEntity {
         this.memo = inputProblem.getMemo();
         this.mainProblemImageUrl = inputProblem.getMainProblemImageUrl();
         this.mainAnalysisImageUrl = inputProblem.getMainAnalysisImageUrl();
-        this.mainHandwritingExplanationImageUrl = inputProblem.getMainHandwritingExplanationImageUrl(); // 추가
+        this.mainHandwritingExplanationImageUrl = inputProblem.getMainHandwritingExplanationImageUrl();
         this.readingTipImageUrl = inputProblem.getReadingTipImageUrl();
         this.seniorTipImageUrl = inputProblem.getSeniorTipImageUrl();
         this.prescriptionImageUrls = inputProblem.getPrescriptionImageUrls();
         this.answerType = inputProblem.getAnswerType();
+        this.recommendedTime = new RecommendedTime(
+            inputProblem.getRecommendedTime() != null ? inputProblem.getRecommendedTime().getMinute() : null,
+            inputProblem.getRecommendedTime() != null ? inputProblem.getRecommendedTime().getSecond() : null
+        );
     }
 
     public void updateChildProblem(List<ChildProblem> inputChildProblems) {
@@ -156,7 +164,8 @@ public class Problem extends BaseEntity {
                 && prescriptionImageUrls != null && !prescriptionImageUrls.isEmpty()
                 && prescriptionImageUrls.stream().allMatch(url -> url != null && !url.isEmpty())
                 && answerType != null
-                && conceptTagIds != null && !conceptTagIds.isEmpty();
+                && conceptTagIds != null && !conceptTagIds.isEmpty()
+                && recommendedTime != null;
     }
 
     public String getTitle() {
