@@ -61,6 +61,8 @@ public class QProblem extends EntityPathBase<Problem> {
 
     public final StringPath readingTipImageUrl = createString("readingTipImageUrl");
 
+    public final QRecommendedTime recommendedTime;
+
     public final StringPath seniorTipImageUrl = createString("seniorTipImageUrl");
 
     public final QTitle title;
@@ -89,6 +91,7 @@ public class QProblem extends EntityPathBase<Problem> {
         this.answer = inits.isInitialized("answer") ? new com.moplus.moplus_server.domain.problem.domain.QAnswer(forProperty("answer")) : null;
         this.difficulty = inits.isInitialized("difficulty") ? new QDifficulty(forProperty("difficulty")) : null;
         this.problemCustomId = inits.isInitialized("problemCustomId") ? new QProblemCustomId(forProperty("problemCustomId")) : null;
+        this.recommendedTime = inits.isInitialized("recommendedTime") ? new QRecommendedTime(forProperty("recommendedTime")) : null;
         this.title = inits.isInitialized("title") ? new QTitle(forProperty("title")) : null;
     }
 

@@ -1,3 +1,5 @@
+DELETE FROM concept_tag;
+
 INSERT INTO concept_tag (concept_tag_id, name)
 VALUES (1, '미분 개념'),
        (2, '적분 개념'),

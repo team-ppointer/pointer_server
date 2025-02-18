@@ -29,7 +29,9 @@ public record ProblemGetResponse(
         String readingTipImageUrl,
         String seniorTipImageUrl,
         List<String> prescriptionImageUrls,
-        List<ChildProblemGetResponse> childProblems
+        List<ChildProblemGetResponse> childProblems,
+        Integer recommendedMinute,
+        Integer recommendedSecond
 ) {
 
     public static ProblemGetResponse of(Problem problem) {
@@ -55,6 +57,8 @@ public record ProblemGetResponse(
                 .childProblems(problem.getChildProblems().stream()
                         .map(ChildProblemGetResponse::of)
                         .toList())
+                .recommendedMinute(problem.getRecommendedTime().getMinute())
+                .recommendedSecond(problem.getRecommendedTime().getSecond())
                 .build();
     }
 }
