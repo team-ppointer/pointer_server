@@ -4,6 +4,7 @@ import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTestT
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminIdService;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemCustomId;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemType;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemPostRequest;
 import com.moplus.moplus_server.domain.problem.dto.response.ProblemPostResponse;
 import com.moplus.moplus_server.domain.problem.repository.PracticeTestTagRepository;
@@ -24,11 +25,19 @@ public class ProblemSaveService {
 
     @Transactional
     public ProblemPostResponse createProblem(ProblemPostRequest request) {
-        PracticeTestTag practiceTestTag = practiceTestRepository.findByIdElseThrow(request.practiceTestId());
-        ProblemCustomId problemCustomId = problemAdminIdService.nextId(request.number(), practiceTestTag,
-                request.problemType());
+        Problem problem;
+        if (request.problemType() != ProblemType.CREATION_PROBLEM) {
+            PracticeTestTag practiceTestTag = practiceTestRepository.findByIdElseThrow(request.practiceTestId());
+            ProblemCustomId problemCustomId = problemAdminIdService.nextId(request.number(), practiceTestTag,
+                    request.problemType());
 
-        Problem problem = problemMapper.from(request, problemCustomId, practiceTestTag);
+            problem = problemMapper.from(request, problemCustomId, practiceTestTag);
+        } else {
+            ProblemCustomId problemCustomId = problemAdminIdService.nextId(request.problemType());
+            problem = problemMapper.from(request.problemType(), problemCustomId);
+        }
+
         return ProblemPostResponse.of(problemRepository.save(problem));
     }
+
 }

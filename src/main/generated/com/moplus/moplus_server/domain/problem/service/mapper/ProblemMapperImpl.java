@@ -3,6 +3,7 @@ package com.moplus.moplus_server.domain.problem.service.mapper;
 import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTestTag;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemCustomId;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemType;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemPostRequest;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemUpdateRequest;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-02-18T15:29:27+0900",
+    date = "2025-02-18T19:54:34+0900",
     comments = "version: 1.6.3, compiler: javac, environment: Java 17.0.10 (JetBrains s.r.o.)"
 )
 @Component
@@ -70,6 +71,20 @@ public class ProblemMapperImpl implements ProblemMapper {
         }
         problem.problemCustomId( problemCustomId );
         problem.practiceTestTag( practiceTestTag );
+
+        return problem.build();
+    }
+
+    @Override
+    public Problem from(ProblemType problemType, ProblemCustomId problemCustomId) {
+        if ( problemType == null && problemCustomId == null ) {
+            return null;
+        }
+
+        Problem.ProblemBuilder problem = Problem.builder();
+
+        problem.problemType( problemType );
+        problem.problemCustomId( problemCustomId );
 
         return problem.build();
     }

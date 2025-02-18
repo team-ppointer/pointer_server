@@ -3,6 +3,7 @@ package com.moplus.moplus_server.domain.problem.service.mapper;
 import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTestTag;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemCustomId;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemType;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemPostRequest;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemUpdateRequest;
 import org.mapstruct.Mapper;
@@ -23,4 +24,9 @@ public interface ProblemMapper {
             @Mapping(target = "practiceTestTag", source = "practiceTestTag"),
     })
     Problem from(ProblemUpdateRequest request, ProblemCustomId problemCustomId, PracticeTestTag practiceTestTag);
+
+    @Mappings({
+            @Mapping(target = "problemCustomId", source = "problemCustomId")
+    })
+    Problem from(ProblemType problemType, ProblemCustomId problemCustomId);
 }

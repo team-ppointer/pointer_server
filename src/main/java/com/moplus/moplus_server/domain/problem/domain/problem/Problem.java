@@ -103,7 +103,7 @@ public class Problem extends BaseEntity {
         this.title = new Title(title);
         this.problemType = problemType;
         this.number = number;
-        this.practiceTestId = practiceTestTag.getId();
+        this.practiceTestId = practiceTestTag != null ? practiceTestTag.getId() : null;
         this.problemCustomId = problemCustomId;
     }
 
@@ -112,7 +112,7 @@ public class Problem extends BaseEntity {
     }
 
     public void update(Problem inputProblem) {
-        this.problemCustomId = inputProblem.getProblemCustomId();
+        this.problemCustomId = new ProblemCustomId(inputProblem.getProblemCustomId());
         this.practiceTestId = inputProblem.getPracticeTestId();
         this.number = inputProblem.getNumber();
         this.problemType = inputProblem.getProblemType();
@@ -166,4 +166,9 @@ public class Problem extends BaseEntity {
     public Integer getDifficulty() {
         return difficulty != null ? difficulty.getDifficulty() : null;
     }
+
+    public String getProblemCustomId() {
+        return problemCustomId.getId();
+    }
+
 }
