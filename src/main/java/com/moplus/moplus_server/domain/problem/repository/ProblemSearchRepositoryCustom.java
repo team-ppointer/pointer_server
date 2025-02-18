@@ -21,7 +21,7 @@ public class ProblemSearchRepositoryCustom {
 
     public List<ProblemSearchGetResponse> search(String problemId, String comment, List<Long> conceptTagIds) {
         return queryFactory
-                .select(problem.problemAdminId.id, problem.memo, problem.mainProblemImageUrl)
+                .select(problem.problemCustomId.id, problem.memo, problem.mainProblemImageUrl)
                 .from(problem)
                 .where(
                         containsProblemId(problemId),
@@ -32,7 +32,7 @@ public class ProblemSearchRepositoryCustom {
                 .distinct()
                 .transform(GroupBy.groupBy(problem.id).list(
                         Projections.constructor(ProblemSearchGetResponse.class,
-                                problem.problemAdminId.id,
+                                problem.problemCustomId.id,
                                 problem.memo,
                                 problem.mainProblemImageUrl,
                                 GroupBy.set(
@@ -45,10 +45,10 @@ public class ProblemSearchRepositoryCustom {
                 ));
     }
 
-    //problemId 일부 포함 검색
+    //problemCustomId 일부 포함 검색
     private BooleanExpression containsProblemId(String problemId) {
         return (problemId == null || problemId.isEmpty()) ? null
-                : problem.problemAdminId.id.containsIgnoreCase(problemId);
+                : problem.problemCustomId.id.containsIgnoreCase(problemId);
     }
 
     //name 조건 (포함 검색)

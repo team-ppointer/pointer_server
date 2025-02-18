@@ -55,7 +55,7 @@ public class QProblem extends EntityPathBase<Problem> {
 
     public final ListPath<String, StringPath> prescriptionImageUrls = this.<String, StringPath>createList("prescriptionImageUrls", String.class, StringPath.class, PathInits.DIRECT2);
 
-    public final QProblemAdminId problemAdminId;
+    public final QProblemCustomId problemCustomId;
 
     public final EnumPath<ProblemType> problemType = createEnum("problemType", ProblemType.class);
 
@@ -88,7 +88,7 @@ public class QProblem extends EntityPathBase<Problem> {
         super(type, metadata, inits);
         this.answer = inits.isInitialized("answer") ? new com.moplus.moplus_server.domain.problem.domain.QAnswer(forProperty("answer")) : null;
         this.difficulty = inits.isInitialized("difficulty") ? new QDifficulty(forProperty("difficulty")) : null;
-        this.problemAdminId = inits.isInitialized("problemAdminId") ? new QProblemAdminId(forProperty("problemAdminId")) : null;
+        this.problemCustomId = inits.isInitialized("problemCustomId") ? new QProblemCustomId(forProperty("problemCustomId")) : null;
         this.title = inits.isInitialized("title") ? new QTitle(forProperty("title")) : null;
     }
 

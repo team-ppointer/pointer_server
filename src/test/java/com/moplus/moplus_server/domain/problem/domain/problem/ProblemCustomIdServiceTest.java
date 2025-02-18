@@ -19,7 +19,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class ProblemAdminIdServiceTest {
+class ProblemCustomIdServiceTest {
 
     public static final String ID_LENGTH = "10";
     @Mock
@@ -43,10 +43,10 @@ class ProblemAdminIdServiceTest {
         // given
         int 문제번호 = 20;
         ProblemType problemType = ProblemType.GICHUL_PROBLEM;
-        when(problemRepository.existsByProblemAdminId(any())).thenReturn(false); // 중복 없음
+        when(problemRepository.existsByProblemCustomId(any())).thenReturn(false); // 중복 없음
 
         // when
-        ProblemAdminId generatedId = problemAdminIdService.nextId(문제번호, practiceTestTag, problemType);
+        ProblemCustomId generatedId = problemAdminIdService.nextId(문제번호, practiceTestTag, problemType);
 
         // then
         assertThat(generatedId).isNotNull();
@@ -54,7 +54,7 @@ class ProblemAdminIdServiceTest {
         assertThat(generatedId.getId()).startsWith("12240520");
 
         // 문제 ID 중복 확인을 위해 existsById 호출 확인
-        verify(problemRepository, atLeastOnce()).existsByProblemAdminId(any());
+        verify(problemRepository, atLeastOnce()).existsByProblemCustomId(any());
 
     }
 
@@ -63,12 +63,12 @@ class ProblemAdminIdServiceTest {
         // given
         int 문제번호 = 2;
         ProblemType problemType = ProblemType.GICHUL_PROBLEM;
-        when(problemRepository.existsByProblemAdminId(any()))
+        when(problemRepository.existsByProblemCustomId(any()))
                 .thenReturn(true)  // 첫 번째 생성된 ID는 중복됨
                 .thenReturn(false); // 두 번째는 중복 없음
 
         // when
-        ProblemAdminId generatedId = problemAdminIdService.nextId(문제번호, practiceTestTag, problemType);
+        ProblemCustomId generatedId = problemAdminIdService.nextId(문제번호, practiceTestTag, problemType);
 
         // then
         assertThat(generatedId).isNotNull();
@@ -76,6 +76,6 @@ class ProblemAdminIdServiceTest {
         assertThat(generatedId.getId()).startsWith("12240502");
 
         // 중복된 ID가 나왔으므로 existsById가 최소 두 번 이상 호출되었는지 확인
-        verify(problemRepository, atLeast(2)).existsByProblemAdminId(any());
+        verify(problemRepository, atLeast(2)).existsByProblemCustomId(any());
     }
 }

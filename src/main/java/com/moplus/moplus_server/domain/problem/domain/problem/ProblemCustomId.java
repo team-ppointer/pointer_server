@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ProblemAdminId implements Serializable {
+public class ProblemCustomId implements Serializable {
 
-    @Column(name = "problem_admin_id", nullable = false)
+    @Column(name = "problem_custom_id")
     private String id;
 
-    public ProblemAdminId(String id) {
+    public ProblemCustomId(String id) {
         this.id = id;
     }
 }

@@ -37,7 +37,7 @@ public class QIncorrectProblem extends EntityPathBase<IncorrectProblem> {
 
     public final NumberPath<Long> practiceTestId = createNumber("practiceTestId", Long.class);
 
-    public final NumberPath<Long> problemId = createNumber("problemId", Long.class);
+    public final NumberPath<Long> problemId = createNumber("problemCustomId", Long.class);
 
     public final StringPath problemNumber = createString("problemNumber");
 

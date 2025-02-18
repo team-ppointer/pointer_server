@@ -1,6 +1,6 @@
 -- problem 데이터 삽입
 INSERT INTO problem (problem_id,
-                     problem_admin_id,
+                     problem_custom_id,
                      practice_test_id,
                      number,
                      problem_type,
@@ -62,7 +62,7 @@ VALUES (1, 1),
 
 -- 유효하지 않은 문제 데이터 삽입
 INSERT INTO problem (problem_id,
-                     problem_admin_id,
+                     problem_custom_id,
                      practice_test_id,
                      number,
                      problem_type,

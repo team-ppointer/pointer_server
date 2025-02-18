@@ -2,7 +2,7 @@ package com.moplus.moplus_server.domain.problem.service.mapper;
 
 import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTestTag;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminId;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemCustomId;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemPostRequest;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemUpdateRequest;
 import java.util.ArrayList;
@@ -14,15 +14,15 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-02-13T19:05:39+0900",
+    date = "2025-02-18T15:29:27+0900",
     comments = "version: 1.6.3, compiler: javac, environment: Java 17.0.10 (JetBrains s.r.o.)"
 )
 @Component
 public class ProblemMapperImpl implements ProblemMapper {
 
     @Override
-    public Problem from(ProblemPostRequest request, ProblemAdminId problemAdminId, PracticeTestTag practiceTestTag) {
-        if ( request == null && problemAdminId == null && practiceTestTag == null ) {
+    public Problem from(ProblemPostRequest request, ProblemCustomId problemCustomId, PracticeTestTag practiceTestTag) {
+        if ( request == null && problemCustomId == null && practiceTestTag == null ) {
             return null;
         }
 
@@ -32,15 +32,15 @@ public class ProblemMapperImpl implements ProblemMapper {
             problem.problemType( request.problemType() );
             problem.number( request.number() );
         }
-        problem.problemAdminId( problemAdminId );
+        problem.problemCustomId( problemCustomId );
         problem.practiceTestTag( practiceTestTag );
 
         return problem.build();
     }
 
     @Override
-    public Problem from(ProblemUpdateRequest request, ProblemAdminId problemAdminId, PracticeTestTag practiceTestTag) {
-        if ( request == null && problemAdminId == null && practiceTestTag == null ) {
+    public Problem from(ProblemUpdateRequest request, ProblemCustomId problemCustomId, PracticeTestTag practiceTestTag) {
+        if ( request == null && problemCustomId == null && practiceTestTag == null ) {
             return null;
         }
 
@@ -68,7 +68,7 @@ public class ProblemMapperImpl implements ProblemMapper {
             problem.problemType( request.problemType() );
             problem.number( request.number() );
         }
-        problem.problemAdminId( problemAdminId );
+        problem.problemCustomId( problemCustomId );
         problem.practiceTestTag( practiceTestTag );
 
         return problem.build();

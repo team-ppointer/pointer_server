@@ -37,8 +37,6 @@ public class QChildProblem extends EntityPathBase<ChildProblem> {
 
     public final StringPath imageUrl = createString("imageUrl");
 
-    public final NumberPath<Integer> sequence = createNumber("sequence", Integer.class);
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedDate = _super.updatedDate;
 

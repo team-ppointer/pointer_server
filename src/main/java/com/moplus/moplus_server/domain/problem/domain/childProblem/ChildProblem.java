@@ -40,17 +40,24 @@ public class ChildProblem extends BaseEntity {
     private Answer answer;
     @Enumerated(EnumType.STRING)
     private AnswerType answerType;
-    private int sequence;
 
     @Builder
-    public ChildProblem(String imageUrl, AnswerType answerType, String answer, Set<Long> conceptTagIds,
-                        int sequence) {
+    public ChildProblem(Long id, String imageUrl, AnswerType answerType, String answer, Set<Long> conceptTagIds) {
+        this.id = id;
         validateAnswerByType(answer, answerType);
         this.imageUrl = imageUrl;
         this.answerType = answerType;
         this.answer = new Answer(answer, answerType);
         this.conceptTagIds = conceptTagIds;
-        this.sequence = sequence;
+    }
+
+    public static ChildProblem createEmptyChildProblem() {
+        return ChildProblem.builder()
+                .imageUrl("")
+                .answerType(AnswerType.SHORT_STRING_ANSWER)
+                .answer("")
+                .conceptTagIds(Set.of())
+                .build();
     }
 
     public void validateAnswerByType(String answer, AnswerType answerType) {
@@ -62,11 +69,13 @@ public class ChildProblem extends BaseEntity {
     }
 
     public void update(ChildProblem input) {
+        if (this.id != input.id) {
+            throw new InvalidValueException(ErrorCode.INVALID_CHILD_PROBLEM_SEQUENCE);
+        }
         this.imageUrl = input.imageUrl;
         this.answerType = input.answerType;
         this.answer = input.answer;
         this.conceptTagIds = input.conceptTagIds;
-        this.sequence = input.sequence;
     }
 
     public String getAnswer() {

@@ -37,6 +37,10 @@ public enum ErrorCode {
 
     //새끼 문항
     CHILD_PROBLEM_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 새끼 문제를 찾을 수 없습니다"),
+    CHILD_PROBLEM_UPDATE_AFTER_CONFIRMED(HttpStatus.BAD_REQUEST, "컨펌 후 문제는 수정할 수 없습니다"),
+    INVALID_CHILD_PROBLEM_SEQUENCE(HttpStatus.BAD_REQUEST, "새끼 문제의 업데이트 순서가 일치하지 않습니다."),
+    INVALID_CHILD_PROBLEM_SIZE(HttpStatus.BAD_REQUEST, "새끼 문제의 업데이트 개수가 일치하지 않습니다."),
+
 
     //개념태그
     CONCEPT_TAG_NOT_FOUND_IN_LIST(HttpStatus.NOT_FOUND, "해당 리스트 중 존재하지 않는 개념 태그가 있습니다."),

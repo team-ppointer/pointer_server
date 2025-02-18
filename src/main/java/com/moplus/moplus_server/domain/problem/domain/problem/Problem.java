@@ -5,6 +5,8 @@ import com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem;
 import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTestTag;
 import com.moplus.moplus_server.domain.problem.repository.converter.StringListConverter;
 import com.moplus.moplus_server.global.common.BaseEntity;
+import com.moplus.moplus_server.global.error.exception.ErrorCode;
+import com.moplus.moplus_server.global.error.exception.InvalidValueException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -20,9 +22,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderBy;
+import jakarta.persistence.OrderColumn;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,7 +38,7 @@ import lombok.NoArgsConstructor;
 public class Problem extends BaseEntity {
 
     @Embedded
-    ProblemAdminId problemAdminId;
+    ProblemCustomId problemCustomId;
     Long practiceTestId;
     int number;
     @Enumerated(EnumType.STRING)
@@ -76,7 +77,7 @@ public class Problem extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "problem_id")
-    @OrderBy("sequence ASC")
+    @OrderColumn(name = "sequence")
     private List<ChildProblem> childProblems = new ArrayList<>();
 
     @Builder
@@ -85,7 +86,7 @@ public class Problem extends BaseEntity {
                    List<String> prescriptionImageUrls, String seniorTipImageUrl, String readingTipImageUrl,
                    String mainAnalysisImageUrl, String mainProblemImageUrl, String memo, String answer, String title,
                    ProblemType problemType, int number, PracticeTestTag practiceTestTag,
-                   ProblemAdminId problemAdminId) {
+                   ProblemCustomId problemCustomId) {
         this.childProblems = childProblems;
         this.isConfirmed = isConfirmed;
         this.answerType = answerType;
@@ -103,22 +104,15 @@ public class Problem extends BaseEntity {
         this.problemType = problemType;
         this.number = number;
         this.practiceTestId = practiceTestTag.getId();
-        this.problemAdminId = problemAdminId;
+        this.problemCustomId = problemCustomId;
     }
 
     public String getAnswer() {
         return answer.getValue();
     }
 
-    public void addChildProblem(List<ChildProblem> inputChildProblems) {
-        List<ChildProblem> mutableChildProblems = new ArrayList<>(inputChildProblems);
-        mutableChildProblems.sort(Comparator.comparingInt(ChildProblem::getSequence));
-        mutableChildProblems.forEach(childProblems::add);
-        mutableChildProblems.forEach(childProblem -> conceptTagIds.addAll(childProblem.getConceptTagIds()));
-    }
-
     public void update(Problem inputProblem) {
-        this.problemAdminId = inputProblem.getProblemAdminId();
+        this.problemCustomId = inputProblem.getProblemCustomId();
         this.practiceTestId = inputProblem.getPracticeTestId();
         this.number = inputProblem.getNumber();
         this.problemType = inputProblem.getProblemType();
@@ -134,33 +128,20 @@ public class Problem extends BaseEntity {
         this.seniorTipImageUrl = inputProblem.getSeniorTipImageUrl();
         this.prescriptionImageUrls = inputProblem.getPrescriptionImageUrls();
         this.answerType = inputProblem.getAnswerType();
-        this.isConfirmed = inputProblem.isConfirmed();
     }
 
     public void updateChildProblem(List<ChildProblem> inputChildProblems) {
-        inputChildProblems.forEach(childProblem -> {
-            this.childProblems.stream()
-                    .filter(existingChildProblem -> existingChildProblem.getId().equals(childProblem.getId()))
-                    .findFirst()
-                    .ifPresentOrElse(
-                            existingChildProblem -> {
-                                existingChildProblem.update(childProblem);
-                                conceptTagIds.addAll(existingChildProblem.getConceptTagIds());
-                            },
-                            () -> {
-                                childProblems.add(childProblem);
-                                conceptTagIds.addAll(childProblem.getConceptTagIds());
-                            }
-                    );
-        });
-    }
-
-    public void deleteChildProblem(List<Long> deleteChildProblems) {
-        childProblems.removeIf(childProblem -> deleteChildProblems.contains(childProblem.getId()));
+        if (isConfirmed && this.childProblems.size() != inputChildProblems.size()) {
+            throw new InvalidValueException(ErrorCode.INVALID_CHILD_PROBLEM_SIZE);
+        }
+        
+        for (int i = 0; i < inputChildProblems.size(); i++) {
+            this.childProblems.get(i).update(inputChildProblems.get(i));
+        }
     }
 
     public boolean isValid() {
-        return problemAdminId != null
+        return problemCustomId != null
                 && practiceTestId != null
                 && problemType != null
                 && title != null && !title.getTitle().isEmpty()

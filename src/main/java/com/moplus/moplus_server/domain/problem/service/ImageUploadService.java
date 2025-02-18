@@ -1,7 +1,7 @@
 package com.moplus.moplus_server.domain.problem.service;
 
 import com.amazonaws.HttpMethod;
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminId;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemCustomId;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemImageType;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.global.utils.s3.S3Util;
@@ -18,7 +18,7 @@ public class ImageUploadService {
     private final ProblemRepository problemRepository;
 
     public String generateProblemImagePresignedUrl(String problemId, ProblemImageType imageType) {
-        problemRepository.existsByProblemAdminIdElseThrow(new ProblemAdminId(problemId));
+        problemRepository.existsByProblemAdminIdElseThrow(new ProblemCustomId(problemId));
         String fileName = generateProblemImageFileName(problemId, imageType);
         return s3Util.getS3PresignedUrl(fileName, HttpMethod.PUT);
     }

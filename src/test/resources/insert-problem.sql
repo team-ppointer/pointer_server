@@ -1,5 +1,5 @@
 INSERT INTO problem (problem_id,
-                     problem_admin_id,
+                     problem_custom_id,
                      practice_test_id,
                      number,
                      problem_type,
@@ -28,7 +28,7 @@ INSERT INTO child_problem (child_problem_id,
                            answer,
                            sequence)
 VALUES (1, 1, 'child1.png', 'MULTIPLE_CHOICE', '1', 0),
-       (2, 1, 'child2.png', 'SHORT_STRING_ANSWER', '정답2', 0);
+       (2, 1, 'child2.png', 'SHORT_STRING_ANSWER', '정답2', 1);
 
 -- 문제-컨셉 태그 연결 (기존 문제의 ConceptTag)
 INSERT INTO problem_concept (problem_id, -- Long 타입으로 변경 (Problem의 id 참조)
