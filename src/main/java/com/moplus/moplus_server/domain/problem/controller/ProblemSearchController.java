@@ -26,11 +26,12 @@ public class ProblemSearchController {
             description = "문항 ID, 문제명, 개념 태그리스트로 문제를 검색합니다. 개념 태그리스트는 OR 조건으로 검색하며 값이 없으면 쿼리파라미터에서 빼주세요"
     )
     public ResponseEntity<List<ProblemSearchGetResponse>> search(
-            @RequestParam(value = "problemId", required = false) String problemId,
+            @RequestParam(value = "problemCustomId", required = false) String problemCustomId,
             @RequestParam(value = "comment", required = false) String comment,
             @RequestParam(value = "conceptTagIds", required = false) List<Long> conceptTagIds
     ) {
-        List<ProblemSearchGetResponse> problems = problemSearchRepository.search(problemId, comment, conceptTagIds);
+        List<ProblemSearchGetResponse> problems = problemSearchRepository.search(problemCustomId, comment,
+                conceptTagIds);
         return ResponseEntity.ok(problems);
     }
 }

@@ -22,7 +22,7 @@ public class ProblemAdminIdService {
         NN : 번호 (01~99)
         XX : 2자리 sequence 숫자
      */
-    public ProblemAdminId nextId(int number, PracticeTestTag practiceTestTag, ProblemType problemType) {
+    public ProblemCustomId nextId(int number, PracticeTestTag practiceTestTag, ProblemType problemType) {
 
         int problemTypeCode = problemType.getCode(); // C (문제 타입)
         int subject = practiceTestTag.getSubject().getCode(); // S (과목)
@@ -37,8 +37,8 @@ public class ProblemAdminIdService {
             sequence = SEQUENCE.getAndIncrement() % 100; // 000~999 순환
             generatedId = String.format("%d%d%02d%02d%02d%02d",
                     problemTypeCode, subject, year, month, number, sequence);
-        } while (problemRepository.existsByProblemAdminId(new ProblemAdminId(generatedId))); // ID가 이미 존재하면 재생성
+        } while (problemRepository.existsByProblemCustomId(new ProblemCustomId(generatedId))); // ID가 이미 존재하면 재생성
 
-        return new ProblemAdminId(generatedId);
+        return new ProblemCustomId(generatedId);
     }
 }

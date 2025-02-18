@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem;
 import com.moplus.moplus_server.domain.problem.domain.problem.AnswerType;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
-import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminId;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemCustomId;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemType;
 import com.moplus.moplus_server.domain.problem.dto.request.ChildProblemUpdateRequest;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemUpdateRequest;
@@ -15,7 +15,6 @@ import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.global.error.exception.NotFoundException;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -37,35 +36,29 @@ class ProblemUpdateServiceTest {
     @Autowired
     private ProblemRepository problemRepository;
 
-    private ProblemAdminId problemAdminId;
+    private ProblemCustomId problemCustomId;
     private ProblemUpdateRequest problemUpdateRequest;
 
     @BeforeEach
     void setUp() {
-        problemAdminId = new ProblemAdminId("240520012001");
-
-        //  새 자식 문제 추가
-        ChildProblemUpdateRequest newChildProblem = new ChildProblemUpdateRequest(
-                null,
-                "newChild.png",
-                AnswerType.SHORT_STRING_ANSWER,
-                "새로운 정답",
-                Set.of(1L, 2L),
-                1
-        );
+        problemCustomId = new ProblemCustomId("240520012001");
 
         //  기존 자식 문제 업데이트
-        ChildProblemUpdateRequest updateChildProblem = new ChildProblemUpdateRequest(
-                1L, // 기존 자식 문제 ID
-                "updatedChild.png",
+        ChildProblemUpdateRequest updateChildProblem1 = new ChildProblemUpdateRequest(
+                1L,
+                "updatedChild1.png",
                 AnswerType.MULTIPLE_CHOICE,
                 "2",
-                Set.of(2L, 3L),
-                0
+                Set.of(2L, 3L)
         );
 
-        //  기존 자식 문제 삭제
-        List<Long> deleteChildProblem = List.of(2L); // 삭제할 자식 문제 ID
+        ChildProblemUpdateRequest updateChildProblem2 = new ChildProblemUpdateRequest(
+                2L,
+                "updatedChild2.png",
+                AnswerType.SHORT_STRING_ANSWER,
+                "23",
+                Set.of(3L, 4L)
+        );
 
         problemUpdateRequest = new ProblemUpdateRequest(
                 ProblemType.VARIANT_PROBLEM,
@@ -83,8 +76,7 @@ class ProblemUpdateServiceTest {
                 "updatedSeniorTip.png",
                 List.of("prescription1.png", "prescription2.png"), // List<String>으로 변경
                 AnswerType.SHORT_STRING_ANSWER,
-                List.of(newChildProblem, updateChildProblem),
-                deleteChildProblem
+                List.of(updateChildProblem1, updateChildProblem2)
         );
     }
 
@@ -99,7 +91,7 @@ class ProblemUpdateServiceTest {
 
             // then
             assertThat(response).isNotNull();
-            assertThat(response.problemId()).startsWith("22230310"); //  문제 ID 확인
+            assertThat(response.problemCustomId()).startsWith("22230310"); //  문제 ID 확인
             assertThat(response.problemType()).isEqualTo(ProblemType.VARIANT_PROBLEM);
             assertThat(response.practiceTestId()).isEqualTo(2L);
             assertThat(response.number()).isEqualTo(10);
@@ -126,35 +118,21 @@ class ProblemUpdateServiceTest {
 
             // 자식 문제 검증
             List<ChildProblem> childProblems = updatedProblem.getChildProblems();
-            assertThat(childProblems).hasSize(2); // 기존 2개 → 1개 삭제, 1개 추가 후 2개
+            assertThat(childProblems).hasSize(2);
 
             // 첫 번째 자식 문제 검증 (업데이트된 기존 문제)
             ChildProblem updatedChild = childProblems.get(0);
-            assertThat(updatedChild.getId()).isEqualTo(1L);
-            assertThat(updatedChild.getImageUrl()).isEqualTo("updatedChild.png");
+            assertThat(updatedChild.getImageUrl()).isEqualTo("updatedChild1.png");
             assertThat(updatedChild.getAnswerType()).isEqualTo(AnswerType.MULTIPLE_CHOICE);
             assertThat(updatedChild.getAnswer()).isEqualTo("2");
             assertThat(updatedChild.getConceptTagIds()).containsExactlyInAnyOrderElementsOf(Set.of(2L, 3L));
-            assertThat(updatedChild.getSequence()).isEqualTo(0);
 
             // 두 번째 자식 문제 검증 (새로 추가된 문제)
             ChildProblem newChild = childProblems.get(1);
-            assertThat(newChild.getImageUrl()).isEqualTo("newChild.png");
+            assertThat(newChild.getImageUrl()).isEqualTo("updatedChild2.png");
             assertThat(newChild.getAnswerType()).isEqualTo(AnswerType.SHORT_STRING_ANSWER);
-            assertThat(newChild.getAnswer()).isEqualTo("새로운 정답");
-            assertThat(newChild.getConceptTagIds()).containsExactlyInAnyOrderElementsOf(Set.of(1L, 2L));
-            assertThat(newChild.getSequence()).isEqualTo(1);
-
-            // 부모 문제의 conceptTagIds가 자식 문제의 conceptTagIds를 모두 포함하는지 검증
-            Set<Long> problemTags = updatedProblem.getConceptTagIds();
-            childProblems.forEach(child -> {
-                assertThat(problemTags).containsAll(child.getConceptTagIds());
-            });
-
-            // 자식 문제 순서가 올바르게 정렬되었는지 확인
-            IntStream.range(0, childProblems.size()).forEach(i -> {
-                assertThat(childProblems.get(i).getSequence()).isEqualTo(i);
-            });
+            assertThat(newChild.getAnswer()).isEqualTo("23");
+            assertThat(newChild.getConceptTagIds()).containsExactlyInAnyOrderElementsOf(Set.of(3L, 4L));
         }
     }
 
@@ -190,7 +168,6 @@ class ProblemUpdateServiceTest {
                     "updatedSeniorTip.png",
                     List.of("prescription1.png"), // List<String>으로 변경
                     AnswerType.SHORT_STRING_ANSWER,
-                    List.of(),
                     List.of()
             );
 

@@ -9,6 +9,7 @@ import com.moplus.moplus_server.domain.problemset.service.ProblemSetDeleteServic
 import com.moplus.moplus_server.domain.problemset.service.ProblemSetGetService;
 import com.moplus.moplus_server.domain.problemset.service.ProblemSetSaveService;
 import com.moplus.moplus_server.domain.problemset.service.ProblemSetUpdateService;
+import com.moplus.moplus_server.global.response.IdResponse;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,10 +37,10 @@ public class ProblemSetController {
 
     @PostMapping("")
     @Operation(summary = "문항세트 생성", description = "문항세트를 생성합니다. 문항은 요청 순서대로 저장합니다.")
-    public ResponseEntity<Long> createProblemSet(
+    public ResponseEntity<IdResponse> createProblemSet(
             @RequestBody ProblemSetPostRequest request
     ) {
-        return ResponseEntity.ok(problemSetSaveService.createProblemSet(request));
+        return ResponseEntity.ok(new IdResponse(problemSetSaveService.createProblemSet(request)));
     }
 
     @Hidden

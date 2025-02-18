@@ -5,6 +5,7 @@ import com.moplus.moplus_server.domain.publish.dto.response.PublishMonthGetRespo
 import com.moplus.moplus_server.domain.publish.service.PublishDeleteService;
 import com.moplus.moplus_server.domain.publish.service.PublishGetService;
 import com.moplus.moplus_server.domain.publish.service.PublishSaveService;
+import com.moplus.moplus_server.global.response.IdResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -40,10 +41,10 @@ public class PublishController {
 
     @PostMapping("")
     @Operation(summary = "발행 생성하기", description = "특정 날짜에 문항세트를 발행합니다.")
-    public ResponseEntity<Long> postPublish(
+    public ResponseEntity<IdResponse> postPublish(
             @Valid @RequestBody PublishPostRequest request
     ) {
-        return ResponseEntity.ok(publishSaveService.createPublish(request));
+        return ResponseEntity.ok(new IdResponse(publishSaveService.createPublish(request)));
     }
 
     @DeleteMapping("/{publishId}")

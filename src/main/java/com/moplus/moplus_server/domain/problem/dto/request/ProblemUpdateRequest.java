@@ -23,7 +23,6 @@ public record ProblemUpdateRequest(
         String seniorTipImageUrl,
         List<String> prescriptionImageUrls,
         AnswerType answerType,
-        List<ChildProblemUpdateRequest> updateChildProblems,
-        List<Long> deleteChildProblems
+        List<ChildProblemUpdateRequest> updateChildProblems
 ) {
 }

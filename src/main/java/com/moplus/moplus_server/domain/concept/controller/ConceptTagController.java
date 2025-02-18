@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ConceptTagController {
 
-    ConceptTagRepository conceptTagRepository;
+    private final ConceptTagRepository conceptTagRepository;
 
     @GetMapping("")
     @Operation(summary = "모든 개념 태그 리스트 조회")

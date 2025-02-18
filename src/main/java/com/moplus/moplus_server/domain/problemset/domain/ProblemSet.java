@@ -35,6 +35,7 @@ public class ProblemSet extends BaseEntity {
 
     @Embedded
     private Title title;
+
     @Column(nullable = false)
     private boolean isDeleted;
 
@@ -68,7 +69,7 @@ public class ProblemSet extends BaseEntity {
         if (this.confirmStatus == ProblemSetConfirmStatus.NOT_CONFIRMED) {
             List<String> invalidProblemIds = problems.stream()
                     .filter(problem -> !problem.isValid())
-                    .map(problem -> problem.getProblemAdminId().getId())
+                    .map(problem -> problem.getProblemCustomId().getId())
                     .toList();
             if (!invalidProblemIds.isEmpty()) {
                 String message = ErrorCode.INVALID_CONFIRM_PROBLEM.getMessage() +

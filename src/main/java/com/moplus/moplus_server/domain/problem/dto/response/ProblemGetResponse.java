@@ -10,8 +10,10 @@ import lombok.Builder;
 
 @Builder
 public record ProblemGetResponse(
-        @NotNull(message = "문항 ID은 필수입니다")
-        String problemId,
+        @NotNull(message = "문항 ID 필수입니다")
+        Long id,
+        @NotNull(message = "문항 custom ID는 필수입니다")
+        String problemCustomId,
         Set<Long> conceptTagIds,
         Long practiceTestId,
         int number,
@@ -31,8 +33,10 @@ public record ProblemGetResponse(
 ) {
 
     public static ProblemGetResponse of(Problem problem) {
+
         return ProblemGetResponse.builder()
-                .problemId(problem.getProblemAdminId().getId())
+                .id(problem.getId())
+                .problemCustomId(problem.getProblemCustomId().getId())
                 .conceptTagIds(problem.getConceptTagIds())
                 .practiceTestId(problem.getPracticeTestId())
                 .number(problem.getNumber())

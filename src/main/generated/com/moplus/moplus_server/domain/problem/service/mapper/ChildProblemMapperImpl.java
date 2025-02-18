@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-02-12T02:55:03+0900",
+    date = "2025-02-18T17:01:34+0900",
     comments = "version: 1.6.3, compiler: javac, environment: Java 17.0.10 (JetBrains s.r.o.)"
 )
 @Component
@@ -31,7 +31,6 @@ public class ChildProblemMapperImpl implements ChildProblemMapper {
         if ( set != null ) {
             childProblem.conceptTagIds( new LinkedHashSet<Long>( set ) );
         }
-        childProblem.sequence( request.sequence() );
 
         return childProblem.build();
     }
@@ -44,6 +43,7 @@ public class ChildProblemMapperImpl implements ChildProblemMapper {
 
         ChildProblem.ChildProblemBuilder childProblem = ChildProblem.builder();
 
+        childProblem.id( request.id() );
         childProblem.imageUrl( request.imageUrl() );
         childProblem.answerType( request.answerType() );
         childProblem.answer( request.answer() );
@@ -51,7 +51,6 @@ public class ChildProblemMapperImpl implements ChildProblemMapper {
         if ( set != null ) {
             childProblem.conceptTagIds( new LinkedHashSet<Long>( set ) );
         }
-        childProblem.sequence( request.sequence() );
 
         return childProblem.build();
     }
