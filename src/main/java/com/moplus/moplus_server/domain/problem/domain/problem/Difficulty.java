@@ -21,7 +21,10 @@ public class Difficulty {
         this.difficulty = difficulty;
     }
 
-    private void validate(int difficulty) {
+    private void validate(Integer difficulty) {
+        if (difficulty == null) {
+            return;
+        }
         if (difficulty < 1 || difficulty > 10) {
             throw new InvalidValueException(ErrorCode.INVALID_DIFFICULTY);
         }
