@@ -70,9 +70,9 @@ class MemberControllerTest {
                             .contentType("application/json")
                             .header(HttpHeaders.AUTHORIZATION, "Bearer " + validToken))
                     .andExpect(status().isOk()) // 200 응답 확인
-                    .andExpect(jsonPath("$.id").exists()) // MemberGetResponse의 필드 확인
-                    .andExpect(jsonPath("$.name").exists())
-                    .andExpect(jsonPath("$.email").exists());
+                    .andExpect(jsonPath("$.data.id").exists()) // MemberGetResponse의 필드 확인
+                    .andExpect(jsonPath("$.data.name").exists())
+                    .andExpect(jsonPath("$.data.email").exists());
         }
     }
 }
