@@ -17,14 +17,14 @@ public class Difficulty {
     private Integer difficulty;
 
     public Difficulty(Integer difficulty) {
-        if (difficulty == null) {
-            return;
-        }
         validate(difficulty);
         this.difficulty = difficulty;
     }
 
-    private void validate(int difficulty) {
+    private void validate(Integer difficulty) {
+        if (difficulty == null) {
+            return;
+        }
         if (difficulty < 1 || difficulty > 10) {
             throw new InvalidValueException(ErrorCode.INVALID_DIFFICULTY);
         }

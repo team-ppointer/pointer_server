@@ -3,6 +3,7 @@ package com.moplus.moplus_server.domain.problem.controller;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemPostRequest;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemUpdateRequest;
 import com.moplus.moplus_server.domain.problem.dto.response.ProblemGetResponse;
+import com.moplus.moplus_server.domain.problem.dto.response.ProblemPostResponse;
 import com.moplus.moplus_server.domain.problem.service.ChildProblemService;
 import com.moplus.moplus_server.domain.problem.service.ProblemDeleteService;
 import com.moplus.moplus_server.domain.problem.service.ProblemGetService;
@@ -45,10 +46,10 @@ public class ProblemController {
 
     @PostMapping("")
     @Operation(summary = "문항 생성", description = "문제를 생성합니다. 기출/변형 문제는 모든 값이 필수이며 창작 문제는 문항 타입만 필수 입니다.")
-    public ResponseEntity<IdResponse> createProblem(
+    public ResponseEntity<ProblemPostResponse> createProblem(
             @Valid @RequestBody ProblemPostRequest request
     ) {
-        return ResponseEntity.ok(new IdResponse(problemSaveService.createProblem(request)));
+        return ResponseEntity.ok(problemSaveService.createProblem(request));
     }
 
     @PutMapping("/{id}")

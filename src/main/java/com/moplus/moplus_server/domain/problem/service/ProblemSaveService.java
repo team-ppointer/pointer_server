@@ -5,6 +5,7 @@ import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminIdService;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemCustomId;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemPostRequest;
+import com.moplus.moplus_server.domain.problem.dto.response.ProblemPostResponse;
 import com.moplus.moplus_server.domain.problem.repository.PracticeTestTagRepository;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.domain.problem.service.mapper.ProblemMapper;
@@ -22,13 +23,12 @@ public class ProblemSaveService {
     private final ProblemMapper problemMapper;
 
     @Transactional
-    public Long createProblem(ProblemPostRequest request) {
+    public ProblemPostResponse createProblem(ProblemPostRequest request) {
         PracticeTestTag practiceTestTag = practiceTestRepository.findByIdElseThrow(request.practiceTestId());
         ProblemCustomId problemCustomId = problemAdminIdService.nextId(request.number(), practiceTestTag,
                 request.problemType());
 
         Problem problem = problemMapper.from(request, problemCustomId, practiceTestTag);
-
-        return problemRepository.save(problem).getId();
+        return ProblemPostResponse.of(problemRepository.save(problem));
     }
 }
