@@ -41,4 +41,21 @@ public class ProblemAdminIdService {
 
         return new ProblemCustomId(generatedId);
     }
+
+    public ProblemCustomId nextId(ProblemType problemType) {
+
+        int problemTypeCode = problemType.getCode(); // C (문제 타입)
+
+        String generatedId;
+        int sequence;
+
+        // 중복되지 않는 ID 찾을 때까지 반복
+        do {
+            sequence = SEQUENCE.getAndIncrement() % 100; // 000~999 순환
+            generatedId = String.format("%d%09d",
+                    problemTypeCode, sequence);
+        } while (problemRepository.existsByProblemCustomId(new ProblemCustomId(generatedId))); // ID가 이미 존재하면 재생성
+
+        return new ProblemCustomId(generatedId);
+    }
 }

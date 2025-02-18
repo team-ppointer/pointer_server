@@ -69,7 +69,7 @@ public class ProblemSet extends BaseEntity {
         if (this.confirmStatus == ProblemSetConfirmStatus.NOT_CONFIRMED) {
             List<String> invalidProblemIds = problems.stream()
                     .filter(problem -> !problem.isValid())
-                    .map(problem -> problem.getProblemCustomId().getId())
+                    .map(Problem::getProblemCustomId)
                     .toList();
             if (!invalidProblemIds.isEmpty()) {
                 String message = ErrorCode.INVALID_CONFIRM_PROBLEM.getMessage() +

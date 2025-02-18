@@ -7,9 +7,9 @@ public record ProblemPostResponse(
         @NotNull(message = "문항 ID는 필수입니다")
         Long id,
         @NotNull(message = "문항 custom ID는 필수입니다")
-        Long problemCustomId
+        String problemCustomId
 ) {
     public static ProblemPostResponse of(Problem problem) {
-        return new ProblemPostResponse(problem.getId(), problem.getPracticeTestId());
+        return new ProblemPostResponse(problem.getId(), problem.getProblemCustomId());
     }
 }

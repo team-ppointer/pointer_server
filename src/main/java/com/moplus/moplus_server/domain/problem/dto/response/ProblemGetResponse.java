@@ -36,7 +36,7 @@ public record ProblemGetResponse(
 
         return ProblemGetResponse.builder()
                 .id(problem.getId())
-                .problemCustomId(problem.getProblemCustomId().getId())
+                .problemCustomId(problem.getProblemCustomId())
                 .conceptTagIds(problem.getConceptTagIds())
                 .practiceTestId(problem.getPracticeTestId())
                 .number(problem.getNumber())
