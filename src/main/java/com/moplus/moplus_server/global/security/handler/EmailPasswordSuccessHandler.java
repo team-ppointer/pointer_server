@@ -31,12 +31,15 @@ public class EmailPasswordSuccessHandler extends SavedRequestAwareAuthentication
 
         response.addCookie(cookieUtil.createCookie(refreshToken));
 
+        Map<String, Map<String, String>> commonResponse = new HashMap<>();
         Map<String, String> tokenResponse = new HashMap<>();
         tokenResponse.put("accessToken", accessToken);
 
+        commonResponse.put("data", tokenResponse);
+
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(objectMapper.writeValueAsString(tokenResponse));
+        response.getWriter().write(objectMapper.writeValueAsString(commonResponse));
     }
 
 }
