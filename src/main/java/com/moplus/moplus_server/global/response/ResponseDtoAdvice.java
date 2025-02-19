@@ -17,7 +17,7 @@ public class ResponseDtoAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
     public boolean supports(MethodParameter returnType, Class converterType) {
-        return !(returnType.getParameterType() == ResponseDto.class)
+        return !(returnType.getParameterType() == SuccessResponseDto.class)
                 && MappingJackson2HttpMessageConverter.class.isAssignableFrom(converterType);
     }
 
@@ -31,8 +31,8 @@ public class ResponseDtoAdvice implements ResponseBodyAdvice<Object> {
             ServerHttpResponse response
     ) {
         if (body instanceof ErrorResponse) {
-            return ResponseDto.fail((ErrorResponse) body);
+            return FailResponseDto.fail((ErrorResponse) body);
         }
-        return ResponseDto.success(body);
+        return SuccessResponseDto.success(body);
     }
 }

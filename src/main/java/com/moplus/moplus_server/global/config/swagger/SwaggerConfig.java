@@ -70,11 +70,8 @@ public class SwaggerConfig {
 
     private Schema<?> wrapSchema(Schema<?> originalSchema) {
         final Schema<?> wrapperSchema = new Schema<>();
-
         wrapperSchema.addProperty("data", originalSchema);
-        wrapperSchema.addProperty("message", new Schema<>().type("string").example("오류 메세지"));
-        wrapperSchema.addProperty("status", new Schema<>().type("string").example(HttpStatus.NOT_FOUND.name()));
-
+        wrapperSchema.setRequired(List.of("data"));
         return wrapperSchema;
     }
 }
