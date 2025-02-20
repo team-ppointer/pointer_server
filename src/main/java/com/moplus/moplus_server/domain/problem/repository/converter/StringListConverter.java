@@ -19,7 +19,7 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
     public String convertToDatabaseColumn(List<String> attribute) {
         try {
             if (attribute == null || attribute.isEmpty()) {
-                return "";
+                return "[]";
             }
             return attribute.stream()
                     .filter(str -> str != null && !str.isEmpty())

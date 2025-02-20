@@ -89,10 +89,10 @@ public class Problem extends BaseEntity {
                    List<String> prescriptionImageUrls, String seniorTipImageUrl, String readingTipImageUrl,
                    String mainAnalysisImageUrl, String mainProblemImageUrl, String memo, String answer, String title,
                    ProblemType problemType, int number, PracticeTestTag practiceTestTag,
-                   ProblemCustomId problemCustomId, Integer recommendedMinute, Integer recommendedSecond) {
+                   ProblemCustomId problemCustomId) {
         this.childProblems = childProblems;
         this.isConfirmed = isConfirmed;
-        this.answerType = answerType;
+        this.answerType = AnswerType.SHORT_ANSWER;
         this.conceptTagIds = conceptTagIds;
         this.mainHandwritingExplanationImageUrl = mainHandwritingExplanationImageUrl;
         this.prescriptionImageUrls = prescriptionImageUrls;
@@ -102,17 +102,17 @@ public class Problem extends BaseEntity {
         this.mainProblemImageUrl = mainProblemImageUrl;
         this.difficulty = new Difficulty(difficulty);
         this.memo = memo;
-        this.answer = new Answer(answer, this.answerType);
+        this.answer = new Answer("0", this.answerType);
         this.title = new Title(title);
         this.problemType = problemType;
         this.number = number;
         this.practiceTestId = practiceTestTag != null ? practiceTestTag.getId() : null;
         this.problemCustomId = problemCustomId;
-        this.recommendedTime = new RecommendedTime(recommendedMinute, recommendedSecond);
+        this.recommendedTime = new RecommendedTime(0, 0);
     }
 
     public String getAnswer() {
-        return answer.getValue();
+        return this.answer != null ? answer.getValue() : null;
     }
 
     public void update(Problem inputProblem) {
@@ -133,8 +133,8 @@ public class Problem extends BaseEntity {
         this.prescriptionImageUrls = inputProblem.getPrescriptionImageUrls();
         this.answerType = inputProblem.getAnswerType();
         this.recommendedTime = new RecommendedTime(
-            inputProblem.getRecommendedTime() != null ? inputProblem.getRecommendedTime().getMinute() : null,
-            inputProblem.getRecommendedTime() != null ? inputProblem.getRecommendedTime().getSecond() : null
+                inputProblem.getRecommendedTime().getMinute(),
+                inputProblem.getRecommendedTime().getSecond()
         );
     }
 
