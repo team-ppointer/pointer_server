@@ -89,10 +89,10 @@ public class Problem extends BaseEntity {
                    List<String> prescriptionImageUrls, String seniorTipImageUrl, String readingTipImageUrl,
                    String mainAnalysisImageUrl, String mainProblemImageUrl, String memo, String answer, String title,
                    ProblemType problemType, int number, PracticeTestTag practiceTestTag,
-                   ProblemCustomId problemCustomId) {
+                   ProblemCustomId problemCustomId, Integer recommendedMinute, Integer recommendedSecond) {
         this.childProblems = childProblems;
         this.isConfirmed = isConfirmed;
-        this.answerType = AnswerType.SHORT_ANSWER;
+        this.answerType = answerType;
         this.conceptTagIds = conceptTagIds;
         this.mainHandwritingExplanationImageUrl = mainHandwritingExplanationImageUrl;
         this.prescriptionImageUrls = prescriptionImageUrls;
@@ -102,13 +102,13 @@ public class Problem extends BaseEntity {
         this.mainProblemImageUrl = mainProblemImageUrl;
         this.difficulty = new Difficulty(difficulty);
         this.memo = memo;
-        this.answer = new Answer("0", this.answerType);
+        this.answer = new Answer(answer, this.answerType);
         this.title = new Title(title);
         this.problemType = problemType;
         this.number = number;
         this.practiceTestId = practiceTestTag != null ? practiceTestTag.getId() : null;
         this.problemCustomId = problemCustomId;
-        this.recommendedTime = new RecommendedTime(0, 0);
+        this.recommendedTime = new RecommendedTime(recommendedMinute, recommendedSecond);
     }
 
     public String getAnswer() {
