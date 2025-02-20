@@ -21,16 +21,16 @@ public class ProblemSearchRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public List<ProblemSearchGetResponse> search(String problemId, String memo, List<Long> conceptTagIds) {
+    public List<ProblemSearchGetResponse> search(String problemId, String title, List<Long> conceptTagIds) {
         return queryFactory
-                .select(problem.problemCustomId.id, problem.memo, problem.mainProblemImageUrl)
+                .select(problem.problemCustomId.id, problem.title, problem.mainProblemImageUrl)
                 .from(problem)
                 .leftJoin(childProblem).on(childProblem.in(problem.childProblems))
                 .leftJoin(conceptTag).on(conceptTag.id.in(problem.conceptTagIds)
                         .or(conceptTag.id.in(childProblem.conceptTagIds)))
                 .where(
                         containsProblemId(problemId),
-                        containsName(memo),
+                        containsName(title),
                         hasConceptTags(conceptTagIds)
                 )
                 .distinct()
@@ -38,7 +38,7 @@ public class ProblemSearchRepositoryCustom {
                         Projections.constructor(ProblemSearchGetResponse.class,
                                 problem.id,
                                 problem.problemCustomId.id,
-                                problem.memo,
+                                problem.title.title,
                                 problem.mainProblemImageUrl,
                                 GroupBy.set(
                                         Projections.constructor(ConceptTagSearchResponse.class,
@@ -81,11 +81,11 @@ public class ProblemSearchRepositoryCustom {
     }
 
     //name 조건 (포함 검색)
-    private BooleanExpression containsName(String comment) {
-        if (comment == null || comment.trim().isEmpty()) {
+    private BooleanExpression containsName(String title) {
+        if (title == null || title.trim().isEmpty()) {
             return null;
         }
-        return problem.memo.containsIgnoreCase(comment.trim());
+        return problem.title.title.containsIgnoreCase(title.trim());
     }
 
     //conceptTagIds 조건 (하나라도 포함되면 조회)

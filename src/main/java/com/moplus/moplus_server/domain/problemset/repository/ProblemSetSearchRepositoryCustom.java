@@ -35,6 +35,7 @@ public class ProblemSetSearchRepositoryCustom {
                 .distinct()
                 .transform(GroupBy.groupBy(problemSet.id).list(
                         Projections.constructor(ProblemSetSearchGetResponse.class,
+                                problemSet.id,
                                 problemSet.title.value,
                                 problemSet.confirmStatus,
                                 publish.publishedDate, // 발행되지 않은 경우 null 반환
@@ -63,6 +64,7 @@ public class ProblemSetSearchRepositoryCustom {
                 .distinct()
                 .transform(GroupBy.groupBy(problemSet.id).list(
                         Projections.constructor(ProblemSetSearchGetResponse.class,
+                                problemSet.id,
                                 problemSet.title.value,
                                 problemSet.confirmStatus,
                                 publish.publishedDate, // 발행되지 않은 경우 null 반환

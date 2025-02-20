@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class ProblemSetSearchGetResponse {
+    private Long id;
     private String problemSetTitle;
     private ProblemSetConfirmStatus confirmStatus;
     private LocalDate publishedDate;
@@ -17,9 +18,10 @@ public class ProblemSetSearchGetResponse {
     private List<ProblemThumbnailResponse> problemThumbnailResponses;
 
     public ProblemSetSearchGetResponse(
-            String problemSetTitle, ProblemSetConfirmStatus confirmStatus, LocalDate publishedDate,
+            Long id, String problemSetTitle, ProblemSetConfirmStatus confirmStatus, LocalDate publishedDate,
             List<ProblemThumbnailResponse> problemThumbnailResponses
     ) {
+        this.id = id;
         this.problemSetTitle = problemSetTitle;
         this.confirmStatus = confirmStatus;
         this.publishedDate = publishedDate;

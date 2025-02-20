@@ -12,16 +12,16 @@ public class ProblemSearchGetResponse {
     private Long id;
     @NotNull(message = "문항 custom ID는 필수입니다")
     private String problemCustomId;
-    private String memo;
+    private String title;
     private String mainProblemImageUrl;
     @NotNull(message = "개념 태그리스트는 필수입니다")
     private Set<ConceptTagSearchResponse> conceptTagResponses;
 
-    public ProblemSearchGetResponse(Long id, String problemCustomId, String memo, String mainProblemImageUrl,
+    public ProblemSearchGetResponse(Long id, String problemCustomId, String title, String mainProblemImageUrl,
                                     Set<ConceptTagSearchResponse> conceptTagResponses) {
         this.id = id;
         this.problemCustomId = problemCustomId;
-        this.memo = memo;
+        this.title = title;
         this.mainProblemImageUrl = mainProblemImageUrl;
         this.conceptTagResponses = conceptTagResponses;
     }

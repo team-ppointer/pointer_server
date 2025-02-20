@@ -34,7 +34,7 @@ public class ProblemSearchRepositoryCustomTest {
     @Test
     void name_포함_검색() {
         // when
-        List<ProblemSearchGetResponse> result = problemSearchRepository.search(null, "설명 1 ", null);
+        List<ProblemSearchGetResponse> result = problemSearchRepository.search(null, "제목1 ", null);
 
         // then
         assertThat(result).hasSize(1);
@@ -55,7 +55,7 @@ public class ProblemSearchRepositoryCustomTest {
     @Test
     void problemId_이름_conceptTagIds_모두_적용된_검색() {
         // when
-        List<ProblemSearchGetResponse> result = problemSearchRepository.search("12240520", "설명 1", List.of(1L));
+        List<ProblemSearchGetResponse> result = problemSearchRepository.search("12240520", "제목1", List.of(1L));
 
         // then
         assertThat(result).hasSize(1);
