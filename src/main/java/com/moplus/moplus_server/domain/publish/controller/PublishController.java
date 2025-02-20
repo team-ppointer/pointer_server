@@ -53,6 +53,6 @@ public class PublishController {
             @PathVariable Long publishId
     ) {
         publishDeleteService.deletePublish(publishId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(null);
     }
 }
