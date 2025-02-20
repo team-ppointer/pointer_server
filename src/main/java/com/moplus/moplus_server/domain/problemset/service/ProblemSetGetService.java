@@ -33,9 +33,9 @@ public class ProblemSetGetService {
     public ProblemSetGetResponse getProblemSet(Long problemSetId) {
 
         ProblemSet problemSet = problemSetRepository.findByIdElseThrow(problemSetId);
-        LocalDate publishedDate = publishRepository.findByProblemSetId(problemSetId)
+        List<LocalDate> publishedDates = publishRepository.findByProblemSetId(problemSetId).stream()
                 .map(Publish::getPublishedDate)
-                .orElse(null);
+                .toList();
 
         List<ProblemSummaryResponse> problemSummaries = new ArrayList<>();
         for (Long problemId : problemSet.getProblemIds()) {
@@ -47,6 +47,6 @@ public class ProblemSetGetService {
                     .toList();
             problemSummaries.add(ProblemSummaryResponse.of(problem, practiceTestTag.getName(), tagNames));
         }
-        return ProblemSetGetResponse.of(problemSet, publishedDate, problemSummaries);
+        return ProblemSetGetResponse.of(problemSet, publishedDates, problemSummaries);
     }
 }

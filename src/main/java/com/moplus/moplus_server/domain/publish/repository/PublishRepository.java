@@ -5,7 +5,6 @@ import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PublishRepository extends JpaRepository<Publish, Long> {
@@ -15,5 +14,5 @@ public interface PublishRepository extends JpaRepository<Publish, Long> {
         return findById(publishId).orElseThrow(() -> new NotFoundException(ErrorCode.PUBLISH_NOT_FOUND));
     }
 
-    Optional<Publish> findByProblemSetId(Long problemSetId);
+    List<Publish> findByProblemSetId(Long problemSetId);
 }

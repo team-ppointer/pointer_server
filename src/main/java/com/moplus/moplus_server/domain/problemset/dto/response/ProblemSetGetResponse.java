@@ -12,18 +12,18 @@ public record ProblemSetGetResponse(
         Long id,
         String title,
         ProblemSetConfirmStatus confirmStatus,
-        LocalDate publishedDate,
+        List<LocalDate> publishedDates,
         @NotNull(message = "컬렉션 값은 필수입니다.")
         List<ProblemSummaryResponse> problemSummaries
 ) {
-    public static ProblemSetGetResponse of(ProblemSet problemSet, LocalDate publishedDate,
+    public static ProblemSetGetResponse of(ProblemSet problemSet, List<LocalDate> publishedDates,
                                            List<ProblemSummaryResponse> problemSummaries) {
 
         return ProblemSetGetResponse.builder()
                 .id(problemSet.getId())
                 .title(problemSet.getTitle().getValue())
                 .confirmStatus(problemSet.getConfirmStatus())
-                .publishedDate(publishedDate)
+                .publishedDates(publishedDates)
                 .problemSummaries(problemSummaries)
                 .build();
     }
