@@ -11,6 +11,7 @@ public record ProblemUpdateRequest(
         ProblemType problemType,
         Long practiceTestId,
         int number,
+        @NotNull(message = "컬렉션 값은 필수입니다.")
         Set<Long> conceptTagIds,
         String answer,
         String title,
@@ -23,6 +24,7 @@ public record ProblemUpdateRequest(
         String seniorTipImageUrl,
         List<String> prescriptionImageUrls,
         AnswerType answerType,
+        @NotNull(message = "컬렉션 값은 필수입니다.")
         List<ChildProblemUpdateRequest> updateChildProblems,
         Integer recommendedMinute,
         Integer recommendedSecond

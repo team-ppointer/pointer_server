@@ -24,7 +24,7 @@ public class ImageUploadController {
     @Operation(summary = "이미지 업로드를 위한 presigned URL 발급")
     @GetMapping("/problem/{problemId}/presigned-url")
     public ResponseEntity<PresignedUrlResponse> getProblemImagePresignedUrl(
-            @PathVariable("problemId") String problemId,
+            @PathVariable("problemId") Long problemId,
             @RequestParam(value = "image-type") ProblemImageType imageType) {
         String presignedUrl = imageUploadService.generateProblemImagePresignedUrl(problemId, imageType);
         return ResponseEntity.ok(PresignedUrlResponse.of(presignedUrl));

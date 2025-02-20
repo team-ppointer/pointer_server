@@ -25,7 +25,7 @@ public class QProblemImageForTest extends EntityPathBase<ProblemImageForTest> {
 
     public final StringPath imageUrl = createString("imageUrl");
 
-    public final NumberPath<Long> problemId = createNumber("problemCustomId", Long.class);
+    public final NumberPath<Long> problemId = createNumber("problemId", Long.class);
 
     public QProblemImageForTest(String variable) {
         super(ProblemImageForTest.class, forVariable(variable));

@@ -54,7 +54,7 @@ public class ChildProblem extends BaseEntity {
     public static ChildProblem createEmptyChildProblem() {
         return ChildProblem.builder()
                 .imageUrl("")
-                .answerType(AnswerType.SHORT_STRING_ANSWER)
+                .answerType(AnswerType.SHORT_ANSWER)
                 .answer("")
                 .conceptTagIds(Set.of())
                 .build();

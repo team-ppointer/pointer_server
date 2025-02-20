@@ -1,6 +1,7 @@
 package com.moplus.moplus_server.domain.problem.repository;
 
 import static com.moplus.moplus_server.domain.concept.domain.QConceptTag.conceptTag;
+import static com.moplus.moplus_server.domain.problem.domain.childProblem.QChildProblem.childProblem;
 import static com.moplus.moplus_server.domain.problem.domain.problem.QProblem.problem;
 
 import com.moplus.moplus_server.domain.problem.dto.response.ConceptTagSearchResponse;
@@ -8,6 +9,7 @@ import com.moplus.moplus_server.domain.problem.dto.response.ProblemSearchGetResp
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -23,15 +25,18 @@ public class ProblemSearchRepositoryCustom {
         return queryFactory
                 .select(problem.problemCustomId.id, problem.memo, problem.mainProblemImageUrl)
                 .from(problem)
+                .leftJoin(childProblem).on(childProblem.in(problem.childProblems))
+                .leftJoin(conceptTag).on(conceptTag.id.in(problem.conceptTagIds)
+                        .or(conceptTag.id.in(childProblem.conceptTagIds)))
                 .where(
                         containsProblemId(problemId),
                         containsName(memo),
-                        inConceptTagIds(conceptTagIds)
+                        hasConceptTags(conceptTagIds)
                 )
-                .leftJoin(conceptTag).on(conceptTag.id.in(problem.conceptTagIds)).fetchJoin()
                 .distinct()
                 .transform(GroupBy.groupBy(problem.id).list(
                         Projections.constructor(ProblemSearchGetResponse.class,
+                                problem.id,
                                 problem.problemCustomId.id,
                                 problem.memo,
                                 problem.mainProblemImageUrl,
@@ -43,6 +48,30 @@ public class ProblemSearchRepositoryCustom {
                                 )
                         )
                 ));
+    }
+
+    private BooleanExpression hasConceptTags(List<Long> conceptTagIds) {
+        if (conceptTagIds == null || conceptTagIds.isEmpty()) {
+            return null;
+        }
+
+        return problem.id.in(
+                JPAExpressions
+                        .selectFrom(problem)
+                        .where(
+                                problem.conceptTagIds.any().in(conceptTagIds)
+                                        .or(
+                                                problem.id.in(
+                                                        JPAExpressions
+                                                                .select(childProblem.id)
+                                                                .from(childProblem)
+                                                                .where(childProblem.conceptTagIds.any()
+                                                                        .in(conceptTagIds))
+                                                )
+                                        )
+                        )
+                        .select(problem.id)
+        );
     }
 
     //problemCustomId 일부 포함 검색
