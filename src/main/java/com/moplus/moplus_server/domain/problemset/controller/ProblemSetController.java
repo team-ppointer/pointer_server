@@ -60,7 +60,7 @@ public class ProblemSetController {
             @RequestBody ProblemSetUpdateRequest request
     ) {
         problemSetUpdateService.updateProblemSet(problemSetId, request);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(null);
     }
 
     @DeleteMapping("/{problemSetId}")
@@ -69,7 +69,7 @@ public class ProblemSetController {
             @PathVariable Long problemSetId
     ) {
         problemSetDeleteService.deleteProblemSet(problemSetId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(null);
     }
 
     @PutMapping("/{problemSetId}/confirm")

@@ -58,7 +58,7 @@ public class PublishGetService {
             throw new InvalidValueException(ErrorCode.PROBLEM_SET_NOT_FOUND);
         }
         return PublishMonthGetResponse.of(
-                publish.getPublishedDate().getDayOfMonth(),
+                publish,
                 PublishProblemSetResponse.of(problemSet)
         );
     }
