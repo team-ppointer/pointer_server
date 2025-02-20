@@ -19,8 +19,8 @@ public class RecommendedTime {
 
     public RecommendedTime(Integer minute, Integer second) {
         validateTime(minute, second);
-        this.minute = minute;
-        this.second = second;
+        this.minute = minute != null ? minute : 0;
+        this.second = second != null ? second : 0;
     }
 
     private void validateTime(Integer minute, Integer second) {

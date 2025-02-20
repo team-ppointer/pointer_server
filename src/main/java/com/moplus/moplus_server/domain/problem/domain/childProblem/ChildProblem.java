@@ -61,7 +61,7 @@ public class ChildProblem extends BaseEntity {
     }
 
     public void validateAnswerByType(String answer, AnswerType answerType) {
-        if (this.answerType == AnswerType.MULTIPLE_CHOICE) {
+        if (answerType == AnswerType.MULTIPLE_CHOICE) {
             if (!answer.matches("^[1-5]*$")) {
                 throw new InvalidValueException(ErrorCode.INVALID_MULTIPLE_CHOICE_ANSWER);
             }
