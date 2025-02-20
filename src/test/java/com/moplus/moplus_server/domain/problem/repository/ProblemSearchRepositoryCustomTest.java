@@ -27,7 +27,7 @@ public class ProblemSearchRepositoryCustomTest {
 
         // then
         assertThat(result).hasSize(2);
-        assertThat(result).extracting(ProblemSearchGetResponse::getProblemId)
+        assertThat(result).extracting(ProblemSearchGetResponse::getProblemCustomId)
                 .containsExactlyInAnyOrder("1224052001", "1224052002");
     }
 
@@ -38,7 +38,7 @@ public class ProblemSearchRepositoryCustomTest {
 
         // then
         assertThat(result).hasSize(1);
-        assertThat(result.get(0).getProblemId()).isEqualTo("1224052001");
+        assertThat(result.get(0).getProblemCustomId()).isEqualTo("1224052001");
     }
 
     @Test
@@ -48,7 +48,7 @@ public class ProblemSearchRepositoryCustomTest {
 
         // then
         assertThat(result).hasSize(2);
-        assertThat(result).extracting(ProblemSearchGetResponse::getProblemId)
+        assertThat(result).extracting(ProblemSearchGetResponse::getProblemCustomId)
                 .containsExactlyInAnyOrder("1224052001", "1224052002");
     }
 
@@ -59,7 +59,7 @@ public class ProblemSearchRepositoryCustomTest {
 
         // then
         assertThat(result).hasSize(1);
-        assertThat(result.get(0).getProblemId()).isEqualTo("1224052001");
+        assertThat(result.get(0).getProblemCustomId()).isEqualTo("1224052001");
     }
 
     @Test

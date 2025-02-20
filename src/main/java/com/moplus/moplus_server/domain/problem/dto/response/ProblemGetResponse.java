@@ -14,6 +14,7 @@ public record ProblemGetResponse(
         Long id,
         @NotNull(message = "문항 custom ID는 필수입니다")
         String problemCustomId,
+        @NotNull(message = "컬렉션 값은 필수입니다.")
         Set<Long> conceptTagIds,
         Long practiceTestId,
         int number,
@@ -28,7 +29,9 @@ public record ProblemGetResponse(
         String mainAnalysisImageUrl,
         String readingTipImageUrl,
         String seniorTipImageUrl,
+        @NotNull(message = "컬렉션 값은 필수입니다.")
         List<String> prescriptionImageUrls,
+        @NotNull(message = "컬렉션 값은 필수입니다.")
         List<ChildProblemGetResponse> childProblems,
         Integer recommendedMinute,
         Integer recommendedSecond
