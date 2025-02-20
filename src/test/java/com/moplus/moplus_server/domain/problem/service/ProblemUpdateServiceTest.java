@@ -55,7 +55,7 @@ class ProblemUpdateServiceTest {
         ChildProblemUpdateRequest updateChildProblem2 = new ChildProblemUpdateRequest(
                 2L,
                 "updatedChild2.png",
-                AnswerType.SHORT_STRING_ANSWER,
+                AnswerType.SHORT_ANSWER,
                 "23",
                 Set.of(3L, 4L)
         );
@@ -75,7 +75,7 @@ class ProblemUpdateServiceTest {
                 "updatedReadingTip.png",
                 "updatedSeniorTip.png",
                 List.of("prescription1.png", "prescription2.png"),
-                AnswerType.SHORT_STRING_ANSWER,
+                AnswerType.SHORT_ANSWER,
                 List.of(updateChildProblem1, updateChildProblem2),
                 30,
                 45
@@ -114,7 +114,7 @@ class ProblemUpdateServiceTest {
                     .containsExactly("prescription1.png", "prescription2.png");
 
             // 답안 유형 검증
-            assertThat(response.answerType()).isEqualTo(AnswerType.SHORT_STRING_ANSWER);
+            assertThat(response.answerType()).isEqualTo(AnswerType.SHORT_ANSWER);
 
             Problem updatedProblem = problemRepository.findByIdElseThrow(1L);
 
@@ -132,7 +132,7 @@ class ProblemUpdateServiceTest {
             // 두 번째 자식 문제 검증 (새로 추가된 문제)
             ChildProblem newChild = childProblems.get(1);
             assertThat(newChild.getImageUrl()).isEqualTo("updatedChild2.png");
-            assertThat(newChild.getAnswerType()).isEqualTo(AnswerType.SHORT_STRING_ANSWER);
+            assertThat(newChild.getAnswerType()).isEqualTo(AnswerType.SHORT_ANSWER);
             assertThat(newChild.getAnswer()).isEqualTo("23");
             assertThat(newChild.getConceptTagIds()).containsExactlyInAnyOrderElementsOf(Set.of(3L, 4L));
 
@@ -173,7 +173,7 @@ class ProblemUpdateServiceTest {
                     "updatedReadingTip.png",
                     "updatedSeniorTip.png",
                     List.of("prescription1.png"),
-                    AnswerType.SHORT_STRING_ANSWER,
+                    AnswerType.SHORT_ANSWER,
                     List.of(),
                     30,
                     45

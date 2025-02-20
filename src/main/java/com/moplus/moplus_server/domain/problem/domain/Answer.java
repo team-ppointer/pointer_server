@@ -31,15 +31,5 @@ public class Answer {
                 throw new InvalidValueException(ErrorCode.INVALID_MULTIPLE_CHOICE_ANSWER);
             }
         }
-        if (answerType == AnswerType.SHORT_ANSWER) {
-            try {
-                int numericAnswer = Integer.parseInt(answer);
-                if (numericAnswer < 0 || numericAnswer > 999) {
-                    throw new InvalidValueException(ErrorCode.INVALID_SHORT_NUMBER_ANSWER);
-                }
-            } catch (NumberFormatException e) {
-                throw new InvalidValueException(ErrorCode.INVALID_SHORT_NUMBER_ANSWER);
-            }
-        }
     }
 }

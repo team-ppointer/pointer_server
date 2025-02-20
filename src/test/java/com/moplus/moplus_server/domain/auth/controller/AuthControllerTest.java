@@ -58,7 +58,7 @@ class AuthControllerTest {
                             .contentType("application/json")
                             .content(requestBody))
                     .andExpect(status().isOk()) // HTTP 200 응답 확인
-                    .andExpect(jsonPath("$.accessToken").isNotEmpty()) // accessToken 필드 존재 여부 확인
+                    .andExpect(jsonPath("$.data.accessToken").isNotEmpty()) // accessToken 필드 존재 여부 확인
                     .andExpect(cookie().exists("refreshToken")) // 리프레시 토큰 쿠키 존재 확인
                     .andExpect(cookie().httpOnly("refreshToken", true)) // HTTP Only 설정 확인
                     .andExpect(cookie().secure("refreshToken", true)) // Secure 설정 확인
