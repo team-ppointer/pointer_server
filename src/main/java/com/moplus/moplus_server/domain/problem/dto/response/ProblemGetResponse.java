@@ -16,6 +16,7 @@ public record ProblemGetResponse(
         String problemCustomId,
         @NotNull(message = "컬렉션 값은 필수입니다.")
         Set<Long> conceptTagIds,
+        boolean isConfirmed,
         Long practiceTestId,
         int number,
         Integer difficulty,
@@ -43,6 +44,7 @@ public record ProblemGetResponse(
                 .id(problem.getId())
                 .problemCustomId(problem.getProblemCustomId())
                 .conceptTagIds(problem.getConceptTagIds())
+                .isConfirmed(problem.isConfirmed())
                 .practiceTestId(problem.getPracticeTestId())
                 .number(problem.getNumber())
                 .answer(problem.getAnswer())

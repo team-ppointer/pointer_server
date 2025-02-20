@@ -24,7 +24,9 @@ public class ChildProblemService {
             throw new InvalidValueException(ErrorCode.CHILD_PROBLEM_UPDATE_AFTER_CONFIRMED);
         }
 
-        return childProblemRepository.save(ChildProblem.createEmptyChildProblem()).getId();
+        problem.addChildProblem(ChildProblem.createEmptyChildProblem());
+
+        return problemRepository.save(problem).getChildProblems().get(problem.getChildProblems().size() - 1).getId();
     }
 
     @Transactional
@@ -33,6 +35,7 @@ public class ChildProblemService {
         if (problem.isConfirmed()) {
             throw new InvalidValueException(ErrorCode.CHILD_PROBLEM_UPDATE_AFTER_CONFIRMED);
         }
-        childProblemRepository.deleteById(childProblemId);
+        problem.deleteChildProblem(childProblemId);
+        problemRepository.save(problem);
     }
 }

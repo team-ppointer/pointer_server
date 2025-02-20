@@ -139,13 +139,27 @@ public class Problem extends BaseEntity {
     }
 
     public void updateChildProblem(List<ChildProblem> inputChildProblems) {
-        if (isConfirmed && this.childProblems.size() != inputChildProblems.size()) {
+        if (this.childProblems.size() != inputChildProblems.size()) {
             throw new InvalidValueException(ErrorCode.INVALID_CHILD_PROBLEM_SIZE);
         }
 
         for (int i = 0; i < inputChildProblems.size(); i++) {
             this.childProblems.get(i).update(inputChildProblems.get(i));
         }
+    }
+
+    public void addChildProblem(ChildProblem childProblem) {
+        if (this.isConfirmed) {
+            throw new InvalidValueException(ErrorCode.INVALID_CHILD_PROBLEM_SIZE);
+        }
+        this.childProblems.add(childProblem);
+    }
+
+    public void deleteChildProblem(Long childProblemId) {
+        if (this.isConfirmed) {
+            throw new InvalidValueException(ErrorCode.INVALID_CHILD_PROBLEM_SIZE);
+        }
+        this.childProblems.removeIf(childProblem -> childProblem.getId().equals(childProblemId));
     }
 
     public boolean isValid() {

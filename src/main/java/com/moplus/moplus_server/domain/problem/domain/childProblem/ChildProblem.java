@@ -69,7 +69,7 @@ public class ChildProblem extends BaseEntity {
     }
 
     public void update(ChildProblem input) {
-        if (this.id != input.id) {
+        if (!this.id.equals(input.id)) {
             throw new InvalidValueException(ErrorCode.INVALID_CHILD_PROBLEM_SEQUENCE);
         }
         this.imageUrl = input.imageUrl;
