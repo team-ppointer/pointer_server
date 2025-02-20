@@ -43,7 +43,7 @@ public class ChildProblemMapperImpl implements ChildProblemMapper {
 
         ChildProblem.ChildProblemBuilder childProblem = ChildProblem.builder();
 
-        childProblem.id( request.id() );
+        childProblem.id( request.childProblemId() );
         childProblem.imageUrl( request.imageUrl() );
         childProblem.answerType( request.answerType() );
         childProblem.answer( request.answer() );

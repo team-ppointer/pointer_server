@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class ProblemSearchGetResponse {
-    private Long id;
     @NotNull(message = "문항 ID는 필수입니다")
+    private Long id;
+    @NotNull(message = "문항 custom ID는 필수입니다")
     private String problemCustomId;
     private String memo;
     private String mainProblemImageUrl;
