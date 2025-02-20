@@ -15,6 +15,8 @@ public class PublishDeleteService {
     @Transactional
     public void deletePublish(Long publishId) {
         Publish publish = publishRepository.findByIdElseThrow(publishId);
+        publish.validateDeletable();
+
         publishRepository.delete(publish);
     }
 }

@@ -42,4 +42,10 @@ public class Publish extends BaseEntity {
             throw new InvalidValueException(ErrorCode.INVALID_DATE_ERROR);
         }
     }
+
+    public void validateDeletable() {
+        if (this.publishedDate.isBefore(LocalDate.now())) {
+            throw new InvalidValueException(ErrorCode.CANNOT_DELETE_PAST_PUBLISH);
+        }
+    }
 }

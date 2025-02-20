@@ -67,6 +67,7 @@ public enum ErrorCode {
     INVALID_MONTH_ERROR(HttpStatus.BAD_REQUEST, "유효하지 않은 월입니다."),
     INVALID_DATE_ERROR(HttpStatus.BAD_REQUEST, "오늘 이후 날짜에만 발행이 가능합니다."),
     PUBLISH_NOT_FOUND(HttpStatus.NOT_FOUND, "발행 정보를 찾을 수 없습니다"),
+    CANNOT_DELETE_PAST_PUBLISH(HttpStatus.BAD_REQUEST, "이미 지난 발행건은 삭제할 수 없습니다."),
     ;
 
 
