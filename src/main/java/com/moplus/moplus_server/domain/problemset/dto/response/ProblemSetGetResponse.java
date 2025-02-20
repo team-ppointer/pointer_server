@@ -12,6 +12,7 @@ public record ProblemSetGetResponse(
         Long id,
         String title,
         ProblemSetConfirmStatus confirmStatus,
+        @NotNull(message = "컬렉션 값은 필수입니다.")
         List<LocalDate> publishedDates,
         @NotNull(message = "컬렉션 값은 필수입니다.")
         List<ProblemSummaryResponse> problemSummaries
