@@ -11,6 +11,6 @@ public interface ChildProblemMapper {
 
     ChildProblem from(ChildProblemPostRequest request);
 
-    @Mapping(target = "id", source = "id")
+    @Mapping(target = "id", source = "childProblemId")
     ChildProblem from(ChildProblemUpdateRequest request);
 }

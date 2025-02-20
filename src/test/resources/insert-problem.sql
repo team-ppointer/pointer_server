@@ -47,7 +47,7 @@ INSERT INTO child_problem (child_problem_id,
                            answer,
                            sequence)
 VALUES (1, 1, 'child1.png', 'MULTIPLE_CHOICE', '1', 0),
-       (2, 1, 'child2.png', 'SHORT_STRING_ANSWER', '정답2', 1);
+       (2, 1, 'child2.png', 'SHORT_ANSWER', '정답2', 1);
 
 -- 문제-컨셉 태그 연결 테이블 생성
 CREATE TABLE IF NOT EXISTS problem_concept (

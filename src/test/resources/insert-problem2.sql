@@ -1,7 +1,11 @@
-DELETE FROM child_problem_concept;
-DELETE FROM problem_concept;
-DELETE FROM child_problem;
-DELETE FROM problem;
+DELETE
+FROM child_problem_concept;
+DELETE
+FROM problem_concept;
+DELETE
+FROM child_problem;
+DELETE
+FROM problem;
 
 -- problem 데이터 삽입
 INSERT INTO problem (problem_id,
@@ -35,7 +39,7 @@ VALUES (1, '24052001001', 1, 1, 'GICHUL_PROBLEM', '제목1', '1', 5, '기존 문
 
        (3, '24052001003', 1, 3, 'GICHUL_PROBLEM', '제목3', '3', 3, '문제 3 설명',
         'mainProblem3.png', 'mainAnalysis3.png', 'mainHandwriting3.png', 'readingTip3.png', 'seniorTip3.png',
-        'prescription5.png, prescription6.png', 'SHORT_STRING_ANSWER', true,
+        'prescription5.png, prescription6.png', 'SHORT_ANSWER', true,
         15, 45);
 
 -- 자식 문제 데이터 삽입
@@ -46,9 +50,9 @@ INSERT INTO child_problem (child_problem_id,
                            answer,
                            sequence)
 VALUES (1, 1, 'child1.png', 'MULTIPLE_CHOICE', '1', 0),
-       (2, 1, 'child2.png', 'SHORT_STRING_ANSWER', '정답2', 1),
+       (2, 1, 'child2.png', 'SHORT_ANSWER', '정답2', 1),
        (3, 2, 'child3.png', 'MULTIPLE_CHOICE', '2', 0),
-       (4, 3, 'child4.png', 'SHORT_STRING_ANSWER', '3', 0);
+       (4, 3, 'child4.png', 'SHORT_ANSWER', '3', 0);
 
 -- 문제-컨셉 태그 연결
 INSERT INTO problem_concept (problem_id, concept_tag_id)
