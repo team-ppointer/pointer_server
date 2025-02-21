@@ -107,23 +107,6 @@ public class ProblemSetSearchRepositoryCustomTest {
         ProblemSetSearchGetResponse response = result.get(0);
 
         assertThat(response.getConfirmStatus()).isEqualTo(ProblemSetConfirmStatus.NOT_CONFIRMED);
-        assertThat(response.getPublishedDate()).isNull();
-    }
-
-    @Test
-    void 발행된_문항세트_발행날짜_테스트() {
-        // given
-        LocalDate publishDate = LocalDate.now().plusDays(1);
-        publishSaveService.createPublish(new PublishPostRequest(publishDate, 2L));
-
-        // when
-        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.search("고3 모의고사", null);
-
-        // then
-        assertThat(result).hasSize(1);
-        ProblemSetSearchGetResponse response = result.get(0);
-
-        assertThat(response.getPublishedDate()).isEqualTo(publishDate);
     }
 
     @Test
@@ -160,22 +143,4 @@ public class ProblemSetSearchRepositoryCustomTest {
         assertThat(result).isEmpty();
     }
 
-    @Test
-    void 컨펌된_문항세트_정확한_발행날짜_검증() {
-        // given
-        LocalDate publishDate = LocalDate.now().plusDays(1);
-        publishSaveService.createPublish(new PublishPostRequest(publishDate, 2L)); // 발행 처리
-
-        // when
-        List<ProblemSetSearchGetResponse> result = problemSetSearchRepository.confirmSearch(
-                "고3 모의고사",
-                null
-        );
-
-        // then
-        assertThat(result).hasSize(1);
-        ProblemSetSearchGetResponse response = result.get(0);
-
-        assertThat(response.getPublishedDate()).isEqualTo(publishDate);
-    }
 }

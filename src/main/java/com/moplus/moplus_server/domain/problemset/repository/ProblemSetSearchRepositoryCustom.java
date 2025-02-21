@@ -1,10 +1,8 @@
 package com.moplus.moplus_server.domain.problemset.repository;
 
-import static com.moplus.moplus_server.domain.concept.domain.QConceptTag.conceptTag;
 import static com.moplus.moplus_server.domain.problem.domain.problem.QProblem.problem;
 import static com.moplus.moplus_server.domain.problemset.domain.ProblemSetConfirmStatus.CONFIRMED;
 import static com.moplus.moplus_server.domain.problemset.domain.QProblemSet.problemSet;
-import static com.moplus.moplus_server.domain.publish.domain.QPublish.publish;
 
 import com.moplus.moplus_server.domain.problemset.dto.response.ProblemSetSearchGetResponse;
 import com.moplus.moplus_server.domain.problemset.dto.response.ProblemThumbnailResponse;
@@ -26,8 +24,6 @@ public class ProblemSetSearchRepositoryCustom {
         return queryFactory
                 .from(problemSet)
                 .leftJoin(problem).on(problem.id.in(problemSet.problemIds)) // 문제 세트 내 포함된 문항과 조인
-                .leftJoin(conceptTag).on(conceptTag.id.in(problem.conceptTagIds)) // 문제의 개념 태그 조인
-                .leftJoin(publish).on(publish.problemSetId.eq(problemSet.id)) // 문제 세트와 발행 데이터 조인
                 .where(
                         containsProblemSetTitle(problemSetTitle),
                         containsProblemTitle(problemTitle)
@@ -38,7 +34,6 @@ public class ProblemSetSearchRepositoryCustom {
                                 problemSet.id,
                                 problemSet.title.value,
                                 problemSet.confirmStatus,
-                                publish.publishedDate, // 발행되지 않은 경우 null 반환
                                 GroupBy.list(
                                         Projections.constructor(ProblemThumbnailResponse.class,
                                                 problem.title.title,
@@ -54,8 +49,6 @@ public class ProblemSetSearchRepositoryCustom {
         return queryFactory
                 .from(problemSet)
                 .leftJoin(problem).on(problem.id.in(problemSet.problemIds)) // 문제 세트 내 포함된 문항과 조인
-                .leftJoin(conceptTag).on(conceptTag.id.in(problem.conceptTagIds)) // 문제의 개념 태그 조인
-                .leftJoin(publish).on(publish.problemSetId.eq(problemSet.id)) // 문제 세트와 발행 데이터 조인
                 .where(
                         problemSet.confirmStatus.eq(CONFIRMED),
                         containsProblemSetTitle(problemSetTitle),
@@ -67,7 +60,6 @@ public class ProblemSetSearchRepositoryCustom {
                                 problemSet.id,
                                 problemSet.title.value,
                                 problemSet.confirmStatus,
-                                publish.publishedDate, // 발행되지 않은 경우 null 반환
                                 GroupBy.list(
                                         Projections.constructor(ProblemThumbnailResponse.class,
                                                 problem.title.title,
