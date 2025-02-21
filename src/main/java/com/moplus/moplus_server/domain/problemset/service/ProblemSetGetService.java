@@ -25,7 +25,6 @@ public class ProblemSetGetService {
 
     private final ProblemSetRepository problemSetRepository;
     private final ProblemRepository problemRepository;
-    private final PracticeTestTagRepository practiceTestTagRepository;
     private final ConceptTagRepository conceptTagRepository;
     private final PublishRepository publishRepository;
 
@@ -40,12 +39,11 @@ public class ProblemSetGetService {
         List<ProblemSummaryResponse> problemSummaries = new ArrayList<>();
         for (Long problemId : problemSet.getProblemIds()) {
             Problem problem = problemRepository.findByIdElseThrow(problemId);
-            PracticeTestTag practiceTestTag = practiceTestTagRepository.findByIdElseThrow(problem.getPracticeTestId());
             List<String> tagNames = conceptTagRepository.findAllByIdsElseThrow(problem.getConceptTagIds())
                     .stream()
                     .map(ConceptTag::getName)
                     .toList();
-            problemSummaries.add(ProblemSummaryResponse.of(problem, practiceTestTag.getName(), tagNames));
+            problemSummaries.add(ProblemSummaryResponse.of(problem, tagNames));
         }
         return ProblemSetGetResponse.of(problemSet, publishedDates, problemSummaries);
     }
