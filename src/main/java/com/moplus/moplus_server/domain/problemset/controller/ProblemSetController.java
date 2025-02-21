@@ -2,7 +2,6 @@ package com.moplus.moplus_server.domain.problemset.controller;
 
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSetConfirmStatus;
 import com.moplus.moplus_server.domain.problemset.dto.request.ProblemReorderRequest;
-import com.moplus.moplus_server.domain.problemset.dto.request.ProblemSetPostRequest;
 import com.moplus.moplus_server.domain.problemset.dto.request.ProblemSetUpdateRequest;
 import com.moplus.moplus_server.domain.problemset.dto.response.ProblemSetGetResponse;
 import com.moplus.moplus_server.domain.problemset.service.ProblemSetDeleteService;
@@ -38,9 +37,8 @@ public class ProblemSetController {
     @PostMapping("")
     @Operation(summary = "문항세트 생성", description = "문항세트를 생성합니다. 문항은 요청 순서대로 저장합니다.")
     public ResponseEntity<IdResponse> createProblemSet(
-            @RequestBody ProblemSetPostRequest request
     ) {
-        return ResponseEntity.ok(new IdResponse(problemSetSaveService.createProblemSet(request)));
+        return ResponseEntity.ok(new IdResponse(problemSetSaveService.createProblemSet()));
     }
 
     @Hidden

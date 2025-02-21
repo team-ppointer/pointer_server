@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class ProblemSetSearchGetResponse {
+    @NotNull(message = "ID 값은 필수입니다.")
     private Long id;
     private String problemSetTitle;
     private ProblemSetConfirmStatus confirmStatus;

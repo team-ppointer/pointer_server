@@ -6,7 +6,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSet;
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSetConfirmStatus;
 import com.moplus.moplus_server.domain.problemset.dto.request.ProblemReorderRequest;
-import com.moplus.moplus_server.domain.problemset.dto.request.ProblemSetPostRequest;
 import com.moplus.moplus_server.domain.problemset.dto.request.ProblemSetUpdateRequest;
 import com.moplus.moplus_server.domain.problemset.repository.ProblemSetRepository;
 import com.moplus.moplus_server.domain.problemset.service.ProblemSetSaveService;
@@ -37,21 +36,24 @@ public class ProblemSetServiceTest {
     @Autowired
     private ProblemSetRepository problemSetRepository;
 
-    private ProblemSetPostRequest problemSetPostRequest;
+    private ProblemSetUpdateRequest problemSetUpdateRequest;
+    private Long problemSetId;
 
     @BeforeEach
     void setUp() {
+        problemSetId = problemSetSaveService.createProblemSet();
         // 초기 문항 세트 생성 요청 데이터 준비
-        problemSetPostRequest = new ProblemSetPostRequest(
+        problemSetUpdateRequest = new ProblemSetUpdateRequest(
                 "초기 문항세트",
                 List.of(1L, 2L, 3L)
         );
+        problemSetUpdateService.updateProblemSet(problemSetId, problemSetUpdateRequest);
+
+
     }
 
     @Test
     void 문항세트_생성_테스트() {
-        // when
-        Long problemSetId = problemSetSaveService.createProblemSet(problemSetPostRequest);
 
         // then
         ProblemSet savedProblemSet = problemSetRepository.findById(problemSetId)
@@ -65,7 +67,6 @@ public class ProblemSetServiceTest {
     @Test
     void 문항세트_문항순서_변경_테스트() {
         // given
-        Long problemSetId = problemSetSaveService.createProblemSet(problemSetPostRequest);
 
         // when
         ProblemReorderRequest reorderRequest = new ProblemReorderRequest(
@@ -81,8 +82,6 @@ public class ProblemSetServiceTest {
 
     @Test
     void 문항세트_업데이트_테스트() {
-        // given
-        Long problemSetId = problemSetSaveService.createProblemSet(problemSetPostRequest);
 
         // when
         ProblemSetUpdateRequest updateRequest = new ProblemSetUpdateRequest(
@@ -101,8 +100,6 @@ public class ProblemSetServiceTest {
 
     @Test
     void 문항세트_컨펌_토글_테스트() {
-        // given
-        Long problemSetId = problemSetSaveService.createProblemSet(problemSetPostRequest);
 
         // when
         ProblemSetConfirmStatus firstToggleStatus = problemSetUpdateService.toggleConfirmProblemSet(
@@ -117,8 +114,6 @@ public class ProblemSetServiceTest {
 
     @Test
     void 유효하지_않은_문항이_포함된_문항세트_컨펌_실패_테스트() {
-        // given
-        Long problemSetId = problemSetSaveService.createProblemSet(problemSetPostRequest);
 
         // 유효하지 않은 문항을 포함하도록 설정 (문항 ID가 존재하지 않거나 필수 필드가 누락된 경우)
         ProblemSetUpdateRequest invalidUpdateRequest = new ProblemSetUpdateRequest(
@@ -135,35 +130,23 @@ public class ProblemSetServiceTest {
     }
 
     @Test
-    void 빈_문항리스트_문항세트_생성_실패_테스트() {
-        // given
-        ProblemSetPostRequest emptyProblemSetRequest = new ProblemSetPostRequest(
-                "빈 문항세트",
-                List.of() // 빈 리스트
-        );
-
-        // when & then
-        assertThatThrownBy(() -> problemSetSaveService.createProblemSet(emptyProblemSetRequest))
-                .isInstanceOf(InvalidValueException.class)
-                .hasMessageContaining(ErrorCode.EMPTY_PROBLEMS_ERROR.getMessage());
-    }
-
-    @Test
     void 빈_제목_문항세트_생성_테스트() {
         // given
-        ProblemSetPostRequest emptyTitleRequest = new ProblemSetPostRequest(
+        ProblemSetUpdateRequest emptyTitleRequest = new ProblemSetUpdateRequest(
                 "", // 빈 문자열 제목
                 List.of(1L, 2L, 3L)
         );
 
-        ProblemSetPostRequest nullTitleRequest = new ProblemSetPostRequest(
+        ProblemSetUpdateRequest nullTitleRequest = new ProblemSetUpdateRequest(
                 null, // null 제목
                 List.of(1L, 2L, 3L)
         );
 
         // when
-        Long emptyTitleProblemSetId = problemSetSaveService.createProblemSet(emptyTitleRequest);
-        Long nullTitleProblemSetId = problemSetSaveService.createProblemSet(nullTitleRequest);
+        Long emptyTitleProblemSetId = problemSetSaveService.createProblemSet();
+        Long nullTitleProblemSetId = problemSetSaveService.createProblemSet();
+        problemSetUpdateService.updateProblemSet(emptyTitleProblemSetId, emptyTitleRequest);
+        problemSetUpdateService.updateProblemSet(nullTitleProblemSetId, nullTitleRequest);
 
         // then
         ProblemSet emptyTitleSavedProblemSet = problemSetRepository.findByIdElseThrow(emptyTitleProblemSetId);
@@ -177,7 +160,7 @@ public class ProblemSetServiceTest {
     @Test
     void 문항세트_빈_제목_업데이트_테스트() {
         // given
-        Long problemSetId = problemSetSaveService.createProblemSet(problemSetPostRequest);
+        Long problemSetId = problemSetSaveService.createProblemSet();
 
         ProblemSetUpdateRequest emptyUpdateRequest = new ProblemSetUpdateRequest(
                 "업데이트된 빈 문항세트",

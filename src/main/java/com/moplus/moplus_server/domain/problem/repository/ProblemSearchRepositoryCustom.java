@@ -39,6 +39,7 @@ public class ProblemSearchRepositoryCustom {
                                 problem.id,
                                 problem.problemCustomId.id,
                                 problem.title.title,
+                                problem.memo,
                                 problem.mainProblemImageUrl,
                                 GroupBy.set(
                                         Projections.constructor(ConceptTagSearchResponse.class,

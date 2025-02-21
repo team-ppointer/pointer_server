@@ -57,6 +57,13 @@ public class ProblemSet extends BaseEntity {
         this.problemIds = problemIds;
     }
 
+    public static ProblemSet ofEmptyProblemSet() {
+        return ProblemSet.builder()
+                .title("")
+                .problemIds(new ArrayList<>())
+                .build();
+    }
+
     public void updateProblemOrder(List<Long> newProblems) {
         this.problemIds = new ArrayList<>(newProblems);
     }
