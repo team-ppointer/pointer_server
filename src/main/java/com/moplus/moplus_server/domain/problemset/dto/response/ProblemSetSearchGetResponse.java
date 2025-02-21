@@ -2,7 +2,6 @@ package com.moplus.moplus_server.domain.problemset.dto.response;
 
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSetConfirmStatus;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,18 +13,16 @@ public class ProblemSetSearchGetResponse {
     private Long id;
     private String problemSetTitle;
     private ProblemSetConfirmStatus confirmStatus;
-    private LocalDate publishedDate;
     @NotNull(message = "컬렉션 값은 필수입니다.")
     private List<ProblemThumbnailResponse> problemThumbnailResponses;
 
     public ProblemSetSearchGetResponse(
-            Long id, String problemSetTitle, ProblemSetConfirmStatus confirmStatus, LocalDate publishedDate,
+            Long id, String problemSetTitle, ProblemSetConfirmStatus confirmStatus,
             List<ProblemThumbnailResponse> problemThumbnailResponses
     ) {
         this.id = id;
         this.problemSetTitle = problemSetTitle;
         this.confirmStatus = confirmStatus;
-        this.publishedDate = publishedDate;
         this.problemThumbnailResponses = problemThumbnailResponses;
     }
 }
