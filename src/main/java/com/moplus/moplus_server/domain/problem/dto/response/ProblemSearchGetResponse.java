@@ -17,17 +17,17 @@ public class ProblemSearchGetResponse {
     private String memo;
     private String mainProblemImageUrl;
     @NotNull(message = "개념 태그리스트는 필수입니다")
-    private Set<String> getTagName;
+    private Set<String> tagNames;
 
     public ProblemSearchGetResponse(Long problemId, String problemCustomId, String problemTitle, String memo,
                                     String mainProblemImageUrl,
-                                    Set<ConceptTagSearchResponse> getTagName) {
+                                    Set<ConceptTagSearchResponse> tagNames) {
         this.problemId = problemId;
         this.problemCustomId = problemCustomId;
         this.problemTitle = problemTitle;
         this.memo = memo;
         this.mainProblemImageUrl = mainProblemImageUrl;
-        this.getTagName = getTagName.stream()
+        this.tagNames = tagNames.stream()
                 .map(ConceptTagSearchResponse::getName)
                 .collect(Collectors.toSet());
     }
