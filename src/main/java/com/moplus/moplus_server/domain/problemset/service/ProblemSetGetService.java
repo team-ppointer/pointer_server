@@ -2,7 +2,6 @@ package com.moplus.moplus_server.domain.problemset.service;
 
 import com.moplus.moplus_server.domain.concept.domain.ConceptTag;
 import com.moplus.moplus_server.domain.concept.repository.ConceptTagRepository;
-import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTestTag;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.repository.PracticeTestTagRepository;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
@@ -40,12 +39,11 @@ public class ProblemSetGetService {
         List<ProblemSummaryResponse> problemSummaries = new ArrayList<>();
         for (Long problemId : problemSet.getProblemIds()) {
             Problem problem = problemRepository.findByIdElseThrow(problemId);
-            PracticeTestTag practiceTestTag = practiceTestTagRepository.findByIdElseThrow(problem.getPracticeTestId());
             List<String> tagNames = conceptTagRepository.findAllByIdsElseThrow(problem.getConceptTagIds())
                     .stream()
                     .map(ConceptTag::getName)
                     .toList();
-            problemSummaries.add(ProblemSummaryResponse.of(problem, practiceTestTag.getName(), tagNames));
+            problemSummaries.add(ProblemSummaryResponse.of(problem, tagNames));
         }
         return ProblemSetGetResponse.of(problemSet, publishedDates, problemSummaries);
     }

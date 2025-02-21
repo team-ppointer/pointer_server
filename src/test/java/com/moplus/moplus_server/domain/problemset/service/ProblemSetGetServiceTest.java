@@ -58,7 +58,6 @@ public class ProblemSetGetServiceTest {
         assertThat(response.title()).isEqualTo("테스트 문항세트");
         assertThat(response.problemSummaries()).hasSize(1);
         assertThat(response.problemSummaries().get(0).problemCustomId()).isEqualTo("1224052001");
-        assertThat(response.problemSummaries().get(0).practiceTestName()).isEqualTo("2025년 5월 고2 모의고사");
         assertThat(response.problemSummaries().get(0).tagNames()).contains("미분 개념", "적분 개념");
     }
 
@@ -89,12 +88,10 @@ public class ProblemSetGetServiceTest {
 
         // 첫 번째 문제 검증
         assertThat(response.problemSummaries().get(0).problemCustomId()).isEqualTo("1224052001");
-        assertThat(response.problemSummaries().get(0).practiceTestName()).isEqualTo("2025년 5월 고2 모의고사");
         assertThat(response.problemSummaries().get(0).tagNames()).contains("미분 개념", "적분 개념");
 
         // 두 번째 문제 검증
         assertThat(response.problemSummaries().get(1).problemCustomId()).isEqualTo("1224052002");
-        assertThat(response.problemSummaries().get(1).practiceTestName()).isEqualTo("2025년 5월 고2 모의고사");
         assertThat(response.problemSummaries().get(1).tagNames()).contains("미분 개념", "삼각함수 개념");
     }
 }
