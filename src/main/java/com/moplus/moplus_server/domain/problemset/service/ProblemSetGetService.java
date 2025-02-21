@@ -24,7 +24,6 @@ public class ProblemSetGetService {
 
     private final ProblemSetRepository problemSetRepository;
     private final ProblemRepository problemRepository;
-    private final PracticeTestTagRepository practiceTestTagRepository;
     private final ConceptTagRepository conceptTagRepository;
     private final PublishRepository publishRepository;
 
