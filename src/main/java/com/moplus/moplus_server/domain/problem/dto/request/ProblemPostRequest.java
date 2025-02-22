@@ -10,7 +10,7 @@ public record ProblemPostRequest(
         @NotNull(message = "문항 유형은 필수입니다")
         ProblemType problemType,
         Long practiceTestId,
-        int number
+        Integer number
 ) {
     public Problem toEntity(PracticeTestTag practiceTestTag, ProblemCustomId problemCustomId) {
         return Problem.builder()

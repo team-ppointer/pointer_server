@@ -10,7 +10,7 @@ public record ProblemUpdateRequest(
         @NotNull(message = "문제 유형은 필수입니다")
         ProblemType problemType,
         Long practiceTestId,
-        int number,
+        Integer number,
         @NotNull(message = "컬렉션 값은 필수입니다.")
         Set<Long> conceptTagIds,
         String answer,

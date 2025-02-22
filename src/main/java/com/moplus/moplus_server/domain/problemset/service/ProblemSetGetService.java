@@ -3,7 +3,7 @@ package com.moplus.moplus_server.domain.problemset.service;
 import com.moplus.moplus_server.domain.concept.domain.ConceptTag;
 import com.moplus.moplus_server.domain.concept.repository.ConceptTagRepository;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
-import com.moplus.moplus_server.domain.problem.repository.PracticeTestTagRepository;
+import com.moplus.moplus_server.domain.problem.repository.ChildProblemRepository;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSet;
 import com.moplus.moplus_server.domain.problemset.dto.response.ProblemSetGetResponse;
@@ -26,6 +26,7 @@ public class ProblemSetGetService {
     private final ProblemRepository problemRepository;
     private final ConceptTagRepository conceptTagRepository;
     private final PublishRepository publishRepository;
+    private final ChildProblemRepository childProblemRepository;
 
     @Transactional(readOnly = true)
     public ProblemSetGetResponse getProblemSet(Long problemSetId) {
@@ -38,10 +39,15 @@ public class ProblemSetGetService {
         List<ProblemSummaryResponse> problemSummaries = new ArrayList<>();
         for (Long problemId : problemSet.getProblemIds()) {
             Problem problem = problemRepository.findByIdElseThrow(problemId);
-            List<String> tagNames = conceptTagRepository.findAllByIdsElseThrow(problem.getConceptTagIds())
-                    .stream()
-                    .map(ConceptTag::getName)
-                    .toList();
+            List<String> tagNames = new ArrayList<>(
+                    conceptTagRepository.findAllByIdsElseThrow(problem.getConceptTagIds())
+                            .stream()
+                            .map(ConceptTag::getName)
+                            .toList());
+
+            problem.getChildProblems().stream()
+                    .map(childProblem -> conceptTagRepository.findAllByIdsElseThrow(childProblem.getConceptTagIds()))
+                    .forEach(conceptTags -> tagNames.addAll(conceptTags.stream().map(ConceptTag::getName).toList()));
             problemSummaries.add(ProblemSummaryResponse.of(problem, tagNames));
         }
         return ProblemSetGetResponse.of(problemSet, publishedDates, problemSummaries);

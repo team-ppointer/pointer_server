@@ -23,7 +23,7 @@ public class ProblemSearchRepositoryCustomTest {
     @Test
     void problemId_일부_포함_검색() {
         // when
-        List<ProblemSearchGetResponse> result = problemSearchRepository.search("12240520", null, null);
+        List<ProblemSearchGetResponse> result = problemSearchRepository.search("12240520", null, null, null);
 
         // then
         assertThat(result).hasSize(2);
@@ -34,7 +34,7 @@ public class ProblemSearchRepositoryCustomTest {
     @Test
     void name_포함_검색() {
         // when
-        List<ProblemSearchGetResponse> result = problemSearchRepository.search(null, "제목1 ", null);
+        List<ProblemSearchGetResponse> result = problemSearchRepository.search(null, "제목1 ", null, null);
 
         // then
         assertThat(result).hasSize(1);
@@ -44,7 +44,7 @@ public class ProblemSearchRepositoryCustomTest {
     @Test
     void conceptTagIds_하나라도_포함되면_조회() {
         // when
-        List<ProblemSearchGetResponse> result = problemSearchRepository.search(null, null, List.of(3L));
+        List<ProblemSearchGetResponse> result = problemSearchRepository.search(null, null, null, List.of(3L));
 
         // then
         assertThat(result).hasSize(2);
@@ -55,7 +55,7 @@ public class ProblemSearchRepositoryCustomTest {
     @Test
     void problemId_이름_conceptTagIds_모두_적용된_검색() {
         // when
-        List<ProblemSearchGetResponse> result = problemSearchRepository.search("12240520", "제목1", List.of(1L));
+        List<ProblemSearchGetResponse> result = problemSearchRepository.search("12240520", "제목1", null, List.of(1L));
 
         // then
         assertThat(result).hasSize(1);
@@ -65,7 +65,7 @@ public class ProblemSearchRepositoryCustomTest {
     @Test
     void 아무_조건도_없으면_모든_데이터_조회() {
         // when
-        List<ProblemSearchGetResponse> result = problemSearchRepository.search(null, null, null);
+        List<ProblemSearchGetResponse> result = problemSearchRepository.search(null, null, null, null);
 
         // then
         assertThat(result).hasSize(2);

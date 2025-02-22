@@ -16,6 +16,7 @@ public interface ProblemMapper {
     @Mappings({
             @Mapping(target = "problemCustomId", source = "problemCustomId"),
             @Mapping(target = "practiceTestTag", source = "practiceTestTag"),
+            @Mapping(target = "number", source = "request.number"),
     })
     Problem from(ProblemPostRequest request, ProblemCustomId problemCustomId, PracticeTestTag practiceTestTag);
 
@@ -23,7 +24,8 @@ public interface ProblemMapper {
             @Mapping(target = "problemCustomId", source = "problemCustomId"),
             @Mapping(target = "practiceTestTag", source = "practiceTestTag"),
             @Mapping(target = "recommendedMinute", source = "request.recommendedMinute"),
-            @Mapping(target = "recommendedSecond", source = "request.recommendedSecond")
+            @Mapping(target = "recommendedSecond", source = "request.recommendedSecond"),
+            @Mapping(target = "number", source = "request.number"),
     })
     Problem from(ProblemUpdateRequest request, ProblemCustomId problemCustomId, PracticeTestTag practiceTestTag);
 

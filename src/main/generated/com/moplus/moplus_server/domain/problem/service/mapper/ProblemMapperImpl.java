@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-02-21T03:13:14+0900",
+    date = "2025-02-23T05:41:22+0900",
     comments = "version: 1.6.3, compiler: javac, environment: Java 17.0.10 (JetBrains s.r.o.)"
 )
 @Component
@@ -30,8 +30,8 @@ public class ProblemMapperImpl implements ProblemMapper {
         Problem.ProblemBuilder problem = Problem.builder();
 
         if ( request != null ) {
-            problem.problemType( request.problemType() );
             problem.number( request.number() );
+            problem.problemType( request.problemType() );
         }
         problem.problemCustomId( problemCustomId );
         problem.practiceTestTag( practiceTestTag );
@@ -50,6 +50,7 @@ public class ProblemMapperImpl implements ProblemMapper {
         if ( request != null ) {
             problem.recommendedMinute( request.recommendedMinute() );
             problem.recommendedSecond( request.recommendedSecond() );
+            problem.number( request.number() );
             problem.answerType( request.answerType() );
             Set<Long> set = request.conceptTagIds();
             if ( set != null ) {
@@ -69,7 +70,6 @@ public class ProblemMapperImpl implements ProblemMapper {
             problem.answer( request.answer() );
             problem.title( request.title() );
             problem.problemType( request.problemType() );
-            problem.number( request.number() );
         }
         problem.problemCustomId( problemCustomId );
         problem.practiceTestTag( practiceTestTag );

@@ -2,7 +2,6 @@ package com.moplus.moplus_server.domain.problem.dto.response;
 
 import jakarta.validation.constraints.NotNull;
 import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,7 +16,7 @@ public class ProblemSearchGetResponse {
     private String memo;
     private String mainProblemImageUrl;
     @NotNull(message = "개념 태그리스트는 필수입니다")
-    private Set<String> tagNames;
+    private Set<ConceptTagSearchResponse> tagNames;
 
     public ProblemSearchGetResponse(Long problemId, String problemCustomId, String problemTitle, String memo,
                                     String mainProblemImageUrl,
@@ -27,9 +26,10 @@ public class ProblemSearchGetResponse {
         this.problemTitle = problemTitle;
         this.memo = memo;
         this.mainProblemImageUrl = mainProblemImageUrl;
-        this.tagNames = tagNames.stream()
-                .map(ConceptTagSearchResponse::getName)
-                .collect(Collectors.toSet());
+        this.tagNames = tagNames;
+//        this.tagNames = tagNames.stream()
+//                .map(ConceptTagSearchResponse::getName)
+//                .collect(Collectors.toSet());
     }
 }
 

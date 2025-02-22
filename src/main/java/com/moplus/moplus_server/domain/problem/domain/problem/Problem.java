@@ -40,7 +40,7 @@ public class Problem extends BaseEntity {
     @Embedded
     ProblemCustomId problemCustomId;
     Long practiceTestId;
-    int number;
+    Integer number;
     @Enumerated(EnumType.STRING)
     ProblemType problemType;
     @Embedded
@@ -88,7 +88,7 @@ public class Problem extends BaseEntity {
                    Set<Long> conceptTagIds, Integer difficulty, String mainHandwritingExplanationImageUrl,
                    List<String> prescriptionImageUrls, String seniorTipImageUrl, String readingTipImageUrl,
                    String mainAnalysisImageUrl, String mainProblemImageUrl, String memo, String answer, String title,
-                   ProblemType problemType, int number, PracticeTestTag practiceTestTag,
+                   ProblemType problemType, Integer number, PracticeTestTag practiceTestTag,
                    ProblemCustomId problemCustomId, Integer recommendedMinute, Integer recommendedSecond) {
         this.childProblems = childProblems;
         this.isConfirmed = isConfirmed;
@@ -192,6 +192,10 @@ public class Problem extends BaseEntity {
 
     public String getProblemCustomId() {
         return problemCustomId.getId();
+    }
+
+    public Integer getNumber() {
+        return number != null ? number : null;
     }
 
 }
