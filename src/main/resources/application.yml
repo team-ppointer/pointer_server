@@ -22,4 +22,4 @@ cors-allowed-origins:
   http://localhost:5173,
   https://www.mopl.kr,
   http://www.mopl.kr,
-  https://mopl-admin.vercel.app
+  https://mopl-admin.vercel.app,

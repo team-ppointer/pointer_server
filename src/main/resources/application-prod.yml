@@ -26,4 +26,4 @@ swagger:
 
 logging:
   level:
-    root: ERROR
+    root: INFO
