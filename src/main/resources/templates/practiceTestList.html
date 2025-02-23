@@ -1,68 +1,68 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>모의고사 목록</title>
-  <link rel="stylesheet" href="/css/practiceTestList.css">
-  <script>
-    function filterTests() {
-      const keyword = document.getElementById('search-input').value.toLowerCase();
-      const testItems = document.querySelectorAll('.test-item');
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>모의고사 목록</title>
+    <link href="/css/practiceTestList.css" rel="stylesheet">
+    <script>
+        function filterTests() {
+            const keyword = document.getElementById('search-input').value.toLowerCase();
+            const testItems = document.querySelectorAll('.test-item');
 
-      testItems.forEach((item) => {
-        const title = item.querySelector('.test-title').textContent.toLowerCase();
-        const subtitle = item.querySelector('.test-subtitle').textContent.toLowerCase();
+            testItems.forEach((item) => {
+                const title = item.querySelector('.test-title').textContent.toLowerCase();
+                const subtitle = item.querySelector('.test-subtitle').textContent.toLowerCase();
 
-        if (title.includes(keyword) || subtitle.includes(keyword)) {
-          item.style.display = 'block';
-        } else {
-          item.style.display = 'none';
+                if (title.includes(keyword) || subtitle.includes(keyword)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
         }
-      });
-    }
 
-    function confirmDeletion(event) {
-      event.preventDefault();
-      const confirmDelete = confirm("정말 삭제하시겠습니까?");
-      if (confirmDelete) {
-        event.target.closest("form").submit();
-      }
-    }
-  </script>
+        function confirmDeletion(event) {
+            event.preventDefault();
+            const confirmDelete = confirm("정말 삭제하시겠습니까?");
+            if (confirmDelete) {
+                event.target.closest("form").submit();
+            }
+        }
+    </script>
 </head>
 <body>
 <div class="container">
-  <div class="search-bar">
-    <input type="text" id="search-input" placeholder="검색" onkeyup="filterTests()">
-    <button type="button">
-      <img src="/images/search_icon.png" alt="검색">
-    </button>
-  </div>
+    <div class="search-bar">
+        <input answerType="text" id="search-input" onkeyup="filterTests()" placeholder="검색">
+        <button answerType="button">
+            <img alt="검색" src="/images/search_icon.png">
+        </button>
+    </div>
 
-  <div class="add-test">
-    <a href="/admin/practiceTests/testInputForm" class="add-test-button">+ 모의고사 추가</a>
-  </div>
+    <div class="add-test">
+        <a class="add-test-button" href="/admin/practiceTests/testInputForm">+ 모의고사 추가</a>
+    </div>
 
-  <ul class="test-list">
-    <li class="test-item" th:each="test : ${practiceTests}">
-      <div class="test-card">
-        <div class="test-card-image">
-          <img src="/images/test_icon.png" alt="모의고사 이미지">
-        </div>
-        <div class="test-card-content">
-          <a th:href="@{'/admin/practiceTests/testInputForm/' + ${test.id}}">
-            <p class="test-title" th:text="'(' + ${test.subject} + ') ' + ${test.name}"></p>
-            <p class="test-subtitle" th:text="${test.provider} + ' | ' + ${test.round} + ' 회차'"></p>
-          </a>
-        </div>
-        <form th:action="@{'/admin/practiceTests/' + ${test.id} + '/delete'}" method="post" class="delete-form">
-          <input type="hidden" name="_method" value="delete">
-          <button type="button" class="delete-test-button" onclick="confirmDeletion(event)">삭제</button>
-        </form>
-      </div>
-    </li>
-  </ul>
+    <ul class="test-list">
+        <li class="test-item" th:each="test : ${practiceTests}">
+            <div class="test-card">
+                <div class="test-card-image">
+                    <img alt="모의고사 이미지" src="/images/test_icon.png">
+                </div>
+                <div class="test-card-content">
+                    <a th:href="@{'/admin/practiceTests/testInputForm/' + ${test.id}}">
+                        <p class="test-title" th:text="'(' + ${test.subject} + ') ' + ${test.name}"></p>
+                        <p class="test-subtitle" th:text="${test.provider} + ' | ' + ${test.round} + ' 회차'"></p>
+                    </a>
+                </div>
+                <form class="delete-form" method="post" th:action="@{'/admin/practiceTests/' + ${test.id} + '/delete'}">
+                    <input answerType="hidden" name="_method" value="delete">
+                    <button answerType="button" class="delete-test-button" onclick="confirmDeletion(event)">삭제</button>
+                </form>
+            </div>
+        </li>
+    </ul>
 </div>
 </body>
 </html>

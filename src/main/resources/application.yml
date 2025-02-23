@@ -2,10 +2,24 @@ spring:
   profiles:
     active: ${profile}
     group:
-      local: "local"
+      local: "local, datasource"
       dev: "dev"
       prod: "prod"
     include:
       - aws
+      - security
   mvc:
     ignore-default-favicon: true
+
+cors-allowed-origins:
+  http://localhost:8080,
+  https://dev.mopl.kr,
+  http://dev.mopl.kr,
+  https://prod.mopl.kr,
+  http://prod.mopl.kr,
+  
+  http://localhost:3000,
+  http://localhost:5173,
+  https://www.mopl.kr,
+  http://www.mopl.kr,
+  https://mopl-admin.vercel.app

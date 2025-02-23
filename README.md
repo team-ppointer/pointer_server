@@ -1,30 +1,47 @@
+# 모플: 매일 3문항 수학 사고력 향상 서비스  
 
+매일 **기출 문제 3문항**을 풀며, **수학 사고력 취약점을 진단, 처방, 교정**까지 한 번에 해결하는 **올인원 수학 사고력 향상 서비스**입니다.
 
-![깃허브 배너](https://github.com/user-attachments/assets/e0f52d08-05f9-44ba-9a71-f20cb9d52743)
+---
 
-<br/>
-
-<h2>  빠르게 받아보는 내 취약점 복습서, 모플  </h2>
-<h3> 기능1: 빠르게 틀린 문제를 체크해서 내 점수와 등급을 받아보세요. </h3>
-<h3> 기능2: 입력한 오답문제를 바탕으로 복습서를 제공합니다. </h3>
-<h3> 기능3: 친구에게 내 결과를 공유해보세요. </h3>
-
-<br/>
-
-<h2>  Admin 페이지  </h2>
-<h3> Thymeleaf를 통해 구현한 어드민 페이지로 모의고사에 대한 정보, 정답, 정답률, 문제 이미지를 업로드할 수 있습니다. </h3>
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-  <img src="https://github.com/user-attachments/assets/f9bfffc3-7708-49a4-b240-80ea71bae83e" alt="image" width="400" height="400">
-  <img src="https://github.com/user-attachments/assets/6bf10fa0-018a-4e63-9219-442ed3843312" alt="image" width="400" height="400">
-  <img src="https://github.com/user-attachments/assets/b255e176-8eec-4666-b190-12c6e5a3c996" alt="image" width="400" height="400">
-  <img src="https://github.com/user-attachments/assets/26ac807a-eeab-42ab-8f66-bcb9af101ee4" alt="image" width="400" height="400">
+## 🎯 사용자 서비스 기능  
+<div style="display: flex; justify-content: center; gap: 10px;">
+  <img src="https://github.com/user-attachments/assets/a4c8cf3c-72f9-4d99-b701-ff5f9cc5f85d" width="250" height="400"/>
+  <img src="https://github.com/user-attachments/assets/7704d134-8b45-4320-996c-5aa7deafffbd" width="250" height="400"/>
+  <img src="https://github.com/user-attachments/assets/0eb0bcb3-a400-43ae-8eda-773b09795d03" width="250" height="400"/>
 </div>
 
+- **핵심 사고 과정 점검**: 각 기출 문항은 3개의 세부 문항으로 구성되어 있어, 취약점을 명확히 진단할 수 있습니다.  
+- **손해설 및 풀이 과정 제공**: 풀이 후, 문제 해결 과정에서 필요했던 핵심 사고력을 정리하여 개념 보완을 돕습니다.  
+- **오답 분석 및 맞춤 처방**: 세부 문항별 오답을 분석하고, 추가 학습이 필요한 개념을 처방합니다.  
+- **교정 학습 기능**: 틀린 문제와 유사한 문제를 다시 풀며, 취약한 사고 과정을 보완하고 사고력을 강화할 수 있습니다.  
 
-<br/>
+---
+
+## 🛠 어드민 서비스 기능  
+<div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+  <img width="900" src="https://github.com/user-attachments/assets/c5007734-4f8c-4fb4-80fe-c46a98293798" />
+  <img width="900" src="https://github.com/user-attachments/assets/eb8342d1-1ec9-46bb-a6b0-664f87eaca8e" />
+  <img width="900" src="https://github.com/user-attachments/assets/90d4003d-4836-4408-9dd5-d698b57c2cab" />
+</div>
+
+- **문항 및 세부 문항 등록**: 새 문제와 세부 문항을 손쉽게 등록할 수 있습니다.  
+- **세트 구성 및 일정 관리**: 여러 문항을 세트로 묶어 원하는 날짜에 발행 가능합니다.  
+- **자동 배포 기능**: 발행된 세트는 사용자에게 **"오늘의 문제"**로 제공됩니다.  
+
+---
+
+## 🏗 Architecture  
+<div style="display: flex; justify-content: center;">
+  <img width="900" src="https://github.com/user-attachments/assets/dae74b75-2c3f-436a-ac43-f09bcb1233ec" />
+</div>
+
+- 서비스의 **안정적인 운영을 위해 prod(운영)과 dev(개발) 서버를 분리**하여 배포 및 관리하고 있습니다.  
+
+---
 
 ## 서버 팀원 소개
-|[BE 개발자 박세준](https://github.com/sejoon00)|
-|:--------:|
-|<img src="https://avatars.githubusercontent.com/u/74056843?v=4" width=200>|
-
+|<img src="https://avatars.githubusercontent.com/u/74056843?v=4" width=200>|<img src="https://avatars.githubusercontent.com/u/101867059?v=4" width=200>|
+|:--------:|:--------:|
+|[BE 박세준](https://github.com/sejoon00)|[BE 홍석범](https://github.com/seokbeom00)|
+</br>

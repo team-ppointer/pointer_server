@@ -11,6 +11,7 @@ spring:
     hibernate:
       ddl-auto: update
 
-logging:
-  level:
-    root: ERROR
+swagger:
+  servers:
+    - url: http://localhost:8080
+      description: "mopl local 서버입니다."

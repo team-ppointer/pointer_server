@@ -3,10 +3,14 @@ package com.moplus.moplus_server.global.error;
 import com.moplus.moplus_server.global.error.exception.BusinessException;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.NotFoundException;
+import com.moplus.moplus_server.global.security.exception.JwtInvalidException;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.CannotCreateTransactionException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -23,6 +27,18 @@ public class GlobalExceptionHandler {
         final ErrorResponse response = ErrorResponse.from(errorCode);
 
         return new ResponseEntity<>(response, errorCode.getStatus());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
+        final List<String> errors = ex.getBindingResult()
+                .getAllErrors()
+                .stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .toList();
+
+        ErrorResponse response = ErrorResponse.from(ErrorCode.INVALID_INPUT_VALUE);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)
@@ -53,5 +69,13 @@ public class GlobalExceptionHandler {
         log.error(exception.getMessage(), exception);
         final ErrorResponse response = ErrorResponse.from(ErrorCode.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(response, response.getStatus());
+    }
+
+    @ExceptionHandler(JwtInvalidException.class)
+    protected ResponseEntity<ErrorResponse> handleJwtInvalidException(final JwtInvalidException exception) {
+        log.error("handleJwtInvalidException", exception);
+        final ErrorResponse response = ErrorResponse.from(ErrorCode.BAD_CREDENTIALS);
+
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 }

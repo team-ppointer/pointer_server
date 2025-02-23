@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>문제 이미지 업로드</title>
-    <link rel="stylesheet" href="/css/imageUploadPage.css">
+    <link href="/css/imageUploadPage.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
@@ -20,22 +20,24 @@
         </thead>
         <tbody>
         <!-- 반복문으로 문제 리스트 출력 -->
-        <th:block th:each="problem : ${problemImageRequests}">
+        <th:block th:each="problemForTest : ${problemImageRequests}">
             <tr>
-                <td th:text="${problem.problemId}">문제 ID</td>
-                <td th:text="${problem.problemNumber}">문제 번호</td>
+                <td th:text="${problemForTest.problemCustomId}">문제 ID</td>
+                <td th:text="${problemForTest.problemNumber}">문제 번호</td>
                 <td>
                     <!-- 이미지 URL이 있는 경우 이미지를 표시 -->
-                    <img th:if="${problem.imageUrl != null}" th:src="${problem.imageUrl}" alt="문제 이미지" class="problem-image">
+                    <img alt="문제 이미지" class="problemForTest-image" th:if="${problemForTest.imageUrl != null}"
+                         th:src="${problemForTest.imageUrl}">
                     <!-- 이미지 URL이 없는 경우 업로드 버튼 표시 -->
-                    <span th:if="${problem.imageUrl == null}">이미지 없음</span>
+                    <span th:if="${problemForTest.imageUrl == null}">이미지 없음</span>
                 </td>
                 <td>
                     <!-- 업로드 버튼 -->
-                    <form th:action="'/admin/practiceTests/uploadImage/' + ${problem.problemId}" method="post" enctype="multipart/form-data">
-                        <input type="file" name="image" accept="image/*">
-                        <input type="hidden" th:value="${practiceTestId}" name="practiceTestId">
-                        <button type="submit" class="upload-button">업로드</button>
+                    <form enctype="multipart/form-data" method="post"
+                          th:action="'/admin/practiceTests/uploadImage/' + ${problemForTest.problemCustomId}">
+                        <input accept="image/*" answerType="file" name="image">
+                        <input answerType="hidden" name="practiceTestId" th:value="${practiceTestId}">
+                        <button answerType="submit" class="upload-button">업로드</button>
                     </form>
                 </td>
             </tr>
@@ -45,7 +47,7 @@
     <!-- 완료 버튼 -->
     <div class="complete-button-container">
         <form action="/practiceTests" method="get">
-            <button type="submit" class="complete-button">완료</button>
+            <button answerType="submit" class="complete-button">완료</button>
         </form>
     </div>
 </div>
