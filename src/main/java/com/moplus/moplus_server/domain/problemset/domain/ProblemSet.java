@@ -74,6 +74,9 @@ public class ProblemSet extends BaseEntity {
 
     public void toggleConfirm(List<Problem> problems) {
         if (this.confirmStatus == ProblemSetConfirmStatus.NOT_CONFIRMED) {
+            if (problems.isEmpty()) {
+                throw new InvalidValueException(ErrorCode.EMPTY_PROBLEMS_ERROR);
+            }
             List<String> invalidProblemIds = problems.stream()
                     .filter(problem -> !problem.isValid())
                     .map(Problem::getProblemCustomId)
