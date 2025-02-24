@@ -40,7 +40,7 @@ public class Problem extends BaseEntity {
     @Embedded
     ProblemCustomId problemCustomId;
     Long practiceTestId;
-    int number;
+    Integer number;
     @Enumerated(EnumType.STRING)
     ProblemType problemType;
     @Embedded

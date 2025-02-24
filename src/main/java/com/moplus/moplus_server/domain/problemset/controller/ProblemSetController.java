@@ -81,7 +81,7 @@ public class ProblemSetController {
     @GetMapping("/{problemSetId}")
     @Operation(summary = "문항세트 개별 조회", description = "문항세트를 조회합니다.")
     public ResponseEntity<ProblemSetGetResponse> getProblemSet(
-            @PathVariable Long problemSetId
+            @PathVariable("problemSetId") Long problemSetId
     ) {
         return ResponseEntity.ok(problemSetGetService.getProblemSet(problemSetId));
     }
