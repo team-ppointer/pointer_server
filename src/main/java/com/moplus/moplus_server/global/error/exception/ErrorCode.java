@@ -72,6 +72,8 @@ public enum ErrorCode {
     PUBLISH_NOT_FOUND(HttpStatus.NOT_FOUND, "발행 정보를 찾을 수 없습니다"),
     CANNOT_DELETE_PAST_PUBLISH(HttpStatus.BAD_REQUEST, "이미 지난 발행건은 삭제할 수 없습니다."),
     ALREADY_PUBLISHED_ERROR(HttpStatus.BAD_REQUEST, "이미 발행된 문항세트는 컨펌해제할 수 없습니다."),
+    PROBLEM_SET_DELETED(HttpStatus.BAD_REQUEST, "삭제된 문항세트는 발행할 수 없습니다"),
+    PROBLEM_SET_NOT_CONFIRMED(HttpStatus.BAD_REQUEST, "컨펌되지 않은 문항세트는 발행할 수 없습니다"),
     ;
 
 
