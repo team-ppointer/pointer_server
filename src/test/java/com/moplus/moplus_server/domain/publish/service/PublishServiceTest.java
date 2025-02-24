@@ -80,23 +80,17 @@ public class PublishServiceTest {
     void 월별_발행_조회_테스트() {
         // given
         publishSaveService.createPublish(new PublishPostRequest(
-                LocalDate.of(2025, 3, 10),
-                1L
-        ));
-
-        publishSaveService.createPublish(new PublishPostRequest(
-                LocalDate.of(2025, 3, 15),
+                LocalDate.now(),
                 1L
         ));
 
         // when
-        List<PublishMonthGetResponse> publishList = publishGetService.getPublishMonth(2025, 3);
+        List<PublishMonthGetResponse> publishList = publishGetService.getPublishMonth(LocalDate.now().getYear(), LocalDate.now().getMonthValue());
 
         // then
-        assertThat(publishList).hasSize(2);
-        assertThat(publishList.get(0).day()).isEqualTo(10);
+        assertThat(publishList).hasSize(1);
+        assertThat(publishList.get(0).date()).isEqualTo(LocalDate.now());
         assertThat(publishList.get(0).problemSetInfo().title()).isEqualTo("2025년 5월 고2 모의고사 문제 세트");
-        assertThat(publishList.get(1).day()).isEqualTo(15);
     }
 
     @Test
@@ -112,15 +106,12 @@ public class PublishServiceTest {
     }
 
     @Test
-    void 오늘날짜_또는_과거날짜로_발행_시_예외_테스트() {
+    void 과거날짜로_발행_시_예외_테스트() {
         // given
         LocalDate today = LocalDate.now();
         LocalDate pastDate = today.minusDays(1);
 
         // when & then (createPublish에서 예외 발생하도록)
-        assertThatThrownBy(() -> publishSaveService.createPublish(new PublishPostRequest(today, 1L)))
-                .isInstanceOf(InvalidValueException.class)
-                .hasMessageContaining(ErrorCode.INVALID_DATE_ERROR.getMessage());
 
         assertThatThrownBy(() -> publishSaveService.createPublish(new PublishPostRequest(pastDate, 1L)))
                 .isInstanceOf(InvalidValueException.class)

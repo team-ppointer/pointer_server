@@ -62,6 +62,9 @@ public enum ErrorCode {
     //문항세트
     PROBLEM_SET_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 문항세트를 찾을 수 없습니다"),
     EMPTY_PROBLEMS_ERROR(HttpStatus.BAD_REQUEST, "적어도 1개의 문항을 등록해주세요"),
+    DELETE_PROBLEM_SET_GET_ERROR(HttpStatus.BAD_REQUEST, "삭제된 세트 문항은 조회할 수 없습니다."),
+    DELETE_PROBLEM_SET_UPDATE_ERROR(HttpStatus.BAD_REQUEST, "삭제된 세트 문항은 수정할 수 없습니다."),
+    DELETE_PROBLEM_SET_TOGGLE_ERROR(HttpStatus.BAD_REQUEST, "삭제된 세트 문항은 컨펌을 토글할 수 없습니다."),
 
     // 발행
     INVALID_MONTH_ERROR(HttpStatus.BAD_REQUEST, "유효하지 않은 월입니다."),
@@ -69,6 +72,8 @@ public enum ErrorCode {
     PUBLISH_NOT_FOUND(HttpStatus.NOT_FOUND, "발행 정보를 찾을 수 없습니다"),
     CANNOT_DELETE_PAST_PUBLISH(HttpStatus.BAD_REQUEST, "이미 지난 발행건은 삭제할 수 없습니다."),
     ALREADY_PUBLISHED_ERROR(HttpStatus.BAD_REQUEST, "이미 발행된 문항세트는 컨펌해제할 수 없습니다."),
+    PROBLEM_SET_DELETED(HttpStatus.BAD_REQUEST, "삭제된 문항세트는 발행할 수 없습니다"),
+    PROBLEM_SET_NOT_CONFIRMED(HttpStatus.BAD_REQUEST, "컨펌되지 않은 문항세트는 발행할 수 없습니다"),
     ;
 
 

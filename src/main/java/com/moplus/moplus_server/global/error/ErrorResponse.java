@@ -20,8 +20,16 @@ public class ErrorResponse {
         this.status = code.getStatus();
     }
 
+    private ErrorResponse(final String message, final HttpStatus status) {
+        this.message = message;
+        this.status = status;
+    }
+
     public static ErrorResponse from(final ErrorCode code) {
         return new ErrorResponse(code);
     }
 
+    public static ErrorResponse from(final String message, final HttpStatus status) {
+        return new ErrorResponse(message, status);
+    }
 }

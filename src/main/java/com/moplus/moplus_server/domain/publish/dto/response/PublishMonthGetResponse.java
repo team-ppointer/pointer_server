@@ -1,18 +1,19 @@
 package com.moplus.moplus_server.domain.publish.dto.response;
 
 import com.moplus.moplus_server.domain.publish.domain.Publish;
+import java.time.LocalDate;
 import lombok.Builder;
 
 @Builder
 public record PublishMonthGetResponse(
         Long publishId,
-        int day,
+        LocalDate date,
         PublishProblemSetResponse problemSetInfo
 ) {
     public static PublishMonthGetResponse of(Publish publish, PublishProblemSetResponse problemSetInfos) {
         return PublishMonthGetResponse.builder()
                 .publishId(publish.getId())
-                .day(publish.getPublishedDate().getDayOfMonth())
+                .date(publish.getPublishedDate())
                 .problemSetInfo(problemSetInfos)
                 .build();
     }

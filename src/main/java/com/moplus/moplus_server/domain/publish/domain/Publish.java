@@ -38,7 +38,7 @@ public class Publish extends BaseEntity {
 
     public void validatePublishedDate() {
         // 발행 시점 다음날부터 발행 가능
-        if (this.publishedDate.isBefore(LocalDate.now().plusDays(1))) {
+        if (this.publishedDate.isBefore(LocalDate.now())) {
             throw new InvalidValueException(ErrorCode.INVALID_DATE_ERROR);
         }
     }

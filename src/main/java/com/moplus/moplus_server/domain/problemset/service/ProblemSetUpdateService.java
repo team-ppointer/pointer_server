@@ -9,6 +9,7 @@ import com.moplus.moplus_server.domain.problemset.dto.request.ProblemSetUpdateRe
 import com.moplus.moplus_server.domain.problemset.repository.ProblemSetRepository;
 import com.moplus.moplus_server.domain.publish.domain.Publish;
 import com.moplus.moplus_server.domain.publish.repository.PublishRepository;
+import com.moplus.moplus_server.global.error.exception.BusinessException;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.InvalidValueException;
 import java.util.ArrayList;
@@ -35,7 +36,9 @@ public class ProblemSetUpdateService {
     @Transactional
     public void updateProblemSet(Long problemSetId, ProblemSetUpdateRequest request) {
         ProblemSet problemSet = problemSetRepository.findByIdElseThrow(problemSetId);
-
+        if (problemSet.isDeleted()) {
+            throw new BusinessException(ErrorCode.DELETE_PROBLEM_SET_UPDATE_ERROR);
+        }
         // 빈 문항 유효성 검증
         if (request.problemIds().isEmpty()) {
             throw new InvalidValueException(ErrorCode.EMPTY_PROBLEMS_ERROR);
@@ -49,6 +52,9 @@ public class ProblemSetUpdateService {
     @Transactional
     public ProblemSetConfirmStatus toggleConfirmProblemSet(Long problemSetId) {
         ProblemSet problemSet = problemSetRepository.findByIdElseThrow(problemSetId);
+        if (problemSet.isDeleted()) {
+            throw new BusinessException(ErrorCode.DELETE_PROBLEM_SET_TOGGLE_ERROR);
+        }
         List<Publish> publishes = publishRepository.findByProblemSetId(problemSetId);
         if (!publishes.isEmpty()) {
             throw new InvalidValueException(ErrorCode.ALREADY_PUBLISHED_ERROR);
