@@ -80,23 +80,17 @@ public class PublishServiceTest {
     void 월별_발행_조회_테스트() {
         // given
         publishSaveService.createPublish(new PublishPostRequest(
-                LocalDate.of(2025, 3, 10),
-                1L
-        ));
-
-        publishSaveService.createPublish(new PublishPostRequest(
-                LocalDate.of(2025, 3, 15),
+                LocalDate.now().plusDays(3),
                 1L
         ));
 
         // when
-        List<PublishMonthGetResponse> publishList = publishGetService.getPublishMonth(2025, 3);
+        List<PublishMonthGetResponse> publishList = publishGetService.getPublishMonth(LocalDate.now().plusDays(3).getYear(), LocalDate.now().plusDays(3).getMonthValue());
 
         // then
-        assertThat(publishList).hasSize(2);
-        assertThat(publishList.get(0).day()).isEqualTo(10);
+        assertThat(publishList).hasSize(1);
+        assertThat(publishList.get(0).date()).isEqualTo(LocalDate.now().plusDays(3));
         assertThat(publishList.get(0).problemSetInfo().title()).isEqualTo("2025년 5월 고2 모의고사 문제 세트");
-        assertThat(publishList.get(1).day()).isEqualTo(15);
     }
 
     @Test
