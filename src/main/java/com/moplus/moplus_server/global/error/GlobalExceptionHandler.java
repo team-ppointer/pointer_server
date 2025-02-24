@@ -2,7 +2,9 @@ package com.moplus.moplus_server.global.error;
 
 import com.moplus.moplus_server.global.error.exception.BusinessException;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
+import com.moplus.moplus_server.global.error.exception.InvalidValueException;
 import com.moplus.moplus_server.global.error.exception.NotFoundException;
+import com.moplus.moplus_server.global.error.exception.ProblemSetToggleException;
 import com.moplus.moplus_server.global.security.exception.JwtInvalidException;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -77,5 +79,14 @@ public class GlobalExceptionHandler {
         final ErrorResponse response = ErrorResponse.from(ErrorCode.BAD_CREDENTIALS);
 
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ProblemSetToggleException.class)
+    protected ResponseEntity<ErrorResponse> handleProblemSetToggleException(final ProblemSetToggleException exception) {
+        log.error("handleProblemSetToggleException", exception);
+
+        final ErrorResponse response = ErrorResponse.from(exception.getMessage(), HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

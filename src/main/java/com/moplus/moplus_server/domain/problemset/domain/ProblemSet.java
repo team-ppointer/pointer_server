@@ -4,6 +4,7 @@ import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.global.common.BaseEntity;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.InvalidValueException;
+import com.moplus.moplus_server.global.error.exception.ProblemSetToggleException;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -84,7 +85,7 @@ public class ProblemSet extends BaseEntity {
             if (!invalidProblemIds.isEmpty()) {
                 String message = ErrorCode.INVALID_CONFIRM_PROBLEM.getMessage() +
                         String.join("번 ", invalidProblemIds) + "번";
-                throw new InvalidValueException(message, ErrorCode.INVALID_CONFIRM_PROBLEM);
+                throw new ProblemSetToggleException(message);
             }
         }
         this.confirmStatus = this.confirmStatus.toggle();
