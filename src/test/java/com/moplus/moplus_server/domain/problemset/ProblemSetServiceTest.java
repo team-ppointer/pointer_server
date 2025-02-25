@@ -12,6 +12,7 @@ import com.moplus.moplus_server.domain.problemset.service.ProblemSetSaveService;
 import com.moplus.moplus_server.domain.problemset.service.ProblemSetUpdateService;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.InvalidValueException;
+import com.moplus.moplus_server.global.error.exception.ProblemSetToggleException;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -124,7 +125,7 @@ public class ProblemSetServiceTest {
 
         // when & then
         assertThatThrownBy(() -> problemSetUpdateService.toggleConfirmProblemSet(problemSetId))
-                .isInstanceOf(InvalidValueException.class)
+                .isInstanceOf(ProblemSetToggleException.class)
                 .hasMessageContaining("24052001004번") // 메시지에 포함된 ID 확인
                 .hasMessageContaining(ErrorCode.INVALID_CONFIRM_PROBLEM.getMessage());
     }
