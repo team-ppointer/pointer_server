@@ -63,7 +63,7 @@ public class ProblemController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "문항 삭제")
-    public ResponseEntity<Void> updateProblem(
+    public ResponseEntity<Void> deleteProblem(
             @PathVariable("id") Long id
     ) {
         problemDeleteService.deleteProblem(id);

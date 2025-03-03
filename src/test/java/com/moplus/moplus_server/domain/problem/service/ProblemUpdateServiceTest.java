@@ -49,7 +49,8 @@ class ProblemUpdateServiceTest {
                 "updatedChild1.png",
                 AnswerType.MULTIPLE_CHOICE,
                 "2",
-                Set.of(2L, 3L)
+                Set.of(2L, 3L),
+                List.of("prescription1.png", "prescription2.png")
         );
 
         ChildProblemUpdateRequest updateChildProblem2 = new ChildProblemUpdateRequest(
@@ -57,7 +58,8 @@ class ProblemUpdateServiceTest {
                 "updatedChild2.png",
                 AnswerType.SHORT_ANSWER,
                 "23",
-                Set.of(3L, 4L)
+                Set.of(3L, 4L),
+                List.of("prescription3.png")
         );
 
         problemUpdateRequest = new ProblemUpdateRequest(
@@ -128,6 +130,8 @@ class ProblemUpdateServiceTest {
             assertThat(updatedChild.getAnswerType()).isEqualTo(AnswerType.MULTIPLE_CHOICE);
             assertThat(updatedChild.getAnswer()).isEqualTo("2");
             assertThat(updatedChild.getConceptTagIds()).containsExactlyInAnyOrderElementsOf(Set.of(2L, 3L));
+            assertThat(updatedChild.getPrescriptionImageUrls())
+                    .containsExactly("prescription1.png", "prescription2.png");
 
             // 두 번째 자식 문제 검증 (새로 추가된 문제)
             ChildProblem newChild = childProblems.get(1);
@@ -135,6 +139,7 @@ class ProblemUpdateServiceTest {
             assertThat(newChild.getAnswerType()).isEqualTo(AnswerType.SHORT_ANSWER);
             assertThat(newChild.getAnswer()).isEqualTo("23");
             assertThat(newChild.getConceptTagIds()).containsExactlyInAnyOrderElementsOf(Set.of(3L, 4L));
+            assertThat(newChild.getPrescriptionImageUrls()).containsExactly("prescription3.png");
 
             // 추가된 검증
             assertThat(response.recommendedMinute()).isEqualTo(30);

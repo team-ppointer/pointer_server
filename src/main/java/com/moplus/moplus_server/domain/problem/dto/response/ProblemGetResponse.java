@@ -18,7 +18,7 @@ public record ProblemGetResponse(
         Set<Long> conceptTagIds,
         boolean isConfirmed,
         Long practiceTestId,
-        int number,
+        Integer number,
         Integer difficulty,
         String title,
         String answer,

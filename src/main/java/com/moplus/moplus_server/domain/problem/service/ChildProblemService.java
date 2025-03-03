@@ -2,7 +2,6 @@ package com.moplus.moplus_server.domain.problem.service;
 
 import com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
-import com.moplus.moplus_server.domain.problem.repository.ChildProblemRepository;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.InvalidValueException;
@@ -15,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ChildProblemService {
 
     private final ProblemRepository problemRepository;
-    private final ChildProblemRepository childProblemRepository;
 
     @Transactional
     public Long createChildProblem(Long problemId) {

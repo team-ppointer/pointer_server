@@ -3,6 +3,7 @@ package com.moplus.moplus_server.domain.problem.dto.response;
 import com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem;
 import com.moplus.moplus_server.domain.problem.domain.problem.AnswerType;
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 import lombok.Builder;
 
@@ -14,7 +15,9 @@ public record ChildProblemGetResponse(
         AnswerType answerType,
         String answer,
         @NotNull(message = "컬렉션 값은 필수입니다.")
-        Set<Long> conceptTagIds
+        Set<Long> conceptTagIds,
+        @NotNull(message = "컬렉션 값은 필수입니다.")
+        List<String> prescriptionImageUrls
 ) {
 
     public static ChildProblemGetResponse of(ChildProblem childProblem) {
@@ -24,6 +27,7 @@ public record ChildProblemGetResponse(
                 .answerType(childProblem.getAnswerType())
                 .answer(childProblem.getAnswer())
                 .conceptTagIds(childProblem.getConceptTagIds())
+                .prescriptionImageUrls(childProblem.getPrescriptionImageUrls())
                 .build();
     }
 }
