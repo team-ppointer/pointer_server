@@ -65,6 +65,8 @@ public enum ErrorCode {
     DELETE_PROBLEM_SET_GET_ERROR(HttpStatus.BAD_REQUEST, "삭제된 세트 문항은 조회할 수 없습니다."),
     DELETE_PROBLEM_SET_UPDATE_ERROR(HttpStatus.BAD_REQUEST, "삭제된 세트 문항은 수정할 수 없습니다."),
     DELETE_PROBLEM_SET_TOGGLE_ERROR(HttpStatus.BAD_REQUEST, "삭제된 세트 문항은 컨펌을 토글할 수 없습니다."),
+    CONFIRMED_PROBLEM_SET_REORDER_ERROR(HttpStatus.BAD_REQUEST, "컨펌된 세트 문항은 문항 순서를 변경할 수 없습니다."),
+    CONFIRMED_PROBLEM_SET_UPDATE_ERROR(HttpStatus.BAD_REQUEST, "컨펌된 세트 문항은 수정할 수 없습니다."),
 
     // 발행
     INVALID_MONTH_ERROR(HttpStatus.BAD_REQUEST, "유효하지 않은 월입니다."),
