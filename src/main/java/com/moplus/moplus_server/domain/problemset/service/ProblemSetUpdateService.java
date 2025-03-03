@@ -29,6 +29,9 @@ public class ProblemSetUpdateService {
     @Transactional
     public void reorderProblems(Long problemSetId, ProblemReorderRequest request) {
         ProblemSet problemSet = problemSetRepository.findByIdElseThrow(problemSetId);
+        if (problemSet.isConfirmed()) {
+            throw new InvalidValueException(ErrorCode.CONFIRMED_PROBLEM_SET_REORDER_ERROR);
+        }
 
         problemSet.updateProblemOrder(request.newProblems());
     }
@@ -39,7 +42,11 @@ public class ProblemSetUpdateService {
         if (problemSet.isDeleted()) {
             throw new BusinessException(ErrorCode.DELETE_PROBLEM_SET_UPDATE_ERROR);
         }
-        // 빈 문항 유효성 검증
+
+        if (problemSet.isConfirmed() && problemSet.isProblemsChanged(request.problemIds())) {
+            throw new InvalidValueException(ErrorCode.CONFIRMED_PROBLEM_SET_UPDATE_ERROR);
+        }
+
         if (request.problemIds().isEmpty()) {
             throw new InvalidValueException(ErrorCode.EMPTY_PROBLEMS_ERROR);
         }

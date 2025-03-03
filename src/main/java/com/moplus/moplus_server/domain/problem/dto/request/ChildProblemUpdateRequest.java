@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 public record ChildProblemUpdateRequest(
+        @NotNull(message = "새끼문제 ID는 필수입니다.")
         Long childProblemId,
         String imageUrl,
         AnswerType answerType,
