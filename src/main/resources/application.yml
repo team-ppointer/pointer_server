@@ -8,6 +8,7 @@ spring:
     include:
       - aws
       - security
+      - server
   mvc:
     ignore-default-favicon: true
 
