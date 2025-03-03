@@ -15,7 +15,7 @@ public class ProblemGetService {
 
     @Transactional(readOnly = true)
     public ProblemGetResponse getProblem(Long problemId) {
-        Problem problem = problemRepository.findByIdElseThrow(problemId);
+        Problem problem = problemRepository.findByIdWithFetchJoinElseThrow(problemId);
         return ProblemGetResponse.of(problem);
     }
 }

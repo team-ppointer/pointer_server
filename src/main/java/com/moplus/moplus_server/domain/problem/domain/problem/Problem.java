@@ -75,7 +75,7 @@ public class Problem extends BaseEntity {
 
     private boolean isConfirmed;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "problem_id")
     @OrderColumn(name = "sequence")
     private List<ChildProblem> childProblems = new ArrayList<>();
