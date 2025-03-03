@@ -6,6 +6,7 @@ import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTestT
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminIdService;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemCustomId;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemType;
 import com.moplus.moplus_server.domain.problem.dto.request.ProblemUpdateRequest;
 import com.moplus.moplus_server.domain.problem.dto.response.ProblemGetResponse;
 import com.moplus.moplus_server.domain.problem.repository.PracticeTestTagRepository;
@@ -30,12 +31,17 @@ public class ProblemUpdateService {
 
     @Transactional
     public ProblemGetResponse updateProblem(Long problemId, ProblemUpdateRequest request) {
-        PracticeTestTag practiceTestTag = practiceTestRepository.findByIdElseThrow(request.practiceTestId());
         conceptTagRepository.existsByIdElseThrow(request.conceptTagIds());
         Problem problem = problemRepository.findByIdElseThrow(problemId);
-
-        ProblemCustomId problemCustomId = problemAdminIdService.nextId(request.number(), practiceTestTag,
-                request.problemType());
+        PracticeTestTag practiceTestTag = null;
+        ProblemCustomId problemCustomId = null;
+        if (request.problemType() != ProblemType.CREATION_PROBLEM) {
+            practiceTestTag = practiceTestRepository.findByIdElseThrow(request.practiceTestId());
+            problemCustomId = problemAdminIdService.nextId(request.number(), practiceTestTag,
+                    request.problemType());
+        } else {
+            problemCustomId = problemAdminIdService.nextId(request.problemType());
+        }
 
         Problem inputProblem = problemMapper.from(request, problemCustomId, practiceTestTag);
         problem.update(inputProblem);

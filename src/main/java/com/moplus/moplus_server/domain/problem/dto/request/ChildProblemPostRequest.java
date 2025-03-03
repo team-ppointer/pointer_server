@@ -10,6 +10,7 @@ public record ChildProblemPostRequest(
         String answer,
         @NotNull(message = "컬렉션 값은 필수입니다.")
         Set<Long> conceptTagIds,
+
         int sequence
 ) {
 }
