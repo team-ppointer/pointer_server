@@ -2,7 +2,7 @@ package com.moplus.moplus_server.domain.problemset.dto.response;
 
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import jakarta.validation.constraints.NotNull;
-import java.util.List;
+import java.util.Set;
 import lombok.Builder;
 
 @Builder
@@ -15,9 +15,9 @@ public record ProblemSummaryResponse(
         String memo,
         String mainProblemImageUrl,
         @NotNull(message = "컬렉션 값은 필수입니다.")
-        List<String> tagNames
+        Set<String> tagNames
 ) {
-    public static ProblemSummaryResponse of(Problem problem, List<String> tagNames) {
+    public static ProblemSummaryResponse of(Problem problem, Set<String> tagNames) {
 
         return ProblemSummaryResponse.builder()
                 .problemId(problem.getId())

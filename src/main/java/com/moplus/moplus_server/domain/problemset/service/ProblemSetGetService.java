@@ -14,7 +14,9 @@ import com.moplus.moplus_server.global.error.exception.BusinessException;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +43,7 @@ public class ProblemSetGetService {
         List<ProblemSummaryResponse> problemSummaries = new ArrayList<>();
         for (Long problemId : problemSet.getProblemIds()) {
             Problem problem = problemRepository.findByIdElseThrow(problemId);
-            List<String> tagNames = new ArrayList<>(
+            Set<String> tagNames = new HashSet<>(
                     conceptTagRepository.findAllByIdsElseThrow(problem.getConceptTagIds())
                             .stream()
                             .map(ConceptTag::getName)
