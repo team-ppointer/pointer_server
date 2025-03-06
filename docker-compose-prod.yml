@@ -53,7 +53,7 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ../mopl_data/prod_data
+      device: ../mopl_data/pointer_prod_data
 
 networks:
   pointer-prod:
