@@ -32,6 +32,6 @@ jobs:
             fi
             
             ./gradlew clean build
-            docker rm -f moplus-server-dev --force
-            docker rmi moplus-server-dev
+            docker rm -f pointer-server-dev --force
+            docker rmi pointer-server-dev
             docker-compose -f docker-compose-dev.yml -p pointer-dev up --build -d
