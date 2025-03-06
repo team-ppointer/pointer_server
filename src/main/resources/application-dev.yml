@@ -22,12 +22,12 @@ spring:
 
 swagger:
   servers:
-    - url: https://dev.mopl.kr
-      description: "mopl dev https 서버입니다."
-    - url: http://dev.mopl.kr
-      description: "mopl dev http 서버입니다."
+    - url: https://dev.math-pointer.com
+      description: "pointer dev https 서버입니다."
+    - url: http://dev.math-pointer.com
+      description: "pointer dev http 서버입니다."
     - url: http://localhost:8080
-      description: "mopl local 서버입니다."
+      description: "pointer local 서버입니다."
 
 logging:
   level:

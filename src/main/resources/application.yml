@@ -26,7 +26,7 @@ cors-allowed-origins:
   http://ppp.dev.admin.math-pointer.com,
   https://www.math-pointer.com,
   http://www.math-pointer.com,
-  https://www.dev.math-pointer.com
+  https://www.dev.math-pointer.com,
   http://www.dev.math-pointer.com
 
 
