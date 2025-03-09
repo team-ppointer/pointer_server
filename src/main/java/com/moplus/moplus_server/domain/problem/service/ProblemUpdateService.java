@@ -8,6 +8,7 @@ import com.moplus.moplus_server.domain.problem.domain.problem.ProblemAdminIdServ
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemCustomId;
 import com.moplus.moplus_server.admin.problem.dto.request.ProblemUpdateRequest;
 import com.moplus.moplus_server.admin.problem.dto.response.ProblemGetResponse;
+import com.moplus.moplus_server.domain.problem.domain.problem.ProblemType;
 import com.moplus.moplus_server.domain.problem.repository.PracticeTestTagRepository;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.domain.problem.service.mapper.ChildProblemMapper;
