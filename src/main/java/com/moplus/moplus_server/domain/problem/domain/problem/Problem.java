@@ -194,4 +194,8 @@ public class Problem extends BaseEntity {
         return problemCustomId.getId();
     }
 
+    public Integer getNumber() {
+        return number != null ? number : null;
+    }
+
 }

@@ -95,4 +95,20 @@ public class ProblemSet extends BaseEntity {
         this.title = new Title(title);
         this.problemIds = newProblems;
     }
+
+    public boolean isConfirmed() {
+        return this.confirmStatus == ProblemSetConfirmStatus.CONFIRMED;
+    }
+
+    public boolean isProblemsChanged(List<Long> newProblems) {
+        if (this.problemIds.size() != newProblems.size()) {
+            return true;
+        }
+        for (int i = 0; i < this.problemIds.size(); i++) {
+            if (!this.problemIds.get(i).equals(newProblems.get(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

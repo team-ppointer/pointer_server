@@ -37,6 +37,8 @@ public class QChildProblem extends EntityPathBase<ChildProblem> {
 
     public final StringPath imageUrl = createString("imageUrl");
 
+    public final ListPath<String, StringPath> prescriptionImageUrls = this.<String, StringPath>createList("prescriptionImageUrls", String.class, StringPath.class, PathInits.DIRECT2);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedDate = _super.updatedDate;
 
