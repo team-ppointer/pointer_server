@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemType;
-import com.moplus.moplus_server.domain.problem.dto.request.ProblemPostRequest;
-import com.moplus.moplus_server.domain.problem.dto.response.ProblemPostResponse;
+import com.moplus.moplus_server.admin.problem.dto.request.ProblemPostRequest;
+import com.moplus.moplus_server.admin.problem.dto.response.ProblemPostResponse;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.global.error.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;

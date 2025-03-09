@@ -7,7 +7,7 @@ import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTestT
 import com.moplus.moplus_server.domain.problem.repository.PracticeTestTagRepository;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSet;
-import com.moplus.moplus_server.domain.problemset.dto.response.ProblemSetGetResponse;
+import com.moplus.moplus_server.admin.problemset.dto.response.ProblemSetGetResponse;
 import com.moplus.moplus_server.domain.problemset.repository.ProblemSetRepository;
 import com.moplus.moplus_server.global.error.exception.NotFoundException;
 import java.util.List;

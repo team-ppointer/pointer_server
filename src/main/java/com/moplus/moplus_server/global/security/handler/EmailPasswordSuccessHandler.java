@@ -1,7 +1,7 @@
 package com.moplus.moplus_server.global.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.moplus.moplus_server.domain.member.domain.Member;
+import com.moplus.moplus_server.member.domain.Member;
 import com.moplus.moplus_server.global.security.utils.CookieUtil;
 import com.moplus.moplus_server.global.security.utils.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;

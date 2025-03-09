@@ -1,6 +1,6 @@
 package com.moplus.moplus_server.domain.publish.repository;
 
-import com.moplus.moplus_server.domain.publish.domain.Publish;
+import com.moplus.moplus_server.admin.publish.domain.Publish;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.NotFoundException;
 import java.time.LocalDate;

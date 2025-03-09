@@ -1,7 +1,7 @@
 package com.moplus.moplus_server.domain.problem.service;
 
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
-import com.moplus.moplus_server.domain.problem.dto.response.ProblemGetResponse;
+import com.moplus.moplus_server.admin.problem.dto.response.ProblemGetResponse;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

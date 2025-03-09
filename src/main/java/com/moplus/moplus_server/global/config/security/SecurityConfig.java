@@ -1,6 +1,6 @@
 package com.moplus.moplus_server.global.config.security;
 
-import com.moplus.moplus_server.domain.member.service.MemberService;
+import com.moplus.moplus_server.member.service.MemberService;
 import com.moplus.moplus_server.global.security.filter.EmailPasswordAuthenticationFilter;
 import com.moplus.moplus_server.global.security.filter.JwtAuthenticationFilter;
 import com.moplus.moplus_server.global.security.handler.EmailPasswordSuccessHandler;

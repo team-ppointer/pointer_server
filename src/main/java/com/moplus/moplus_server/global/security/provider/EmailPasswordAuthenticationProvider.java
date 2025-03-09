@@ -1,7 +1,7 @@
 package com.moplus.moplus_server.global.security.provider;
 
-import com.moplus.moplus_server.domain.member.domain.Member;
-import com.moplus.moplus_server.domain.member.service.MemberService;
+import com.moplus.moplus_server.member.domain.Member;
+import com.moplus.moplus_server.member.service.MemberService;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
