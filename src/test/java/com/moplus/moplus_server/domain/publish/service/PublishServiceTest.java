@@ -3,9 +3,12 @@ package com.moplus.moplus_server.domain.publish.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-import com.moplus.moplus_server.domain.publish.domain.Publish;
-import com.moplus.moplus_server.domain.publish.dto.request.PublishPostRequest;
-import com.moplus.moplus_server.domain.publish.dto.response.PublishMonthGetResponse;
+import com.moplus.moplus_server.admin.publish.domain.Publish;
+import com.moplus.moplus_server.admin.publish.dto.request.PublishPostRequest;
+import com.moplus.moplus_server.admin.publish.dto.response.PublishMonthGetResponse;
+import com.moplus.moplus_server.admin.publish.service.PublishDeleteService;
+import com.moplus.moplus_server.admin.publish.service.PublishGetService;
+import com.moplus.moplus_server.admin.publish.service.PublishSaveService;
 import com.moplus.moplus_server.domain.publish.repository.PublishRepository;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.InvalidValueException;

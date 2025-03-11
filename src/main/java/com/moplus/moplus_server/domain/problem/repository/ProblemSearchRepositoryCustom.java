@@ -4,8 +4,8 @@ import static com.moplus.moplus_server.domain.concept.domain.QConceptTag.concept
 import static com.moplus.moplus_server.domain.problem.domain.childProblem.QChildProblem.childProblem;
 import static com.moplus.moplus_server.domain.problem.domain.problem.QProblem.problem;
 
-import com.moplus.moplus_server.domain.problem.dto.response.ConceptTagSearchResponse;
-import com.moplus.moplus_server.domain.problem.dto.response.ProblemSearchGetResponse;
+import com.moplus.moplus_server.admin.problem.dto.response.ConceptTagSearchResponse;
+import com.moplus.moplus_server.admin.problem.dto.response.ProblemSearchGetResponse;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;

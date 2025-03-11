@@ -4,8 +4,8 @@ import static com.moplus.moplus_server.domain.problem.domain.problem.QProblem.pr
 import static com.moplus.moplus_server.domain.problemset.domain.ProblemSetConfirmStatus.CONFIRMED;
 import static com.moplus.moplus_server.domain.problemset.domain.QProblemSet.problemSet;
 
-import com.moplus.moplus_server.domain.problemset.dto.response.ProblemSetSearchGetResponse;
-import com.moplus.moplus_server.domain.problemset.dto.response.ProblemThumbnailResponse;
+import com.moplus.moplus_server.admin.problemset.dto.response.ProblemSetSearchGetResponse;
+import com.moplus.moplus_server.admin.problemset.dto.response.ProblemThumbnailResponse;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;

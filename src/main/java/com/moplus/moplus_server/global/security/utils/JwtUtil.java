@@ -1,6 +1,6 @@
 package com.moplus.moplus_server.global.security.utils;
 
-import com.moplus.moplus_server.domain.member.domain.Member;
+import com.moplus.moplus_server.member.domain.Member;
 import com.moplus.moplus_server.global.properties.jwt.JwtProperties;
 import com.moplus.moplus_server.global.security.token.JwtAuthenticationToken;
 import io.jsonwebtoken.Claims;
