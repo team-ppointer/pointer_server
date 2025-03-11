@@ -25,11 +25,11 @@ public class MemberStatistics extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "member_statistics_id")
-    private List<CorrectConceptTagStatistics> correctStatistics = new ArrayList<>();
+    private List<CorrectConceptTagStatistics> correctStatistics;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "member_statistics_id")
-    private List<IncorrectConceptTagStatistics> incorrectStatistics = new ArrayList<>();
+    private List<IncorrectConceptTagStatistics> incorrectStatistics;
 
     @Builder
     public MemberStatistics(Long memberId) {
