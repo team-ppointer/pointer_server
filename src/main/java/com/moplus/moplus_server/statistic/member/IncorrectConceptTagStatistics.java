@@ -17,17 +17,13 @@ public class IncorrectConceptTagStatistics extends BaseEntity {
     @Column(name = "incorrect_concept_tag_statistics_id")
     private Long id;
 
-    @Column(name = "member_statistics_id", nullable = false)
-    private Long memberStatisticsId;
-
     @Column(name = "concept_tag_id", nullable = false)
     private Long conceptTagId;
 
     private int incorrectCount;
 
     @Builder
-    public IncorrectConceptTagStatistics(Long memberStatisticsId, Long conceptTagId, int incorrectCount) {
-        this.memberStatisticsId = memberStatisticsId;
+    public IncorrectConceptTagStatistics(Long conceptTagId, int incorrectCount) {
         this.conceptTagId = conceptTagId;
         this.incorrectCount = incorrectCount;
     }

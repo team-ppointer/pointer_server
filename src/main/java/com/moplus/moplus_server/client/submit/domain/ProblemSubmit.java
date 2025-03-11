@@ -14,22 +14,26 @@ public class ProblemSubmit extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "set_submit_problem_id")
+    @Column(name = "problem_submit_id")
     private Long id;
 
-    @Column(name = "set_submit_id", nullable = false)
-    private Long setSubmitId;
+    @Column(name = "member_id", nullable = false)
+    private Long memberId;
+
+    @Column(name = "publish_id", nullable = false)
+    private Long publishId;
 
     @Column(name = "problem_id", nullable = false)
     private Long problemId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private SubmitStatus status;
+    private ProblemSubmitStatus status;
 
     @Builder
-    public ProblemSubmit(Long setSubmitId, Long problemId, SubmitStatus status) {
-        this.setSubmitId = setSubmitId;
+    public ProblemSubmit(Long memberId, Long publishId, Long problemId, ProblemSubmitStatus status) {
+        this.memberId = memberId;
+        this.publishId = publishId;
         this.problemId = problemId;
         this.status = status;
     }

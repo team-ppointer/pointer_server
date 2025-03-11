@@ -1,7 +1,7 @@
 package com.moplus.moplus_server.client.submit.domain;
 
-public enum SubmitStatus {
+public enum ChildProblemSubmitStatus {
     CORRECT,
     INCORRECT,
-    NOT_SUBMIT
+    RETRY_CORRECT
 }
