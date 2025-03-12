@@ -31,8 +31,8 @@ public class ProblemSetGetRepositoryCustom {
         List<Tuple> problemData = queryFactory
                 .select(
                         QProblem.problem.id,
-                        QProblem.problem.problemCustomId,
-                        QProblem.problem.title,
+                        QProblem.problem.problemCustomId.id,
+                        QProblem.problem.title.title,
                         QProblem.problem.memo,
                         QProblem.problem.mainProblemImageUrl
                 )
@@ -62,8 +62,8 @@ public class ProblemSetGetRepositoryCustom {
         List<ProblemSummaryResponse> problemSummaries = problemData.stream()
                 .map(tuple -> ProblemSummaryResponse.builder()
                         .problemId(tuple.get(QProblem.problem.id))
-                        .problemCustomId(tuple.get(QProblem.problem.problemCustomId).toString())
-                        .problemTitle(tuple.get(QProblem.problem.title).toString())
+                        .problemCustomId(tuple.get(QProblem.problem.problemCustomId.id))
+                        .problemTitle(tuple.get(QProblem.problem.title.title))
                         .memo(tuple.get(QProblem.problem.memo))
                         .mainProblemImageUrl(tuple.get(QProblem.problem.mainProblemImageUrl))
                         .tagNames(conceptTagMap.getOrDefault(tuple.get(QProblem.problem.id), new HashSet<>()))
