@@ -3,15 +3,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.prod
-    container_name: moplus-server-prod
-    image: moplus-server-prod
+    container_name: pointer-server-prod
+    image: pointer-server-prod
     restart: always
     ports:
       - 8080:8080
     environment:
       - TZ=Asia/Seoul
       - SPRING_PROFILES_ACTIVE=prod
-      - SPRING_DATASOURCE_URL=jdbc:mysql://moplus-mysql-prod:3306/${PROD_MYSQL_DATABASE}?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&tinyInt1isBit=false
+      - SPRING_DATASOURCE_URL=jdbc:mysql://pointer-mysql-prod:3306/${PROD_MYSQL_DATABASE}?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&tinyInt1isBit=false
       - SPRING_DATASOURCE_USERNAME=${PROD_MYSQL_USER}
       - SPRING_DATASOURCE_PASSWORD=${PROD_MYSQL_PASSWORD}
       - SENTRY_DSN=${SENTRY_DSN}
@@ -30,12 +30,12 @@ services:
     depends_on:
       - mysql
     networks:
-      - moplus-prod
+      - pointer-prod
       - nginx-network
 
   mysql:
     image: mysql:8.0
-    container_name: moplus-mysql-prod
+    container_name: pointer-mysql-prod
     environment:
       MYSQL_ROOT_PASSWORD: ${PROD_MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${PROD_MYSQL_DATABASE}
@@ -44,14 +44,19 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - moplus_prod_data:/var/lib/mysql
+      - pointer_prod_data:/var/lib/mysql
     networks:
-      - moplus-prod
+      - pointer-prod
 volumes:
-  moplus_prod_data:
+  pointer_prod_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ../mopl_data/pointer_prod_data
 
 networks:
-  moplus-prod:
+  pointer-prod:
     driver: bridge
   nginx-network:
     external: true

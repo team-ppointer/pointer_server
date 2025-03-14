@@ -3,15 +3,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: moplus-server-dev
-    image: moplus-server-dev
+    container_name: pointer-server-dev
+    image: pointer-server-dev
     restart: always
     ports:
       - 8081:8080
     environment:
       - TZ=Asia/Seoul
       - SPRING_PROFILES_ACTIVE=dev
-      - SPRING_DATASOURCE_URL=jdbc:mysql://moplus-mysql-dev:3306/${DEV_MYSQL_DATABASE}?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&tinyInt1isBit=false
+      - SPRING_DATASOURCE_URL=jdbc:mysql://pointer-mysql-dev:3306/${DEV_MYSQL_DATABASE}?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&tinyInt1isBit=false
       - SPRING_DATASOURCE_USERNAME=${DEV_MYSQL_USER}
       - SPRING_DATASOURCE_PASSWORD=${DEV_MYSQL_PASSWORD}
       - SENTRY_DSN=${SENTRY_DSN}
@@ -31,12 +31,12 @@ services:
     depends_on:
       - mysql
     networks:
-      - moplus-dev
+      - pointer-dev
       - nginx-network
 
   mysql:
     image: mysql:8.0
-    container_name: moplus-mysql-dev
+    container_name: pointer-mysql-dev
     environment:
       MYSQL_ROOT_PASSWORD: ${DEV_MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DEV_MYSQL_DATABASE}
@@ -47,7 +47,7 @@ services:
     volumes:
       - dev_data:/var/lib/mysql
     networks:
-      - moplus-dev
+      - pointer-dev
 volumes:
   dev_data:
     driver: local
@@ -57,7 +57,7 @@ volumes:
       device: ../mopl_data/dev_data
 
 networks:
-  moplus-dev:
+  pointer-dev:
     driver: bridge
   nginx-network:
     external: true

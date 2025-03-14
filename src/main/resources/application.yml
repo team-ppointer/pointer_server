@@ -14,13 +14,20 @@ spring:
 
 cors-allowed-origins:
   http://localhost:8080,
-  https://dev.mopl.kr,
-  http://dev.mopl.kr,
-  https://prod.mopl.kr,
-  http://prod.mopl.kr,
+  https://dev.math-pointer.com,
+  http://dev.math-pointer.com,
+  https://prod.math-pointer.com,
+  http://prod.math-pointer.com,
   
   http://localhost:3000,
   http://localhost:5173,
-  https://www.mopl.kr,
-  http://www.mopl.kr,
-  https://mopl-admin.vercel.app,
+  https://ppp.admin.math-pointer.com,
+  http://ppp.admin.math-pointer.com,
+  https://ppp.dev.admin.math-pointer.com,
+  http://ppp.dev.admin.math-pointer.com,
+  https://www.math-pointer.com,
+  http://www.math-pointer.com,
+  https://www.dev.math-pointer.com,
+  http://www.dev.math-pointer.com
+
+
