@@ -1,11 +1,11 @@
 package com.moplus.moplus_server.domain.problem.service.mapper;
 
+import com.moplus.moplus_server.admin.problem.dto.request.ProblemPostRequest;
+import com.moplus.moplus_server.admin.problem.dto.request.ProblemUpdateRequest;
 import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTestTag;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemCustomId;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemType;
-import com.moplus.moplus_server.domain.problem.dto.request.ProblemPostRequest;
-import com.moplus.moplus_server.domain.problem.dto.request.ProblemUpdateRequest;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-03-04T02:15:33+0900",
+    date = "2025-03-14T20:25:51+0900",
     comments = "version: 1.6.3, compiler: javac, environment: Java 17.0.10 (JetBrains s.r.o.)"
 )
 @Component

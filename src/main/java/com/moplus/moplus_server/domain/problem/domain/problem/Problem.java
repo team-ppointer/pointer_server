@@ -60,6 +60,7 @@ public class Problem extends BaseEntity {
     @Convert(converter = StringListConverter.class)
     @Column(columnDefinition = "TEXT")
     List<String> prescriptionImageUrls;
+
     @ElementCollection
     @CollectionTable(name = "problem_concept", joinColumns = @JoinColumn(name = "problem_id"))
     @Column(name = "concept_tag_id")
@@ -75,7 +76,7 @@ public class Problem extends BaseEntity {
 
     private boolean isConfirmed;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "problem_id")
     @OrderColumn(name = "sequence")
     private List<ChildProblem> childProblems = new ArrayList<>();

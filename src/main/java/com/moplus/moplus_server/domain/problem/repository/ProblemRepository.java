@@ -27,8 +27,6 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
 
     @Query("SELECT DISTINCT p FROM Problem p " +
             "LEFT JOIN FETCH p.childProblems c " +
-            "LEFT JOIN FETCH p.conceptTagIds " +
-            "LEFT JOIN FETCH c.conceptTagIds " +
             "WHERE p.id = :id")
     Optional<Problem> findByIdWithFetchJoin(@Param("id") Long id);
 
