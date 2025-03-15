@@ -19,12 +19,6 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
         }
     }
 
-    default void existsByProblemAdminIdElseThrow(ProblemCustomId problemCustomId) {
-        if (!existsByProblemCustomId(problemCustomId)) {
-            throw new NotFoundException(ErrorCode.PROBLEM_NOT_FOUND);
-        }
-    }
-
     @Query("SELECT DISTINCT p FROM Problem p " +
             "LEFT JOIN FETCH p.childProblems c " +
             "WHERE p.id = :id")

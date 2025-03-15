@@ -17,23 +17,30 @@ public class ChildProblemService {
 
     @Transactional
     public Long createChildProblem(Long problemId) {
-        Problem problem = problemRepository.findByIdElseThrow(problemId);
-        if (problem.isConfirmed()) {
-            throw new InvalidValueException(ErrorCode.CHILD_PROBLEM_UPDATE_AFTER_CONFIRMED);
-        }
-
-        problem.addChildProblem(ChildProblem.createEmptyChildProblem());
-
-        return problemRepository.save(problem).getChildProblems().get(problem.getChildProblems().size() - 1).getId();
+        Problem problem = findAndValidateProblem(problemId);
+        ChildProblem newChildProblem = ChildProblem.createEmptyChildProblem();
+        problem.addChildProblem(newChildProblem);
+        
+        return getCreatedChildProblemId(problem);
     }
 
     @Transactional
     public void deleteChildProblem(Long problemId, Long childProblemId) {
+        Problem problem = findAndValidateProblem(problemId);
+        problem.deleteChildProblem(childProblemId);
+    }
+
+    private Problem findAndValidateProblem(Long problemId) {
         Problem problem = problemRepository.findByIdElseThrow(problemId);
         if (problem.isConfirmed()) {
             throw new InvalidValueException(ErrorCode.CHILD_PROBLEM_UPDATE_AFTER_CONFIRMED);
         }
-        problem.deleteChildProblem(childProblemId);
-        problemRepository.save(problem);
+        return problem;
+    }
+
+    private Long getCreatedChildProblemId(Problem problem) {
+        return problem.getChildProblems()
+            .get(problem.getChildProblems().size() - 1)
+            .getId();
     }
 }
