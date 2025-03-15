@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ChildProblemStatistic {
+public class ChildProblemStatistic implements StatisticCounter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,5 +28,15 @@ public class ChildProblemStatistic {
     public ChildProblemStatistic(Long childProblemId) {
         this.childProblemId = childProblemId;
         this.countStatistic = new CountStatistic();
+    }
+
+    @Override
+    public void addViewCount() {
+        this.countStatistic.addViewCount();
+    }
+
+    @Override
+    public void addSubmitCount() {
+        this.countStatistic.addSubmitCount();
     }
 }

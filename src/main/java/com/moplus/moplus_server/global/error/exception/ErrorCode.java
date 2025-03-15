@@ -76,6 +76,11 @@ public enum ErrorCode {
     ALREADY_PUBLISHED_ERROR(HttpStatus.BAD_REQUEST, "이미 발행된 문항세트는 컨펌해제할 수 없습니다."),
     PROBLEM_SET_DELETED(HttpStatus.BAD_REQUEST, "삭제된 문항세트는 발행할 수 없습니다"),
     PROBLEM_SET_NOT_CONFIRMED(HttpStatus.BAD_REQUEST, "컨펌되지 않은 문항세트는 발행할 수 없습니다"),
+
+    // 통계
+    PROBLEM_STATISTIC_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 문항의 통계 정보를 찾을 수 없습니다"),
+    PROBLEM_SET_STATISTIC_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 문항세트의 통계 정보를 찾을 수 없습니다"),
+    CHILD_PROBLEM_STATISTIC_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 새끼 문항의 통계 정보를 찾을 수 없습니다"),
     ;
 
 
