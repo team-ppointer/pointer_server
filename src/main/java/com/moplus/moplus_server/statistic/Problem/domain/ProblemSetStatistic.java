@@ -21,16 +21,13 @@ public class ProblemSetStatistic implements StatisticCounter {
     private Long id;
 
     private Long problemSetId;
-    private Long viewCount;
-    private Long submitCount;
 
     @Embedded
     private CountStatistic countStatistic;
 
-    public ProblemSetStatistic(Long problemSetId, Long viewCount, Long submitCount) {
+    public ProblemSetStatistic(Long problemSetId) {
         this.problemSetId = problemSetId;
-        this.viewCount = viewCount;
-        this.submitCount = submitCount;
+        this.countStatistic = new CountStatistic();
     }
 
     @Override
@@ -41,5 +38,13 @@ public class ProblemSetStatistic implements StatisticCounter {
     @Override
     public void addSubmitCount() {
         this.countStatistic.addSubmitCount();
+    }
+
+    public Long getViewCount() {
+        return this.countStatistic.getViewCount();
+    }
+
+    public Long getSubmitCount() {
+        return this.countStatistic.getSubmitCount();
     }
 }

@@ -39,4 +39,12 @@ public class ChildProblemStatistic implements StatisticCounter {
     public void addSubmitCount() {
         this.countStatistic.addSubmitCount();
     }
+
+    public Long getViewCount() {
+        return this.countStatistic.getViewCount();
+    }
+
+    public Long getSubmitCount() {
+        return this.countStatistic.getSubmitCount();
+    }
 }

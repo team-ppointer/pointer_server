@@ -1,7 +1,9 @@
 package com.moplus.moplus_server.statistic.Problem.domain;
 
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
 
+@Getter
 @Embeddable
 public class CountStatistic implements StatisticCounter {
     private Long viewCount;
