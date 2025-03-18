@@ -41,4 +41,9 @@ public class ChildProblemSubmit extends BaseEntity {
     public void updateStatus(ChildProblemSubmitStatus status) {
         this.status = status;
     }
+
+    public void updateStatusIncorrect() {
+        this.status = ChildProblemSubmitStatus.INCORRECT;
+
+    }
 }

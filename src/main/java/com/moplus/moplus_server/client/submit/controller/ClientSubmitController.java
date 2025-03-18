@@ -3,6 +3,7 @@ package com.moplus.moplus_server.client.submit.controller;
 import com.moplus.moplus_server.client.submit.domain.ChildProblemSubmitStatus;
 import com.moplus.moplus_server.client.submit.domain.ProblemSubmitStatus;
 import com.moplus.moplus_server.client.submit.dto.request.ChildProblemSubmitCreateRequest;
+import com.moplus.moplus_server.client.submit.dto.request.ChildProblemSubmitUpdateIncorrectRequest;
 import com.moplus.moplus_server.client.submit.dto.request.ChildProblemSubmitUpdateRequest;
 import com.moplus.moplus_server.client.submit.dto.request.ProblemSubmitCreateRequest;
 import com.moplus.moplus_server.client.submit.dto.request.ProblemSubmitUpdateRequest;
@@ -57,5 +58,14 @@ public class ClientSubmitController {
             @RequestBody ChildProblemSubmitUpdateRequest request
     ) {
         return ResponseEntity.ok(clientSubmitService.updateChildProblemSubmit(request));
+    }
+
+    @PutMapping("childProblemSubmit/incorrect")
+    @Operation(summary = "새끼문항 제출 틀림 업데이트", description = "새끼문항 제출의 상태를 틀림으로 업데이트합니다.")
+    public ResponseEntity<Void> updateChildProblemSubmitIncorrect(
+            @RequestBody ChildProblemSubmitUpdateIncorrectRequest request
+    ) {
+        clientSubmitService.updateChildProblemSubmitIncorrect(request);
+        return ResponseEntity.ok(null);
     }
 }
