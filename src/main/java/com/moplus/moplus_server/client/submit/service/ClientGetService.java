@@ -5,7 +5,12 @@ import com.moplus.moplus_server.admin.publish.domain.Publish;
 import com.moplus.moplus_server.client.submit.domain.ProblemSubmit;
 import com.moplus.moplus_server.client.submit.domain.ProblemSubmitStatus;
 import com.moplus.moplus_server.client.submit.dto.response.AllProblemGetResponse;
+import com.moplus.moplus_server.client.submit.dto.response.ChildProblemDetailResponse;
+import com.moplus.moplus_server.client.submit.dto.response.CommentaryGetResponse;
 import com.moplus.moplus_server.client.submit.dto.response.DayProgress;
+import com.moplus.moplus_server.client.submit.dto.response.PrescriptionResponse;
+import com.moplus.moplus_server.client.submit.dto.response.ProblemDetailResponse;
+import com.moplus.moplus_server.client.submit.repository.ChildProblemSubmitRepository;
 import com.moplus.moplus_server.client.submit.repository.ProblemSubmitRepository;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
@@ -28,6 +33,48 @@ public class ClientGetService {
     private final ProblemSubmitRepository problemSubmitRepository;
     private final ProblemRepository problemRepository;
     private final ProblemSetRepository problemSetRepository;
+    private final ChildProblemSubmitRepository childProblemSubmitRepository;
+
+
+    @Transactional(readOnly = true)
+    public CommentaryGetResponse getCommentary(Long publishId, Long problemId) {
+
+        Long memberId = 1L;
+
+        // 문항 제출 조회
+        ProblemSubmit problemSubmit = problemSubmitRepository.findByMemberIdAndPublishIdAndProblemIdElseThrow(memberId,
+                publishId, problemId);
+
+        // 문항 해설 생성
+        Problem problem = problemRepository.findByIdElseThrow(problemId);
+        ProblemDetailResponse mainProblem = ProblemDetailResponse.of(
+                problem.getMainProblemImageUrl(),
+                problem.getPrescriptionImageUrls(),
+                problemSubmit.getStatus()
+        );
+
+        // 새끼문항 해설 생성
+        List<ChildProblemDetailResponse> childProblem = problem.getChildProblems().stream()
+                .map(cp -> ChildProblemDetailResponse.of(
+                        cp.getImageUrl(),
+                        cp.getPrescriptionImageUrls(),
+                        childProblemSubmitRepository.findByMemberIdAndPublishIdAndChildProblemIdElseThrow(memberId, publishId,
+                                cp.getId()).getStatus()
+                )).toList();
+
+        // 처방 정보 생성
+        PrescriptionResponse prescription = PrescriptionResponse.of(childProblem, mainProblem);
+
+        return CommentaryGetResponse.of(
+                problem.getNumber(),
+                problem.getAnswer(),
+                problem.getMainAnalysisImageUrl(),
+                problem.getMainHandwritingExplanationImageUrl(),
+                problem.getReadingTipImageUrl(),
+                problem.getSeniorTipImageUrl(),
+                prescription
+        );
+    }
 
     @Transactional(readOnly = true)
     public List<AllProblemGetResponse> getAllProblem(int year, int month) {

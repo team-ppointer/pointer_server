@@ -76,6 +76,12 @@ public enum ErrorCode {
     ALREADY_PUBLISHED_ERROR(HttpStatus.BAD_REQUEST, "이미 발행된 문항세트는 컨펌해제할 수 없습니다."),
     PROBLEM_SET_DELETED(HttpStatus.BAD_REQUEST, "삭제된 문항세트는 발행할 수 없습니다"),
     PROBLEM_SET_NOT_CONFIRMED(HttpStatus.BAD_REQUEST, "컨펌되지 않은 문항세트는 발행할 수 없습니다"),
+
+    // 문항 제출
+    PROBLEM_SUBMIT_NOT_CONFIRMED(HttpStatus.NOT_FOUND, "문항 제출 정보를 찾을 수 없습니다."),
+
+    // 새끼문항 제출
+    CHILD_PROBLEM_SUBMIT_NOT_CONFIRMED(HttpStatus.NOT_FOUND, "새끼문항 제출 정보를 찾을 수 없습니다."),
     ;
 
 
