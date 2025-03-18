@@ -6,12 +6,14 @@ import com.moplus.moplus_server.client.submit.domain.ChildProblemSubmitStatus;
 import com.moplus.moplus_server.client.submit.domain.ProblemSubmit;
 import com.moplus.moplus_server.client.submit.domain.ProblemSubmitStatus;
 import com.moplus.moplus_server.client.submit.dto.request.ChildProblemSubmitCreateRequest;
+import com.moplus.moplus_server.client.submit.dto.request.ChildProblemSubmitUpdateRequest;
 import com.moplus.moplus_server.client.submit.dto.request.ProblemSubmitCreateRequest;
 import com.moplus.moplus_server.client.submit.dto.request.ProblemSubmitUpdateRequest;
 import com.moplus.moplus_server.client.submit.repository.ChildProblemSubmitRepository;
 import com.moplus.moplus_server.client.submit.repository.ProblemSubmitRepository;
 import com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
+import com.moplus.moplus_server.domain.problem.repository.ChildProblemRepository;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.domain.publish.repository.PublishRepository;
 import java.util.List;
@@ -28,6 +30,7 @@ public class ClientSubmitService {
     private final ProblemRepository problemRepository;
     private final ChildProblemSubmitRepository childProblemSubmitRepository;
     private final PublishRepository publishRepository;
+    private final ChildProblemRepository childProblemRepository;
 
     @Transactional
     public void createProblemSubmit(ProblemSubmitCreateRequest request) {
@@ -108,6 +111,27 @@ public class ClientSubmitService {
                     .build();
             childProblemSubmitRepository.save(childProblemSubmit);
         }
+    }
+
+    @Transactional
+    public ChildProblemSubmitStatus updateChildProblemSubmit(ChildProblemSubmitUpdateRequest request) {
+        Long memberId = 1L;
+
+        // 존재하는 발행인지 검증
+        publishRepository.existsByIdElseThrow(request.publishId());
+
+        // 새끼문항 조회
+        ChildProblem childProblem = childProblemRepository.findByIdElseThrow(request.childProblemId());
+
+        //새끼문항 제출 데이터 조회
+        ChildProblemSubmit childProblemSubmit = childProblemSubmitRepository.findByMemberIdAndPublishIdAndChildProblemIdElseThrow(memberId,
+                request.publishId(), request.childProblemId());
+        // 제출한 답안에 대한 상태 결정
+        ChildProblemSubmitStatus status = ChildProblemSubmitStatus.determineStatus(childProblemSubmit.getStatus(), request.answer(),
+                childProblem.getAnswer());
+
+        childProblemSubmit.updateStatus(status);
+        return status;
     }
 
 }
