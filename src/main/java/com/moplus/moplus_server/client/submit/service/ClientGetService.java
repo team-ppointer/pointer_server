@@ -7,6 +7,7 @@ import com.moplus.moplus_server.client.submit.domain.ChildProblemSubmitStatus;
 import com.moplus.moplus_server.client.submit.domain.ProblemSubmit;
 import com.moplus.moplus_server.client.submit.domain.ProblemSubmitStatus;
 import com.moplus.moplus_server.client.submit.dto.response.AllProblemGetResponse;
+import com.moplus.moplus_server.client.submit.dto.response.ChildProblemClientGetResponse;
 import com.moplus.moplus_server.client.submit.dto.response.ChildProblemDetailResponse;
 import com.moplus.moplus_server.client.submit.dto.response.CommentaryGetResponse;
 import com.moplus.moplus_server.client.submit.dto.response.DayProgress;
@@ -17,6 +18,7 @@ import com.moplus.moplus_server.client.submit.repository.ChildProblemSubmitRepos
 import com.moplus.moplus_server.client.submit.repository.ProblemSubmitRepository;
 import com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
+import com.moplus.moplus_server.domain.problem.repository.ChildProblemRepository;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.domain.problemset.repository.ProblemSetRepository;
 import com.moplus.moplus_server.domain.publish.repository.PublishRepository;
@@ -38,6 +40,7 @@ public class ClientGetService {
     private final ProblemRepository problemRepository;
     private final ProblemSetRepository problemSetRepository;
     private final ChildProblemSubmitRepository childProblemSubmitRepository;
+    private final ChildProblemRepository childProblemRepository;
 
 
     @Transactional(readOnly = true)
@@ -125,6 +128,7 @@ public class ClientGetService {
     public ProblemClientGetResponse getProblem(Long publishId, Long problemId) {
         Long memberId = 1L;
 
+        // 문항조회
         Problem problem = problemRepository.findByIdElseThrow(problemId);
 
         // 문항 제출 조회
@@ -142,5 +146,28 @@ public class ClientGetService {
                 .toList();
 
         return ProblemClientGetResponse.of(problem, problemSubmit.getStatus(), childProblemStatuses);
+    }
+
+    @Transactional(readOnly = true)
+    public ChildProblemClientGetResponse getChildProblem(Long publishId, Long problemId, Long childProblemId) {
+        Long memberId = 1L;
+
+        // 문항/새끼문항 조회
+        Problem problem = problemRepository.findByIdElseThrow(problemId);
+        ChildProblem childProblem = childProblemRepository.findByIdElseThrow(childProblemId);
+
+        // 새끼문항 제출 조회
+        ChildProblemSubmit childProblemSubmit = childProblemSubmitRepository.findByMemberIdAndPublishIdAndChildProblemIdElseThrow(
+                memberId, publishId, childProblemId);
+
+        int sequence = 0;
+        for (int i = 0; i < problem.getChildProblems().size(); i++) {
+            if (problem.getChildProblems().get(i).getId().equals(childProblemId)) {
+                sequence = i + 1;
+                break;
+            }
+        }
+
+        return ChildProblemClientGetResponse.of(problem.getNumber(), sequence, childProblem.getImageUrl(), childProblemSubmit.getStatus());
     }
 }

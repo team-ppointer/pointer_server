@@ -1,6 +1,7 @@
 package com.moplus.moplus_server.client.submit.controller;
 
 import com.moplus.moplus_server.client.submit.dto.response.AllProblemGetResponse;
+import com.moplus.moplus_server.client.submit.dto.response.ChildProblemClientGetResponse;
 import com.moplus.moplus_server.client.submit.dto.response.CommentaryGetResponse;
 import com.moplus.moplus_server.client.submit.dto.response.ProblemClientGetResponse;
 import com.moplus.moplus_server.client.submit.service.ClientGetService;
@@ -48,5 +49,15 @@ public class ClientGetController {
             @PathVariable Long problemId
     ) {
         return ResponseEntity.ok(clientGetService.getProblem(publishId, problemId));
+    }
+
+    @GetMapping("problem/{publishId}/{problemId}/{childProblemId}")
+    @Operation(summary = "새끼문항 조회", description = "사용자에게 보여지는 새끼문항을 조회합니다.")
+    public ResponseEntity<ChildProblemClientGetResponse> getChildProblem(
+            @PathVariable Long publishId,
+            @PathVariable Long problemId,
+            @PathVariable Long childProblemId
+    ) {
+        return ResponseEntity.ok(clientGetService.getChildProblem(publishId, problemId, childProblemId));
     }
 }
