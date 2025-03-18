@@ -1,0 +1,31 @@
+package com.moplus.moplus_server.client.submit.controller;
+
+import com.moplus.moplus_server.client.submit.dto.response.AllProblemGetResponse;
+import com.moplus.moplus_server.client.submit.service.ClientGetService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@Tag(name = "클라이언트 조회", description = "클라이언트 조회 관련 API")
+@RestController
+@RequestMapping("/api/v1/client")
+@RequiredArgsConstructor
+public class ClientGetController {
+
+    private final ClientGetService clientGetService;
+
+    @GetMapping("allProblem/{year}/{month}")
+    @Operation(summary = "전체 문제 조회", description = "월별 문제들에 대한 진행도와 정보들을 조회합니다.")
+    public ResponseEntity<List<AllProblemGetResponse>> getAllProblem(
+            @PathVariable int year,
+            @PathVariable int month
+    ) {
+        return ResponseEntity.ok(clientGetService.getAllProblem(year, month));
+    }
+}
