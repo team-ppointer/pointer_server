@@ -38,7 +38,6 @@ public class ClientGetService {
 
     @Transactional(readOnly = true)
     public CommentaryGetResponse getCommentary(Long publishId, Long problemId) {
-
         Long memberId = 1L;
 
         // 문항 제출 조회
@@ -78,7 +77,6 @@ public class ClientGetService {
 
     @Transactional(readOnly = true)
     public List<AllProblemGetResponse> getAllProblem(int year, int month) {
-
         Long memberId = 1L;
 
         if (month < 1 || month > 12) {

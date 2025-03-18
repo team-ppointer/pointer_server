@@ -7,6 +7,7 @@ import com.moplus.moplus_server.client.submit.domain.ProblemSubmit;
 import com.moplus.moplus_server.client.submit.domain.ProblemSubmitStatus;
 import com.moplus.moplus_server.client.submit.dto.request.ChildProblemSubmitCreateRequest;
 import com.moplus.moplus_server.client.submit.dto.request.ProblemSubmitCreateRequest;
+import com.moplus.moplus_server.client.submit.dto.request.ProblemSubmitUpdateRequest;
 import com.moplus.moplus_server.client.submit.repository.ChildProblemSubmitRepository;
 import com.moplus.moplus_server.client.submit.repository.ProblemSubmitRepository;
 import com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem;
@@ -30,12 +31,10 @@ public class ClientSubmitService {
 
     @Transactional
     public void createProblemSubmit(ProblemSubmitCreateRequest request) {
-
         Long memberId = 1L;
 
         // 존재하는 발행인지 검증
         publishRepository.existsByIdElseThrow(request.publishId());
-
         // 존재하는 문항인지 검증
         problemRepository.existsByIdElseThrow(request.problemId());
 
@@ -49,13 +48,32 @@ public class ClientSubmitService {
     }
 
     @Transactional
-    public void createChildProblemSubmit(ChildProblemSubmitCreateRequest request) {
-
+    public ProblemSubmitStatus updateProblemSubmit(ProblemSubmitUpdateRequest request) {
         Long memberId = 1L;
 
         // 존재하는 발행인지 검증
         publishRepository.existsByIdElseThrow(request.publishId());
 
+        // 문항 조회
+        Problem problem = problemRepository.findByIdElseThrow(request.problemId());
+
+        //문항 제출 데이터 조회
+        ProblemSubmit problemSubmit = problemSubmitRepository.findByMemberIdAndPublishIdAndProblemIdElseThrow(memberId,
+                request.publishId(), request.problemId());
+        // 제출한 답안에 대한 상태 결정
+        ProblemSubmitStatus status = ProblemSubmitStatus.determineStatus(problemSubmit.getStatus(), request.answer(),
+                problem.getAnswer());
+
+        problemSubmit.updateStatus(status);
+        return status;
+    }
+
+    @Transactional
+    public void createChildProblemSubmit(ChildProblemSubmitCreateRequest request) {
+        Long memberId = 1L;
+
+        // 존재하는 발행인지 검증
+        publishRepository.existsByIdElseThrow(request.publishId());
         // 존재하는 문항인지 검증
         problemRepository.existsByIdElseThrow(request.problemId());
 

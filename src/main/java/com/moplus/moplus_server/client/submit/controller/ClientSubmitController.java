@@ -1,13 +1,16 @@
 package com.moplus.moplus_server.client.submit.controller;
 
+import com.moplus.moplus_server.client.submit.domain.ProblemSubmitStatus;
 import com.moplus.moplus_server.client.submit.dto.request.ChildProblemSubmitCreateRequest;
 import com.moplus.moplus_server.client.submit.dto.request.ProblemSubmitCreateRequest;
+import com.moplus.moplus_server.client.submit.dto.request.ProblemSubmitUpdateRequest;
 import com.moplus.moplus_server.client.submit.service.ClientSubmitService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +30,14 @@ public class ClientSubmitController {
             ) {
         clientSubmitService.createProblemSubmit(request);
         return ResponseEntity.ok(null);
+    }
+
+    @PutMapping("problemSubmit")
+    @Operation(summary = "문항 제출 업데이트", description = "제출한 답안을 바탕으로 문항 제출의 상태를 업데이트합니다.")
+    public ResponseEntity<ProblemSubmitStatus> updateProblemSubmit(
+            @RequestBody ProblemSubmitUpdateRequest request
+    ) {
+        return ResponseEntity.ok(clientSubmitService.updateProblemSubmit(request));
     }
 
     @PostMapping("childProblemSubmit")
