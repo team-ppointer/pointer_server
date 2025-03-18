@@ -2,6 +2,7 @@ package com.moplus.moplus_server.client.submit.controller;
 
 import com.moplus.moplus_server.client.submit.dto.response.AllProblemGetResponse;
 import com.moplus.moplus_server.client.submit.dto.response.CommentaryGetResponse;
+import com.moplus.moplus_server.client.submit.dto.response.ProblemClientGetResponse;
 import com.moplus.moplus_server.client.submit.service.ClientGetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -38,5 +39,14 @@ public class ClientGetController {
             @PathVariable int month
     ) {
         return ResponseEntity.ok(clientGetService.getAllProblem(year, month));
+    }
+
+    @GetMapping("problem/{publishId}/{problemId}")
+    @Operation(summary = "문항 조회", description = "사용자에게 보여지는 문항을 조회합니다.")
+    public ResponseEntity<ProblemClientGetResponse> getProblem(
+            @PathVariable Long publishId,
+            @PathVariable Long problemId
+    ) {
+        return ResponseEntity.ok(clientGetService.getProblem(publishId, problemId));
     }
 }

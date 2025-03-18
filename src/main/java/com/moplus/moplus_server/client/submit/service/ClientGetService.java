@@ -2,6 +2,8 @@ package com.moplus.moplus_server.client.submit.service;
 
 
 import com.moplus.moplus_server.admin.publish.domain.Publish;
+import com.moplus.moplus_server.client.submit.domain.ChildProblemSubmit;
+import com.moplus.moplus_server.client.submit.domain.ChildProblemSubmitStatus;
 import com.moplus.moplus_server.client.submit.domain.ProblemSubmit;
 import com.moplus.moplus_server.client.submit.domain.ProblemSubmitStatus;
 import com.moplus.moplus_server.client.submit.dto.response.AllProblemGetResponse;
@@ -9,9 +11,11 @@ import com.moplus.moplus_server.client.submit.dto.response.ChildProblemDetailRes
 import com.moplus.moplus_server.client.submit.dto.response.CommentaryGetResponse;
 import com.moplus.moplus_server.client.submit.dto.response.DayProgress;
 import com.moplus.moplus_server.client.submit.dto.response.PrescriptionResponse;
+import com.moplus.moplus_server.client.submit.dto.response.ProblemClientGetResponse;
 import com.moplus.moplus_server.client.submit.dto.response.ProblemDetailResponse;
 import com.moplus.moplus_server.client.submit.repository.ChildProblemSubmitRepository;
 import com.moplus.moplus_server.client.submit.repository.ProblemSubmitRepository;
+import com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.domain.problemset.repository.ProblemSetRepository;
@@ -115,5 +119,28 @@ public class ClientGetService {
                 .flatMap(problemRepository::findById)
                 .map(Problem::getMainProblemImageUrl)
                 .orElse(null);
+    }
+
+    @Transactional(readOnly = true)
+    public ProblemClientGetResponse getProblem(Long publishId, Long problemId) {
+        Long memberId = 1L;
+
+        Problem problem = problemRepository.findByIdElseThrow(problemId);
+
+        // 문항 제출 조회
+        ProblemSubmit problemSubmit = problemSubmitRepository.findByMemberIdAndPublishIdAndProblemIdElseThrow(memberId,
+                publishId, problemId);
+
+        // 새끼 문항 제출 상태 조회
+        List<Long> childProblemIds = problem.getChildProblems().stream()
+                .map(ChildProblem::getId)
+                .toList();
+
+        List<ChildProblemSubmitStatus> childProblemStatuses = childProblemSubmitRepository.findAllByMemberIdAndPublishIdAndChildProblemIdIn(
+                memberId, publishId, childProblemIds).stream()
+                .map(ChildProblemSubmit::getStatus)
+                .toList();
+
+        return ProblemClientGetResponse.of(problem, problemSubmit.getStatus(), childProblemStatuses);
     }
 }
