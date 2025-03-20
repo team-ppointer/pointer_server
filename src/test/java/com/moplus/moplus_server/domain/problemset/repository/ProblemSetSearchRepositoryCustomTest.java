@@ -3,11 +3,11 @@ package com.moplus.moplus_server.domain.problemset.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSetConfirmStatus;
-import com.moplus.moplus_server.domain.problemset.dto.response.ProblemSetSearchGetResponse;
-import com.moplus.moplus_server.domain.problemset.dto.response.ProblemThumbnailResponse;
+import com.moplus.moplus_server.admin.problemset.dto.response.ProblemSetSearchGetResponse;
+import com.moplus.moplus_server.admin.problemset.dto.response.ProblemThumbnailResponse;
 import com.moplus.moplus_server.domain.problemset.service.ProblemSetUpdateService;
-import com.moplus.moplus_server.domain.publish.dto.request.PublishPostRequest;
-import com.moplus.moplus_server.domain.publish.service.PublishSaveService;
+import com.moplus.moplus_server.admin.publish.dto.request.PublishPostRequest;
+import com.moplus.moplus_server.admin.publish.service.PublishSaveService;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
 package com.moplus.moplus_server.global.annotation;
 
-import com.moplus.moplus_server.domain.member.domain.Member;
-import com.moplus.moplus_server.domain.member.repository.MemberRepository;
+import com.moplus.moplus_server.member.domain.Member;
+import com.moplus.moplus_server.member.repository.MemberRepository;
 import com.moplus.moplus_server.global.error.exception.BusinessException;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;

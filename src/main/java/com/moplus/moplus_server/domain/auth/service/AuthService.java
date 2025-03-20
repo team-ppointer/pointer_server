@@ -1,8 +1,8 @@
 package com.moplus.moplus_server.domain.auth.service;
 
 import com.moplus.moplus_server.domain.auth.dto.response.TokenResponse;
-import com.moplus.moplus_server.domain.member.domain.Member;
-import com.moplus.moplus_server.domain.member.service.MemberService;
+import com.moplus.moplus_server.member.domain.Member;
+import com.moplus.moplus_server.member.service.MemberService;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.InvalidValueException;
 import com.moplus.moplus_server.global.security.exception.JwtInvalidException;

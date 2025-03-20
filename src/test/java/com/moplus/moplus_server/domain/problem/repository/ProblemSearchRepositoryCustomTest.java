@@ -2,7 +2,7 @@ package com.moplus.moplus_server.domain.problem.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.moplus.moplus_server.domain.problem.dto.response.ProblemSearchGetResponse;
+import com.moplus.moplus_server.admin.problem.dto.response.ProblemSearchGetResponse;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

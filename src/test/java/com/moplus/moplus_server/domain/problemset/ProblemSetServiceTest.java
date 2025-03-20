@@ -5,8 +5,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSet;
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSetConfirmStatus;
-import com.moplus.moplus_server.domain.problemset.dto.request.ProblemReorderRequest;
-import com.moplus.moplus_server.domain.problemset.dto.request.ProblemSetUpdateRequest;
+import com.moplus.moplus_server.admin.problemset.dto.request.ProblemReorderRequest;
+import com.moplus.moplus_server.admin.problemset.dto.request.ProblemSetUpdateRequest;
 import com.moplus.moplus_server.domain.problemset.repository.ProblemSetRepository;
 import com.moplus.moplus_server.domain.problemset.service.ProblemSetSaveService;
 import com.moplus.moplus_server.domain.problemset.service.ProblemSetUpdateService;

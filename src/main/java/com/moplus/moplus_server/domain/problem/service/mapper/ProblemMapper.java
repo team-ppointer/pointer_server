@@ -4,8 +4,8 @@ import com.moplus.moplus_server.domain.problem.domain.practiceTest.PracticeTestT
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemCustomId;
 import com.moplus.moplus_server.domain.problem.domain.problem.ProblemType;
-import com.moplus.moplus_server.domain.problem.dto.request.ProblemPostRequest;
-import com.moplus.moplus_server.domain.problem.dto.request.ProblemUpdateRequest;
+import com.moplus.moplus_server.admin.problem.dto.request.ProblemPostRequest;
+import com.moplus.moplus_server.admin.problem.dto.request.ProblemUpdateRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
