@@ -164,7 +164,6 @@ public class Problem extends BaseEntity {
 
     public boolean isValid() {
         return problemCustomId != null
-                && practiceTestId != null
                 && problemType != null
                 && title != null && !title.getTitle().isEmpty()
                 && answer != null && !answer.getValue().isEmpty()
