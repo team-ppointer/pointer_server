@@ -8,14 +8,11 @@ public enum ProblemSubmitStatus {
     public static ProblemSubmitStatus determineStatus(ProblemSubmitStatus currentStatus, String memberAnswer, String problemAnswer) {
         boolean isCorrect = problemAnswer.trim().equals(memberAnswer.trim());
 
-        if (currentStatus == CORRECT) {
-            return isCorrect ? CORRECT : INCORRECT;
-        } else if (currentStatus == INCORRECT) {
-            return isCorrect ? RETRY_CORRECT : INCORRECT;
-        } else if (currentStatus == IN_PROGRESS) {
-            return isCorrect ? CORRECT : INCORRECT;
-        } else {
-            return isCorrect ? RETRY_CORRECT : INCORRECT;
-        }
+        return switch (currentStatus) {
+            case CORRECT -> isCorrect ? CORRECT : INCORRECT;
+            case INCORRECT -> isCorrect ? RETRY_CORRECT : INCORRECT;
+            case IN_PROGRESS -> isCorrect ? CORRECT : INCORRECT;
+            default -> isCorrect ? RETRY_CORRECT : INCORRECT;
+        };
     }
 }
