@@ -15,9 +15,9 @@ public record ProblemClientGetResponse(
         ProblemSubmitStatus status,
         List<ChildProblemSubmitStatus> childProblemStatuses
 ) {
-    public static ProblemClientGetResponse of(Problem problem, ProblemSubmitStatus status, List<ChildProblemSubmitStatus> childProblemStatuses) {
+    public static ProblemClientGetResponse of(Problem problem, ProblemSubmitStatus status, List<ChildProblemSubmitStatus> childProblemStatuses, int number) {
         return ProblemClientGetResponse.builder()
-                .number(problem.getNumber())
+                .number(number)
                 .imageUrl(problem.getMainProblemImageUrl())
                 .status(status)
                 .childProblemStatuses(childProblemStatuses)

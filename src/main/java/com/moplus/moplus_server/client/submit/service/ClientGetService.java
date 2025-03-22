@@ -20,13 +20,16 @@ import com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.repository.ChildProblemRepository;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
+import com.moplus.moplus_server.domain.problemset.domain.ProblemSet;
 import com.moplus.moplus_server.domain.problemset.repository.ProblemSetRepository;
 import com.moplus.moplus_server.domain.publish.repository.PublishRepository;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.InvalidValueException;
+import com.moplus.moplus_server.global.error.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.undo.CannotUndoException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,8 +77,16 @@ public class ClientGetService {
         // 처방 정보 생성
         PrescriptionResponse prescription = PrescriptionResponse.of(childProblem, mainProblem);
 
+        // 문항 번호 추출
+        ProblemSet problemSet = problemSetRepository.findByIdElseThrow(publish.getProblemSetId());
+        List<Long> problemIds = problemSet.getProblemIds();
+        int number = problemIds.indexOf(problemId);
+        if (number == -1) {
+            throw new NotFoundException(ErrorCode.PROBLEM_NOT_FOUND_IN_PROBLEM_SET);
+        }
+
         return CommentaryGetResponse.of(
-                problem.getNumber(),
+                number + 1,
                 problem.getAnswer(),
                 problem.getMainAnalysisImageUrl(),
                 problem.getMainHandwritingExplanationImageUrl(),
@@ -138,6 +149,14 @@ public class ClientGetService {
         Publish publish = publishRepository.findByIdElseThrow(publishId);
         denyAccessToFuturePublish(publish);
 
+        // 문항 번호 추출
+        ProblemSet problemSet = problemSetRepository.findByIdElseThrow(publish.getProblemSetId());
+        List<Long> problemIds = problemSet.getProblemIds();
+        int number = problemIds.indexOf(problemId);
+        if (number == -1) {
+            throw new NotFoundException(ErrorCode.PROBLEM_NOT_FOUND_IN_PROBLEM_SET);
+        }
+
         // 문항조회
         Problem problem = problemRepository.findByIdElseThrow(problemId);
 
@@ -155,7 +174,7 @@ public class ClientGetService {
                 .map(ChildProblemSubmit::getStatus)
                 .toList();
 
-        return ProblemClientGetResponse.of(problem, problemSubmit.getStatus(), childProblemStatuses);
+        return ProblemClientGetResponse.of(problem, problemSubmit.getStatus(), childProblemStatuses, number + 1);
     }
 
     @Transactional(readOnly = true)
