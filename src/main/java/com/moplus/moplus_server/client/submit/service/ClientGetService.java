@@ -42,10 +42,13 @@ public class ClientGetService {
     private final ChildProblemSubmitRepository childProblemSubmitRepository;
     private final ChildProblemRepository childProblemRepository;
 
-
     @Transactional(readOnly = true)
     public CommentaryGetResponse getCommentary(Long publishId, Long problemId) {
         Long memberId = 1L;
+
+        // 발행 조회
+        Publish publish = publishRepository.findByIdElseThrow(publishId);
+        denyAccessToFuturePublish(publish);
 
         // 문항 제출 조회
         ProblemSubmit problemSubmit = problemSubmitRepository.findByMemberIdAndPublishIdAndProblemIdElseThrow(memberId,
@@ -93,7 +96,10 @@ public class ClientGetService {
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
 
         // 해당 월 모든 Publish 조회
-        List<Publish> publishes = publishRepository.findByPublishedDateBetween(startDate, endDate);
+        // 오늘 이후 발행이 있다면 필터링
+        List<Publish> publishes = publishRepository.findByPublishedDateBetween(startDate, endDate).stream()
+                .filter(publish -> !publish.getPublishedDate().isAfter(LocalDate.now()))
+                .toList();
 
         List<AllProblemGetResponse> result = new ArrayList<>();
 
@@ -104,7 +110,7 @@ public class ClientGetService {
             // 날짜별 사용자 제출 정보 조회
             List<ProblemSubmit> submissions = problemSubmitRepository.findByMemberIdAndPublishId(memberId, publishId);
             List<ProblemSubmitStatus> problemStatuses = submissions.stream()
-                    .map(ProblemSubmit::getStatus)
+                    .map(ProblemSubmit::getStatus )
                     .toList();
 
             // 사용자 제출 정보 바탕으로 진행도 결정
@@ -127,6 +133,10 @@ public class ClientGetService {
     @Transactional(readOnly = true)
     public ProblemClientGetResponse getProblem(Long publishId, Long problemId) {
         Long memberId = 1L;
+
+        // 발행 조회
+        Publish publish = publishRepository.findByIdElseThrow(publishId);
+        denyAccessToFuturePublish(publish);
 
         // 문항조회
         Problem problem = problemRepository.findByIdElseThrow(problemId);
@@ -152,6 +162,10 @@ public class ClientGetService {
     public ChildProblemClientGetResponse getChildProblem(Long publishId, Long problemId, Long childProblemId) {
         Long memberId = 1L;
 
+        // 발행 조회
+        Publish publish = publishRepository.findByIdElseThrow(publishId);
+        denyAccessToFuturePublish(publish);
+
         // 문항/새끼문항 조회
         Problem problem = problemRepository.findByIdElseThrow(problemId);
         ChildProblem childProblem = childProblemRepository.findByIdElseThrow(childProblemId);
@@ -169,5 +183,11 @@ public class ClientGetService {
         }
 
         return ChildProblemClientGetResponse.of(problem.getNumber(), sequence, childProblem.getImageUrl(), childProblemSubmit.getStatus());
+    }
+
+    private void denyAccessToFuturePublish(Publish publish){
+        if (publish.getPublishedDate().isAfter(LocalDate.now())) {
+            throw new InvalidValueException(ErrorCode.FUTURE_PUBLISH_NOT_ACCESSIBLE);
+        }
     }
 }
