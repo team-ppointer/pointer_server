@@ -24,6 +24,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 
 @Getter
 @Entity
@@ -34,6 +35,7 @@ public class ChildProblem extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "child_problem_id")
     Long id;
+    @BatchSize(size = 100)
     @ElementCollection
     @CollectionTable(name = "child_problem_concept", joinColumns = @JoinColumn(name = "child_problem_id"))
     @Column(name = "concept_tag_id")

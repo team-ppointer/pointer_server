@@ -25,19 +25,32 @@ public class ProblemSaveService {
 
     @Transactional
     public ProblemPostResponse createProblem(ProblemPostRequest request) {
-        Problem problem;
-        if (request.problemType() != ProblemType.CREATION_PROBLEM) {
-            PracticeTestTag practiceTestTag = practiceTestRepository.findByIdElseThrow(request.practiceTestId());
-            ProblemCustomId problemCustomId = problemAdminIdService.nextId(request.number(), practiceTestTag,
-                    request.problemType());
-
-            problem = problemMapper.from(request, problemCustomId, practiceTestTag);
-        } else {
-            ProblemCustomId problemCustomId = problemAdminIdService.nextId(request.problemType());
-            problem = problemMapper.from(request.problemType(), problemCustomId);
-        }
-
+        PracticeTestTag practiceTestTag = getPracticeTestTag(request);
+        ProblemCustomId problemCustomId = createProblemCustomId(request);
+        Problem problem = createProblem(request, problemCustomId, practiceTestTag);
+        
         return ProblemPostResponse.of(problemRepository.save(problem));
     }
 
+    private Problem createProblem(ProblemPostRequest request, ProblemCustomId problemCustomId, PracticeTestTag practiceTestTag) {
+        if (request.problemType().isCreationProblem()) {
+            return problemMapper.from(request, problemCustomId, practiceTestTag);
+        }
+        return problemMapper.from(request.problemType(), problemCustomId);
+    }
+
+    private ProblemCustomId createProblemCustomId(ProblemPostRequest request) {
+        if (request.problemType().requiresPracticeTest()) {
+            PracticeTestTag practiceTestTag = practiceTestRepository.findByIdElseThrow(request.practiceTestId());
+            return problemAdminIdService.nextId(request.number(), practiceTestTag, request.problemType());
+        }
+        return problemAdminIdService.nextId(request.problemType());
+    }
+
+    private PracticeTestTag getPracticeTestTag(ProblemPostRequest request) {
+        if (request.problemType().requiresPracticeTest()) {
+            return practiceTestRepository.findByIdElseThrow(request.practiceTestId());
+        }
+        return null;
+    }
 }

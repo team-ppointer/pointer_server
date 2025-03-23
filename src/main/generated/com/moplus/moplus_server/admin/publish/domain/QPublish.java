@@ -1,4 +1,4 @@
-package com.moplus.moplus_server.domain.publish.domain;
+package com.moplus.moplus_server.admin.publish.domain;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -15,7 +15,7 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QPublish extends EntityPathBase<Publish> {
 
-    private static final long serialVersionUID = 1565569153L;
+    private static final long serialVersionUID = 1641302032L;
 
     public static final QPublish publish = new QPublish("publish");
 
