@@ -25,4 +25,5 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
     default Problem findByIdElseThrow(Long id) {
         return findById(id).orElseThrow(() -> new NotFoundException(ErrorCode.PROBLEM_NOT_FOUND));
     }
+
 }
