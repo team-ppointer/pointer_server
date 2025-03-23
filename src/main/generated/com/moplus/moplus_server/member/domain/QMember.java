@@ -1,4 +1,4 @@
-package com.moplus.moplus_server.domain.member.domain;
+package com.moplus.moplus_server.member.domain;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -15,7 +15,7 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QMember extends EntityPathBase<Member> {
 
-    private static final long serialVersionUID = -705761779L;
+    private static final long serialVersionUID = -1541748259L;
 
     public static final QMember member = new QMember("member1");
 

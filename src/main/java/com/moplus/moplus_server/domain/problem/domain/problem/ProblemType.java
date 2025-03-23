@@ -13,4 +13,12 @@ public enum ProblemType {
 
     private final String name;
     private final int code;
+
+    public boolean isCreationProblem() {
+        return this == CREATION_PROBLEM;
+    }
+
+    public boolean requiresPracticeTest() {
+        return !isCreationProblem();
+    }
 }

@@ -37,4 +37,8 @@ public class ProblemSubmit extends BaseEntity {
         this.problemId = problemId;
         this.status = status;
     }
+
+    public void updateStatus(ProblemSubmitStatus status) {
+        this.status = status;
+    }
 }

@@ -1,7 +1,7 @@
 package com.moplus.moplus_server.domain.problem.service;
 
-import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.admin.problem.dto.response.ProblemGetResponse;
+import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class ProblemGetService {
 
     @Transactional(readOnly = true)
     public ProblemGetResponse getProblem(Long problemId) {
-        Problem problem = problemRepository.findByIdElseThrow(problemId);
+        Problem problem = problemRepository.findByIdWithFetchJoinElseThrow(problemId);
         return ProblemGetResponse.of(problem);
     }
 }
