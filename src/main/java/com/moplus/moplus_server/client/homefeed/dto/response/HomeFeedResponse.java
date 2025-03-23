@@ -2,6 +2,7 @@ package com.moplus.moplus_server.client.homefeed.dto.response;
 
 import com.moplus.moplus_server.admin.problemset.dto.response.ProblemSetGetResponse;
 import com.moplus.moplus_server.admin.problemset.dto.response.ProblemSummaryResponse;
+import com.moplus.moplus_server.client.submit.domain.ProgressStatus;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,10 +19,10 @@ public record HomeFeedResponse(
 
     public record DailyProgressResponse(
             LocalDate date,
-            double progressRate
+            ProgressStatus progressStatus
     ) {
-        public static DailyProgressResponse of(LocalDate date, double progressRate) {
-            return new DailyProgressResponse(date, progressRate);
+        public static DailyProgressResponse of(LocalDate date, ProgressStatus progressStatus) {
+            return new DailyProgressResponse(date, progressStatus);
         }
     }
 

@@ -6,6 +6,8 @@ import com.moplus.moplus_server.admin.publish.service.PublishGetService;
 import com.moplus.moplus_server.client.homefeed.dto.response.HomeFeedResponse;
 import com.moplus.moplus_server.client.homefeed.dto.response.HomeFeedResponse.DailyProgressResponse;
 import com.moplus.moplus_server.client.homefeed.dto.response.HomeFeedResponse.ProblemSetHomeFeedResponse;
+import com.moplus.moplus_server.client.submit.domain.ProgressStatus;
+import com.moplus.moplus_server.client.submit.service.ProblemSubmitGetService;
 import com.moplus.moplus_server.domain.problemset.service.ProblemSetGetService;
 import com.moplus.moplus_server.member.domain.Member;
 import com.moplus.moplus_server.statistic.Problem.domain.ProblemSetStatistic;
@@ -24,27 +26,41 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class HomeFeedFacadeService {
 
+    private static final LocalDate today = LocalDate.now();
+    private static final LocalDate monday = today.with(DayOfWeek.MONDAY);
+    private static final LocalDate friday = today.with(DayOfWeek.FRIDAY);
     private final ProblemSetStatisticRepository problemSetStatisticRepository;
     private final PublishGetService publishGetService;
     private final ProblemSetGetService problemSetGetService;
+    private final ProblemSubmitGetService problemSubmitGetService;
 
     @Transactional(readOnly = true)
     public HomeFeedResponse getHomeFeed(Member member) {
         Long memberId = member.getId();
 
-        List<DailyProgressResponse> dailyProgresses = new ArrayList<>(); // 다음 PR에서 구현
-        List<ProblemSetHomeFeedResponse> problemSets = getWeekdayProblemSets();
+        List<Publish> publishes = publishGetService.getPublishesBetweenDates(monday, friday);
+
+        List<DailyProgressResponse> dailyProgresses = getDailyProgresses(memberId, publishes);
+        List<ProblemSetHomeFeedResponse> problemSets = getWeekdayProblemSets(publishes);
 
         return HomeFeedResponse.of(dailyProgresses, problemSets);
     }
 
-    private List<ProblemSetHomeFeedResponse> getWeekdayProblemSets() {
-        LocalDate today = LocalDate.now();
-        LocalDate monday = today.with(DayOfWeek.MONDAY);
-        LocalDate friday = today.with(DayOfWeek.FRIDAY);
+    private List<DailyProgressResponse> getDailyProgresses(Long memberId, List<Publish> publishes) {
+        Map<LocalDate, ProgressStatus> progressStatuses = problemSubmitGetService.getProgressStatuses(memberId,
+                publishes);
 
-        // 월요일부터 금요일까지의 발행된 문제 세트 조회
-        List<Publish> publishes = publishGetService.getPublishesBetweenDates(monday, friday);
+        List<DailyProgressResponse> responses = new ArrayList<>();
+        for (LocalDate date = monday; !date.isAfter(friday); date = date.plusDays(1)) {
+            ProgressStatus status = progressStatuses.getOrDefault(date, ProgressStatus.NOT_STARTED);
+            responses.add(DailyProgressResponse.of(date, status));
+        }
+
+        return responses;
+    }
+
+    private List<ProblemSetHomeFeedResponse> getWeekdayProblemSets(List<Publish> publishes) {
+
         Map<LocalDate, Publish> publishByDate = publishes.stream()
                 .collect(Collectors.toMap(Publish::getPublishedDate, publish -> publish));
 
