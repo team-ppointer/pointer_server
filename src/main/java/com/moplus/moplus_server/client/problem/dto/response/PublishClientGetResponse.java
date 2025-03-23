@@ -11,11 +11,11 @@ public record PublishClientGetResponse(
         Long publishId,
         LocalDate date,
         String title,
-        List<ProblemClientGetResponse> problems
+        List<ProblemFeedProgressesGetResponse> problems
 ) {
 
     public static PublishClientGetResponse of(Publish publish, ProblemSet problemSet,
-                                              List<ProblemClientGetResponse> problems) {
+                                              List<ProblemFeedProgressesGetResponse> problems) {
         return PublishClientGetResponse.builder()
                 .publishId(publish.getId())
                 .date(publish.getPublishedDate())

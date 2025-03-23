@@ -5,6 +5,7 @@ import com.moplus.moplus_server.admin.publish.domain.Publish;
 import com.moplus.moplus_server.client.problem.dto.response.AllProblemGetResponse;
 import com.moplus.moplus_server.client.problem.dto.response.ChildProblemClientGetResponse;
 import com.moplus.moplus_server.client.problem.dto.response.ProblemClientGetResponse;
+import com.moplus.moplus_server.client.problem.dto.response.ProblemFeedProgressesGetResponse;
 import com.moplus.moplus_server.client.problem.dto.response.PublishClientGetResponse;
 import com.moplus.moplus_server.client.submit.domain.ChildProblemSubmit;
 import com.moplus.moplus_server.client.submit.domain.ChildProblemSubmitStatus;
@@ -53,7 +54,7 @@ public class ProblemsGetService {
         List<Long> problemIds = problemSet.getProblemIds();
         List<Problem> problems = problemRepository.findAllById(problemIds);
 
-        List<ProblemClientGetResponse> problemClientGetResponses = IntStream.range(0, problems.size())
+        List<ProblemFeedProgressesGetResponse> problemClientGetResponses = IntStream.range(0, problems.size())
                 .mapToObj(i -> getProblemStatus(memberId, publishId, problems.get(i).getId(), i + 1))
                 .toList();
 
@@ -181,7 +182,8 @@ public class ProblemsGetService {
         }
     }
 
-    private ProblemClientGetResponse getProblemStatus(Long memberId, Long publishId, Long problemId, int number) {
+    private ProblemFeedProgressesGetResponse getProblemStatus(Long memberId, Long publishId, Long problemId,
+                                                              int number) {
         // 문항 조회
         Problem problem = problemRepository.findByIdElseThrow(problemId);
 
@@ -210,6 +212,6 @@ public class ProblemsGetService {
             }
         }
 
-        return ProblemClientGetResponse.of(problem, problemStatus, childProblemStatuses, number);
+        return ProblemFeedProgressesGetResponse.of(problemStatus, childProblemStatuses, number);
     }
 }
