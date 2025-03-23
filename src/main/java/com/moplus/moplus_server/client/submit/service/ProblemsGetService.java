@@ -39,12 +39,14 @@ public class ProblemsGetService {
     private final ProblemSetRepository problemSetRepository;
     private final ChildProblemSubmitRepository childProblemSubmitRepository;
     private final ChildProblemRepository childProblemRepository;
+    private static final int MIN_MONTH = 1;
+    private static final int MAX_MONTH = 12;
 
     @Transactional(readOnly = true)
     public List<AllProblemGetResponse> getAllProblem(int year, int month) {
         Long memberId = 1L;
 
-        if (month < 1 || month > 12) {
+        if (month < MIN_MONTH || month > MAX_MONTH) {
             throw new InvalidValueException(ErrorCode.INVALID_MONTH_ERROR);
         }
         LocalDate startDate = LocalDate.of(year, month, 1);
