@@ -34,6 +34,7 @@ public enum ErrorCode {
     INVALID_SHORT_NUMBER_ANSWER(HttpStatus.BAD_REQUEST, "주관식 문항의 정답은 0~999 사이의 숫자여야 합니다"),
     INVALID_CONFIRM_PROBLEM(HttpStatus.BAD_REQUEST, "유효하지 않은 문항들 : "),
     INVALID_DIFFICULTY(HttpStatus.BAD_REQUEST, "난이도는 1~10 사이의 숫자여야 합니다"),
+    PROBLEM_NOT_FOUND_IN_PROBLEM_SET(HttpStatus.NOT_FOUND, "해당 날짜에 발행된 문항세트에 존재하는 문항이 아닙니다."),
 
     //새끼 문항
     CHILD_PROBLEM_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 새끼 문제를 찾을 수 없습니다"),
@@ -76,6 +77,13 @@ public enum ErrorCode {
     ALREADY_PUBLISHED_ERROR(HttpStatus.BAD_REQUEST, "이미 발행된 문항세트는 컨펌해제할 수 없습니다."),
     PROBLEM_SET_DELETED(HttpStatus.BAD_REQUEST, "삭제된 문항세트는 발행할 수 없습니다"),
     PROBLEM_SET_NOT_CONFIRMED(HttpStatus.BAD_REQUEST, "컨펌되지 않은 문항세트는 발행할 수 없습니다"),
+    FUTURE_PUBLISH_NOT_ACCESSIBLE(HttpStatus.BAD_REQUEST, "오늘 이후의 발행을 조회할 수 없습니다."),
+
+    // 문항 제출
+    PROBLEM_SUBMIT_NOT_CONFIRMED(HttpStatus.NOT_FOUND, "문항 제출 정보를 찾을 수 없습니다."),
+
+    // 새끼문항 제출
+    CHILD_PROBLEM_SUBMIT_NOT_CONFIRMED(HttpStatus.NOT_FOUND, "새끼문항 제출 정보를 찾을 수 없습니다."),
     ;
 
 
