@@ -1,14 +1,14 @@
 package com.moplus.moplus_server.domain.problemset.service;
 
+import com.moplus.moplus_server.admin.problemset.dto.response.ProblemSetGetResponse;
+import com.moplus.moplus_server.admin.problemset.dto.response.ProblemSummaryResponse;
+import com.moplus.moplus_server.admin.publish.domain.Publish;
 import com.moplus.moplus_server.domain.concept.domain.ConceptTag;
 import com.moplus.moplus_server.domain.concept.repository.ConceptTagRepository;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSet;
-import com.moplus.moplus_server.admin.problemset.dto.response.ProblemSetGetResponse;
-import com.moplus.moplus_server.admin.problemset.dto.response.ProblemSummaryResponse;
 import com.moplus.moplus_server.domain.problemset.repository.ProblemSetRepository;
-import com.moplus.moplus_server.admin.publish.domain.Publish;
 import com.moplus.moplus_server.domain.publish.repository.PublishRepository;
 import com.moplus.moplus_server.global.error.exception.BusinessException;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
@@ -54,5 +54,12 @@ public class ProblemSetGetService {
             problemSummaries.add(ProblemSummaryResponse.of(problem, tagNames));
         }
         return ProblemSetGetResponse.of(problemSet, publishedDates, problemSummaries);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ProblemSetGetResponse> getProblemSets(List<Long> problemSetIds) {
+        return problemSetIds.stream()
+                .map(this::getProblemSet)
+                .toList();
     }
 }

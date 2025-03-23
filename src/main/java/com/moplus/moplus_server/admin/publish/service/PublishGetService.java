@@ -1,13 +1,14 @@
 package com.moplus.moplus_server.admin.publish.service;
 
-import com.moplus.moplus_server.domain.problemset.domain.ProblemSet;
-import com.moplus.moplus_server.domain.problemset.repository.ProblemSetRepository;
 import com.moplus.moplus_server.admin.publish.domain.Publish;
 import com.moplus.moplus_server.admin.publish.dto.response.PublishMonthGetResponse;
 import com.moplus.moplus_server.admin.publish.dto.response.PublishProblemSetResponse;
+import com.moplus.moplus_server.domain.problemset.domain.ProblemSet;
+import com.moplus.moplus_server.domain.problemset.repository.ProblemSetRepository;
 import com.moplus.moplus_server.domain.publish.repository.PublishRepository;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.InvalidValueException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,7 @@ public class PublishGetService {
                 .collect(Collectors.toList());
     }
 
+
     private Map<Long, ProblemSet> getProblemSetMap(List<Publish> publishes) {
         List<Long> problemSetIds = publishes.stream()
                 .map(Publish::getProblemSetId)
@@ -61,5 +63,18 @@ public class PublishGetService {
                 publish,
                 PublishProblemSetResponse.of(problemSet)
         );
+    }
+
+    @Transactional(readOnly = true)
+    public List<Publish> getCurrentWeekPublishes() {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfWeek = today.with(DayOfWeek.MONDAY);
+        LocalDate endOfWeek = today.with(DayOfWeek.FRIDAY);
+
+        return getWeeklyPublishes(startOfWeek, endOfWeek);
+    }
+
+    private List<Publish> getWeeklyPublishes(LocalDate startDate, LocalDate endDate) {
+        return publishRepository.findByPublishedDateBetween(startDate, endDate);
     }
 }
