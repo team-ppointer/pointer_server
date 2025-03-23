@@ -137,15 +137,23 @@ public class ProblemsGetService {
         ChildProblemSubmit childProblemSubmit = childProblemSubmitRepository.findByMemberIdAndPublishIdAndChildProblemIdElseThrow(
                 memberId, publishId, childProblemId);
 
-        int sequence = 0;
+        int childProblemNumber = 0;
         for (int i = 0; i < problem.getChildProblems().size(); i++) {
             if (problem.getChildProblems().get(i).getId().equals(childProblemId)) {
-                sequence = i + 1;
+                childProblemNumber = i + 1;
                 break;
             }
         }
 
-        return ChildProblemClientGetResponse.of(problem.getNumber(), sequence, childProblem.getImageUrl(), childProblemSubmit.getStatus());
+        // 문항 번호 추출
+        ProblemSet problemSet = problemSetRepository.findByIdElseThrow(publish.getProblemSetId());
+        List<Long> problemIds = problemSet.getProblemIds();
+        int problemNumber = problemIds.indexOf(problemId);
+        if (problemNumber == -1) {
+            throw new NotFoundException(ErrorCode.PROBLEM_NOT_FOUND_IN_PROBLEM_SET);
+        }
+
+        return ChildProblemClientGetResponse.of(problemNumber + 1, childProblemNumber + 1, childProblem.getImageUrl(), childProblemSubmit.getStatus());
     }
 
     private void denyAccessToFuturePublish(Publish publish){

@@ -47,8 +47,7 @@ public class CommentaryGetService {
         // 문항 해설 생성
         Problem problem = problemRepository.findByIdElseThrow(problemId);
         ProblemDetailResponse mainProblem = ProblemDetailResponse.of(
-                problem.getMainProblemImageUrl(),
-                problem.getPrescriptionImageUrls(),
+                problem,
                 problemSubmit.getStatus()
         );
 
@@ -74,11 +73,7 @@ public class CommentaryGetService {
 
         return CommentaryGetResponse.of(
                 number + 1,
-                problem.getAnswer(),
-                problem.getMainAnalysisImageUrl(),
-                problem.getMainHandwritingExplanationImageUrl(),
-                problem.getReadingTipImageUrl(),
-                problem.getSeniorTipImageUrl(),
+                problem,
                 prescription
         );
     }
