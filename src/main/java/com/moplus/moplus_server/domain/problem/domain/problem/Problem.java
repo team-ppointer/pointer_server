@@ -165,12 +165,10 @@ public class Problem extends BaseEntity {
 
     public boolean isValid() {
         return problemCustomId != null
-                && practiceTestId != null
                 && problemType != null
                 && title != null && !title.getTitle().isEmpty()
                 && answer != null && !answer.getValue().isEmpty()
                 && difficulty != null && difficulty.getDifficulty() != null
-                && memo != null && !memo.isEmpty()
                 && mainProblemImageUrl != null && !mainProblemImageUrl.isEmpty()
                 && mainAnalysisImageUrl != null && !mainAnalysisImageUrl.isEmpty()
                 && mainHandwritingExplanationImageUrl != null && !mainHandwritingExplanationImageUrl.isEmpty()
@@ -180,7 +178,9 @@ public class Problem extends BaseEntity {
                 && prescriptionImageUrls.stream().allMatch(url -> url != null && !url.isEmpty())
                 && answerType != null
                 && conceptTagIds != null && !conceptTagIds.isEmpty()
-                && recommendedTime != null;
+                && recommendedTime != null
+                && recommendedTime.getMinute() != null && recommendedTime.getMinute() >= 0
+                && recommendedTime.getSecond() != null && recommendedTime.getSecond() >= 0;
     }
 
     public String getTitle() {
