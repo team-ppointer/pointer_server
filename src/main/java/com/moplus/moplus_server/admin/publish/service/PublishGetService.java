@@ -8,7 +8,6 @@ import com.moplus.moplus_server.domain.problemset.repository.ProblemSetRepositor
 import com.moplus.moplus_server.domain.publish.repository.PublishRepository;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.InvalidValueException;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -66,15 +65,7 @@ public class PublishGetService {
     }
 
     @Transactional(readOnly = true)
-    public List<Publish> getCurrentWeekPublishes() {
-        LocalDate today = LocalDate.now();
-        LocalDate startOfWeek = today.with(DayOfWeek.MONDAY);
-        LocalDate endOfWeek = today.with(DayOfWeek.FRIDAY);
-
-        return getWeeklyPublishes(startOfWeek, endOfWeek);
-    }
-
-    private List<Publish> getWeeklyPublishes(LocalDate startDate, LocalDate endDate) {
+    public List<Publish> getPublishesBetweenDates(LocalDate startDate, LocalDate endDate) {
         return publishRepository.findByPublishedDateBetween(startDate, endDate);
     }
 }

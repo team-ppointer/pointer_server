@@ -44,7 +44,7 @@ public class HomeFeedFacadeService {
         LocalDate friday = today.with(DayOfWeek.FRIDAY);
 
         // 월요일부터 금요일까지의 발행된 문제 세트 조회
-        List<Publish> publishes = publishGetService.getCurrentWeekPublishes();
+        List<Publish> publishes = publishGetService.getPublishesBetweenDates(monday, friday);
         Map<LocalDate, Publish> publishByDate = publishes.stream()
                 .collect(Collectors.toMap(Publish::getPublishedDate, publish -> publish));
 
