@@ -20,7 +20,7 @@ public class ChildProblemService {
         Problem problem = findAndValidateProblem(problemId);
         ChildProblem newChildProblem = ChildProblem.createEmptyChildProblem();
         problem.addChildProblem(newChildProblem);
-        
+        problemRepository.flush();
         return getCreatedChildProblemId(problem);
     }
 
