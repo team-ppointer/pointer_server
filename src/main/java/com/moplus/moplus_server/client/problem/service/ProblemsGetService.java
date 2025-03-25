@@ -217,7 +217,7 @@ public class ProblemsGetService {
     }
 
     @Transactional(readOnly = true)
-    public ProblemThumbnailResponse getProblemThumbnail(Long publishId, int number) {
+    public ProblemThumbnailResponse getProblemThumbnail(Long publishId, Long problemId) {
         // 발행 조회
         Publish publish = publishRepository.findByIdElseThrow(publishId);
         denyAccessToFuturePublish(publish);
@@ -226,14 +226,14 @@ public class ProblemsGetService {
         ProblemSet problemSet = problemSetRepository.findByIdElseThrow(publish.getProblemSetId());
         List<Long> problemIds = problemSet.getProblemIds();
 
-        int index = number - 1;
-        if (index < 0 || index >= problemIds.size()) {
-            throw new NotFoundException(ErrorCode.PROBLEM_NUMBER_NOT_FOUND);
+        // 문항 번호 추출
+        int problemNumber = problemIds.indexOf(problemId);
+        if (problemNumber == -1) {
+            throw new NotFoundException(ErrorCode.PROBLEM_NOT_FOUND_IN_PROBLEM_SET);
         }
 
         //문항 조회
-        Long problemId = problemIds.get(index);
         Problem problem = problemRepository.findByIdElseThrow(problemId);
-        return ProblemThumbnailResponse.of(number, problem);
+        return ProblemThumbnailResponse.of(problemNumber + 1, problem);
     }
 }

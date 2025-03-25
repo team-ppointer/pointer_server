@@ -67,12 +67,12 @@ public class ProblemGetController {
                 problemsGetService.getChildProblem(member.getId(), publishId, problemId, childProblemId));
     }
 
-    @GetMapping("problem/thumbnail/{publishId}/{number}")
+    @GetMapping("problem/thumbnail/{publishId}/{problemId}")
     @Operation(summary = "문항 썸네일 조회", description = "바로 풀어보기/단계별로 풀어보기 화면에서 필요한 문항을 조회합니다.")
     public ResponseEntity<ProblemThumbnailResponse> getProblemThumbnail(
             @PathVariable Long publishId,
-            @PathVariable int number
+            @PathVariable Long problemId
     ) {
-        return ResponseEntity.ok(problemsGetService.getProblemThumbnail(publishId, number));
+        return ResponseEntity.ok(problemsGetService.getProblemThumbnail(publishId, problemId));
     }
 }
