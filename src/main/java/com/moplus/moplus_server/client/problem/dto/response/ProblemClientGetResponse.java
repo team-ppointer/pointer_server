@@ -1,4 +1,4 @@
-package com.moplus.moplus_server.client.submit.dto.response;
+package com.moplus.moplus_server.client.problem.dto.response;
 
 import com.moplus.moplus_server.client.submit.domain.ChildProblemSubmitStatus;
 import com.moplus.moplus_server.client.submit.domain.ProblemSubmitStatus;
@@ -15,7 +15,8 @@ public record ProblemClientGetResponse(
         ProblemSubmitStatus status,
         List<ChildProblemSubmitStatus> childProblemStatuses
 ) {
-    public static ProblemClientGetResponse of(Problem problem, ProblemSubmitStatus status, List<ChildProblemSubmitStatus> childProblemStatuses, int number) {
+    public static ProblemClientGetResponse of(Problem problem, ProblemSubmitStatus status,
+                                              List<ChildProblemSubmitStatus> childProblemStatuses, int number) {
         return ProblemClientGetResponse.builder()
                 .number(number)
                 .imageUrl(problem.getMainProblemImageUrl())

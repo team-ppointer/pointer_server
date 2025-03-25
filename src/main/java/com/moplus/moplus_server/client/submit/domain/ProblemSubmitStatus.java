@@ -4,7 +4,9 @@ public enum ProblemSubmitStatus {
     CORRECT,
     INCORRECT,
     IN_PROGRESS,
-    RETRY_CORRECT;
+    RETRY_CORRECT,
+    NOT_STARTED,
+    ;
     public static ProblemSubmitStatus determineStatus(ProblemSubmitStatus currentStatus, String memberAnswer, String problemAnswer) {
         boolean isCorrect = problemAnswer.trim().equals(memberAnswer.trim());
 
@@ -12,6 +14,7 @@ public enum ProblemSubmitStatus {
             case CORRECT -> isCorrect ? CORRECT : INCORRECT;
             case INCORRECT -> isCorrect ? RETRY_CORRECT : INCORRECT;
             case IN_PROGRESS -> isCorrect ? CORRECT : INCORRECT;
+            case NOT_STARTED -> isCorrect ? CORRECT : INCORRECT;
             default -> isCorrect ? RETRY_CORRECT : INCORRECT;
         };
     }
