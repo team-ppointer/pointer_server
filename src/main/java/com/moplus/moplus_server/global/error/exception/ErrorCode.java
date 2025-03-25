@@ -35,6 +35,7 @@ public enum ErrorCode {
     INVALID_CONFIRM_PROBLEM(HttpStatus.BAD_REQUEST, "유효하지 않은 문항들 : "),
     INVALID_DIFFICULTY(HttpStatus.BAD_REQUEST, "난이도는 1~10 사이의 숫자여야 합니다"),
     PROBLEM_NOT_FOUND_IN_PROBLEM_SET(HttpStatus.NOT_FOUND, "해당 날짜에 발행된 문항세트에 존재하는 문항이 아닙니다."),
+    PROBLEM_NUMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "번호에 해당하는 문항을 찾을 수 없습니다."),
 
     //새끼 문항
     CHILD_PROBLEM_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 새끼 문제를 찾을 수 없습니다"),

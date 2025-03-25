@@ -6,6 +6,7 @@ import com.moplus.moplus_server.client.problem.dto.response.AllProblemGetRespons
 import com.moplus.moplus_server.client.problem.dto.response.ChildProblemClientGetResponse;
 import com.moplus.moplus_server.client.problem.dto.response.ProblemClientGetResponse;
 import com.moplus.moplus_server.client.problem.dto.response.ProblemFeedProgressesGetResponse;
+import com.moplus.moplus_server.client.problem.dto.response.ProblemThumbnailResponse;
 import com.moplus.moplus_server.client.problem.dto.response.PublishClientGetResponse;
 import com.moplus.moplus_server.client.submit.domain.ChildProblemSubmit;
 import com.moplus.moplus_server.client.submit.domain.ChildProblemSubmitStatus;
@@ -213,5 +214,26 @@ public class ProblemsGetService {
         }
 
         return ProblemFeedProgressesGetResponse.of(problemStatus, childProblemStatuses, number);
+    }
+
+    @Transactional(readOnly = true)
+    public ProblemThumbnailResponse getProblemThumbnail(Long publishId, int number) {
+        // 발행 조회
+        Publish publish = publishRepository.findByIdElseThrow(publishId);
+        denyAccessToFuturePublish(publish);
+
+        // 문항 세트 조회
+        ProblemSet problemSet = problemSetRepository.findByIdElseThrow(publish.getProblemSetId());
+        List<Long> problemIds = problemSet.getProblemIds();
+
+        int index = number - 1;
+        if (index < 0 || index >= problemIds.size()) {
+            throw new NotFoundException(ErrorCode.PROBLEM_NUMBER_NOT_FOUND);
+        }
+
+        //문항 조회
+        Long problemId = problemIds.get(index);
+        Problem problem = problemRepository.findByIdElseThrow(problemId);
+        return ProblemThumbnailResponse.of(number, problem);
     }
 }
