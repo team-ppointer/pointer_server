@@ -12,8 +12,9 @@ public interface ProblemSubmitRepository extends JpaRepository<ProblemSubmit, Lo
 
     Optional<ProblemSubmit> findByMemberIdAndPublishIdAndProblemId(Long memberId, Long publishId, Long problemId);
 
-    default ProblemSubmit findByMemberIdAndPublishIdAndProblemIdElseThrow(Long memberId, Long publishId, Long problemId) {
+    default ProblemSubmit findByMemberIdAndPublishIdAndProblemIdElseThrow(Long memberId, Long publishId,
+                                                                          Long problemId) {
         return findByMemberIdAndPublishIdAndProblemId(memberId, publishId, problemId).orElseThrow(
                 () -> new NotFoundException(ErrorCode.PROBLEM_SUBMIT_NOT_CONFIRMED));
     }
-}
+} 
