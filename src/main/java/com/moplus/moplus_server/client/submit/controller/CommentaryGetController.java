@@ -2,6 +2,8 @@ package com.moplus.moplus_server.client.submit.controller;
 
 import com.moplus.moplus_server.client.submit.dto.response.CommentaryGetResponse;
 import com.moplus.moplus_server.client.submit.service.CommentaryGetService;
+import com.moplus.moplus_server.global.annotation.AuthUser;
+import com.moplus.moplus_server.member.domain.Member;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +25,9 @@ public class CommentaryGetController {
     @Operation(summary = "해설 조회", description = "문항 별 해설/처방을 조회합니다.")
     public ResponseEntity<CommentaryGetResponse> getCommentary(
             @RequestParam(value = "publishId", required = false) Long publishId,
-            @RequestParam(value = "problemId", required = false) Long problemId
-    ) {
-        return ResponseEntity.ok(commentaryGetService.getCommentary(publishId, problemId));
+            @RequestParam(value = "problemId", required = false) Long problemId,
+            @AuthUser Member member
+            ) {
+        return ResponseEntity.ok(commentaryGetService.getCommentary(member.getId(), publishId, problemId));
     }
 }

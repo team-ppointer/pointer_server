@@ -1,6 +1,8 @@
 package com.moplus.moplus_server.client.submit.service;
 
 import com.moplus.moplus_server.admin.publish.domain.Publish;
+import com.moplus.moplus_server.client.submit.domain.ChildProblemSubmit;
+import com.moplus.moplus_server.client.submit.domain.ChildProblemSubmitStatus;
 import com.moplus.moplus_server.client.submit.domain.ProblemSubmit;
 import com.moplus.moplus_server.client.submit.dto.response.ChildProblemDetailResponse;
 import com.moplus.moplus_server.client.submit.dto.response.CommentaryGetResponse;
@@ -33,8 +35,7 @@ public class CommentaryGetService {
     private final ChildProblemSubmitRepository childProblemSubmitRepository;
 
     @Transactional(readOnly = true)
-    public CommentaryGetResponse getCommentary(Long publishId, Long problemId) {
-        Long memberId = 1L;
+    public CommentaryGetResponse getCommentary(Long memberId, Long publishId, Long problemId) {
 
         // 발행 조회
         Publish publish = publishRepository.findByIdElseThrow(publishId);
@@ -56,8 +57,10 @@ public class CommentaryGetService {
                 .map(cp -> ChildProblemDetailResponse.of(
                         cp.getImageUrl(),
                         cp.getPrescriptionImageUrls(),
-                        childProblemSubmitRepository.findByMemberIdAndPublishIdAndChildProblemIdElseThrow(memberId, publishId,
-                                cp.getId()).getStatus()
+                        childProblemSubmitRepository.findByMemberIdAndPublishIdAndChildProblemId(memberId, publishId,
+                                        cp.getId())
+                                .map(ChildProblemSubmit::getStatus)
+                                .orElse(ChildProblemSubmitStatus.NOT_STARTED)
                 )).toList();
 
         // 처방 정보 생성

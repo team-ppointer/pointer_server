@@ -34,8 +34,7 @@ public class ClientSubmitService {
     private final ChildProblemRepository childProblemRepository;
 
     @Transactional
-    public void createProblemSubmit(ProblemSubmitCreateRequest request) {
-        Long memberId = 1L;
+    public void createProblemSubmit(Long memberId, ProblemSubmitCreateRequest request) {
 
         // 존재하는 발행인지 검증
         publishRepository.existsByIdElseThrow(request.publishId());
@@ -52,8 +51,7 @@ public class ClientSubmitService {
     }
 
     @Transactional
-    public ProblemSubmitStatus updateProblemSubmit(ProblemSubmitUpdateRequest request) {
-        Long memberId = 1L;
+    public ProblemSubmitStatus updateProblemSubmit(Long memberId, ProblemSubmitUpdateRequest request) {
 
         // 존재하는 발행인지 검증
         publishRepository.existsByIdElseThrow(request.publishId());
@@ -73,8 +71,7 @@ public class ClientSubmitService {
     }
 
     @Transactional
-    public void createChildProblemSubmit(ChildProblemSubmitCreateRequest request) {
-        Long memberId = 1L;
+    public void createChildProblemSubmit(Long memberId, ChildProblemSubmitCreateRequest request) {
 
         // 존재하는 발행인지 검증
         publishRepository.existsByIdElseThrow(request.publishId());
@@ -115,8 +112,7 @@ public class ClientSubmitService {
     }
 
     @Transactional
-    public ChildProblemSubmitStatus updateChildProblemSubmit(ChildProblemSubmitUpdateRequest request) {
-        Long memberId = 1L;
+    public ChildProblemSubmitStatus updateChildProblemSubmit(Long memberId, ChildProblemSubmitUpdateRequest request) {
 
         // 존재하는 발행인지 검증
         publishRepository.existsByIdElseThrow(request.publishId());
@@ -136,8 +132,7 @@ public class ClientSubmitService {
     }
 
     @Transactional
-    public void updateChildProblemSubmitIncorrect(ChildProblemSubmitUpdateIncorrectRequest request) {
-        Long memberId = 1L;
+    public void updateChildProblemSubmitIncorrect(Long memberId, ChildProblemSubmitUpdateIncorrectRequest request) {
 
         // 존재하는 발행인지 검증
         publishRepository.existsByIdElseThrow(request.publishId());
