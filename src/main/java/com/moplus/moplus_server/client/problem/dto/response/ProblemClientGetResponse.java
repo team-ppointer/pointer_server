@@ -2,6 +2,7 @@ package com.moplus.moplus_server.client.problem.dto.response;
 
 import com.moplus.moplus_server.client.submit.domain.ChildProblemSubmitStatus;
 import com.moplus.moplus_server.client.submit.domain.ProblemSubmitStatus;
+import com.moplus.moplus_server.domain.problem.domain.problem.AnswerType;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import java.util.List;
 import lombok.Builder;
@@ -13,7 +14,8 @@ public record ProblemClientGetResponse(
         Integer recommendedMinute,
         Integer recommendedSecond,
         ProblemSubmitStatus status,
-        List<ChildProblemSubmitStatus> childProblemStatuses
+        List<ChildProblemSubmitStatus> childProblemStatuses,
+        AnswerType answerType
 ) {
     public static ProblemClientGetResponse of(Problem problem, ProblemSubmitStatus status,
                                               List<ChildProblemSubmitStatus> childProblemStatuses, int number) {
@@ -24,6 +26,7 @@ public record ProblemClientGetResponse(
                 .childProblemStatuses(childProblemStatuses)
                 .recommendedMinute(problem.getRecommendedTime().getMinute())
                 .recommendedSecond(problem.getRecommendedTime().getSecond())
+                .answerType(problem.getAnswerType())
                 .build();
     }
 }
