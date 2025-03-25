@@ -35,8 +35,7 @@ public class CommentaryGetService {
     private final ChildProblemSubmitRepository childProblemSubmitRepository;
 
     @Transactional(readOnly = true)
-    public CommentaryGetResponse getCommentary(Long publishId, Long problemId) {
-        Long memberId = 1L;
+    public CommentaryGetResponse getCommentary(Long memberId, Long publishId, Long problemId) {
 
         // 발행 조회
         Publish publish = publishRepository.findByIdElseThrow(publishId);

@@ -8,6 +8,8 @@ import com.moplus.moplus_server.client.submit.dto.request.ChildProblemSubmitUpda
 import com.moplus.moplus_server.client.submit.dto.request.ProblemSubmitCreateRequest;
 import com.moplus.moplus_server.client.submit.dto.request.ProblemSubmitUpdateRequest;
 import com.moplus.moplus_server.client.submit.service.ClientSubmitService;
+import com.moplus.moplus_server.global.annotation.AuthUser;
+import com.moplus.moplus_server.member.domain.Member;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -29,43 +31,48 @@ public class ClientSubmitController {
     @PostMapping("problemSubmit")
     @Operation(summary = "문항 제출 생성", description = "문항 제출을 '진행중'으로 생성합니다.")
     public ResponseEntity<Void> createProblemSubmit(
-            @RequestBody ProblemSubmitCreateRequest request
+            @RequestBody ProblemSubmitCreateRequest request,
+            @AuthUser Member member
             ) {
-        clientSubmitService.createProblemSubmit(request);
+        clientSubmitService.createProblemSubmit(member.getId(), request);
         return ResponseEntity.ok(null);
     }
 
     @PutMapping("problemSubmit")
     @Operation(summary = "문항 제출 업데이트", description = "제출한 답안을 바탕으로 문항 제출의 상태를 업데이트합니다.")
     public ResponseEntity<ProblemSubmitStatus> updateProblemSubmit(
-            @RequestBody ProblemSubmitUpdateRequest request
+            @RequestBody ProblemSubmitUpdateRequest request,
+            @AuthUser Member member
     ) {
-        return ResponseEntity.ok(clientSubmitService.updateProblemSubmit(request));
+        return ResponseEntity.ok(clientSubmitService.updateProblemSubmit(member.getId(), request));
     }
 
     @PostMapping("childProblemSubmit")
     @Operation(summary = "새끼문항 제출 생성", description = "문항에 속한 새끼문항들을 '시작전'으로 생성합니다.")
     public ResponseEntity<Void> createProblemSubmit(
-            @RequestBody ChildProblemSubmitCreateRequest request
+            @RequestBody ChildProblemSubmitCreateRequest request,
+            @AuthUser Member member
     ) {
-        clientSubmitService.createChildProblemSubmit(request);
+        clientSubmitService.createChildProblemSubmit(member.getId(), request);
         return ResponseEntity.ok(null);
     }
 
     @PutMapping("childProblemSubmit")
     @Operation(summary = "새끼문항 제출 업데이트", description = "제출한 답안을 바탕으로 문항 제출의 상태를 업데이트합니다.")
     public ResponseEntity<ChildProblemSubmitStatus> updateChildProblemSubmit(
-            @RequestBody ChildProblemSubmitUpdateRequest request
+            @RequestBody ChildProblemSubmitUpdateRequest request,
+            @AuthUser Member member
     ) {
-        return ResponseEntity.ok(clientSubmitService.updateChildProblemSubmit(request));
+        return ResponseEntity.ok(clientSubmitService.updateChildProblemSubmit(member.getId(), request));
     }
 
     @PutMapping("childProblemSubmit/incorrect")
     @Operation(summary = "새끼문항 제출 틀림 업데이트", description = "새끼문항 제출의 상태를 틀림으로 업데이트합니다.")
     public ResponseEntity<Void> updateChildProblemSubmitIncorrect(
-            @RequestBody ChildProblemSubmitUpdateIncorrectRequest request
+            @RequestBody ChildProblemSubmitUpdateIncorrectRequest request,
+            @AuthUser Member member
     ) {
-        clientSubmitService.updateChildProblemSubmitIncorrect(request);
+        clientSubmitService.updateChildProblemSubmitIncorrect(member.getId(), request);
         return ResponseEntity.ok(null);
     }
 }
