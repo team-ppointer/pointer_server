@@ -4,14 +4,14 @@ import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import lombok.Builder;
 
 @Builder
-public record ProblemThumbnailResponse(
+public record ProblemClientThumbnailResponse(
         int number,
         String imageUrl,
         Integer recommendedMinute,
         Integer recommendedSecond
 ) {
-    public static ProblemThumbnailResponse of(int number, Problem problem) {
-        return ProblemThumbnailResponse.builder()
+    public static ProblemClientThumbnailResponse of(int number, Problem problem) {
+        return ProblemClientThumbnailResponse.builder()
                 .number(number)
                 .imageUrl(problem.getMainProblemImageUrl())
                 .recommendedMinute(problem.getRecommendedTime().getMinute())

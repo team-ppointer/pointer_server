@@ -4,6 +4,7 @@ import com.moplus.moplus_server.admin.publish.domain.Publish;
 import com.moplus.moplus_server.client.submit.domain.ChildProblemSubmit;
 import com.moplus.moplus_server.client.submit.domain.ChildProblemSubmitStatus;
 import com.moplus.moplus_server.client.submit.domain.ProblemSubmit;
+import com.moplus.moplus_server.client.submit.domain.ProblemSubmitStatus;
 import com.moplus.moplus_server.client.submit.dto.response.ChildProblemDetailResponse;
 import com.moplus.moplus_server.client.submit.dto.response.CommentaryGetResponse;
 import com.moplus.moplus_server.client.submit.dto.response.PrescriptionResponse;
@@ -44,6 +45,10 @@ public class CommentaryGetService {
         // 문항 제출 조회
         ProblemSubmit problemSubmit = problemSubmitRepository.findByMemberIdAndPublishIdAndProblemIdElseThrow(memberId,
                 publishId, problemId);
+        if (problemSubmit.getStatus() == ProblemSubmitStatus.IN_PROGRESS
+                || problemSubmit.getStatus() == ProblemSubmitStatus.NOT_STARTED) {
+            throw new InvalidValueException(ErrorCode.PROBLEM_SUBMIT_NOT_COMPLETED);
+        }
 
         // 문항 해설 생성
         Problem problem = problemRepository.findByIdElseThrow(problemId);

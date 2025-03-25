@@ -6,7 +6,7 @@ import com.moplus.moplus_server.client.problem.dto.response.AllProblemGetRespons
 import com.moplus.moplus_server.client.problem.dto.response.ChildProblemClientGetResponse;
 import com.moplus.moplus_server.client.problem.dto.response.ProblemClientGetResponse;
 import com.moplus.moplus_server.client.problem.dto.response.ProblemFeedProgressesGetResponse;
-import com.moplus.moplus_server.client.problem.dto.response.ProblemThumbnailResponse;
+import com.moplus.moplus_server.client.problem.dto.response.ProblemClientThumbnailResponse;
 import com.moplus.moplus_server.client.problem.dto.response.PublishClientGetResponse;
 import com.moplus.moplus_server.client.submit.domain.ChildProblemSubmit;
 import com.moplus.moplus_server.client.submit.domain.ChildProblemSubmitStatus;
@@ -217,7 +217,7 @@ public class ProblemsGetService {
     }
 
     @Transactional(readOnly = true)
-    public ProblemThumbnailResponse getProblemThumbnail(Long publishId, Long problemId) {
+    public ProblemClientThumbnailResponse getProblemThumbnail(Long publishId, Long problemId) {
         // 발행 조회
         Publish publish = publishRepository.findByIdElseThrow(publishId);
         denyAccessToFuturePublish(publish);
@@ -234,6 +234,6 @@ public class ProblemsGetService {
 
         //문항 조회
         Problem problem = problemRepository.findByIdElseThrow(problemId);
-        return ProblemThumbnailResponse.of(problemNumber + 1, problem);
+        return ProblemClientThumbnailResponse.of(problemNumber + 1, problem);
     }
 }

@@ -87,6 +87,7 @@ public enum ErrorCode {
 
     // 문항 제출
     PROBLEM_SUBMIT_NOT_CONFIRMED(HttpStatus.NOT_FOUND, "문항 제출 정보를 찾을 수 없습니다."),
+    PROBLEM_SUBMIT_NOT_COMPLETED(HttpStatus.BAD_REQUEST, "문항 제출을 완료해야 해설을 조회할 수 있습니다."),
 
     // 새끼문항 제출
     CHILD_PROBLEM_SUBMIT_NOT_CONFIRMED(HttpStatus.NOT_FOUND, "새끼문항 제출 정보를 찾을 수 없습니다."),

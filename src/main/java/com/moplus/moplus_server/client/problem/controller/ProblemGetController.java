@@ -3,7 +3,7 @@ package com.moplus.moplus_server.client.problem.controller;
 import com.moplus.moplus_server.client.problem.dto.response.AllProblemGetResponse;
 import com.moplus.moplus_server.client.problem.dto.response.ChildProblemClientGetResponse;
 import com.moplus.moplus_server.client.problem.dto.response.ProblemClientGetResponse;
-import com.moplus.moplus_server.client.problem.dto.response.ProblemThumbnailResponse;
+import com.moplus.moplus_server.client.problem.dto.response.ProblemClientThumbnailResponse;
 import com.moplus.moplus_server.client.problem.dto.response.PublishClientGetResponse;
 import com.moplus.moplus_server.client.problem.service.ProblemsGetService;
 import com.moplus.moplus_server.global.annotation.AuthUser;
@@ -69,7 +69,7 @@ public class ProblemGetController {
 
     @GetMapping("problem/thumbnail/{publishId}/{problemId}")
     @Operation(summary = "문항 썸네일 조회", description = "바로 풀어보기/단계별로 풀어보기 화면에서 필요한 문항을 조회합니다.")
-    public ResponseEntity<ProblemThumbnailResponse> getProblemThumbnail(
+    public ResponseEntity<ProblemClientThumbnailResponse> getProblemThumbnail(
             @PathVariable Long publishId,
             @PathVariable Long problemId
     ) {
