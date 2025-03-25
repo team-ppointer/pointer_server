@@ -7,14 +7,14 @@ import lombok.Builder;
 
 @Builder
 public record ProblemFeedProgressesGetResponse(
-        int number,
+        Long problemId,
         ProblemSubmitStatus status,
         List<ChildProblemSubmitStatus> childProblemStatuses
 ) {
     public static ProblemFeedProgressesGetResponse of(ProblemSubmitStatus status,
-                                                      List<ChildProblemSubmitStatus> childProblemStatuses, int number) {
+                                                      List<ChildProblemSubmitStatus> childProblemStatuses, Long problemId) {
         return ProblemFeedProgressesGetResponse.builder()
-                .number(number)
+                .problemId(problemId)
                 .status(status)
                 .childProblemStatuses(childProblemStatuses)
                 .build();

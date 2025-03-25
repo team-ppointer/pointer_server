@@ -55,8 +55,8 @@ public class ProblemsGetService {
         List<Long> problemIds = problemSet.getProblemIds();
         List<Problem> problems = problemRepository.findAllById(problemIds);
 
-        List<ProblemFeedProgressesGetResponse> problemClientGetResponses = IntStream.range(0, problems.size())
-                .mapToObj(i -> getProblemStatus(memberId, publishId, problems.get(i).getId(), i + 1))
+        List<ProblemFeedProgressesGetResponse> problemClientGetResponses = problems.stream()
+                .map(problem -> getProblemStatus(memberId, publishId, problem.getId()))
                 .toList();
 
         return PublishClientGetResponse.of(publish, problemSet, problemClientGetResponses);
@@ -183,8 +183,7 @@ public class ProblemsGetService {
         }
     }
 
-    private ProblemFeedProgressesGetResponse getProblemStatus(Long memberId, Long publishId, Long problemId,
-                                                              int number) {
+    private ProblemFeedProgressesGetResponse getProblemStatus(Long memberId, Long publishId, Long problemId) {
         // 문항 조회
         Problem problem = problemRepository.findByIdElseThrow(problemId);
 
@@ -213,7 +212,7 @@ public class ProblemsGetService {
             }
         }
 
-        return ProblemFeedProgressesGetResponse.of(problemStatus, childProblemStatuses, number);
+        return ProblemFeedProgressesGetResponse.of(problemStatus, childProblemStatuses, problemId);
     }
 
     @Transactional(readOnly = true)
