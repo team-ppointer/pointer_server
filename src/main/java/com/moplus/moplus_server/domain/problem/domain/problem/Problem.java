@@ -180,7 +180,8 @@ public class Problem extends BaseEntity {
                 && conceptTagIds != null && !conceptTagIds.isEmpty()
                 && recommendedTime != null
                 && recommendedTime.getMinute() != null && recommendedTime.getMinute() >= 0
-                && recommendedTime.getSecond() != null && recommendedTime.getSecond() >= 0;
+                && recommendedTime.getSecond() != null && recommendedTime.getSecond() >= 0
+                && childProblems.stream().allMatch(ChildProblem::isValid);
     }
 
     public String getTitle() {

@@ -93,4 +93,13 @@ public class ChildProblem extends BaseEntity {
     public String getAnswer() {
         return answer.getValue();
     }
+
+    public boolean isValid() {
+        return imageUrl != null && !imageUrl.isEmpty()
+                && answer != null && !answer.getValue().isEmpty()
+                && answerType != null
+                && conceptTagIds != null && !conceptTagIds.isEmpty()
+                && prescriptionImageUrls != null && !prescriptionImageUrls.isEmpty()
+                && prescriptionImageUrls.stream().allMatch(url -> url != null && !url.isEmpty());
+    }
 }
