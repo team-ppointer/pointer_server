@@ -28,16 +28,17 @@ public record HomeFeedResponse(
 
     public record ProblemSetHomeFeedResponse(
             LocalDate date,
-            Long problemSetId,
+            Long publishId,
             String title,
             Long submitCount,
             ProblemHomeFeedResponse problemHomeFeedResponse
     ) {
-        public static ProblemSetHomeFeedResponse of(LocalDate date, ProblemSetGetResponse problemSetGetResponse,
+        public static ProblemSetHomeFeedResponse of(LocalDate date, Long publishId,
+                                                    ProblemSetGetResponse problemSetGetResponse,
                                                     Long submitCount) {
             return new ProblemSetHomeFeedResponse(
                     date,
-                    problemSetGetResponse.id(),
+                    publishId,
                     problemSetGetResponse.title(),
                     submitCount,
                     ProblemHomeFeedResponse.of(problemSetGetResponse.problemSummaries().get(0))

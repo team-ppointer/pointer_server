@@ -80,7 +80,7 @@ public class HomeFeedFacadeService {
                 Long submitCount = problemSetStatisticRepository.findById(problemSet.id())
                         .map(ProblemSetStatistic::getSubmitCount)
                         .orElse(0L);
-                responses.add(ProblemSetHomeFeedResponse.of(date, problemSet, submitCount));
+                responses.add(ProblemSetHomeFeedResponse.of(date, publish.getId(), problemSet, submitCount));
             } else {
                 responses.add(ProblemSetHomeFeedResponse.of(date));
             }
