@@ -2,6 +2,7 @@ package com.moplus.moplus_server.client.problem.dto.response;
 
 import com.moplus.moplus_server.client.submit.domain.ChildProblemSubmitStatus;
 import com.moplus.moplus_server.client.submit.domain.ProblemSubmitStatus;
+import com.moplus.moplus_server.domain.problem.domain.Answer;
 import com.moplus.moplus_server.domain.problem.domain.problem.AnswerType;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import jakarta.validation.constraints.NotNull;
@@ -23,7 +24,9 @@ public record ProblemClientGetResponse(
         @NotNull(message = "새끼문항제출 상태는 필수입니다.")
         List<ChildProblemSubmitStatus> childProblemStatuses,
         @NotNull(message = "답변타입은 필수입니다.")
-        AnswerType answerType
+        AnswerType answerType,
+        @NotNull(message = "정답은 필수입니다.")
+        String answer
 ) {
     public static ProblemClientGetResponse of(Problem problem, ProblemSubmitStatus status,
                                               List<ChildProblemSubmitStatus> childProblemStatuses, int number) {
@@ -35,6 +38,8 @@ public record ProblemClientGetResponse(
                 .recommendedMinute(problem.getRecommendedTime().getMinute())
                 .recommendedSecond(problem.getRecommendedTime().getSecond())
                 .answerType(problem.getAnswerType())
+                .answer(status == ProblemSubmitStatus.CORRECT || status == ProblemSubmitStatus.RETRY_CORRECT
+                        ? problem.getAnswer() : null)
                 .build();
     }
 }
