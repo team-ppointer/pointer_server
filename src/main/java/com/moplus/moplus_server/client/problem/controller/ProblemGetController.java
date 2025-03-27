@@ -2,6 +2,7 @@ package com.moplus.moplus_server.client.problem.controller;
 
 import com.moplus.moplus_server.client.problem.dto.response.AllProblemGetResponse;
 import com.moplus.moplus_server.client.problem.dto.response.ChildProblemClientGetResponse;
+import com.moplus.moplus_server.client.problem.dto.response.ChildProblemsClientGetResponse;
 import com.moplus.moplus_server.client.problem.dto.response.ProblemClientGetResponse;
 import com.moplus.moplus_server.client.problem.dto.response.ProblemClientThumbnailResponse;
 import com.moplus.moplus_server.client.problem.dto.response.PublishClientGetResponse;
@@ -74,5 +75,14 @@ public class ProblemGetController {
             @PathVariable Long problemId
     ) {
         return ResponseEntity.ok(problemsGetService.getProblemThumbnail(publishId, problemId));
+    }
+
+    @GetMapping("problem/child/{publishId}/{problemId}")
+    @Operation(summary = "문항에 포함된 새끼문항 정보 조회", description = "단계별로 풀어보기 이후 화면들에서 필요한 정보들을 조회합니다.")
+    public ResponseEntity<ChildProblemsClientGetResponse> getChildProblems(
+            @PathVariable Long publishId,
+            @PathVariable Long problemId
+    ) {
+        return ResponseEntity.ok(problemsGetService.getChildProblems(publishId, problemId));
     }
 }
