@@ -101,13 +101,15 @@ public class ClientSubmitService {
 
             Optional<ChildProblemSubmit> existingChildProblemSubmit = childProblemSubmitRepository.findByMemberIdAndPublishIdAndChildProblemId(memberId,
                     request.publishId(), childProblemId);
-            ChildProblemSubmit childProblemSubmit = ChildProblemSubmit.builder()
-                    .memberId(memberId)
-                    .publishId(request.publishId())
-                    .childProblemId(childProblemId)
-                    .status(ChildProblemSubmitStatus.NOT_STARTED)
-                    .build();
-            childProblemSubmitRepository.save(childProblemSubmit);
+            if (existingChildProblemSubmit.isEmpty()) {
+                ChildProblemSubmit childProblemSubmit = ChildProblemSubmit.builder()
+                        .memberId(memberId)
+                        .publishId(request.publishId())
+                        .childProblemId(childProblemId)
+                        .status(ChildProblemSubmitStatus.NOT_STARTED)
+                        .build();
+                childProblemSubmitRepository.save(childProblemSubmit);
+            }
         }
     }
 
