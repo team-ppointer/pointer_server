@@ -7,6 +7,7 @@ import com.moplus.moplus_server.client.submit.dto.request.ChildProblemSubmitUpda
 import com.moplus.moplus_server.client.submit.dto.request.ChildProblemSubmitUpdateRequest;
 import com.moplus.moplus_server.client.submit.dto.request.ProblemSubmitCreateRequest;
 import com.moplus.moplus_server.client.submit.dto.request.ProblemSubmitUpdateRequest;
+import com.moplus.moplus_server.client.submit.dto.response.ChildProblemSubmitUpdateResponse;
 import com.moplus.moplus_server.client.submit.service.ClientSubmitService;
 import com.moplus.moplus_server.global.annotation.AuthUser;
 import com.moplus.moplus_server.member.domain.Member;
@@ -59,7 +60,7 @@ public class ClientSubmitController {
 
     @PutMapping("childProblemSubmit")
     @Operation(summary = "새끼문항 제출 업데이트", description = "제출한 답안을 바탕으로 문항 제출의 상태를 업데이트합니다.")
-    public ResponseEntity<ChildProblemSubmitStatus> updateChildProblemSubmit(
+    public ResponseEntity<ChildProblemSubmitUpdateResponse> updateChildProblemSubmit(
             @RequestBody ChildProblemSubmitUpdateRequest request,
             @AuthUser Member member
     ) {

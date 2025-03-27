@@ -10,6 +10,7 @@ import com.moplus.moplus_server.client.submit.dto.request.ChildProblemSubmitUpda
 import com.moplus.moplus_server.client.submit.dto.request.ChildProblemSubmitUpdateRequest;
 import com.moplus.moplus_server.client.submit.dto.request.ProblemSubmitCreateRequest;
 import com.moplus.moplus_server.client.submit.dto.request.ProblemSubmitUpdateRequest;
+import com.moplus.moplus_server.client.submit.dto.response.ChildProblemSubmitUpdateResponse;
 import com.moplus.moplus_server.client.submit.repository.ChildProblemSubmitRepository;
 import com.moplus.moplus_server.client.submit.repository.ProblemSubmitRepository;
 import com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem;
@@ -114,7 +115,7 @@ public class ClientSubmitService {
     }
 
     @Transactional
-    public ChildProblemSubmitStatus updateChildProblemSubmit(Long memberId, ChildProblemSubmitUpdateRequest request) {
+    public ChildProblemSubmitUpdateResponse updateChildProblemSubmit(Long memberId, ChildProblemSubmitUpdateRequest request) {
 
         // 존재하는 발행인지 검증
         publishRepository.existsByIdElseThrow(request.publishId());
@@ -130,7 +131,7 @@ public class ClientSubmitService {
                 childProblem.getAnswer());
 
         childProblemSubmit.updateStatus(status);
-        return status;
+        return ChildProblemSubmitUpdateResponse.of(status, childProblem.getAnswer());
     }
 
     @Transactional
