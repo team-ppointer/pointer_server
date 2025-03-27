@@ -1,6 +1,8 @@
 package com.moplus.moplus_server.client.problem.dto.response;
 
 import com.moplus.moplus_server.client.submit.domain.ChildProblemSubmitStatus;
+import com.moplus.moplus_server.domain.problem.domain.childProblem.ChildProblem;
+import com.moplus.moplus_server.domain.problem.domain.problem.AnswerType;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
@@ -13,16 +15,19 @@ public record ChildProblemClientGetResponse(
         @NotNull(message = "이미지URL은 필수입니다.")
         String imageUrl,
         @NotNull(message = "새끼문항 제출상태는 필수입니다.")
-        ChildProblemSubmitStatus status
+        ChildProblemSubmitStatus status,
+        @NotNull(message = "답변타입은 필수입니다.")
+        AnswerType answerType
 ) {
-    public static ChildProblemClientGetResponse of(int problemNumber, int childProblemNumber, String imageUrl,
+    public static ChildProblemClientGetResponse of(int problemNumber, int childProblemNumber, ChildProblem childProblem,
                                                    ChildProblemSubmitStatus status
     ) {
         return ChildProblemClientGetResponse.builder()
                 .problemNumber(problemNumber)
                 .childProblemNumber(childProblemNumber)
-                .imageUrl(imageUrl)
+                .imageUrl(childProblem.getImageUrl())
                 .status(status)
+                .answerType(childProblem.getAnswerType())
                 .build();
     }
 }

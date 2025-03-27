@@ -174,7 +174,7 @@ public class ProblemsGetService {
             throw new NotFoundException(ErrorCode.PROBLEM_NOT_FOUND_IN_PROBLEM_SET);
         }
 
-        return ChildProblemClientGetResponse.of(problemNumber + 1, childProblemNumber + 1, childProblem.getImageUrl(),
+        return ChildProblemClientGetResponse.of(problemNumber + 1, childProblemNumber + 1, childProblem,
                 childProblemSubmit.getStatus());
     }
 
