@@ -1,12 +1,12 @@
 package com.moplus.moplus_server.global.config.security;
 
-import com.moplus.moplus_server.member.service.MemberService;
 import com.moplus.moplus_server.global.security.filter.EmailPasswordAuthenticationFilter;
 import com.moplus.moplus_server.global.security.filter.JwtAuthenticationFilter;
 import com.moplus.moplus_server.global.security.handler.EmailPasswordSuccessHandler;
 import com.moplus.moplus_server.global.security.provider.EmailPasswordAuthenticationProvider;
 import com.moplus.moplus_server.global.security.provider.JwtTokenProvider;
 import com.moplus.moplus_server.global.security.utils.JwtUtil;
+import com.moplus.moplus_server.member.service.MemberService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,7 +37,7 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
 
     private String[] allowUrls = {"/", "/favicon.ico", "/swagger-ui/**", "/v3/**", "/actuator/**",
-            "/api/v1/auth/reissue"};
+            "/api/v1/auth/oauth/**", "/api/v1/auth/reissue"};
 
     @Value("${cors-allowed-origins}")
     private List<String> corsAllowedOrigins;

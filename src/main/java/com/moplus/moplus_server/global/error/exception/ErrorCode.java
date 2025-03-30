@@ -23,6 +23,8 @@ public enum ErrorCode {
     AT_EXPIRED_AND_RT_NOT_FOUND(HttpStatus.UNAUTHORIZED, "AT는 만료되었고 RT는 비어있습니다."),
     RT_NOT_FOUND(HttpStatus.UNAUTHORIZED, "RT가 비어있습니다"),
     INVALID_PRINCIPAL(HttpStatus.UNAUTHORIZED, "잘못된 Principal입니다"),
+    INVALID_PROVIDER_TYPE(HttpStatus.BAD_REQUEST, "유효하지 않은 제공자 타입입니다"),
+    KAKAO_TOKEN_CLIENT_FAILED(HttpStatus.UNAUTHORIZED, "카카오 토큰 클라이언트 요청에 실패했습니다"),
 
     //모의고사
     PRACTICE_TEST_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 모의고사를 찾을 수 없습니다"),

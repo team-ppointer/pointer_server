@@ -1,12 +1,16 @@
 package com.moplus.moplus_server.domain.auth.service;
 
+import com.moplus.moplus_server.domain.auth.dto.response.LoginResponse;
 import com.moplus.moplus_server.domain.auth.dto.response.TokenResponse;
-import com.moplus.moplus_server.member.domain.Member;
-import com.moplus.moplus_server.member.service.MemberService;
+import com.moplus.moplus_server.domain.auth.dto.response.oauth.OauthUserInfoResponse;
+import com.moplus.moplus_server.domain.auth.service.kakao.KakaoClient;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.InvalidValueException;
 import com.moplus.moplus_server.global.security.exception.JwtInvalidException;
 import com.moplus.moplus_server.global.security.utils.JwtUtil;
+import com.moplus.moplus_server.member.domain.Member;
+import com.moplus.moplus_server.member.domain.OauthInfo;
+import com.moplus.moplus_server.member.service.MemberService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -20,8 +24,29 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthService {
 
+    private final KakaoClient kakaoClient;
     private final JwtUtil jwtUtil;
     private final MemberService memberService;
+
+    @Transactional
+    public LoginResponse socialLogin(String socialAccessToken, String provider) {
+        OauthUserInfoResponse oauthUserInfoResponse = getOauthUserInfo(socialAccessToken, OAuthProvider.from(provider));
+        OauthInfo oauthInfo = oauthUserInfoResponse.toEntity();
+
+        Member member = memberService.getMemberByOAuthInfo(oauthInfo);
+
+        String newAccessToken = jwtUtil.generateAccessToken(member);
+        String newRefreshToken = jwtUtil.generateRefreshToken(member);
+
+        return LoginResponse.of(member, new TokenResponse(newAccessToken, newRefreshToken));
+    }
+
+    private OauthUserInfoResponse getOauthUserInfo(String socialAccessToken, OAuthProvider provider) {
+        return switch (provider) {
+            case APPLE -> null; //TODO: Apple OAuth
+            case KAKAO -> kakaoClient.getOauthUserInfo(socialAccessToken);
+        };
+    }
 
     @Transactional
     public TokenResponse reissueToken(String refreshToken) {
