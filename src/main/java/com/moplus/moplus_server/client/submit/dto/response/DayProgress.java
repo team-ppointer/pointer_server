@@ -11,11 +11,18 @@ public enum DayProgress {
         if (problemStatuses.isEmpty()) {
             return INCOMPLETE;
         }
-        else if (problemStatuses.contains(ProblemSubmitStatus.IN_PROGRESS)) {
-            return IN_PROGRESS;
-        }
-        else{
+        boolean allNotStarted = problemStatuses.stream()
+                .allMatch(status -> status == ProblemSubmitStatus.NOT_STARTED);
+
+        boolean allFinished = problemStatuses.stream()
+                .allMatch(status -> status == ProblemSubmitStatus.CORRECT || status == ProblemSubmitStatus.INCORRECT);
+
+        if (allNotStarted) {
+            return INCOMPLETE;
+        } else if (allFinished) {
             return COMPLETE;
+        } else {
+            return IN_PROGRESS;
         }
     }
 }
