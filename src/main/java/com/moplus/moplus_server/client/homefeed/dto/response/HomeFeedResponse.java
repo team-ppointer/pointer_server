@@ -1,0 +1,70 @@
+package com.moplus.moplus_server.client.homefeed.dto.response;
+
+import com.moplus.moplus_server.admin.problemset.dto.response.ProblemSetGetResponse;
+import com.moplus.moplus_server.admin.problemset.dto.response.ProblemSummaryResponse;
+import com.moplus.moplus_server.client.submit.domain.ProgressStatus;
+import java.time.LocalDate;
+import java.util.List;
+
+public record HomeFeedResponse(
+        List<DailyProgressResponse> dailyProgresses,
+        List<ProblemSetHomeFeedResponse> problemSets
+) {
+    public static HomeFeedResponse of(
+            List<DailyProgressResponse> dailyProgresses,
+            List<ProblemSetHomeFeedResponse> problemSets
+    ) {
+        return new HomeFeedResponse(dailyProgresses, problemSets);
+    }
+
+    public record DailyProgressResponse(
+            LocalDate date,
+            ProgressStatus progressStatus
+    ) {
+        public static DailyProgressResponse of(LocalDate date, ProgressStatus progressStatus) {
+            return new DailyProgressResponse(date, progressStatus);
+        }
+    }
+
+    public record ProblemSetHomeFeedResponse(
+            LocalDate date,
+            Long publishId,
+            String title,
+            Long submitCount,
+            ProblemHomeFeedResponse problemHomeFeedResponse
+    ) {
+        public static ProblemSetHomeFeedResponse of(LocalDate date, Long publishId,
+                                                    ProblemSetGetResponse problemSetGetResponse,
+                                                    Long submitCount) {
+            return new ProblemSetHomeFeedResponse(
+                    date,
+                    publishId,
+                    problemSetGetResponse.title(),
+                    submitCount,
+                    ProblemHomeFeedResponse.of(problemSetGetResponse.problemSummaries().get(0))
+            );
+        }
+
+        public static ProblemSetHomeFeedResponse of(LocalDate date) {
+            return new ProblemSetHomeFeedResponse(
+                    date,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+        }
+    }
+
+    public record ProblemHomeFeedResponse(
+            Long problemId,
+            String mainProblemImageUrl
+    ) {
+        public static ProblemHomeFeedResponse of(ProblemSummaryResponse problemSummaryResponse) {
+            return new ProblemHomeFeedResponse(
+                    problemSummaryResponse.problemId(),
+                    problemSummaryResponse.mainProblemImageUrl()
+            );
+        }
+    }
+} 

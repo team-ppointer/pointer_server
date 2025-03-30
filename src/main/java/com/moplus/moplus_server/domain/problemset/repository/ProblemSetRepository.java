@@ -16,6 +16,7 @@ public interface ProblemSetRepository extends JpaRepository<ProblemSet, Long> {
     default void validatePublishableProblemSet(Long problemSetId) {
         ProblemSet problemSet = findByIdElseThrow(problemSetId);
 
+        //이거 soft delete 어노테이션으로 자동화 해야함(리팩토링 필요)
         if (problemSet.isDeleted()) {
             throw new InvalidValueException(ErrorCode.PROBLEM_SET_DELETED);
         }

@@ -48,11 +48,12 @@ INSERT INTO child_problem (child_problem_id,
                            image_url,
                            answer_type,
                            answer,
-                           sequence)
-VALUES (1, 1, 'child1.png', 'MULTIPLE_CHOICE', '1', 0),
-       (2, 1, 'child2.png', 'SHORT_ANSWER', '정답2', 1),
-       (3, 2, 'child3.png', 'MULTIPLE_CHOICE', '2', 0),
-       (4, 3, 'child4.png', 'SHORT_ANSWER', '3', 0);
+                           sequence,
+                           prescription_image_urls)
+VALUES (1, 1, 'child1.png', 'MULTIPLE_CHOICE', '1', 0, 'child1_prescription1.png, child1_prescription2.png'),
+       (2, 1, 'child2.png', 'SHORT_ANSWER', '정답2', 1, 'child2_prescription1.png, child2_prescription2.png'),
+       (3, 2, 'child3.png', 'MULTIPLE_CHOICE', '2', 0, 'child3_prescription1.png, child3_prescription2.png'),
+       (4, 3, 'child4.png', 'SHORT_ANSWER', '3', 0, 'child4_prescription1.png, child4_prescription2.png');
 
 -- 문제-컨셉 태그 연결
 INSERT INTO problem_concept (problem_id, concept_tag_id)
@@ -74,7 +75,7 @@ VALUES (1, 1),
        (4, 1),
        (4, 4);
 
--- 유효하지 않은 문제 데이터 삽입
+-- 유효하지 않은 문제 데이터를 유효한 데이터로 수정
 INSERT INTO problem (problem_id,
                      problem_custom_id,
                      practice_test_id,
@@ -94,7 +95,25 @@ INSERT INTO problem (problem_id,
                      is_confirmed,
                      recommended_minute,
                      recommended_second)
-VALUES (4, '24052001004', 1, 4, 'GICHUL_PROBLEM', '', '', 1, '유효하지 않은 문제 설명',
-        '', 'mainAnalysis4.png', '', 'readingTip4.png', 'seniorTip4.png',
-        '', 'MULTIPLE_CHOICE', false,
-        null, null);
+VALUES (4, '24052001004', 1, 4, 'GICHUL_PROBLEM', '제목4', '4', 1, '유효한 문제로 수정',
+        'mainProblem4.png', 'mainAnalysis4.png', 'mainHandwriting4.png', 'readingTip4.png', 'seniorTip4.png',
+        'prescription7.png, prescription8.png', 'MULTIPLE_CHOICE', false,
+        20, 0);
+
+-- problem 4에 대한 자식 문제 추가
+INSERT INTO child_problem (child_problem_id,
+                           problem_id,
+                           image_url,
+                           answer_type,
+                           answer,
+                           sequence)
+VALUES (5, 4, 'child5.png', 'MULTIPLE_CHOICE', '4', 0);
+
+-- problem 4와 자식 문제에 대한 컨셉 태그 추가
+INSERT INTO problem_concept (problem_id, concept_tag_id)
+VALUES (4, 1),
+       (4, 3);
+
+INSERT INTO child_problem_concept (child_problem_id, concept_tag_id)
+VALUES (5, 2),
+       (5, 3);

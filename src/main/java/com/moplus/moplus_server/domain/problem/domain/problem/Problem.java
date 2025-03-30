@@ -60,6 +60,7 @@ public class Problem extends BaseEntity {
     @Convert(converter = StringListConverter.class)
     @Column(columnDefinition = "TEXT")
     List<String> prescriptionImageUrls;
+
     @ElementCollection
     @CollectionTable(name = "problem_concept", joinColumns = @JoinColumn(name = "problem_id"))
     @Column(name = "concept_tag_id")
@@ -179,7 +180,8 @@ public class Problem extends BaseEntity {
                 && conceptTagIds != null && !conceptTagIds.isEmpty()
                 && recommendedTime != null
                 && recommendedTime.getMinute() != null && recommendedTime.getMinute() >= 0
-                && recommendedTime.getSecond() != null && recommendedTime.getSecond() >= 0;
+                && recommendedTime.getSecond() != null && recommendedTime.getSecond() >= 0
+                && childProblems.stream().allMatch(ChildProblem::isValid);
     }
 
     public String getTitle() {

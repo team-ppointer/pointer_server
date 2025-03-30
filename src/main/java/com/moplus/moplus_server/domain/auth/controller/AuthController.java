@@ -2,6 +2,7 @@ package com.moplus.moplus_server.domain.auth.controller;
 
 import com.moplus.moplus_server.domain.auth.dto.request.AdminLoginRequest;
 import com.moplus.moplus_server.domain.auth.dto.response.AccessTokenResponse;
+import com.moplus.moplus_server.domain.auth.dto.response.LoginResponse;
 import com.moplus.moplus_server.domain.auth.dto.response.TokenResponse;
 import com.moplus.moplus_server.domain.auth.service.AuthService;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
@@ -17,7 +18,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -38,6 +41,21 @@ public class AuthController implements AuthControllerDocs {
                 .map(Cookie::getValue)
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException(ErrorCode.BLANK_INPUT_VALUE));
+    }
+
+    @Override
+    @PostMapping("/oauth/social-login")
+    public ResponseEntity<LoginResponse> socialLogin(
+            @RequestHeader("social_access_token") String accessToken,
+            @RequestParam("provider") String provider,
+            HttpServletResponse response
+    ) {
+        LoginResponse loginResponse = authService.socialLogin(accessToken, provider);
+
+        Cookie refreshTokenCookie = cookieUtil.createCookie(loginResponse.refreshToken());
+        response.addCookie(refreshTokenCookie);
+
+        return ResponseEntity.ok(loginResponse);
     }
 
     @Override

@@ -3,11 +3,12 @@ spring:
     active: ${profile}
     group:
       local: "local, datasource"
-      dev: "dev"
-      prod: "prod"
+      dev: "dev, datasource"
+      prod: "prod, datasource"
     include:
       - aws
       - security
+      - server
   mvc:
     ignore-default-favicon: true
 

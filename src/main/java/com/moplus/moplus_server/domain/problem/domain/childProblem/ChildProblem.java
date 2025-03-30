@@ -24,6 +24,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 
 @Getter
 @Entity
@@ -34,6 +35,7 @@ public class ChildProblem extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "child_problem_id")
     Long id;
+    @BatchSize(size = 100)
     @ElementCollection
     @CollectionTable(name = "child_problem_concept", joinColumns = @JoinColumn(name = "child_problem_id"))
     @Column(name = "concept_tag_id")
@@ -90,5 +92,14 @@ public class ChildProblem extends BaseEntity {
 
     public String getAnswer() {
         return answer.getValue();
+    }
+
+    public boolean isValid() {
+        return imageUrl != null && !imageUrl.isEmpty()
+                && answer != null && !answer.getValue().isEmpty()
+                && answerType != null
+                && conceptTagIds != null && !conceptTagIds.isEmpty()
+                && prescriptionImageUrls != null && !prescriptionImageUrls.isEmpty()
+                && prescriptionImageUrls.stream().allMatch(url -> url != null && !url.isEmpty());
     }
 }

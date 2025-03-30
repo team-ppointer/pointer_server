@@ -1,12 +1,12 @@
 package com.moplus.moplus_server.global.config.security;
 
-import com.moplus.moplus_server.member.service.MemberService;
 import com.moplus.moplus_server.global.security.filter.EmailPasswordAuthenticationFilter;
 import com.moplus.moplus_server.global.security.filter.JwtAuthenticationFilter;
 import com.moplus.moplus_server.global.security.handler.EmailPasswordSuccessHandler;
 import com.moplus.moplus_server.global.security.provider.EmailPasswordAuthenticationProvider;
 import com.moplus.moplus_server.global.security.provider.JwtTokenProvider;
 import com.moplus.moplus_server.global.security.utils.JwtUtil;
+import com.moplus.moplus_server.member.service.MemberService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,7 +37,7 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
 
     private String[] allowUrls = {"/", "/favicon.ico", "/swagger-ui/**", "/v3/**", "/actuator/**",
-            "/api/v1/auth/reissue"};
+            "/api/v1/auth/oauth/**", "/api/v1/auth/reissue"};
 
     @Value("${cors-allowed-origins}")
     private List<String> corsAllowedOrigins;
@@ -120,8 +120,17 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(corsAllowedOrigins);
         configuration.addAllowedMethod("*");
-        configuration.setAllowedHeaders(List.of("*")); // 허용할 헤더
+        configuration.setAllowedHeaders(List.of(
+                "Authorization",
+                "Content-Type",
+                "social_access_token",
+                "X-Requested-With"
+        ));
         configuration.setAllowCredentials(true);
+        configuration.setExposedHeaders(List.of(
+                "Authorization",
+                "Set-Cookie"
+        ));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration); // 모든 경로에 적용

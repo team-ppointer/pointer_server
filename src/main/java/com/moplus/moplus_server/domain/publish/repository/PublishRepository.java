@@ -15,4 +15,10 @@ public interface PublishRepository extends JpaRepository<Publish, Long> {
     }
 
     List<Publish> findByProblemSetId(Long problemSetId);
+
+    default void existsByIdElseThrow(Long id) {
+        if (!existsById(id)) {
+            throw new NotFoundException(ErrorCode.PUBLISH_NOT_FOUND);
+        }
+    }
 }

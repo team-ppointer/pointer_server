@@ -2,6 +2,7 @@ package com.moplus.moplus_server.member.domain;
 
 import com.moplus.moplus_server.global.common.BaseEntity;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -30,12 +31,23 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private MemberRole role;
 
+    @Embedded
+    private OauthInfo oauthInfo;
+
     @Builder
-    public Member(String name, String email, String password, MemberRole role) {
+    public Member(String name, String email, String password, MemberRole role, OauthInfo oauthInfo) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.oauthInfo = oauthInfo;
+    }
+
+    public static Member createDefaultOAuthMember(OauthInfo oauthInfo) {
+        return Member.builder()
+                .role(MemberRole.USER)
+                .oauthInfo(oauthInfo)
+                .build();
     }
 
     public boolean isMatchingPassword(String password) {
