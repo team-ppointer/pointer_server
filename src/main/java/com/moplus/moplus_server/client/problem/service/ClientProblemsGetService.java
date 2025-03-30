@@ -6,8 +6,8 @@ import com.moplus.moplus_server.client.problem.dto.response.AllProblemGetRespons
 import com.moplus.moplus_server.client.problem.dto.response.ChildProblemClientGetResponse;
 import com.moplus.moplus_server.client.problem.dto.response.ChildProblemsClientGetResponse;
 import com.moplus.moplus_server.client.problem.dto.response.ProblemClientGetResponse;
-import com.moplus.moplus_server.client.problem.dto.response.ProblemFeedProgressesGetResponse;
 import com.moplus.moplus_server.client.problem.dto.response.ProblemClientThumbnailResponse;
+import com.moplus.moplus_server.client.problem.dto.response.ProblemFeedProgressesGetResponse;
 import com.moplus.moplus_server.client.problem.dto.response.PublishClientGetResponse;
 import com.moplus.moplus_server.client.submit.domain.ChildProblemSubmit;
 import com.moplus.moplus_server.client.submit.domain.ChildProblemSubmitStatus;
@@ -29,14 +29,13 @@ import com.moplus.moplus_server.global.error.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class ProblemsGetService {
+public class ClientProblemsGetService {
 
     private static final int MIN_MONTH = 1;
     private static final int MAX_MONTH = 12;
@@ -134,10 +133,8 @@ public class ProblemsGetService {
                 .map(ChildProblem::getId)
                 .toList();
 
-        List<ChildProblemSubmitStatus> childProblemStatuses = childProblemSubmitRepository.findAllByMemberIdAndPublishIdAndChildProblemIdIn(
-                        memberId, publishId, childProblemIds).stream()
-                .map(ChildProblemSubmit::getStatus)
-                .toList();
+        List<ChildProblemSubmitStatus> childProblemStatuses = childProblemSubmitRepository
+                .findAllChildProblemSubmitStatusWithDefault(memberId, publishId, childProblemIds);
 
         return ProblemClientGetResponse.of(problem, problemSubmit.getStatus(), childProblemStatuses, number + 1);
     }

@@ -6,7 +6,7 @@ import com.moplus.moplus_server.client.problem.dto.response.ChildProblemsClientG
 import com.moplus.moplus_server.client.problem.dto.response.ProblemClientGetResponse;
 import com.moplus.moplus_server.client.problem.dto.response.ProblemClientThumbnailResponse;
 import com.moplus.moplus_server.client.problem.dto.response.PublishClientGetResponse;
-import com.moplus.moplus_server.client.problem.service.ProblemsGetService;
+import com.moplus.moplus_server.client.problem.service.ClientProblemsGetService;
 import com.moplus.moplus_server.global.annotation.AuthUser;
 import com.moplus.moplus_server.member.domain.Member;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ProblemGetController {
 
-    private final ProblemsGetService problemsGetService;
+    private final ClientProblemsGetService clientProblemsGetService;
 
     @GetMapping("problem/all/{year}/{month}")
     @Operation(summary = "전체 문제 조회", description = "월별 문제들에 대한 진행도와 정보들을 조회합니다.")
@@ -34,7 +34,7 @@ public class ProblemGetController {
             @PathVariable("month") int month,
             @AuthUser Member member
     ) {
-        return ResponseEntity.ok(problemsGetService.getAllProblem(member.getId(), year, month));
+        return ResponseEntity.ok(clientProblemsGetService.getAllProblem(member.getId(), year, month));
     }
 
     @GetMapping("problem/{publishId}")
@@ -43,7 +43,7 @@ public class ProblemGetController {
             @PathVariable("publishId") Long publishId,
             @AuthUser Member member
     ) {
-        return ResponseEntity.ok(problemsGetService.getProblemsInPublish(member.getId(), publishId));
+        return ResponseEntity.ok(clientProblemsGetService.getProblemsInPublish(member.getId(), publishId));
     }
 
     @GetMapping("problem/{publishId}/{problemId}")
@@ -53,7 +53,7 @@ public class ProblemGetController {
             @PathVariable("problemId") Long problemId,
             @AuthUser Member member
     ) {
-        return ResponseEntity.ok(problemsGetService.getProblem(member.getId(), publishId, problemId));
+        return ResponseEntity.ok(clientProblemsGetService.getProblem(member.getId(), publishId, problemId));
     }
 
     @GetMapping("problem/{publishId}/{problemId}/{childProblemId}")
@@ -65,7 +65,7 @@ public class ProblemGetController {
             @AuthUser Member member
     ) {
         return ResponseEntity.ok(
-                problemsGetService.getChildProblem(member.getId(), publishId, problemId, childProblemId));
+                clientProblemsGetService.getChildProblem(member.getId(), publishId, problemId, childProblemId));
     }
 
     @GetMapping("problem/thumbnail/{publishId}/{problemId}")
@@ -74,7 +74,7 @@ public class ProblemGetController {
             @PathVariable Long publishId,
             @PathVariable Long problemId
     ) {
-        return ResponseEntity.ok(problemsGetService.getProblemThumbnail(publishId, problemId));
+        return ResponseEntity.ok(clientProblemsGetService.getProblemThumbnail(publishId, problemId));
     }
 
     @GetMapping("problem/child/{publishId}/{problemId}")
@@ -83,6 +83,6 @@ public class ProblemGetController {
             @PathVariable Long publishId,
             @PathVariable Long problemId
     ) {
-        return ResponseEntity.ok(problemsGetService.getChildProblems(publishId, problemId));
+        return ResponseEntity.ok(clientProblemsGetService.getChildProblems(publishId, problemId));
     }
 }
