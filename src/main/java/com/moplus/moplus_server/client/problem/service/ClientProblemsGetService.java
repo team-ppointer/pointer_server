@@ -29,6 +29,8 @@ import com.moplus.moplus_server.global.error.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,11 +85,23 @@ public class ClientProblemsGetService {
             Long publishId = publish.getId();
             LocalDate date = publish.getPublishedDate();
 
-            // 날짜별 사용자 제출 정보 조회
+            // 문항세트의 전체 문제 목록 조회
+            ProblemSet problemSet = problemSetRepository.findByIdElseThrow(publish.getProblemSetId());
+            List<Long> problemIds = problemSet.getProblemIds();
+
+            // 사용자 제출 정보 조회
             List<ProblemSubmit> submissions = problemSubmitRepository.findByMemberIdAndPublishId(memberId, publishId);
-            List<ProblemSubmitStatus> problemStatuses = submissions.stream()
-                    .map(ProblemSubmit::getStatus)
+            Map<Long, ProblemSubmitStatus> submitStatusMap = submissions.stream()
+                    .collect(Collectors.toMap(
+                            ProblemSubmit::getProblemId,
+                            ProblemSubmit::getStatus
+                    ));
+
+            // 모든 문항에 대해 상태 리스트 구성
+            List<ProblemSubmitStatus> problemStatuses = problemIds.stream()
+                    .map(id -> submitStatusMap.getOrDefault(id, ProblemSubmitStatus.NOT_STARTED))
                     .toList();
+
 
             // 사용자 제출 정보 바탕으로 진행도 결정
             DayProgress progress = DayProgress.determineDayProgress(problemStatuses);
