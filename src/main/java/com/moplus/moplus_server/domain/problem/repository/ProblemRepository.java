@@ -25,7 +25,8 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
     Optional<Problem> findByIdWithFetchJoin(@Param("id") Long id);
 
     default Problem findByIdElseThrow(Long id) {
-        return findById(id).orElseThrow(() -> new NotFoundException(ErrorCode.PROBLEM_NOT_FOUND));
+        return findById(id).orElseThrow(
+                () -> new NotFoundException(ErrorCode.PROBLEM_NOT_FOUND, id + "번 문제가 존재하지 않습니다."));
     }
 
     default Problem findByIdWithFetchJoinElseThrow(Long id) {
