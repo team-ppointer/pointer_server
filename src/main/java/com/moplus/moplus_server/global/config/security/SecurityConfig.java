@@ -120,8 +120,17 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(corsAllowedOrigins);
         configuration.addAllowedMethod("*");
-        configuration.setAllowedHeaders(List.of("*")); // 허용할 헤더
+        configuration.setAllowedHeaders(List.of(
+                "Authorization",
+                "Content-Type",
+                "social_access_token",
+                "X-Requested-With"
+        ));
         configuration.setAllowCredentials(true);
+        configuration.setExposedHeaders(List.of(
+                "Authorization",
+                "Set-Cookie"
+        ));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration); // 모든 경로에 적용
