@@ -25,9 +25,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.SoftDelete;
 
 @Getter
 @Entity
+@SoftDelete
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChildProblem extends BaseEntity {
 
