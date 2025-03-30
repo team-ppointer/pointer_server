@@ -15,7 +15,6 @@ public class ProblemSetDeleteService {
     @Transactional
     public void deleteProblemSet(Long problemSetId) {
         ProblemSet problemSet = problemSetRepository.findByIdElseThrow(problemSetId);
-        problemSet.deleteProblemSet();
     }
 
 }
