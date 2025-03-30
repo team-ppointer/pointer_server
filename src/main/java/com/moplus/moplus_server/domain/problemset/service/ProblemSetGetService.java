@@ -16,6 +16,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,7 @@ public class ProblemSetGetService {
     private final ProblemRepository problemRepository;
     private final ConceptTagRepository conceptTagRepository;
     private final PublishRepository publishRepository;
+    Logger log = LoggerFactory.getLogger(ProblemSetRepository.class);
 
     @Transactional(readOnly = true)
     public ProblemSetGetResponse getProblemSet(Long problemSetId) {
@@ -54,6 +57,7 @@ public class ProblemSetGetService {
 
     @Transactional(readOnly = true)
     public List<ProblemSetGetResponse> getProblemSets(List<Long> problemSetIds) {
+        problemSetIds.forEach((id) -> log.atInfo().log("set id: " + id + "을 조회합니다."));
         return problemSetIds.stream()
                 .map(this::getProblemSet)
                 .toList();
