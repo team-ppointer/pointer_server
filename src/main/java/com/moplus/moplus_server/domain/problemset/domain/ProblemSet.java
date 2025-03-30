@@ -23,10 +23,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SoftDelete;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SoftDelete
 public class ProblemSet extends BaseEntity {
 
     @Id
@@ -36,9 +38,6 @@ public class ProblemSet extends BaseEntity {
 
     @Embedded
     private Title title;
-
-    @Column(nullable = false)
-    private boolean isDeleted;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -53,7 +52,6 @@ public class ProblemSet extends BaseEntity {
     @Builder
     public ProblemSet(String title, List<Long> problemIds) {
         this.title = new Title(title);
-        this.isDeleted = false;
         this.confirmStatus = ProblemSetConfirmStatus.NOT_CONFIRMED;
         this.problemIds = problemIds;
     }
@@ -67,10 +65,6 @@ public class ProblemSet extends BaseEntity {
 
     public void updateProblemOrder(List<Long> newProblems) {
         this.problemIds = new ArrayList<>(newProblems);
-    }
-
-    public void deleteProblemSet() {
-        this.isDeleted = true;
     }
 
     public void toggleConfirm(List<Problem> problems) {
@@ -111,4 +105,5 @@ public class ProblemSet extends BaseEntity {
         }
         return false;
     }
+
 }

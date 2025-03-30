@@ -31,8 +31,6 @@ public class QProblemSet extends EntityPathBase<ProblemSet> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final BooleanPath isDeleted = createBoolean("isDeleted");
-
     public final ListPath<Long, NumberPath<Long>> problemIds = this.<Long, NumberPath<Long>>createList("problemIds", Long.class, NumberPath.class, PathInits.DIRECT2);
 
     public final QTitle title;
