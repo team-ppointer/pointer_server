@@ -11,7 +11,7 @@ public record LoginResponse(
 ) {
 
     public static LoginResponse of(Member member, TokenResponse tokenPairResponse) {
-        return new LoginResponse(member.getId(), member.getName(), member.getOauthInfo().getOauthEmail(),
+        return new LoginResponse(member.getId(), member.getOauthInfo().getName(), member.getOauthInfo().getOauthEmail(),
                 tokenPairResponse.accessToken(),
                 tokenPairResponse.refreshToken());
     }

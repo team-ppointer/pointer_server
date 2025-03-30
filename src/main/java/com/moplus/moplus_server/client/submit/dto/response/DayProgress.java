@@ -15,7 +15,7 @@ public enum DayProgress {
                 .allMatch(status -> status == ProblemSubmitStatus.NOT_STARTED);
 
         boolean allFinished = problemStatuses.stream()
-                .allMatch(status -> status == ProblemSubmitStatus.CORRECT || status == ProblemSubmitStatus.INCORRECT);
+                .allMatch(status -> status == ProblemSubmitStatus.CORRECT || status == ProblemSubmitStatus.INCORRECT || status == ProblemSubmitStatus.RETRY_CORRECT);
 
         if (allNotStarted) {
             return INCOMPLETE;
