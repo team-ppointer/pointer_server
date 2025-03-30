@@ -21,13 +21,14 @@ INSERT INTO problem (problem_id,
                      answer_type,
                      is_confirmed,
                      recommended_minute,
-                     recommended_second)
+                     recommended_second,
+                     deleted)
 VALUES (1, '1224052001', 1, 1, 'GICHUL_PROBLEM', '제목1', '1', 5, '기존 문제 설명 1',
         'mainProblem.png1', 'mainAnalysis.png1', 'readingTip.png1', 'seniorTip.png1',
-        'prescription.png1', 'MULTIPLE_CHOICE', false, 30, 45),
+        'prescription.png1', 'MULTIPLE_CHOICE', false, 30, 45, false),
        (2, '1224052002', 1, 1, 'GICHUL_PROBLEM', '제목2', '1', 5, '기존 문제 설명 2',
         'mainProblem.png2', 'mainAnalysis.png2', 'readingTip.png2', 'seniorTip.png2',
-        'prescription.png2', 'MULTIPLE_CHOICE', false, 25, 30);
+        'prescription.png2', 'MULTIPLE_CHOICE', false, 25, 30, false);
 
 -- 자식 문제 테이블 생성
 CREATE TABLE IF NOT EXISTS child_problem (
@@ -36,7 +37,8 @@ CREATE TABLE IF NOT EXISTS child_problem (
     image_url VARCHAR(255),
     answer_type VARCHAR(50),
     answer VARCHAR(255),
-    sequence INT
+    sequence INT,
+    deleted BOOLEAN
 );
 
 -- 자식 문제 데이터 삽입
@@ -45,9 +47,10 @@ INSERT INTO child_problem (child_problem_id,
                            image_url,
                            answer_type,
                            answer,
-                           sequence)
-VALUES (1, 1, 'child1.png', 'MULTIPLE_CHOICE', '1', 0),
-       (2, 1, 'child2.png', 'SHORT_ANSWER', '정답2', 1);
+                           sequence,
+                           deleted)
+VALUES (1, 1, 'child1.png', 'MULTIPLE_CHOICE', '1', 0, false),
+       (2, 1, 'child2.png', 'SHORT_ANSWER', '정답2', 1, false);
 
 -- 문제-컨셉 태그 연결 테이블 생성
 CREATE TABLE IF NOT EXISTS problem_concept (

@@ -25,7 +25,6 @@ public class ProblemSetSearchRepositoryCustom {
                 .from(problemSet)
                 .leftJoin(problem).on(problem.id.in(problemSet.problemIds)) // 문제 세트 내 포함된 문항과 조인
                 .where(
-                        problemSet.isDeleted.isFalse(),
                         containsProblemSetTitle(problemSetTitle),
                         containsProblemTitle(problemTitle)
                 )
@@ -51,7 +50,6 @@ public class ProblemSetSearchRepositoryCustom {
                 .from(problemSet)
                 .leftJoin(problem).on(problem.id.in(problemSet.problemIds)) // 문제 세트 내 포함된 문항과 조인
                 .where(
-                        problemSet.isDeleted.isFalse(),
                         problemSet.confirmStatus.eq(CONFIRMED),
                         containsProblemSetTitle(problemSetTitle),
                         containsProblemTitle(problemTitle)
