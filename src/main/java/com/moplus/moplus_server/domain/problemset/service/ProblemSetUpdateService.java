@@ -1,15 +1,14 @@
 package com.moplus.moplus_server.domain.problemset.service;
 
+import com.moplus.moplus_server.admin.problemset.dto.request.ProblemReorderRequest;
+import com.moplus.moplus_server.admin.problemset.dto.request.ProblemSetUpdateRequest;
+import com.moplus.moplus_server.admin.publish.domain.Publish;
 import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
 import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSet;
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSetConfirmStatus;
-import com.moplus.moplus_server.admin.problemset.dto.request.ProblemReorderRequest;
-import com.moplus.moplus_server.admin.problemset.dto.request.ProblemSetUpdateRequest;
 import com.moplus.moplus_server.domain.problemset.repository.ProblemSetRepository;
-import com.moplus.moplus_server.admin.publish.domain.Publish;
 import com.moplus.moplus_server.domain.publish.repository.PublishRepository;
-import com.moplus.moplus_server.global.error.exception.BusinessException;
 import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import com.moplus.moplus_server.global.error.exception.InvalidValueException;
 import java.util.ArrayList;
@@ -39,9 +38,6 @@ public class ProblemSetUpdateService {
     @Transactional
     public void updateProblemSet(Long problemSetId, ProblemSetUpdateRequest request) {
         ProblemSet problemSet = problemSetRepository.findByIdElseThrow(problemSetId);
-        if (problemSet.isDeleted()) {
-            throw new BusinessException(ErrorCode.DELETE_PROBLEM_SET_UPDATE_ERROR);
-        }
 
         if (problemSet.isConfirmed() && problemSet.isProblemsChanged(request.problemIds())) {
             throw new InvalidValueException(ErrorCode.CONFIRMED_PROBLEM_SET_UPDATE_ERROR);
@@ -59,9 +55,7 @@ public class ProblemSetUpdateService {
     @Transactional
     public ProblemSetConfirmStatus toggleConfirmProblemSet(Long problemSetId) {
         ProblemSet problemSet = problemSetRepository.findByIdElseThrow(problemSetId);
-        if (problemSet.isDeleted()) {
-            throw new BusinessException(ErrorCode.DELETE_PROBLEM_SET_TOGGLE_ERROR);
-        }
+        
         List<Publish> publishes = publishRepository.findByProblemSetId(problemSetId);
         if (!publishes.isEmpty()) {
             throw new InvalidValueException(ErrorCode.ALREADY_PUBLISHED_ERROR);

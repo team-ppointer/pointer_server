@@ -10,8 +10,6 @@ import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSet;
 import com.moplus.moplus_server.domain.problemset.repository.ProblemSetRepository;
 import com.moplus.moplus_server.domain.publish.repository.PublishRepository;
-import com.moplus.moplus_server.global.error.exception.BusinessException;
-import com.moplus.moplus_server.global.error.exception.ErrorCode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -33,9 +31,7 @@ public class ProblemSetGetService {
     @Transactional(readOnly = true)
     public ProblemSetGetResponse getProblemSet(Long problemSetId) {
         ProblemSet problemSet = problemSetRepository.findByIdElseThrow(problemSetId);
-        if (problemSet.isDeleted()) {
-            throw new BusinessException(ErrorCode.DELETE_PROBLEM_SET_GET_ERROR);
-        }
+
         List<LocalDate> publishedDates = publishRepository.findByProblemSetId(problemSetId).stream()
                 .map(Publish::getPublishedDate)
                 .toList();
