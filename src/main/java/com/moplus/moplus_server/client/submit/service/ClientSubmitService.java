@@ -23,6 +23,7 @@ import com.moplus.moplus_server.domain.problemset.repository.ProblemSetRepositor
 import com.moplus.moplus_server.domain.problemset.service.ProblemSetGetService;
 import com.moplus.moplus_server.domain.publish.repository.PublishRepository;
 import com.moplus.moplus_server.statistic.Problem.domain.StatisticEntityTarget;
+import com.moplus.moplus_server.statistic.Problem.domain.StatisticFieldType;
 import com.moplus.moplus_server.statistic.Problem.service.CountStatisticsGetService;
 import com.moplus.moplus_server.statistic.Problem.service.CountStatisticsUpdateService;
 import java.util.List;
@@ -68,10 +69,19 @@ public class ClientSubmitService {
 
         //문제 풀이 통계 업데이트
         countStatisticsUpdateService.createStatistics(request.problemId(), StatisticEntityTarget.PROBLEM);
+        countStatisticsUpdateService.updateStatistics(request.problemId(), StatisticFieldType.SUBMIT,
+                StatisticEntityTarget.PROBLEM);
+        countStatisticsUpdateService.updateStatistics(request.problemId(), StatisticFieldType.VIEW,
+                StatisticEntityTarget.PROBLEM);
+
         ProblemSet problemSet = problemSetRepository.findByIdElseThrow(publish.getProblemSetId());
         if (getFirstProblemInProblemSet(problemSet).equals(request.problemId())) {
             //TODO: 현재는 첫번째 문항을 풀었을 때 set 풀이 count가 올라가지만 나중에는 어떤 문제를 풀든 첫 문제를 풀면 count가 올라가야해요
             countStatisticsUpdateService.createStatistics(publish.getProblemSetId(), StatisticEntityTarget.PROBLEM_SET);
+            countStatisticsUpdateService.updateStatistics(publish.getProblemSetId(), StatisticFieldType.SUBMIT,
+                    StatisticEntityTarget.PROBLEM_SET);
+            countStatisticsUpdateService.updateStatistics(publish.getProblemSetId(), StatisticFieldType.VIEW,
+                    StatisticEntityTarget.PROBLEM_SET);
         }
     }
 
