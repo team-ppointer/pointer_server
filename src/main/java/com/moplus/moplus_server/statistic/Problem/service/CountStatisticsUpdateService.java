@@ -27,12 +27,12 @@ public class CountStatisticsUpdateService {
     }
 
     @Transactional
-    public StatisticCounter createStatistics(Long statisticId, StatisticEntityTarget target) {
-        return switch (target) {
+    public void createStatistics(Long statisticId, StatisticEntityTarget target) {
+        switch (target) {
             case PROBLEM -> problemStatisticRepository.save(new ProblemStatistic(statisticId));
             case PROBLEM_SET -> problemSetStatisticRepository.save(new ProblemSetStatistic(statisticId));
             case CHILD_PROBLEM -> childProblemStatisticRepository.save(new ChildProblemStatistic(statisticId));
-        };
+        }
     }
 
     private StatisticCounter findStatistic(Long statisticId, StatisticEntityTarget target) {
