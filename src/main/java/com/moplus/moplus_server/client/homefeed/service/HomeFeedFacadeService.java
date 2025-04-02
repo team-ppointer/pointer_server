@@ -19,9 +19,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class HomeFeedFacadeService {
@@ -60,18 +62,20 @@ public class HomeFeedFacadeService {
     }
 
     private List<ProblemSetHomeFeedResponse> getWeekdayProblemSets(List<Publish> publishes) {
-
         Map<LocalDate, Publish> publishByDate = publishes.stream()
                 .collect(Collectors.toMap(Publish::getPublishedDate, publish -> publish));
 
-        // 문제 세트 정보 조회
+        // 발행된 문제 세트 정보 로깅
+        publishByDate.forEach((date, publish) -> 
+            log.info("날짜: {}, 발행 ID: {}, 문제 세트 ID: {}", 
+                    date, publish.getId(), publish.getProblemSetId()));
+
         List<Long> problemSetIds = publishes.stream()
                 .map(Publish::getProblemSetId)
                 .toList();
         Map<Long, ProblemSetGetResponse> problemSetMap = problemSetGetService.getProblemSets(problemSetIds).stream()
                 .collect(Collectors.toMap(ProblemSetGetResponse::id, response -> response));
 
-        // 월요일부터 금요일까지의 모든 날짜에 대한 응답 생성
         List<ProblemSetHomeFeedResponse> responses = new ArrayList<>();
         for (LocalDate date = monday; !date.isAfter(friday); date = date.plusDays(1)) {
             Publish publish = publishByDate.get(date);
@@ -80,8 +84,11 @@ public class HomeFeedFacadeService {
                 Long submitCount = problemSetStatisticRepository.findById(problemSet.id())
                         .map(ProblemSetStatistic::getSubmitCount)
                         .orElse(0L);
+                log.info("응답 생성 - 날짜: {}, 발행 ID: {}, 문제 세트 ID: {}, 제출 수: {}", 
+                        date, publish.getId(), problemSet.id(), submitCount);
                 responses.add(ProblemSetHomeFeedResponse.of(date, publish.getId(), problemSet, submitCount));
             } else {
+                log.info("발행 없음 - 날짜: {}", date);
                 responses.add(ProblemSetHomeFeedResponse.of(date));
             }
         }
