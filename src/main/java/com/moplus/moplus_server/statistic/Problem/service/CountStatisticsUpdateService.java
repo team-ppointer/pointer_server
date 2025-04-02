@@ -1,5 +1,8 @@
 package com.moplus.moplus_server.statistic.Problem.service;
 
+import com.moplus.moplus_server.statistic.Problem.domain.ChildProblemStatistic;
+import com.moplus.moplus_server.statistic.Problem.domain.ProblemSetStatistic;
+import com.moplus.moplus_server.statistic.Problem.domain.ProblemStatistic;
 import com.moplus.moplus_server.statistic.Problem.domain.StatisticCounter;
 import com.moplus.moplus_server.statistic.Problem.domain.StatisticEntityTarget;
 import com.moplus.moplus_server.statistic.Problem.domain.StatisticFieldType;
@@ -18,16 +21,25 @@ public class CountStatisticsUpdateService {
     private final ChildProblemStatisticRepository childProblemStatisticRepository;
 
     @Transactional
-    public void updateStatistics(Long id, StatisticFieldType type, StatisticEntityTarget target) {
-        StatisticCounter statistic = findStatistic(id, target);
+    public void updateStatistics(Long statisticId, StatisticFieldType type, StatisticEntityTarget target) {
+        StatisticCounter statistic = findStatistic(statisticId, target);
         statistic.updateCount(type);
     }
 
-    private StatisticCounter findStatistic(Long id, StatisticEntityTarget target) {
+    @Transactional
+    public StatisticCounter createStatistics(Long statisticId, StatisticEntityTarget target) {
         return switch (target) {
-            case PROBLEM -> problemStatisticRepository.findByIdElseThrow(id);
-            case PROBLEM_SET -> problemSetStatisticRepository.findByIdElseThrow(id);
-            case CHILD_PROBLEM -> childProblemStatisticRepository.findByIdElseThrow(id);
+            case PROBLEM -> problemStatisticRepository.save(new ProblemStatistic(statisticId));
+            case PROBLEM_SET -> problemSetStatisticRepository.save(new ProblemSetStatistic(statisticId));
+            case CHILD_PROBLEM -> childProblemStatisticRepository.save(new ChildProblemStatistic(statisticId));
+        };
+    }
+
+    private StatisticCounter findStatistic(Long statisticId, StatisticEntityTarget target) {
+        return switch (target) {
+            case PROBLEM -> problemStatisticRepository.findByIdElseThrow(statisticId);
+            case PROBLEM_SET -> problemSetStatisticRepository.findByIdElseThrow(statisticId);
+            case CHILD_PROBLEM -> childProblemStatisticRepository.findByIdElseThrow(statisticId);
         };
     }
 }

@@ -12,7 +12,7 @@ public class CountStatisticsGetService {
     private final ProblemSetStatisticRepository problemSetStatisticRepository;
 
     @Transactional(readOnly = true)
-    public Long getProblemSetCount(Long id) {
-        return problemSetStatisticRepository.findByIdElseThrow(id).getSubmitCount();
+    public Long getProblemSetCountBySetId(Long problemSetId) {
+        return problemSetStatisticRepository.findByProblemSetIdElseThrow(problemSetId).getSubmitCount();
     }
 }
