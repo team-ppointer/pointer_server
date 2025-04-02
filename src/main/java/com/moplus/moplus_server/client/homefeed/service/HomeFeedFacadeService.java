@@ -10,6 +10,7 @@ import com.moplus.moplus_server.client.submit.domain.ProgressStatus;
 import com.moplus.moplus_server.client.submit.service.ProblemSubmitGetService;
 import com.moplus.moplus_server.domain.problemset.service.ProblemSetGetService;
 import com.moplus.moplus_server.member.domain.Member;
+import com.moplus.moplus_server.statistic.Problem.domain.ProblemSetStatistic;
 import com.moplus.moplus_server.statistic.Problem.repository.ProblemSetStatisticRepository;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -87,8 +88,9 @@ public class HomeFeedFacadeService {
             Publish publish = publishByDate.get(date);
             if (publish != null) {
                 ProblemSetGetResponse problemSet = problemSetMap.get(publish.getProblemSetId());
-                Long submitCount = problemSetStatisticRepository.findByProblemSetIdElseThrow(problemSet.id())
-                        .getSubmitCount();
+                Long submitCount = problemSetStatisticRepository.findByProblemSetId(problemSet.id())
+                        .map(ProblemSetStatistic::getSubmitCount)
+                        .orElse(0L);
 
                 log.info("응답 생성 - 날짜: {}, 발행 ID: {}, 문제 세트 ID: {}, 제출 수: {}",
                         date, publish.getId(), problemSet.id(), submitCount);
