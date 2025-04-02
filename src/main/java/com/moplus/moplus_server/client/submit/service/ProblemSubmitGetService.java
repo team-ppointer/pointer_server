@@ -22,14 +22,15 @@ public class ProblemSubmitGetService {
     private final ProblemSetRepository problemSetRepository;
 
     @Transactional(readOnly = true)
-    public ProgressStatus getProgressStatus(Long memberId, Long publishId) {
+    public ProgressStatus getProgressStatus(Long memberId, Publish publish) {
+        Long publishId = publish.getId();
         List<ProblemSubmit> submits = problemSubmitRepository.findByMemberIdAndPublishId(memberId, publishId);
 
         if (submits.isEmpty()) {
             return ProgressStatus.NOT_STARTED;
         }
 
-        ProblemSet problemSet = problemSetRepository.findByIdElseThrow(submits.get(0).getProblemId());
+        ProblemSet problemSet = problemSetRepository.findByIdElseThrow(publish.getProblemSetId());
 
         int totalProblems = problemSet.getProblemIds().size();
 
@@ -43,8 +44,8 @@ public class ProblemSubmitGetService {
     public Map<LocalDate, ProgressStatus> getProgressStatuses(Long memberId, List<Publish> publishes) {
         return publishes.stream()
                 .collect(Collectors.toMap(
-                    Publish::getPublishedDate,
-                    publish -> getProgressStatus(memberId, publish.getId())
+                        Publish::getPublishedDate,
+                        publish -> getProgressStatus(memberId, publish)
                 ));
     }
 } 
