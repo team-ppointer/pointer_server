@@ -3,21 +3,14 @@ package com.moplus.moplus_server.domain.problemset.service;
 import com.moplus.moplus_server.admin.problemset.dto.response.ProblemSetGetResponse;
 import com.moplus.moplus_server.admin.problemset.dto.response.ProblemSummaryResponse;
 import com.moplus.moplus_server.admin.publish.domain.Publish;
-import com.moplus.moplus_server.domain.concept.domain.ConceptTag;
-import com.moplus.moplus_server.domain.concept.repository.ConceptTagRepository;
-import com.moplus.moplus_server.domain.problem.domain.problem.Problem;
-import com.moplus.moplus_server.domain.problem.repository.ProblemRepository;
 import com.moplus.moplus_server.domain.problemset.domain.ProblemSet;
+import com.moplus.moplus_server.domain.problemset.repository.ProblemSetGetRepositoryCustom;
 import com.moplus.moplus_server.domain.problemset.repository.ProblemSetRepository;
 import com.moplus.moplus_server.domain.publish.repository.PublishRepository;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,10 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProblemSetGetService {
 
     private final ProblemSetRepository problemSetRepository;
-    private final ProblemRepository problemRepository;
-    private final ConceptTagRepository conceptTagRepository;
     private final PublishRepository publishRepository;
-    Logger log = LoggerFactory.getLogger(ProblemSetRepository.class);
+    private final ProblemSetGetRepositoryCustom problemSetGetRepositoryCustom;
 
     @Transactional(readOnly = true)
     public ProblemSetGetResponse getProblemSet(Long problemSetId) {
@@ -38,26 +29,23 @@ public class ProblemSetGetService {
         List<LocalDate> publishedDates = publishRepository.findByProblemSetId(problemSetId).stream()
                 .map(Publish::getPublishedDate)
                 .toList();
+        List<Long> problemIds = problemSet.getProblemIds();
+        List<ProblemSummaryResponse> fetched = problemSetGetRepositoryCustom.findProblemSummariesWithTags(problemIds);
 
-        List<ProblemSummaryResponse> problemSummaries = new ArrayList<>();
-        for (Long problemId : problemSet.getProblemIds()) {
-            Problem problem = problemRepository.findByIdElseThrow(problemId);
-            Set<String> tagNames = new HashSet<>(
-                    conceptTagRepository.findAllByIdsElseThrow(problem.getConceptTagIds())
-                            .stream()
-                            .map(ConceptTag::getName)
-                            .toList());
-            problem.getChildProblems().stream()
-                    .map(childProblem -> conceptTagRepository.findAllByIdsElseThrow(childProblem.getConceptTagIds()))
-                    .forEach(conceptTags -> tagNames.addAll(conceptTags.stream().map(ConceptTag::getName).toList()));
-            problemSummaries.add(ProblemSummaryResponse.of(problem, tagNames));
-        }
-        return ProblemSetGetResponse.of(problemSet, publishedDates, problemSummaries);
+        // 순서 재정렬
+        Map<Long, ProblemSummaryResponse> mapped = fetched.stream()
+                .collect(java.util.stream.Collectors.toMap(ProblemSummaryResponse::getProblemId, p -> p));
+
+        List<ProblemSummaryResponse> orderedSummaries = problemIds.stream()
+                .map(mapped::get)
+                .filter(java.util.Objects::nonNull)
+                .toList();
+
+        return ProblemSetGetResponse.of(problemSet, publishedDates, orderedSummaries);
     }
 
     @Transactional(readOnly = true)
     public List<ProblemSetGetResponse> getProblemSets(List<Long> problemSetIds) {
-        problemSetIds.forEach((id) -> log.atInfo().log("set id: " + id + "을 조회합니다."));
         return problemSetIds.stream()
                 .map(this::getProblemSet)
                 .toList();
