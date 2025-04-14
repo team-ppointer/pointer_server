@@ -28,9 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class HomeFeedFacadeService {
 
-    private static final LocalDate today = LocalDate.now();
-    private static final LocalDate monday = today.with(DayOfWeek.MONDAY);
-    private static final LocalDate friday = today.with(DayOfWeek.FRIDAY);
     private final ProblemSetStatisticRepository problemSetStatisticRepository;
     private final PublishGetService publishGetService;
     private final ProblemSetGetService problemSetGetService;
@@ -38,18 +35,23 @@ public class HomeFeedFacadeService {
 
     @Transactional(readOnly = true)
     public HomeFeedResponse getHomeFeed(Member member) {
+        LocalDate today = LocalDate.now();
+        LocalDate monday = today.with(DayOfWeek.MONDAY);
+        LocalDate friday = today.with(DayOfWeek.FRIDAY);
+
         Long memberId = member.getId();
 
         List<Publish> publishes = publishGetService.getPublishesBetweenDates(monday, friday);
 
-        List<DailyProgressResponse> dailyProgresses = getDailyProgresses(memberId, publishes);
+        List<DailyProgressResponse> dailyProgresses = getDailyProgresses(memberId, publishes, monday, friday);
 
-        List<ProblemSetHomeFeedResponse> problemSets = getWeekdayProblemSets(publishes);
+        List<ProblemSetHomeFeedResponse> problemSets = getWeekdayProblemSets(publishes, monday, friday);
 
         return HomeFeedResponse.of(dailyProgresses, problemSets);
     }
 
-    private List<DailyProgressResponse> getDailyProgresses(Long memberId, List<Publish> publishes) {
+    private List<DailyProgressResponse> getDailyProgresses(Long memberId, List<Publish> publishes,
+                                                           LocalDate monday, LocalDate friday) {
 
         Map<LocalDate, ProgressStatus> progressStatuses = problemSubmitGetService.getProgressStatuses(memberId,
                 publishes);
@@ -66,7 +68,8 @@ public class HomeFeedFacadeService {
         return responses;
     }
 
-    private List<ProblemSetHomeFeedResponse> getWeekdayProblemSets(List<Publish> publishes) {
+    private List<ProblemSetHomeFeedResponse> getWeekdayProblemSets(List<Publish> publishes,
+                                                                   LocalDate monday, LocalDate friday) {
 
         Map<LocalDate, Publish> publishByDate = publishes.stream()
                 .collect(Collectors.toMap(Publish::getPublishedDate, publish -> publish));
