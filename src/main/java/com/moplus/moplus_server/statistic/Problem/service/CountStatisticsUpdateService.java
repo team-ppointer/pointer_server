@@ -29,9 +29,9 @@ public class CountStatisticsUpdateService {
     @Transactional
     public void createStatistics(Long statisticId, StatisticEntityTarget target) {
         switch (target) {
-            case PROBLEM -> problemStatisticRepository.save(new ProblemStatistic(statisticId));
-            case PROBLEM_SET -> problemSetStatisticRepository.save(new ProblemSetStatistic(statisticId));
-            case CHILD_PROBLEM -> childProblemStatisticRepository.save(new ChildProblemStatistic(statisticId));
+            case PROBLEM -> problemStatisticRepository.saveAndFlush(new ProblemStatistic(statisticId));
+            case PROBLEM_SET -> problemSetStatisticRepository.saveAndFlush(new ProblemSetStatistic(statisticId));
+            case CHILD_PROBLEM -> childProblemStatisticRepository.saveAndFlush(new ChildProblemStatistic(statisticId));
         }
     }
 
