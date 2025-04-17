@@ -23,9 +23,13 @@ public interface ConceptTagRepository extends JpaRepository<ConceptTag, Long> {
 
     default List<ConceptTag> findAllByIdsElseThrow(Set<Long> ids) {
         List<ConceptTag> conceptTags = findAllById(ids);
+        List<Long> foundIds = conceptTags.stream()
+                .map(ConceptTag::getId)
+                .toList();
+
         if (conceptTags.size() != ids.size()) {
             throw new NotFoundException(ErrorCode.CONCEPT_TAG_NOT_FOUND_IN_LIST,
-                    "targetIds: " + ids + " / foundIds: " + conceptTags);
+                    "targetIds: " + ids + " / foundIds: " + foundIds);
         }
         return conceptTags;
     }
