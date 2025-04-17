@@ -15,7 +15,8 @@ public interface ConceptTagRepository extends JpaRepository<ConceptTag, Long> {
                 .toList();
 
         if (ids.size() != foundIds.size()) {
-            throw new NotFoundException(ErrorCode.CONCEPT_TAG_NOT_FOUND_IN_LIST);
+            throw new NotFoundException(ErrorCode.CONCEPT_TAG_NOT_FOUND_IN_LIST,
+                    "targetIds: " + ids + " / foundIds: " + foundIds);
         }
     }
 
@@ -23,7 +24,8 @@ public interface ConceptTagRepository extends JpaRepository<ConceptTag, Long> {
     default List<ConceptTag> findAllByIdsElseThrow(Set<Long> ids) {
         List<ConceptTag> conceptTags = findAllById(ids);
         if (conceptTags.size() != ids.size()) {
-            throw new NotFoundException(ErrorCode.CONCEPT_TAG_NOT_FOUND_IN_LIST);
+            throw new NotFoundException(ErrorCode.CONCEPT_TAG_NOT_FOUND_IN_LIST,
+                    "targetIds: " + ids + " / foundIds: " + conceptTags);
         }
         return conceptTags;
     }
