@@ -76,8 +76,8 @@ public record HomeFeedResponse(
     ) {
         public static ProblemHomeFeedResponse of(ProblemSummaryResponse problemSummaryResponse) {
             return new ProblemHomeFeedResponse(
-                    problemSummaryResponse.problemId(),
-                    problemSummaryResponse.mainProblemImageUrl()
+                    problemSummaryResponse.getProblemId(),
+                    problemSummaryResponse.getMainProblemImageUrl()
             );
         }
     }
