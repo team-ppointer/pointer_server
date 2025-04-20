@@ -10,9 +10,11 @@ import com.moplus.moplus_server.statistic.Problem.repository.ChildProblemStatist
 import com.moplus.moplus_server.statistic.Problem.repository.ProblemSetStatisticRepository;
 import com.moplus.moplus_server.statistic.Problem.repository.ProblemStatisticRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CountStatisticsUpdateService {
@@ -21,8 +23,8 @@ public class CountStatisticsUpdateService {
     private final ChildProblemStatisticRepository childProblemStatisticRepository;
 
     @Transactional
-    public void updateStatistics(Long statisticId, StatisticFieldType type, StatisticEntityTarget target) {
-        StatisticCounter statistic = findStatistic(statisticId, target);
+    public void updateStatistics(Long statisticEntityTargetId, StatisticFieldType type, StatisticEntityTarget target) {
+        StatisticCounter statistic = findStatistic(statisticEntityTargetId, target);
         statistic.updateCount(type);
     }
 
@@ -35,11 +37,19 @@ public class CountStatisticsUpdateService {
         }
     }
 
-    private StatisticCounter findStatistic(Long statisticId, StatisticEntityTarget target) {
-        return switch (target) {
-            case PROBLEM -> problemStatisticRepository.findByIdElseThrow(statisticId);
-            case PROBLEM_SET -> problemSetStatisticRepository.findByIdElseThrow(statisticId);
-            case CHILD_PROBLEM -> childProblemStatisticRepository.findByIdElseThrow(statisticId);
-        };
+    private StatisticCounter findStatistic(Long statisticEntityTargetId, StatisticEntityTarget target) {
+        try {
+            return switch (target) {
+                case PROBLEM -> problemStatisticRepository.findByProblemIdElseThrow(statisticEntityTargetId);
+                case PROBLEM_SET -> problemSetStatisticRepository.findByProblemSetIdElseThrow(statisticEntityTargetId);
+                case CHILD_PROBLEM ->
+                        childProblemStatisticRepository.findByChildProblemIdOrElse(statisticEntityTargetId);
+            };
+        } catch (Exception e) {
+            String message = String.format("📌 [통계 조회 실패] targetType=%s, id=%d, error=%s", target,
+                    statisticEntityTargetId, e.getMessage());
+            log.warn(message, e);
+            throw e;
+        }
     }
 }

@@ -36,7 +36,7 @@ class CountStatisticsUpdateServiceTest {
         // given
         Long problemId = 1L;
         ProblemStatistic problemStatistic = new ProblemStatistic(problemId);
-        given(problemStatisticRepository.findByIdElseThrow(problemId))
+        given(problemStatisticRepository.findByProblemIdElseThrow(problemId))
                 .willReturn(problemStatistic);
 
         // when
@@ -44,7 +44,7 @@ class CountStatisticsUpdateServiceTest {
                 StatisticEntityTarget.PROBLEM);
 
         // then
-        verify(problemStatisticRepository).findByIdElseThrow(problemId);
+        verify(problemStatisticRepository).findByProblemIdElseThrow(problemId);
         assertThat(problemStatistic.getViewCount()).isEqualTo(1L);
         assertThat(problemStatistic.getSubmitCount()).isEqualTo(0L);
     }
@@ -54,7 +54,7 @@ class CountStatisticsUpdateServiceTest {
         // given
         Long problemSetId = 1L;
         ProblemSetStatistic problemSetStatistic = new ProblemSetStatistic(problemSetId);
-        given(problemSetStatisticRepository.findByIdElseThrow(problemSetId))
+        given(problemSetStatisticRepository.findByProblemSetIdElseThrow(problemSetId))
                 .willReturn(problemSetStatistic);
 
         // when
@@ -62,7 +62,7 @@ class CountStatisticsUpdateServiceTest {
                 StatisticEntityTarget.PROBLEM_SET);
 
         // then
-        verify(problemSetStatisticRepository).findByIdElseThrow(problemSetId);
+        verify(problemSetStatisticRepository).findByProblemSetIdElseThrow(problemSetId);
         assertThat(problemSetStatistic.getSubmitCount()).isEqualTo(1L);
         assertThat(problemSetStatistic.getViewCount()).isEqualTo(0L);
     }
@@ -72,7 +72,7 @@ class CountStatisticsUpdateServiceTest {
         // given
         Long childProblemId = 1L;
         ChildProblemStatistic childProblemStatistic = new ChildProblemStatistic(childProblemId);
-        given(childProblemStatisticRepository.findByIdElseThrow(childProblemId))
+        given(childProblemStatisticRepository.findByChildProblemIdOrElse(childProblemId))
                 .willReturn(childProblemStatistic);
 
         // when
@@ -80,7 +80,7 @@ class CountStatisticsUpdateServiceTest {
                 StatisticEntityTarget.CHILD_PROBLEM);
 
         // then
-        verify(childProblemStatisticRepository).findByIdElseThrow(childProblemId);
+        verify(childProblemStatisticRepository).findByChildProblemIdOrElse(childProblemId);
         assertThat(childProblemStatistic.getViewCount()).isEqualTo(1L);
         assertThat(childProblemStatistic.getSubmitCount()).isEqualTo(0L);
     }
