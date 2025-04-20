@@ -14,9 +14,4 @@ public interface ProblemSetStatisticRepository extends JpaRepository<ProblemSetS
         return findByProblemSetId(id)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.PROBLEM_SET_STATISTIC_NOT_FOUND));
     }
-
-    default ProblemSetStatistic findByIdElseThrow(Long id) {
-        return findById(id)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.PROBLEM_SET_STATISTIC_NOT_FOUND));
-    }
 } 
