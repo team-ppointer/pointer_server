@@ -14,7 +14,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME_PROD }}
           key: ${{ secrets.SERVER_KEY_PROD}}
           script: |
-            cd ~/moplus_server
+            cd ~/pointer_server
             kill -9 $(lsof -t -i :8080)
             git checkout master
             git add .
