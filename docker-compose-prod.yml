@@ -36,28 +36,6 @@ services:
       - pointer-prod
       - nginx-network
 
-  mysql:
-    image: mysql:8.0
-    container_name: pointer-mysql-prod
-    environment:
-      MYSQL_ROOT_PASSWORD: ${PROD_MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${PROD_MYSQL_DATABASE}
-      MYSQL_USER: ${PROD_MYSQL_USER}
-      MYSQL_PASSWORD: ${PROD_MYSQL_PASSWORD}
-    ports:
-      - "3306:3306"
-    volumes:
-      - pointer_prod_data:/var/lib/mysql
-    networks:
-      - pointer-prod
-volumes:
-  pointer_prod_data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ../mopl_data/pointer_prod_data
-
 networks:
   pointer-prod:
     driver: bridge

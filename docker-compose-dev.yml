@@ -30,34 +30,9 @@ services:
       - KAKAO_LOGIN_CLIENT_ID=${KAKAO_LOGIN_CLIENT_ID}
       - KAKAO_LOGIN_CLIENT_SECRET=${KAKAO_LOGIN_CLIENT_SECRET}
       - KAKAO_LOGIN_REDIRECT_URI=${KAKAO_LOGIN_DEV_REDIRECT_URI}
-
-    depends_on:
-      - mysql
     networks:
       - pointer-dev
       - nginx-network
-
-  mysql:
-    image: mysql:8.0
-    container_name: pointer-mysql-dev
-    environment:
-      MYSQL_ROOT_PASSWORD: ${DEV_MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${DEV_MYSQL_DATABASE}
-      MYSQL_USER: ${DEV_MYSQL_USER}
-      MYSQL_PASSWORD: ${DEV_MYSQL_PASSWORD}
-    ports:
-      - "3307:3306"
-    volumes:
-      - dev_data:/var/lib/mysql
-    networks:
-      - pointer-dev
-volumes:
-  dev_data:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: ../mopl_data/dev_data
 
 networks:
   pointer-dev:

@@ -33,5 +33,5 @@ jobs:
             ./gradlew clean build
             docker rm -f pointer-server-prod --force
             docker rmi pointer-server-prod
-            docker-compose -f docker-compose-prod.yml -p pointer-prod up --build -d
+            docker compose -f docker-compose-prod.yml -p pointer-prod up --build -d
 
