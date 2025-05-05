@@ -30,8 +30,6 @@ services:
       - KAKAO_LOGIN_CLIENT_ID=${KAKAO_LOGIN_CLIENT_ID}
       - KAKAO_LOGIN_CLIENT_SECRET=${KAKAO_LOGIN_CLIENT_SECRET}
       - KAKAO_LOGIN_REDIRECT_URI=${KAKAO_LOGIN_PROD_REDIRECT_URI}
-    depends_on:
-      - mysql
     networks:
       - pointer-prod
       - nginx-network
